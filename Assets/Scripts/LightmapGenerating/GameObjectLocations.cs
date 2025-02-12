@@ -21,7 +21,6 @@ public class GameObjectLocations : MonoBehaviour
     public GameObject WorldArt;
 	public GameObject World;
 	public GameObject LighthouseDoor;
-	public GameObject Halloween;
 	public GameObject Sewer;
 	public GameObject AdditiveWorldArt;
 	public GameObject AdditionalDecorations;
@@ -43,6 +42,7 @@ public class GameObjectLocations : MonoBehaviour
 	public GameObject FrontTrainDoorLeft;
 	public GameObject FrontTrainDoorRight;
 	public GameObject TrainBlue;
+	public GameObject Interactables;
 	// The default skybox
     public Material DayCubemap;
 	public Material BoxDimensionCubemap;

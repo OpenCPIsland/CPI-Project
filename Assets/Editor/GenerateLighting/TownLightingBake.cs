@@ -74,6 +74,9 @@ public class TownLightingBake : MonoBehaviour
                 Gol.TrainBlue.isStatic = true;
                 SetStaticRecursively(Gol.TrainBlue, true);
 
+                Gol.Interactables.isStatic = true;
+                SetStaticRecursively(Gol.Interactables, true);
+
                 Gol.ChangeSource(AmbientMode.Skybox);
 
                 // Bake the lightmap
@@ -98,6 +101,9 @@ public class TownLightingBake : MonoBehaviour
 
                 Gol.TrainBlue.isStatic = false;
                 SetStaticRecursively(Gol.TrainBlue, false);
+
+                Gol.Interactables.isStatic = false;
+                SetStaticRecursively(Gol.Interactables, false);
 
                 Gol.ChangeSource(AmbientMode.Flat);
             }

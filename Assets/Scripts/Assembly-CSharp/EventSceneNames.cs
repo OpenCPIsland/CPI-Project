@@ -27,6 +27,16 @@ public class EventSceneNames : ScriptableObject
 
     public string Halloween2018MtBlizzard;
 
+    public string Halloween2025Town;
+
+    public string Halloween2025Boardwalk;
+
+    public string Halloween2025Beach;
+
+    public string Halloween2025Diving;
+
+    public string Halloween2025MtBlizzard;
+
     public string MedievalBoardwalk;
 
     public string PirateExpeditionBeach;

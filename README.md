@@ -1,7 +1,7 @@
 ## Requirements to Open the Project
 
 ### Unity Version
-- **Unity 2022.3.57f1 LTS**
+- **Unity 2022.3.58f1 LTS**
 
 ### Notes
 - When opening the project, Unity might ask if you want to use the new input system. **Press NO.**
@@ -34,6 +34,7 @@
     - Added 2 new lighting options to the igloos. Those are ```Holiday``` and ```Rainbow Migration```. The ```Holiday``` lighting can be unlocked at Penguin level 20 and the ```Rainbow Migration``` lighting can be unlocked at Penguin level 27
     - Added an optional skybox in the project to allow a day/night cycle that will cycle every 15 minutes
     - Added 32 new Penguin colors
+	- Unlock the Valentines Day chair at level 27. The ID for the chair is 278 and it will sell at the Igloo furniture shop for 40 coins
 
 - What has been fixed:
     - The spawn points have been moved so you will no longer spawn into the void and endlessly fall randomly like in the original
@@ -48,6 +49,9 @@
     - Fixed the Disney Store banners and for sale items, they originally stopped working on: ```January 1, 2020```. Now they will stop working on: ```December 31, 4065```
     - Fixed the coins and collectibles that would spawn once a day (this broke when the servers went offline). They will now spawn once every 24 hours
     - Fixed the microphone and guitar interactables collision in Island Central. The collisions were swapped in the original
+	- Fixed the collider on the boss computer chair igloo furniture
+	- Fixed the boss computer chair from spawning a little bit into the ground
+	- Fixed the cushion and stool igloo furniture being labeled as a "tube" when it should be labeled as a "ManipulatableObject"
       
 ## System Requirements
 
