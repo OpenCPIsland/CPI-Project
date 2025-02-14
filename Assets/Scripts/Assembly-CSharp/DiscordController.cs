@@ -70,6 +70,145 @@ public class DiscordController : MonoBehaviour
         string detailsText = roomName;
         string stateText = $"Unity {Application.unityVersion}";
 
+        bool iconFound = false;
+
+        // Priority: Event overrides
+        if (roomName.Contains("Island Central | Halloween", StringComparison.OrdinalIgnoreCase))
+        {
+            roomImage = "town_halloween";
+            iconFound = true;
+        }
+        else if (roomName.Contains("Island Central | Rainbow", StringComparison.OrdinalIgnoreCase))
+        {
+            roomImage = "rainbow_town";
+            iconFound = true;
+        }
+        else if (roomName.Contains("Halloween", StringComparison.OrdinalIgnoreCase))
+        {
+            roomImage = "halloween";
+            iconFound = true;
+        }
+        else if (roomName.Contains("Holiday", StringComparison.OrdinalIgnoreCase))
+        {
+            // Random holiday icons for any Holiday event
+            string[] holidayIcons = { "holiday", "cfc", "olaf" };
+            roomImage = holidayIcons[new System.Random().Next(holidayIcons.Length)];
+            iconFound = true;
+        }
+        else if (roomName.Contains("Rainbow Migration", StringComparison.OrdinalIgnoreCase))
+        {
+            roomImage = "rainbow";
+            iconFound = true;
+        }
+        else if (roomName.Contains("Anniversary", StringComparison.OrdinalIgnoreCase))
+        {
+            roomImage = "anniversary";
+            iconFound = true;
+        }
+        else if (roomName.Contains("Valentines", StringComparison.OrdinalIgnoreCase))
+        {
+            roomImage = "valentines";
+            iconFound = true;
+        }
+        else if (roomName.Contains("Arcade", StringComparison.OrdinalIgnoreCase) ||
+                 roomName.Contains("Bean", StringComparison.OrdinalIgnoreCase) ||
+                 roomName.Contains("Ice", StringComparison.OrdinalIgnoreCase) ||
+                 roomName.Contains("Jetpack", StringComparison.OrdinalIgnoreCase) ||
+                 roomName.Contains("Roundup", StringComparison.OrdinalIgnoreCase) ||
+                 roomName.Contains("Pizzatron", StringComparison.OrdinalIgnoreCase) ||
+                 roomName.Contains("Smoothie", StringComparison.OrdinalIgnoreCase))
+        {
+            roomImage = "arcade";
+            iconFound = true;
+        }
+        else if (roomName.Contains("April", StringComparison.OrdinalIgnoreCase) ||
+                 roomName.Contains("???", StringComparison.OrdinalIgnoreCase))
+        {
+            roomImage = "box_dimension";
+            iconFound = true;
+        }
+        else if (roomName.Contains("Waddle", StringComparison.OrdinalIgnoreCase))
+        {
+            roomImage = "sunset";
+            iconFound = true;
+        }
+        else if (roomName.Contains("Splash", StringComparison.OrdinalIgnoreCase))
+        {
+            roomImage = "summersplash";
+            iconFound = true;
+        }
+        else if (roomName.Contains("World", StringComparison.OrdinalIgnoreCase))
+        {
+            roomImage = "wpd";
+            iconFound = true;
+        }
+        else if (roomName.Contains("Medieval", StringComparison.OrdinalIgnoreCase))
+        {
+            roomImage = "medieval";
+            iconFound = true;
+        }
+        else if (roomName.Contains("Credits", StringComparison.OrdinalIgnoreCase))
+        {
+            roomImage = "credits";
+            iconFound = true;
+        }
+        else if (roomName.Contains("Penglantian", StringComparison.OrdinalIgnoreCase) ||
+                 roomName.Contains("Expedition", StringComparison.OrdinalIgnoreCase))
+        {
+            roomImage = "penglantian";
+            iconFound = true;
+        }
+        else if (roomName.Contains("Igloo", StringComparison.OrdinalIgnoreCase))
+        {
+            roomImage = "igloo";
+            iconFound = true;
+        }
+        else if (roomName.Contains("Summit", StringComparison.OrdinalIgnoreCase))
+        {
+            roomImage = "summit";
+            iconFound = true;
+        }
+
+        // Monthly icon check (only if no special event icon is detected)
+        int currentMonth = DateTime.Now.Month;
+        if (!iconFound)
+        {
+            switch (currentMonth)
+            {
+                case 2:
+                    roomImage = "valentines";
+                    iconFound = true;
+                    Debug.Log($"[Discord RPC] Current month is February (Month: {currentMonth}). Using 'valentines' icon for room '{roomName}'.");
+                    break;
+                case 10:
+                    roomImage = "halloween";
+                    iconFound = true;
+                    Debug.Log($"[Discord RPC] Current month is October (Month: {currentMonth}). Using 'halloween' icon for room '{roomName}'.");
+                    break;
+                case 12:
+                    // Random holiday icons for December
+                    string[] holidayIcons = { "holiday", "cfc", "olaf" };
+                    roomImage = holidayIcons[new System.Random().Next(holidayIcons.Length)];
+                    iconFound = true;
+                    Debug.Log($"[Discord RPC] Current month is December (Month: {currentMonth}). Using 'holiday' icon for room '{roomName}'.");
+                    break;
+                default:
+                    roomImage = "default_icon";
+                    iconFound = true;
+                    Debug.Log($"[Discord RPC] Current month is {currentMonth}. Using 'default_icon' for room '{roomName}'.");
+                    break;
+            }
+        }
+
+        if (iconFound)
+        {
+            Debug.Log($"[Discord RPC] Icon FOUND for room '{roomName}': {roomImage}");
+        }
+        else
+        {
+            Debug.Log($"[Discord RPC] Icon NOT FOUND for room '{roomName}', using default icon.");
+        }
+
         UpdatePresence(stateText, roomImage, detailsText, string.Empty, gameStartTime);
     }
 

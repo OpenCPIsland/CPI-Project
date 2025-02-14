@@ -49,9 +49,11 @@
     - Fixed the Disney Store banners and for sale items, they originally stopped working on: ```January 1, 2020```. Now they will stop working on: ```December 31, 4065```
     - Fixed the coins and collectibles that would spawn once a day (this broke when the servers went offline). They will now spawn once every 24 hours
     - Fixed the microphone and guitar interactables collision in Island Central. The collisions were swapped in the original
-	- Fixed the collider on the boss computer chair igloo furniture
-	- Fixed the boss computer chair from spawning a little bit into the ground
-	- Fixed the cushion and stool igloo furniture being labeled as a "tube" when it should be labeled as a "ManipulatableObject"
+	- Fixed the collider on the ```boss computer chair``` igloo furniture
+	- Fixed the ```boss computer chair``` from spawning a little bit into the ground
+	- Fixed the ```cushion``` and ```stool``` igloo furniture being labeled as a "tube" when it should be labeled as a "ManipulatableObject"
+	- Fixed the ```diamond flower pot``` igloo item collision
+	- Fixed the modern coffee table and the kitchen island igloo furniture so that you can properly place items on top of them
       
 ## System Requirements
 
