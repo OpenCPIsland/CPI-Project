@@ -35,6 +35,7 @@
     - Added an optional skybox in the project to allow a day/night cycle that will cycle every 15 minutes
     - Added 32 new Penguin colors
 	- Unlock the Valentines Day chair at level 27. The ID for the chair is 278 and it will sell at the Igloo furniture shop for 40 coins
+	- And most importantly, the game is no longer in the original 32-bit state! This recreation is in a 64-bit state
 
 - What has been fixed:
     - The spawn points have been moved so you will no longer spawn into the void and endlessly fall randomly like in the original
