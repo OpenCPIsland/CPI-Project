@@ -54,6 +54,7 @@
 	- Fixed the ```cushion``` and ```stool``` igloo furniture being labeled as a "tube" when it should be labeled as a "ManipulatableObject"
 	- Fixed the ```diamond flower pot``` igloo item collision
 	- Fixed the modern coffee table and the kitchen island igloo furniture so that you can properly place items on top of them
+	- Fixed the ```Indoor wall light``` igloo item so that it can be placed properly on the walls of your igloo
       
 ## System Requirements
 
