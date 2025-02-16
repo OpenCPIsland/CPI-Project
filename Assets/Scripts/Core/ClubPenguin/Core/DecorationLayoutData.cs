@@ -43,17 +43,17 @@ namespace ClubPenguin.Core
 
             public string GetFullPath()
             {
-                if (cachedFullPath == "")
+                //   if (cachedFullPath == "")
+                //    {
+                if (string.IsNullOrEmpty(ParentPath))
                 {
-                    if (string.IsNullOrEmpty(ParentPath))
-                    {
-                        cachedFullPath = Name;
-                    }
-                    else
-                    {
-                        cachedFullPath = ParentPath + "/" + Name;
-                    }
+                    cachedFullPath = Name;
                 }
+                else
+                {
+                    cachedFullPath = ParentPath + "/" + Name;
+                }
+                //     }
                 return cachedFullPath;
             }
 
