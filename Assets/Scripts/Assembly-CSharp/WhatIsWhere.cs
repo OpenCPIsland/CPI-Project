@@ -19,4 +19,6 @@ public class WhatIsWhere : ScriptableObject
 
     public string FogDataPath;
 
+    public string IglooFurnitureLimit;
+
 }

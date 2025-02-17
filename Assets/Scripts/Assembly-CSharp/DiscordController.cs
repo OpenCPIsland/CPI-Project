@@ -30,7 +30,7 @@ public class DiscordController : MonoBehaviour
             if (gameStartTime == 0)
                 gameStartTime = DateTimeOffset.UtcNow.ToUnixTimeSeconds(); // Set only once on game start
 
-            UpdatePresence("Loading...", "default_icon", string.Empty, "Unity Version", gameStartTime);
+            UpdatePresence("Loading...", "default_icon", string.Empty, $"Unity {Application.unityVersion} | Version {Application.version}", gameStartTime);
 
             SceneManager.sceneLoaded += OnSceneLoaded;
         }
@@ -68,11 +68,10 @@ public class DiscordController : MonoBehaviour
     {
         string roomImage = "default_icon";
         string detailsText = roomName;
-        string stateText = $"Unity {Application.unityVersion}";
+        string stateText = $"Unity {Application.unityVersion} | Version {Application.version}";
 
         bool iconFound = false;
 
-        // Priority: Event overrides
         if (roomName.Contains("Island Central | Halloween", StringComparison.OrdinalIgnoreCase))
         {
             roomImage = "town_halloween";

@@ -33,7 +33,7 @@ namespace ClubPenguin
 			}
 		}
 
-		private const int MAX_SLOTS = 3;
+		private const int MAX_SLOTS = 10;
 
 		private static PrefabContentKey ManageIglooPopupKey = new PrefabContentKey("UI/ManageIglooPopup/ManageIglooPopup");
 
@@ -141,8 +141,8 @@ namespace ClubPenguin
 			iglooService = Service.Get<INetworkServicesManager>().IglooService;
 			progressionService = Service.Get<ProgressionService>();
 			stateController = ClubPenguin.Core.SceneRefs.Get<IglooUIStateController>();
-			igloosCount = 3;
-			createButtonCount = 3;
+			igloosCount = 10;
+			createButtonCount = 10;
 		}
 
 		private void Start()
@@ -265,7 +265,7 @@ namespace ClubPenguin
 			if (savedIgloosMetaData.SavedIgloos.Count == 0)
 			{
 				privacyButton.Setup(base.transform.parent, savedIgloosMetaData, false);
-				createButtonCount = 3;
+				createButtonCount = 10;
 				Content.LoadAsync(delegate(string path, GameObject asset)
 				{
 					initializeCreateButtons(asset);
@@ -298,8 +298,8 @@ namespace ClubPenguin
 
 		private void resetSlots()
 		{
-			igloosCount = 3;
-			createButtonCount = 3;
+			igloosCount = 10;
+			createButtonCount = 10;
 			iglooPropertiesCards.Clear();
 			iglooCreateButtonList.Clear();
 			removeSlotsFromContainer(NonMemberSlotContainer.transform, NonMemberActiveIglooBackground.transform);

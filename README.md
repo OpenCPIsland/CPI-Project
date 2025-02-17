@@ -36,6 +36,9 @@
     - Added 32 new Penguin colors
 	- Unlock the Valentines Day chair at level 27. The ID for the chair is 278 and it will sell at the Igloo furniture shop for 40 coins
 	- And most importantly, the game is no longer in the original 32-bit state! This recreation is in a 64-bit state
+	- Version 1.13.1
+	- Changed the default 3 igloo save slots to 10
+	- Changed the default 130 max igloo furniture limit to 500
 
 - What has been fixed:
     - The spawn points have been moved so you will no longer spawn into the void and endlessly fall randomly like in the original
@@ -56,6 +59,7 @@
 	- Fixed the ```diamond flower pot``` igloo item collision
 	- Fixed the ```modern coffee table``` and the ```kitchen island``` igloo furniture so that you can properly place items on top of them
 	- Fixed the ```Indoor wall light``` igloo item so that it can be placed properly on the walls of your igloo
+	- Fixed the collision on the ```CrystalCave``` igloo building
       
 ## System Requirements
 
