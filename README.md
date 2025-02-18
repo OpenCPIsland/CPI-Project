@@ -34,11 +34,11 @@
     - Added 2 new lighting options to the igloos. Those are ```Holiday``` and ```Rainbow Migration```. The ```Holiday``` lighting can be unlocked at Penguin level 20 and the ```Rainbow Migration``` lighting can be unlocked at Penguin level 27
     - Added an optional skybox in the project to allow a day/night cycle that will cycle every 15 minutes
     - Added 32 new Penguin colors
-	- Unlock the Valentines Day chair at level 27. The ID for the chair is 278 and it will sell at the Igloo furniture shop for 40 coins
-	- And most importantly, the game is no longer in the original 32-bit state! This recreation is in a 64-bit state
-	- Version 1.13.1
-	- Changed the default 3 igloo save slots to 10
-	- Changed the default 130 max igloo furniture limit to 500
+    - Unlock the Valentines Day chair at level 27. The ID for the chair is 278 and it will sell at the Igloo furniture shop for 40 coins
+    - And most importantly, the game is no longer in the original 32-bit state! This recreation is in a 64-bit state
+    - Version 1.13.1
+    - Changed the default 3 igloo save slots to 10
+    - Changed the default 130 max igloo furniture limit to 500
 
 - What has been fixed:
     - The spawn points have been moved so you will no longer spawn into the void and endlessly fall randomly like in the original
@@ -53,13 +53,13 @@
     - Fixed the Disney Store banners and for sale items, they originally stopped working on: ```January 1, 2020```. Now they will stop working on: ```December 31, 4065```
     - Fixed the coins and collectibles that would spawn once a day (this broke when the servers went offline). They will now spawn once every 24 hours
     - Fixed the microphone and guitar interactables collision in Island Central. The collisions were swapped in the original
-	- Fixed the collider on the ```boss computer chair``` igloo furniture
-	- Fixed the ```boss computer chair``` from spawning a little bit into the ground
-	- Fixed the ```cushion``` and ```stool``` igloo furniture being labeled as a "tube" when it should be labeled as a "ManipulatableObject"
-	- Fixed the ```diamond flower pot``` igloo item collision
-	- Fixed the ```modern coffee table``` and the ```kitchen island``` igloo furniture so that you can properly place items on top of them
-	- Fixed the ```Indoor wall light``` igloo item so that it can be placed properly on the walls of your igloo
-	- Fixed the collision on the ```CrystalCave``` igloo building
+    - Fixed the collider on the ```boss computer chair``` igloo furniture
+    - Fixed the ```boss computer chair``` from spawning a little bit into the ground
+    - Fixed the ```cushion``` and ```stool``` igloo furniture being labeled as a "tube" when it should be labeled as a "ManipulatableObject"
+    - Fixed the ```diamond flower pot``` igloo item collision
+    - Fixed the ```modern coffee table``` and the ```kitchen island``` igloo furniture so that you can properly place items on top of them
+    - Fixed the ```Indoor wall light``` igloo item so that it can be placed properly on the walls of your igloo
+    - Fixed the collision on the ```CrystalCave``` igloo building
       
 ## System Requirements
 
