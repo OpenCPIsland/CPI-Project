@@ -82,3 +82,4 @@
   ```
 - For other distros, check the [official Git installation guide](https://git-scm.com/book/en/v2/Getting-Started-Installing-Git).
 
+For further documentation, refer to the [OpenCPI Docs](https://opencpi.gitbook.io/opencpi-docs). The docs is open sourced [here](https://github.com/OpenCPIsland/OpenCPIDocs). If something is missing, feel free to create a fork and send a pull request.
