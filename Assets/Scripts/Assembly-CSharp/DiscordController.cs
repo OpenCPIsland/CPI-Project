@@ -1,6 +1,7 @@
 using System;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using System.Linq; // For checking running processes (used later)
 
 public class DiscordController : MonoBehaviour
 {
@@ -22,27 +23,39 @@ public class DiscordController : MonoBehaviour
     {
         DontDestroyOnLoad(gameObject);
 
-        try
+        // Check if Discord is running before initializing
+        if (IsDiscordRunning())
         {
-            discord = new Discord.Discord(clientId, (UInt64)Discord.CreateFlags.Default);
-            activityManager = discord.GetActivityManager();
+            try
+            {
+                discord = new Discord.Discord(clientId, (UInt64)Discord.CreateFlags.Default);
+                activityManager = discord.GetActivityManager();
 
-            if (gameStartTime == 0)
-                gameStartTime = DateTimeOffset.UtcNow.ToUnixTimeSeconds(); // Set only once on game start
+                if (gameStartTime == 0)
+                    gameStartTime = DateTimeOffset.UtcNow.ToUnixTimeSeconds(); // Set only once on game start
 
-            UpdatePresence("Loading...", "default_icon", string.Empty, $"Unity {Application.unityVersion} | Version {Application.version}", gameStartTime);
+                UpdatePresence("Loading...", "default_icon", string.Empty, $"Unity {Application.unityVersion} | Version {Application.version}", gameStartTime);
 
-            SceneManager.sceneLoaded += OnSceneLoaded;
+                SceneManager.sceneLoaded += OnSceneLoaded;
+            }
+            catch (Exception e)
+            {
+                Debug.LogError("Failed to initialize Discord SDK: " + e.Message);
+            }
         }
-        catch (Exception e)
+        else
         {
-            Debug.LogError("Failed to initialize Discord SDK: " + e.Message);
+            Debug.LogWarning("Discord is not running or installed. Skipping Discord integration.");
         }
     }
 
     void Update()
     {
-        discord?.RunCallbacks();
+        // Only run callbacks if Discord is initialized
+        if (discord != null)
+        {
+            discord?.RunCallbacks();
+        }
     }
 
     private void OnSceneLoaded(Scene scene, LoadSceneMode mode)
@@ -208,7 +221,11 @@ public class DiscordController : MonoBehaviour
             Debug.Log($"[Discord RPC] Icon NOT FOUND for room '{roomName}', using default icon.");
         }
 
-        UpdatePresence(stateText, roomImage, detailsText, string.Empty, gameStartTime);
+        // Only update Discord presence if Discord is initialized
+        if (discord != null)
+        {
+            UpdatePresence(stateText, roomImage, detailsText, string.Empty, gameStartTime);
+        }
     }
 
     private void UpdatePresence(string state, string imageKey, string details, string party, long startTimestamp)
@@ -239,6 +256,25 @@ public class DiscordController : MonoBehaviour
 
     void OnApplicationQuit()
     {
-        discord?.Dispose();
+        // Only dispose of discord if it was initialized
+        if (discord != null)
+        {
+            discord.Dispose();
+        }
+    }
+
+    // Check if Discord is running on the system
+    private bool IsDiscordRunning()
+    {
+        try
+        {
+            var processes = System.Diagnostics.Process.GetProcessesByName("Discord");
+            return processes.Any(); // If any Discord process is found, it's running
+        }
+        catch (Exception ex)
+        {
+            Debug.LogError("Error checking Discord status: " + ex.Message);
+            return false;
+        }
     }
 }
