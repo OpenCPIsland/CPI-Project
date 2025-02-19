@@ -69,7 +69,7 @@
 - [Git for Windows](https://git-scm.com/downloads/win) installed. **Restart your PC after installing Git.**
 
 ### macOS
-- Latest version of Xcode for your macOS version.
+- Latest version of Xcode for your version of macOS.
 
 ### Linux
 - Make sure your system is updated:
