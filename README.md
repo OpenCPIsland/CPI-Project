@@ -60,6 +60,7 @@
     - Fixed the ```modern coffee table``` and the ```kitchen island``` igloo furniture so that you can properly place items on top of them
     - Fixed the ```Indoor wall light``` igloo item so that it can be placed properly on the walls of your igloo
     - Fixed the collision on the ```CrystalCave``` igloo building
+    - Fixed the cosmic daily spin chest reward. Now can now be obtainable
       
 ## System Requirements
 
