@@ -51,9 +51,6 @@ public class AprilFoolsTownLightingBake : MonoBehaviour
 				GameObjectLocations Gol = targetObject.GetComponent<GameObjectLocations>();
                 
                  AssetDatabase.DeleteAsset("Assets/Game/World/Scenes/Events/AprilFools/Resources/AdditiveScenes/AprilFoolsParty2018_Town_Decorations");
-				
-				//set for baking
-				Gol.ChangeSkybox(Gol.LightmappingSkybox);
 
 				Gol.BoxDimensionDecorations.isStatic = true;
 				SetStaticRecursively(Gol.BoxDimensionDecorations, true);
@@ -62,9 +59,6 @@ public class AprilFoolsTownLightingBake : MonoBehaviour
 				
 				//bake
 				Lightmapping.Bake();
-				
-				//reset
-				Gol.ChangeSkybox(Gol.LightmappingSkybox);
 
 				Gol.BoxDimensionDecorations.isStatic = false;
 				SetStaticRecursively(Gol.BoxDimensionDecorations, false);

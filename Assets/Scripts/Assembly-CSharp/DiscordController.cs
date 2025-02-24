@@ -257,7 +257,7 @@ public class DiscordController : MonoBehaviour
     void OnApplicationQuit()
     {
         // Only dispose of discord if it was initialized
-        // if (discord != null)
+       // if (discord != null)
         {
             discord.Dispose();
         }

@@ -14,80 +14,74 @@ public class AprilFoolsBoardwalkLightingBake : MonoBehaviour
 		BakeAprilFoolsBoardwalk();
 	}
 
-	static void BakeAprilFoolsBoardwalk()
-	{
-		EditorSceneManager.OpenScene("Assets/Game/World/Scenes/Events/AprilFools/Resources/AdditiveScenes/AprilFoolsParty2018_Boardwalk_Decorations.unity");
-		Scene activeScene = SceneManager.GetActiveScene();
-        
-		if (activeScene.IsValid())
-		{
-			Debug.Log("Current Scene Name: " + activeScene.name);
-			Debug.Log("Current Scene Path: " + activeScene.path);
-		}
-		else
-		{
-			Debug.LogError("No active scene found.");
-		}
-		
-		if (activeScene.IsValid())
-		{
-			// Replace "YourGameObjectName" with the name of the GameObject you want to find
-			string gameObjectName = "GameObjectLocations";
-			GameObject[] rootObjects = activeScene.GetRootGameObjects();
-			GameObject targetObject = null;
+    static void BakeAprilFoolsBoardwalk()
+    {
+        EditorSceneManager.OpenScene("Assets/Game/World/Scenes/Events/AprilFools/Resources/AdditiveScenes/AprilFoolsParty2018_Boardwalk_Decorations.unity");
+        Scene activeScene = SceneManager.GetActiveScene();
 
-			foreach (GameObject obj in rootObjects)
-			{
-				if (obj.name == gameObjectName)
-				{
-					targetObject = obj;
-					break;
-				}
-			}
+        if (activeScene.IsValid())
+        {
+            Debug.Log("Current Scene Name: " + activeScene.name);
+            Debug.Log("Current Scene Path: " + activeScene.path);
+        }
+        else
+        {
+            Debug.LogError("No active scene found.");
+        }
 
-			if (targetObject != null)
-			{
-				Debug.Log("Found GameObject: " + targetObject.name);
-				GameObjectLocations Gol = targetObject.GetComponent<GameObjectLocations>();
-                
-                 AssetDatabase.DeleteAsset("Assets/Game/World/Scenes/Events/AprilFools/Resources/AdditiveScenes/AprilFoolsParty2018_Boardwalk_Decorations");
-				
-				//set for baking
-				Gol.ChangeSkybox(Gol.LightmappingSkybox);
+        if (activeScene.IsValid())
+        {
+            // Replace "YourGameObjectName" with the name of the GameObject you want to find
+            string gameObjectName = "GameObjectLocations";
+            GameObject[] rootObjects = activeScene.GetRootGameObjects();
+            GameObject targetObject = null;
 
-				Gol.BoxDimensionDecorations.isStatic = true;
-				SetStaticRecursively(Gol.BoxDimensionDecorations, true);
+            foreach (GameObject obj in rootObjects)
+            {
+                if (obj.name == gameObjectName)
+                {
+                    targetObject = obj;
+                    break;
+                }
+            }
 
-				Gol.ChangeSource(AmbientMode.Trilight);
-				
-				//bake
-				Lightmapping.Bake();
-				
-				//reset
-				Gol.ChangeSkybox(Gol.LightmappingSkybox);
+            if (targetObject != null)
+            {
+                Debug.Log("Found GameObject: " + targetObject.name);
+                GameObjectLocations Gol = targetObject.GetComponent<GameObjectLocations>();
 
-				Gol.BoxDimensionDecorations.isStatic = false;
-				SetStaticRecursively(Gol.BoxDimensionDecorations, false);
+                AssetDatabase.DeleteAsset("Assets/Game/World/Scenes/Events/AprilFools/Resources/AdditiveScenes/AprilFoolsParty2018_Boardwalk_Decorations");
 
-				Gol.ChangeSource(AmbientMode.Trilight);
-			}
-			else
-			{
-				Debug.LogError("GameObject not found: " + gameObjectName);
-			}
-		}
-		else
-		{
-			Debug.LogError("No active scene found.");
-		}
-	}
-	
-	private static void SetStaticRecursively(GameObject parent, bool flag)
-	{
-		foreach (Transform child in parent.transform)
-		{
-			child.gameObject.isStatic = flag;
-			SetStaticRecursively(child.gameObject, flag);
-		}
-	}
+                Gol.BoxDimensionDecorations.isStatic = true;
+                SetStaticRecursively(Gol.BoxDimensionDecorations, true);
+
+                Gol.ChangeSource(AmbientMode.Trilight);
+
+                //bake
+                Lightmapping.Bake();
+
+                Gol.BoxDimensionDecorations.isStatic = false;
+                SetStaticRecursively(Gol.BoxDimensionDecorations, false);
+
+                Gol.ChangeSource(AmbientMode.Trilight);
+            }
+            else
+            {
+                Debug.LogError("GameObject not found: " + gameObjectName);
+            }
+        }
+        else
+        {
+            Debug.LogError("No active scene found.");
+        }
+    }
+
+    private static void SetStaticRecursively(GameObject parent, bool flag)
+    {
+        foreach (Transform child in parent.transform)
+        {
+            child.gameObject.isStatic = flag;
+            SetStaticRecursively(child.gameObject, flag);
+        }
+    }
 }
