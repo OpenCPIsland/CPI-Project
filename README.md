@@ -1,7 +1,7 @@
 ## Requirements to Open the Project
 
 ### Unity Version
-- **Unity 2022.3.58f1 LTS**
+- **Unity 2022.3.59f1 LTS**
 
 ### Notes
 - When opening the project, Unity might ask if you want to use the new input system. **Press NO.**
@@ -40,6 +40,7 @@
     - Changed the default 3 igloo save slots to 10
     - Changed the default 130 max igloo furniture limit to 500
     - Support for DirectX 12 and Vulkan
+    - Support for IL2CPP
 
 - What has been fixed:
     - The spawn points have been moved so you will no longer spawn into the void and endlessly fall randomly like in the original
@@ -50,7 +51,7 @@
     - Added missing colliders to certain world and quest objects
     - Performance improvements
     - Added the missing Summer Splashdown chat phases and Rookie sound effects to the Regular sewer in Island Central
-    - Fixed original errors within the ```Unlit Dynamic Object No FOG``` and Igloo ```CubeMap``` shaders
+    - Fixed original errors within the ```Unlit Dynamic Object No FOG```, ```World Object``` and Igloo ```CubeMap``` shaders
     - Fixed the Disney Store banners and for sale items, they originally stopped working on: ```January 1, 2020```. Now they will stop working on: ```December 31, 4065```
     - Fixed the coins and collectibles that would spawn once a day (this broke when the servers went offline). They will now spawn once every 24 hours
     - Fixed the microphone and guitar interactables collision in Island Central. The collisions were swapped in the original
@@ -81,6 +82,11 @@
   ```bash
   sudo apt install git
   ```
+
+  - Make sure to install this componet for X11 Window manager distros:
+    ```bash
+    sudo apt-get install libx11-dev
+    ```
 - For other distros, check the [official Git installation guide](https://git-scm.com/book/en/v2/Getting-Started-Installing-Git).
 
 For further documentation, refer to the [OpenCPI Docs](https://opencpi.gitbook.io/opencpi-docs). The docs is open sourced [here](https://github.com/OpenCPIsland/OpenCPIDocs). If something is missing, feel free to create a fork and send a pull request.

@@ -84,7 +84,7 @@ namespace ClubPenguin.Avatar
 #if UNITY_STANDALONE_WIN || UNITY_STANDALONE_LINUX || UNITY_EDITOR_WIN || UNITY_EDITOR_LINUX
                 // For Windows and Linux (and their editor variants)
                 atlasRenderTexture.DiscardContents();
-#elif UNITY_IOS || UNITY_ANDROID || UNITY_STANDALONE_OSX || UNITY_EDITOR_IOS || UNITY_EDITOR_ANDROID || UNITY_EDITOR_OSX
+#elif UNITY_IOS || UNITY_ANDROID || UNITY_STANDALONE_OSX || UNITY_EDITOR_IOS || UNITY_EDITOR_ANDROID || UNITY_EDITOR_OSX || UNITY_STANDALONE_OSX_ARM || UNITY_EDITOR_OSX_ARM
                     // For iOS, Android, macOS (and their editor variants)
                     // atlasRenderTexture.DiscardContents(); // Commented out for these platforms, until a fix for the shader can be made to fix the black penguin bug.
 #endif
