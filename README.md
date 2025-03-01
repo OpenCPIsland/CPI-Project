@@ -40,7 +40,7 @@
     - Changed the default 3 igloo save slots to 10
     - Changed the default 130 max igloo furniture limit to 500
     - Support for DirectX 12 and Vulkan
-    - Support for IL2CPP
+    - Support for IL2CPP (The Discord RPC doesn't work in IL2CPP so if you want the RPC, you can switch back to Mono)
 
 - What has been fixed:
     - The spawn points have been moved so you will no longer spawn into the void and endlessly fall randomly like in the original
