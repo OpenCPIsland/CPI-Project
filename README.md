@@ -51,7 +51,7 @@
     - Added missing colliders to certain world and quest objects
     - Performance improvements
     - Added the missing Summer Splashdown chat phases and Rookie sound effects to the Regular sewer in Island Central
-    - Fixed original errors within the ```Unlit Dynamic Object No FOG```, ```World Object``` and Igloo ```CubeMap``` shaders
+    - Fixed original errors within the ```Unlit Dynamic Object No FOG```, ```World Object```, and Igloo ```CubeMap``` shaders
     - Fixed the Disney Store banners and for sale items, they originally stopped working on: ```January 1, 2020```. Now they will stop working on: ```December 31, 4065```
     - Fixed the coins and collectibles that would spawn once a day (this broke when the servers went offline). They will now spawn once every 24 hours
     - Fixed the microphone and guitar interactables collision in Island Central. The collisions were swapped in the original
