@@ -1,0 +1,15 @@
+namespace ClubPenguin.Net.Domain
+{
+	public enum RewardSource
+	{
+		SERVER_OBJECT,
+		WORLD_OBJECT,
+		QUEST_COMPLETED,
+		QUEST_OBJECTIVE,
+		TASK,
+		MINI_GAME,
+		QUEST_STARTED,
+		QUICK_NOTIFICATION,
+		CLAIMABLE_REWARD
+	}
+}
