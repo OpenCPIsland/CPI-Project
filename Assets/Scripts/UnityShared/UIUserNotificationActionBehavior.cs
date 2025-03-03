@@ -1,5 +1,0 @@
-public enum UIUserNotificationActionBehavior
-{
-	UIUserNotificationActionBehaviorDefault,
-	UIUserNotificationActionBehaviorTextInput
-}

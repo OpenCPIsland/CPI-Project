@@ -1,6 +1,0 @@
-public enum UNNotificationCategoryOptions
-{
-	UNNotificationCategoryOptionNone,
-	UNNotificationCategoryOptionCustomDismissAction,
-	UNNotificationCategoryOptionAllowInCarPlay
-}

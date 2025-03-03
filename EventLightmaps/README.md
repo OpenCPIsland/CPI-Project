@@ -1,1 +1,0 @@
-Replace the files in the project with the files from in here to have the event lightmaps. These files can't be used on any other project due to the asset's GUIDs.
