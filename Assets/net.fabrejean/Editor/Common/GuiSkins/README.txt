@@ -1,0 +1,4 @@
+-- If you want to use these skins within your game, simply move them out of the "Editor" folder, anywhere you want in your assets. 
+-- The system will still find them as long as you load them using Utils.GetGuiSkin() or reference them directly within inspectors
+-- If you plan on modify these skins, that's fine, but then, prefer duplicating them completly to avoid corrupting them. Also, during updates, the package would overwrite your changes.
+-- contact me if you need the psd slices or more information. http://fabrejean.net/new/contact.php

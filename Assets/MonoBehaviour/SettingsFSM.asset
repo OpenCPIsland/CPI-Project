@@ -1,0 +1,149 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 80bc333d9186d8207811813502f5d9f8, type: 3}
+  m_Name: SettingsFSM
+  m_EditorClassIdentifier:
+  PersistState: 0
+  OnEnableEvents: []
+  States:
+  - Name: Main
+    OnEntryEvents:
+    - Target: SettingsMembershipInfoLoader
+      Event: disable
+    - Target: SettingsMembershipInfoAllAccessLoader
+      Event: disable
+    - Target: SettingsServerSelectLoader
+      Event: disable
+    - Target: SettingsRulesLoader
+      Event: disable
+    - Target: SettingsPrivacyPolicyLoader
+      Event: disable
+    - Target: SettingsTermsOfUseLoader
+      Event: disable
+    - Target: SettingsChildrensPrivacyPolicyLoader
+      Event: disable
+    - Target: SettingsLicenseCreditsLoader
+      Event: disable
+    - Target: SettingsHelpLoader
+      Event: disable
+    - Target: SettingsCustomGraphicsLoader
+      Event: disable
+    Transitions:
+    - Event: membershipInfo
+      TargetState: MembershipInfo
+    - Event: allAccessEventMembershipInfo
+      TargetState: AllAccessEventMembershipInfo
+    - Event: serverlist
+      TargetState: ServerList
+    - Event: rules
+      TargetState: Rules
+    - Event: privacypolicy
+      TargetState: PrivacyPolicy
+    - Event: childrensprivacypolicy
+      TargetState: ChildrensPrivacyPolicy
+    - Event: termsofuse
+      TargetState: TermsOfUse
+    - Event: licensecredits
+      TargetState: LicenseCredits
+    - Event: help
+      TargetState: Help
+    - Event: graphics
+      TargetState: CustomGraphics
+    OnExitEvents: []
+  - Name: MembershipInfo
+    OnEntryEvents:
+    - Target: SettingsMembershipInfoLoader
+      Event: enable
+    Transitions:
+    - Event: back
+      TargetState: Transition
+    OnExitEvents: []
+  - Name: AllAccessEventMembershipInfo
+    OnEntryEvents:
+    - Target: SettingsMembershipInfoAllAccessLoader
+      Event: enable
+    Transitions:
+    - Event: back
+      TargetState: Transition
+    - Event: helpButton
+      TargetState: Help
+    OnExitEvents: []
+  - Name: ServerList
+    OnEntryEvents:
+    - Target: SettingsServerSelectLoader
+      Event: enable
+    Transitions:
+    - Event: back
+      TargetState: Transition
+    OnExitEvents: []
+  - Name: Transition
+    OnEntryEvents: []
+    Transitions:
+    - Event: transitioncomplete
+      TargetState: Main
+    OnExitEvents: []
+  - Name: Rules
+    OnEntryEvents:
+    - Target: SettingsRulesLoader
+      Event: enable
+    Transitions:
+    - Event: back
+      TargetState: Transition
+    OnExitEvents: []
+  - Name: PrivacyPolicy
+    OnEntryEvents:
+    - Target: SettingsPrivacyPolicyLoader
+      Event: enable
+    Transitions:
+    - Event: back
+      TargetState: Transition
+    OnExitEvents: []
+  - Name: TermsOfUse
+    OnEntryEvents:
+    - Target: SettingsTermsOfUseLoader
+      Event: enable
+    Transitions:
+    - Event: back
+      TargetState: Transition
+    OnExitEvents: []
+  - Name: ChildrensPrivacyPolicy
+    OnEntryEvents:
+    - Target: SettingsChildrensPrivacyPolicyLoader
+      Event: enable
+    Transitions:
+    - Event: back
+      TargetState: Transition
+    OnExitEvents: []
+  - Name: LicenseCredits
+    OnEntryEvents:
+    - Target: SettingsLicenseCreditsLoader
+      Event: enable
+    Transitions:
+    - Event: back
+      TargetState: Transition
+    OnExitEvents: []
+  - Name: Help
+    OnEntryEvents:
+    - Target: SettingsHelpLoader
+      Event: enable
+    Transitions:
+    - Event: back
+      TargetState: Transition
+    OnExitEvents: []
+  - Name: CustomGraphics
+    OnEntryEvents:
+    - Target: SettingsCustomGraphicsLoader
+      Event: enable
+    Transitions:
+    - Event: back
+      TargetState: Transition
+    OnExitEvents: []
+  OnDisableEvents: []

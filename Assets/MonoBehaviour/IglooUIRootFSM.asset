@@ -1,0 +1,45 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 80bc333d9186d8207811813502f5d9f8, type: 3}
+  m_Name: IglooUIRootFSM
+  m_EditorClassIdentifier:
+  PersistState: 0
+  OnEnableEvents: []
+  States:
+  - Name: EditModeState
+    OnEntryEvents:
+    - Target: IglooTopNavEditModeLoader
+      Event: enable
+    - Target: WorldAreaControlsLoader
+      Event: disable
+    - Target: IglooUIModalLoadingSpinner
+      Event: disable
+    - Target: IglooUIModalLoadingSpinner_BG
+      Event: disable
+    Transitions:
+    - Event: previewmodeevent
+      TargetState: PreviewModeState
+    OnExitEvents: []
+  - Name: PreviewModeState
+    OnEntryEvents:
+    - Target: IglooTopNavPreviewModeLoader
+      Event: enable
+    - Target: WorldAreaControlsLoader
+      Event: enable
+    - Target: IglooUIModalLoadingSpinner
+      Event: disable
+    - Target: IglooUIModalLoadingSpinner_BG
+      Event: disable
+    Transitions:
+    - Event: editmodeevent
+      TargetState: EditModeState
+    OnExitEvents: []
+  OnDisableEvents: []

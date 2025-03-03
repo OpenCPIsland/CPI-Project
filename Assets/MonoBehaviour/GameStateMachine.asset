@@ -1,0 +1,133 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 80bc333d9186d8207811813502f5d9f8, type: 3}
+  m_Name: GameStateMachine
+  m_EditorClassIdentifier:
+  PersistState: 0
+  OnEnableEvents: []
+  States:
+  - Name: Default
+    OnEntryEvents: []
+    Transitions:
+    - Event: entergameevent
+      TargetState: EnterGameState
+    - Event: startgameevent
+      TargetState: StartGameState
+    - Event: startftueevent
+      TargetState: StartFTUEState
+    - Event: continueftueevent
+      TargetState: ContinueFTUEState
+    - Event: mixloginevent
+      TargetState: MixLoginState
+    OnExitEvents: []
+  - Name: EnterGameState
+    OnEntryEvents: []
+    Transitions:
+    - Event: zoneconnectingevent
+      TargetState: ZoneConnectingState
+    - Event: mixloginevent
+      TargetState: MixLoginState
+    - Event: startftueevent
+      TargetState: StartFTUEState
+    - Event: defaultevent
+      TargetState: Default
+    OnExitEvents: []
+  - Name: StartFTUEState
+    OnEntryEvents: []
+    Transitions:
+    - Event: continueftueevent
+      TargetState: ContinueFTUEState
+    - Event: defaultevent
+      TargetState: Default
+    OnExitEvents: []
+  - Name: ContinueFTUEState
+    OnEntryEvents: []
+    Transitions:
+    - Event: zoneconnectingevent
+      TargetState: ZoneConnectingState
+    - Event: offlineevent
+      TargetState: OfflineState
+    OnExitEvents: []
+  - Name: ZoneConnectingState
+    OnEntryEvents: []
+    Transitions:
+    - Event: zoneconnectedevent
+      TargetState: ZoneConnectedState
+    - Event: pausedevent
+      TargetState: PausedState
+    - Event: offlineevent
+      TargetState: OfflineState
+    OnExitEvents: []
+  - Name: ZoneConnectedState
+    OnEntryEvents: []
+    Transitions:
+    - Event: zoneconnectingevent
+      TargetState: ZoneConnectingState
+    - Event: scenewithoutzoneevent
+      TargetState: SceneWithoutZoneState
+    - Event: pausedevent
+      TargetState: PausedState
+    - Event: offlineevent
+      TargetState: OfflineState
+    - Event: defaultevent
+      TargetState: Default
+    OnExitEvents: []
+  - Name: SceneWithoutZoneState
+    OnEntryEvents: []
+    Transitions:
+    - Event: zoneconnectedevent
+      TargetState: ZoneConnectedState
+    - Event: defaultevent
+      TargetState: Default
+    - Event: pausedevent
+      TargetState: PausedState
+    - Event: offlineevent
+      TargetState: OfflineState
+    - Event: zoneconnectingevent
+      TargetState: ZoneConnectingState
+    OnExitEvents: []
+  - Name: MixLoginState
+    OnEntryEvents: []
+    Transitions:
+    - Event: zoneconnectingevent
+      TargetState: ZoneConnectingState
+    - Event: startftueevent
+      TargetState: StartFTUEState
+    - Event: defaultevent
+      TargetState: Default
+    - Event: startgameevent
+      TargetState: StartGameState
+    - Event: continueftueevent
+      TargetState: ContinueFTUEState
+    OnExitEvents: []
+  - Name: StartGameState
+    OnEntryEvents: []
+    Transitions:
+    - Event: zoneconnectingevent
+      TargetState: ZoneConnectingState
+    OnExitEvents: []
+  - Name: PausedState
+    OnEntryEvents: []
+    Transitions:
+    - Event: zoneconnectingevent
+      TargetState: ZoneConnectingState
+    - Event: offlineevent
+      TargetState: OfflineState
+    OnExitEvents: []
+  - Name: OfflineState
+    OnEntryEvents: []
+    Transitions:
+    - Event: defaultevent
+      TargetState: Default
+    - Event: zoneconnectingevent
+      TargetState: ZoneConnectingState
+    OnExitEvents: []
+  OnDisableEvents: []

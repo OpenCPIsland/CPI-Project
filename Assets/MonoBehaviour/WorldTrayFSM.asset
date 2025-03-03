@@ -1,0 +1,375 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 80bc333d9186d8207811813502f5d9f8, type: 3}
+  m_Name: WorldTrayFSM
+  m_EditorClassIdentifier:
+  PersistState: 0
+  OnEnableEvents: []
+  States:
+  - Name: MinControls
+    OnEntryEvents:
+    - Target: ScreenContainer
+      Event: min
+    - Target: MainNavLoader
+      Event: enable
+    - Target: MainNavBar
+      Event: closed
+    - Target: ChatScreenPanelLoader
+      Event: disable
+    - Target: ChatMenuLoader
+      Event: enable
+    - Target: WorldAreaControlsLoader
+      Event: enable
+    - Target: ChatInputLoader
+      Event: disable
+    - Target: ScreenContainerContent
+      Event: none
+    Transitions:
+    - Event: chat_instant
+      TargetState: ChatInstantLoader
+    - Event: chat_input
+      TargetState: ChatInputLoader
+    - Event: chat_hotkey
+      TargetState: ChatInputLoader
+    - Event: chat_instant_hotkey
+      TargetState: ChatInstantLoader_Forced
+    - Event: chat_instant_emote_hotkey
+      TargetState: ChatInstantEmoteLoader_Forced
+    - Event: mainnav_locomotion
+      TargetState: MinControls
+    - Event: mainnav_screen
+      TargetState: MaxDefault
+    - Event: minnpc
+      TargetState: MinNPC
+    - Event: min_mainnav
+      TargetState: MinNPC
+    - Event: maxnpc
+      TargetState: MaxNPC
+    - Event: minpopup
+      TargetState: MinPopup
+    - Event: fullScreenPopupOpen
+      TargetState: NoUI
+    - Event: noUI
+      TargetState: NoUI
+    - Event: noUIInstant
+      TargetState: NoUIInstant
+    - Event: mainnav_screen_hotkey
+      TargetState: MaxDefault
+    OnExitEvents: []
+  - Name: MaxDefault
+    OnEntryEvents:
+    - Target: ScreenContainer
+      Event: max
+    - Target: MainNavLoader
+      Event: enable
+    - Target: ChatScreenPanelLoader
+      Event: disable
+    - Target: ChatMenuLoader
+      Event: disable
+    - Target: WorldAreaControlsLoader
+      Event: exit
+    - Target: ChatInputLoader
+      Event: disable
+    Transitions:
+    - Event: mainnav_locomotion
+      TargetState: MinControls
+    - Event: minnpc
+      TargetState: MinNPC
+    - Event: min_mainnav
+      TargetState: MinNPC
+    - Event: maxnpc
+      TargetState: MaxNPC
+    - Event: minpopup
+      TargetState: MinPopup
+    - Event: noUI
+      TargetState: NoUI
+    - Event: noUIInstant
+      TargetState: NoUIInstant
+    OnExitEvents: []
+  - Name: ChatInstantLoader
+    OnEntryEvents:
+    - Target: ScreenContainer
+      Event: min
+    - Target: MainNavBar
+      Event: hide
+    - Target: ChatScreenPanelLoader
+      Event: enable
+    - Target: ChatMenuLoader
+      Event: disable
+    - Target: WorldAreaControlsLoader
+      Event: exit
+    - Target: ChatInputLoader
+      Event: enable
+    Transitions:
+    - Event: chat_loaded
+      TargetState: Chat
+    OnExitEvents: []
+  - Name: ChatInstantLoader_Forced
+    OnEntryEvents:
+    - Target: ScreenContainer
+      Event: min
+    - Target: MainNavBar
+      Event: hide
+    - Target: ChatScreenPanelLoader
+      Event: enable
+    - Target: ChatMenuLoader
+      Event: disable
+    - Target: WorldAreaControlsLoader
+      Event: exit
+    - Target: ChatInputLoader
+      Event: enable
+    Transitions:
+    - Event: chat_loaded
+      TargetState: Chat
+    OnExitEvents: []
+  - Name: ChatInstantEmoteLoader_Forced
+    OnEntryEvents:
+    - Target: ScreenContainer
+      Event: min
+    - Target: MainNavBar
+      Event: hide
+    - Target: ChatScreenPanelLoader
+      Event: enable
+    - Target: ChatMenuLoader
+      Event: disable
+    - Target: WorldAreaControlsLoader
+      Event: exit
+    - Target: ChatInputLoader
+      Event: enable
+    Transitions:
+    - Event: chat_loaded
+      TargetState: Chat
+    OnExitEvents: []
+  - Name: ChatInputLoader
+    OnEntryEvents:
+    - Target: ScreenContainer
+      Event: min
+    - Target: MainNavBar
+      Event: hide
+    - Target: ChatScreenPanelLoader
+      Event: enable
+    - Target: ChatMenuLoader
+      Event: disable
+    - Target: WorldAreaControlsLoader
+      Event: exit
+    - Target: ChatInputLoader
+      Event: enable
+    Transitions:
+    - Event: chat_loaded
+      TargetState: Chat
+    OnExitEvents: []
+  - Name: Chat
+    OnEntryEvents:
+    - Target: ScreenContainer
+      Event: min
+    - Target: MainNavBar
+      Event: hide
+    - Target: ChatScreenPanelLoader
+      Event: enable
+    - Target: ChatMenuLoader
+      Event: disable
+    - Target: WorldAreaControlsLoader
+      Event: exit
+    - Target: ChatInputLoader
+      Event: enable
+    Transitions:
+    - Event: mainnav_locomotion
+      TargetState: MinControls
+    - Event: mainnav_screen
+      TargetState: MaxDefault
+    - Event: chat_close
+      TargetState: MinControls
+    - Event: minnpc
+      TargetState: MinNPC
+    - Event: min_mainnav
+      TargetState: MinNPC
+    - Event: maxnpc
+      TargetState: MaxNPC
+    - Event: minpopup
+      TargetState: MinPopup
+    - Event: noUI
+      TargetState: NoUI
+    - Event: noUIInstant
+      TargetState: NoUIInstant
+    - Event: popup_open
+      TargetState: ChatPopup
+    OnExitEvents:
+    - Target: ChatFullScreenLoader
+      Event: disable
+  - Name: ChatPopup
+    OnEntryEvents:
+    - Target: ScreenContainer
+      Event: min
+    - Target: MainNavLoader
+      Event: enable
+    - Target: MainNavBar
+      Event: closed
+    - Target: ChatScreenPanelLoader
+      Event: disable
+    - Target: ChatMenuLoader
+      Event: enable
+    - Target: WorldAreaControlsLoader
+      Event: exit
+    - Target: ChatInputLoader
+      Event: disable
+    Transitions:
+    - Event: popup_closed
+      TargetState: Chat
+    OnExitEvents: []
+  - Name: MaxNPC
+    OnEntryEvents:
+    - Target: MainNavLoader
+      Event: enable
+    - Target: ScreenContainer
+      Event: max
+    - Target: ChatScreenPanelLoader
+      Event: disable
+    - Target: ChatMenuLoader
+      Event: disable
+    - Target: WorldAreaControlsLoader
+      Event: exit
+    - Target: ChatInputLoader
+      Event: disable
+    Transitions:
+    - Event: exit_cinematic
+      TargetState: MinControls
+    - Event: minnpc
+      TargetState: MinNPC
+    - Event: min_mainnav
+      TargetState: MinNPC
+    - Event: mainnav_screen
+      TargetState: MaxDefault
+    - Event: mainnav_locomotion
+      TargetState: MinControls
+    - Event: minpopup
+      TargetState: MinPopup
+    - Event: noUI
+      TargetState: NoUI
+    - Event: noUIInstant
+      TargetState: NoUIInstant
+    OnExitEvents: []
+  - Name: MinNPC
+    OnEntryEvents:
+    - Target: ScreenContainer
+      Event: min
+    - Target: MainNavLoader
+      Event: enable
+    - Target: MainNavBar
+      Event: closed
+    - Target: ChatScreenPanelLoader
+      Event: disable
+    - Target: ChatMenuLoader
+      Event: disable
+    - Target: WorldAreaControlsLoader
+      Event: exit
+    - Target: ChatInputLoader
+      Event: disable
+    Transitions:
+    - Event: exit_cinematic
+      TargetState: MinControls
+    - Event: maxnpc
+      TargetState: MaxNPC
+    - Event: minpopup
+      TargetState: MinPopup
+    - Event: mainnav_screen
+      TargetState: MaxDefault
+    - Event: noUI
+      TargetState: NoUI
+    - Event: noUIInstant
+      TargetState: NoUIInstant
+    OnExitEvents: []
+  - Name: MinPopup
+    OnEntryEvents:
+    - Target: ScreenContainer
+      Event: min
+    - Target: MainNavLoader
+      Event: enable
+    - Target: MainNavBar
+      Event: closed
+    - Target: ChatScreenPanelLoader
+      Event: disable
+    - Target: ChatMenuLoader
+      Event: disable
+    - Target: WorldAreaControlsLoader
+      Event: exit
+    - Target: ChatInputLoader
+      Event: disable
+    Transitions:
+    - Event: exit_popup
+      TargetState: MinControls
+    - Event: exit_popup_max
+      TargetState: MaxDefault
+    - Event: noUI
+      TargetState: NoUI
+    - Event: noUIInstant
+      TargetState: NoUIInstant
+    OnExitEvents: []
+  - Name: NoUI
+    OnEntryEvents:
+    - Target: ScreenContainer
+      Event: min
+    - Target: MainNavBar
+      Event: hide
+    - Target: ChatScreenPanelLoader
+      Event: disable
+    - Target: ChatMenuLoader
+      Event: disable
+    - Target: WorldAreaControlsLoader
+      Event: exit
+    - Target: ChatInputLoader
+      Event: disable
+    - Target: ScreenContainerContent
+      Event: none
+    - Target: SafeAreaBottomContainer
+      Event: disable
+    Transitions:
+    - Event: fullScreenPopupClose
+      TargetState: MinControls
+    - Event: restoreUI
+      TargetState: MinControls
+    - Event: minNPC
+      TargetState: MinNPC
+    - Event: min_mainnav
+      TargetState: MinNPC
+    OnExitEvents:
+    - Target: SafeAreaBottomContainer
+      Event: enable
+  - Name: NoUIInstant
+    OnEntryEvents:
+    - Target: ScreenContainer
+      Event: min
+    - Target: MainNavBar
+      Event: hide
+    - Target: ChatScreenPanelLoader
+      Event: disable
+    - Target: ChatMenuLoader
+      Event: disable
+    - Target: WorldAreaControlsLoader
+      Event: disable
+    - Target: ChatInputLoader
+      Event: disable
+    - Target: ScreenContainerContent
+      Event: none
+    - Target: SafeAreaBottomContainer
+      Event: disable
+    Transitions:
+    - Event: fullScreenPopupClose
+      TargetState: MinControls
+    - Event: restoreUI
+      TargetState: MinControls
+    - Event: minNPC
+      TargetState: MinNPC
+    - Event: min_mainnav
+      TargetState: MinNPC
+    OnExitEvents:
+    - Target: SafeAreaBottomContainer
+      Event: enable
+  OnDisableEvents: []
