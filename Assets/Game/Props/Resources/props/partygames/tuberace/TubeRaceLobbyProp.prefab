@@ -1,0 +1,365 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1 &1961157885866284
+GameObject:
+  serializedVersion: 5
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_Component:
+  - component: {fileID: 4098142527212691}
+  - component: {fileID: 114960876256163935}
+  - component: {fileID: 114694757276038416}
+  - component: {fileID: 114992963123714558}
+  - component: {fileID: 114386775919394244}
+  - component: {fileID: 114701547093547773}
+  - component: {fileID: 114510620803247880}
+  - component: {fileID: 114264327602925442}
+  m_Layer: 0
+  m_Name: TubeRaceLobbyProp
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &4098142527212691
+Transform:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1961157885866284}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: -0, z: -0}
+--- !u!114 &114960876256163935
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1961157885866284}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f1d4893633077d0996596b887cb91540, type: 3}
+  m_Name:
+  m_EditorClassIdentifier:
+  UseOnceImmediately: 0
+  StoreAfterUse: 0
+  PlayIdleAnimAfterUse: 1
+  VisualTreatment: 0
+  PulsateInteractButton: 1
+  TargetBoneName: r_wrist_jnt
+  MaxDistanceFromUser: 3
+  CheckCollisions: 1
+  AnimOverrideController: {fileID: 0}
+  AnimReplacementController: {fileID: 0}
+  IgnoreHoldAnimationComplete: 0
+  IgnoreStoreAnimationComplete: 0
+  CustomCamera: {fileID: 0}
+  RetrieveEaseType: 24
+  EaseTimeRetrieve: 1
+  StoreEaseType: 20
+  EaseTimeStore: 1
+  OnUseDestination: {x: 0, y: 0, z: 0}
+  PropUserRef: {fileID: 0}
+  UpdateUser: 1
+  ExperienceInstanceId:
+  OwnerId: 0
+  PropId:
+  IsOwnerLocalPlayer: 0
+  PropDef: {fileID: 0}
+  IsUseCompleted: 0
+--- !u!114 &114694757276038416
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1961157885866284}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1bfcf00401bfc40ddc1e79a193f99abe, type: 3}
+  m_Name:
+  m_EditorClassIdentifier:
+--- !u!114 &114992963123714558
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1961157885866284}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2b962ab6fd7c7517fdc636d593912178, type: 3}
+  m_Name:
+  m_EditorClassIdentifier:
+  ShowConfirmationPopup: 0
+  WatchActionEventCancel: 1
+  i18nConfirmationTitleText:
+  i18nConfirmationBodyText:
+  ImageOverride: {fileID: 0}
+  RestoreTouchPadControlsOnCancel: 0
+--- !u!114 &114386775919394244
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1961157885866284}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 05189d17526510791112f02694e6fda9, type: 3}
+  m_Name:
+  m_EditorClassIdentifier:
+  IKModifiers:
+  - BoneName: backbone_jnt
+    IdleZRot: -30
+    SwimMoveZRot: -45
+    DiveMoveZRot: -20
+  - BoneName: neck_jnt
+    IdleZRot: 0
+    SwimMoveZRot: -25
+    DiveMoveZRot: -25
+--- !u!114 &114701547093547773
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1961157885866284}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 202d7c71dce9ad21ae81d5f7fab5d570, type: 3}
+  m_Name:
+  m_EditorClassIdentifier:
+  SwimControlsScreenDefinitionContentKey:
+    Key: Definitions/ControlsScreen/PartyGames/TubeRace/TubeRaceLobbyTubeGroupDefinition
+    type: ClubPenguin.UI.InputButtonGroupDefinition, ReMix-Game
+  DivingControlsScreenDefinitionContentKey:
+    Key: Definitions/ControlsScreen/PartyGames/TubeRace/TubeRaceLobbyTubeGroupDefinition
+    type: ClubPenguin.UI.InputButtonGroupDefinition, ReMix-Game
+  ControlsScreenDefinitionContentKey:
+    Key: Definitions/ControlsScreen/PartyGames/TubeRace/TubeRaceLobbyTubeGroupDefinition
+    type: ClubPenguin.UI.InputButtonGroupDefinition, ReMix-Game
+  TubeControlsScreenDefinitionContentKey:
+    Key: Definitions/ControlsScreen/PartyGames/TubeRace/TubeRaceLobbyTubeGroupDefinition
+    type: ClubPenguin.UI.InputButtonGroupDefinition, ReMix-Game
+  SitControlsScreenDefinitionContentKey:
+    Key: Definitions/ControlsScreen/PartyGames/TubeRace/TubeRaceLobbyTubeGroupDefinition
+    type: ClubPenguin.UI.InputButtonGroupDefinition, ReMix-Game
+  SitSwimControlsScreenDefinitionContentKey:
+    Key: Definitions/ControlsScreen/PartyGames/TubeRace/TubeRaceLobbyTubeGroupDefinition
+    type: ClubPenguin.UI.InputButtonGroupDefinition, ReMix-Game
+--- !u!114 &114510620803247880
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1961157885866284}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4999cb7b2d81a38c6ac77d5767568293, type: 3}
+  m_Name:
+  m_EditorClassIdentifier:
+  Trigger: 0
+  DisableJoystick: 0
+  HideJoystick: 0
+  DisableJump: 0
+  DisableTube: 0
+  DisableSnowball: 0
+  DisableMainNav: 0
+--- !u!114 &114264327602925442
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1961157885866284}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 1384774831, guid: e743331561ef77147ae48cda9bcb8209, type: 3}
+  m_Name:
+  m_EditorClassIdentifier:
+  fsm:
+    dataVersion: 2
+    usedInTemplate: {fileID: 0}
+    name: FSM
+    startState: State 1
+    states:
+    - name: State 1
+      description:
+      colorIndex: 0
+      position:
+        serializedVersion: 2
+        x: 50
+        y: 100
+        width: 100
+        height: 16
+      isBreakpoint: 0
+      isSequence: 0
+      hideUnused: 0
+      transitions: []
+      actionData:
+        actionNames: []
+        customNames: []
+        actionEnabled:
+        actionIsOpen:
+        actionStartIndex:
+        actionHashCodes:
+        unityObjectParams: []
+        fsmGameObjectParams: []
+        fsmOwnerDefaultParams: []
+        animationCurveParams: []
+        functionCallParams: []
+        fsmTemplateControlParams: []
+        fsmEventTargetParams: []
+        fsmPropertyParams: []
+        layoutOptionParams: []
+        fsmStringParams: []
+        fsmObjectParams: []
+        fsmVarParams: []
+        fsmArrayParams: []
+        fsmEnumParams: []
+        fsmFloatParams: []
+        fsmIntParams: []
+        fsmBoolParams: []
+        fsmVector2Params: []
+        fsmVector3Params: []
+        fsmColorParams: []
+        fsmRectParams: []
+        fsmQuaternionParams: []
+        stringParams: []
+        byteData:
+        arrayParamSizes:
+        arrayParamTypes: []
+        customTypeSizes:
+        customTypeNames: []
+        paramDataType:
+        paramName: []
+        paramDataPos:
+        paramByteDataSize:
+    events: []
+    globalTransitions: []
+    variables:
+      floatVariables: []
+      intVariables: []
+      boolVariables: []
+      stringVariables:
+      - useVariable: 1
+        name: Action1AnimationTrigger
+        tooltip:
+        showInInspector: 1
+        networkSync: 0
+        value: PropTriggerAction1
+      - useVariable: 1
+        name: Action1SoundEventName
+        tooltip:
+        showInInspector: 1
+        networkSync: 0
+        value:
+      - useVariable: 1
+        name: Action2AnimationTrigger
+        tooltip:
+        showInInspector: 1
+        networkSync: 0
+        value: PropTriggerAction2
+      - useVariable: 1
+        name: Action2SoundEventName
+        tooltip:
+        showInInspector: 1
+        networkSync: 0
+        value:
+      - useVariable: 1
+        name: Action3AnimationTrigger
+        tooltip:
+        showInInspector: 1
+        networkSync: 0
+        value: PropTriggerAction3
+      - useVariable: 1
+        name: Action3SoundEventName
+        tooltip:
+        showInInspector: 1
+        networkSync: 0
+        value:
+      - useVariable: 1
+        name: ActionButtonsPrefabPath
+        tooltip:
+        showInInspector: 1
+        networkSync: 0
+        value:
+      - useVariable: 1
+        name: CurrentSoundEventName
+        tooltip:
+        showInInspector: 0
+        networkSync: 0
+        value:
+      vector2Variables: []
+      vector3Variables: []
+      colorVariables: []
+      rectVariables: []
+      quaternionVariables: []
+      gameObjectVariables:
+      - useVariable: 1
+        name: MyOwner
+        tooltip:
+        showInInspector: 0
+        networkSync: 0
+        value: {fileID: 0}
+      objectVariables: []
+      materialVariables: []
+      textureVariables: []
+      arrayVariables: []
+      enumVariables: []
+      categories:
+      - 
+      variableCategoryIDs: 000000000000000000000000000000000000000000000000000000000000000000000000
+    description:
+    docUrl:
+    showStateLabel: 1
+    maxLoopCount: 0
+    watermark:
+    password:
+    locked: 0
+    manualUpdate: 0
+    keepDelayedEventsOnStateExit: 0
+    preprocessed: 1
+    ExposedEvents: []
+    RestartOnEnable: 1
+    EnableDebugFlow: 0
+    EnableBreakpoints: 1
+    editorFlags: 3
+    activeStateName:
+    mouseEvents: 0
+    handleLevelLoaded: 0
+    handleTriggerEnter2D: 0
+    handleTriggerExit2D: 0
+    handleTriggerStay2D: 0
+    handleCollisionEnter2D: 0
+    handleCollisionExit2D: 0
+    handleCollisionStay2D: 0
+    handleTriggerEnter: 0
+    handleTriggerExit: 0
+    handleTriggerStay: 0
+    handleCollisionEnter: 0
+    handleCollisionExit: 0
+    handleCollisionStay: 0
+    handleParticleCollision: 0
+    handleControllerColliderHit: 0
+    handleJointBreak: 0
+    handleJointBreak2D: 0
+    handleOnGUI: 0
+    handleFixedUpdate: 0
+    handleApplicationEvents: 0
+    handleAnimatorMove: 0
+    handleAnimatorIK: 0
+  fsmTemplate: {fileID: 11400000, guid: 07bf8f25d4787b4429cfadc9c874782a, type: 2}
+  eventHandlerComponentsAdded: 1
+--- !u!1001 &100100000
+Prefab:
+  serializedVersion: 2
+  m_ObjectHideFlags: 1
+  m_Modification:
+    m_TransformParent: {fileID: 0}
+    m_Modifications: []
+    m_RemovedComponents: []
+  m_ParentPrefab: {fileID: 0}
+  m_RootGameObject: {fileID: 1961157885866284}
+  m_IsPrefabParent: 1

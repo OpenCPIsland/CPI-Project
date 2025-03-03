@@ -1,0 +1,110 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1 &1063318388918556
+GameObject:
+  serializedVersion: 5
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_Component:
+  - component: {fileID: 4194862278601784}
+  - component: {fileID: 65991511263944657}
+  - component: {fileID: 114211860196274010}
+  - component: {fileID: 114745008018098590}
+  - component: {fileID: 114380567105208608}
+  m_Layer: 24
+  m_Name: TriggerActScannerIceBlock
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &4194862278601784
+Transform:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1063318388918556}
+  m_LocalRotation: {x: -0, y: 0.26263195, z: -0, w: 0.96489614}
+  m_LocalPosition: {x: 10.168, y: 40.785, z: 19.273}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: -0, y: -30.45258, z: 0}
+--- !u!65 &65991511263944657
+BoxCollider:
+  serializedVersion: 2
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1063318388918556}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_Enabled: 1
+  m_Size: {x: 2.2075696, y: 2.412805, z: 1.951196}
+  m_Center: {x: 0.6037148, y: 0.44501114, z: -0.012300823}
+--- !u!114 &114211860196274010
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1063318388918556}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c7b8ccd42439fb2c5e0e03272b2702bb, type: 3}
+  m_Name:
+  m_EditorClassIdentifier:
+  NodePos:
+    x: 0
+    y: 0
+  Name: Send Quest Event
+  EndAllOnExit: 0
+  AbortOnUserInput: 0
+  Target: 0
+  CustomTarget: {fileID: 0}
+  Owner: {fileID: 0}
+  Id: -1
+  ParentId: -1
+  ParentIdOnFalse: -1
+  InterruptedBy: -1
+  QuestEvent: TriggerActScannerIceBlock
+--- !u!114 &114745008018098590
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1063318388918556}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5880ec5033383614d026f5fd78a6b0d6, type: 3}
+  m_Name:
+  m_EditorClassIdentifier:
+  ID: QuestInteractable
+--- !u!114 &114380567105208608
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1063318388918556}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4b458fe2f51408bad0039b1b5f3ba644, type: 3}
+  m_Name:
+  m_EditorClassIdentifier:
+  QuestName: RKC002Q005Colder
+  EnterEvent: TriggerActScannerIceBlockEnter
+  StayEvent:
+  ExitEvent: TriggerActScannerIceBlockExit
+  Tag: Player
+--- !u!1001 &100100000
+Prefab:
+  serializedVersion: 2
+  m_ObjectHideFlags: 1
+  m_Modification:
+    m_TransformParent: {fileID: 0}
+    m_Modifications: []
+    m_RemovedComponents: []
+  m_ParentPrefab: {fileID: 0}
+  m_RootGameObject: {fileID: 1063318388918556}
+  m_IsPrefabParent: 1
