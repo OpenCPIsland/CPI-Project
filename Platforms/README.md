@@ -4,7 +4,7 @@ When switching platforms in Unity, you might need to adjust certain assets and p
 **Note:** These steps must also be repeated if you switch back to **standalone** platforms (Windows, Linux, or macOS).  
 
 ### ⚠️ Known Issues on Mobile
-- **Fishing Minigame:** Currently broken on mobile platforms. Investigating the cause — stay tuned for updates!  
+- **Fishing Minigame:** Currently broken on mobile platforms. Needs rewritten period to function.
 - **Lightmaps:** Every lightmap needs to be **rebaked** with a low resolution of **512** for mobile compatibility.  
 
 ### 🔄 Asset and Prefab Adjustments
