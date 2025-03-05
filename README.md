@@ -11,6 +11,8 @@
 - To launch the game in the Unity editor:
   - Open `Assets/Game/Core/Scenes/Boot.unity`
   - Hit the Play button.
+- **Android support:** Please make sure to read everything carefully in the **Platforms** folder before proceeding.
+- **Join our Discord for support, chatting, or for future updates:** [join here](https://discord.gg/2V6tYJPbpc)
 
 ### Future Unity Engine Versions Notes
 - **Bake lightmaps in Unity 2022 ONLY** because of Enlighten. This keeps them closer to the original.
@@ -34,13 +36,14 @@
     - Added 2 new lighting options to the igloos. Those are ```Holiday``` and ```Rainbow Migration```. The ```Holiday``` lighting can be unlocked at Penguin level 20 and the ```Rainbow Migration``` lighting can be unlocked at Penguin level 27
     - Added an optional skybox in the project to allow a day/night cycle that will cycle every 15 minutes
     - Added 32 new Penguin colors
-    - Unlock the Valentines Day chair at level 27. The ID for the chair is 278 and it will sell at the Igloo furniture shop for 40 coins
+    - Unlock the ```Valentine's Day chair``` at level 27. The ID for the chair is 278 and it will sell at the Igloo furniture shop for 40 coins
     - And most importantly, the game is no longer in the original 32-bit state! This recreation is in a 64-bit state
     - Version 1.13.1
     - Changed the default 3 igloo save slots to 10
     - Changed the default 130 max igloo furniture limit to 500
     - Support for DirectX 12 and Vulkan
     - Support for IL2CPP (The Discord RPC doesn't work in IL2CPP so if you want the RPC, you can switch back to Mono)
+    - Added an optional annual looping event controller (similar to Animal Crossing)
 
 - What has been fixed:
     - The spawn points have been moved so you will no longer spawn into the void and endlessly fall randomly like in the original
@@ -63,8 +66,12 @@
     - Fixed the ```Indoor wall light``` igloo item so that it can be placed properly on the walls of your igloo
     - Fixed the collision on the ```CrystalCave``` igloo building
     - Fixed the cosmic daily spin chest reward. It can now be obtainable
+    - Fixed the fishing squid reward (it was appearing far up out of the camera view (original issue))
       
 ## System Requirements
+
+### Windows, Linux, and macOS
+- Latest version of [FMOD Studio 2.03.xx](https://www.fmod.com/). Because we will start using it soon for new audio sources (CPI used Fabric and that is far broken).
 
 ### Windows
 - Latest version of Visual Studio Community.
@@ -82,11 +89,10 @@
   ```bash
   sudo apt install git
   ```
-
-  - Make sure to install this componet for X11 Window manager distros:
-    ```bash
-    sudo apt-get install libx11-dev
-    ```
+ - Make sure to install this component for X11 Window manager distros:
+   ```bash
+   sudo apt-get install libx11-dev
+   ```
 - For other distros, check the [official Git installation guide](https://git-scm.com/book/en/v2/Getting-Started-Installing-Git).
 
-For further documentation, refer to the [OpenCPI Docs](https://opencpi.gitbook.io/opencpi-docs). The docs is open sourced [here](https://github.com/OpenCPIsland/OpenCPIDocs). If something is missing, feel free to create a fork and send a pull request.
+For further documentation, refer to the [OpenCPI Docs](https://opencpi.gitbook.io/opencpi-docs). The documentation is open-sourced [here](https://github.com/OpenCPIsland/OpenCPIDocs). If something is missing, feel free to create a fork and send a pull request.

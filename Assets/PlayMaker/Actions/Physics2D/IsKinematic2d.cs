@@ -59,7 +59,11 @@ namespace HutongGames.PlayMaker.Actions
                 return;
             }
 			
+#if UNITY_6000_0_OR_NEWER
+			var isKinematic = rigidbody2d.bodyType == RigidbodyType2D.Kinematic;
+#else
 			var isKinematic = rigidbody2d.isKinematic;
+#endif
 			store.Value = isKinematic;
 			
 			Fsm.Event(isKinematic ? trueEvent : falseEvent);

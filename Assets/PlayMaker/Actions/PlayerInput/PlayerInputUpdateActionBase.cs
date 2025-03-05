@@ -43,7 +43,10 @@ namespace HutongGames.PlayMaker.Actions
 
         public override void OnPreprocess()
         {
-            Fsm.HandleFixedUpdate = updateMode == UpdateMode.FixedUpdate;
+            if (updateMode == UpdateMode.FixedUpdate)
+            {
+                Fsm.HandleFixedUpdate = true;
+            }
         }
 
         protected bool UpdateCache()

@@ -11,7 +11,7 @@ namespace Kamgam.LEF
 
     public class LineEndingFixerSettings : ScriptableObject
     {
-        public const string Version = "1.0.1";
+        public const string Version = "1.1.0";
         public const string SettingsFilePath = "Assets/LineEndingFixerSettings.asset";
         protected static LineEndingFixerSettings cachedSettings;
 

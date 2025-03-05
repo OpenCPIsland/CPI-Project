@@ -36,9 +36,13 @@ namespace HutongGames.PlayMaker.Actions
             {
                 return;
             }
-			
+
+#if UNITY_6000_0_OR_NEWER
+            rigidbody2d.bodyType = isKinematic.Value ? RigidbodyType2D.Kinematic : RigidbodyType2D.Dynamic;
+#else
 			rigidbody2d.isKinematic = isKinematic.Value;
-		}
-	}
+#endif
+        }
+    }
 }
 

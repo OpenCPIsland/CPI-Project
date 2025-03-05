@@ -166,13 +166,13 @@ namespace Kamgam.LEF
                 GUI.color = new Color(0.976f ,0.51f, 0.22f);
                 if (DrawButton("Please check out my other assets."))
                 {
-                    Application.OpenURL("https://assetstore.unity.com/publishers/37829?aid=1100lqC54&pubref=asset-line");
+                    Application.OpenURL("https://kamgam.com/unity");
                 }
                 GUI.color = color;
                 DrawLabel(" or ");
                 if (DrawButton("Leave a review."))
                 {
-                    Application.OpenURL("https://assetstore.unity.com/packages/slug/229464?aid=1100lqC54&pubref=asset-line");
+                    Application.OpenURL("https://assetstore.unity.com/packages/slug/229464");
                 }
                 DrawLabel("Thanks!", wordwrap: false);
                 GUILayout.FlexibleSpace();

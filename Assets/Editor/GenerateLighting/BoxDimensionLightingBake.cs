@@ -72,19 +72,29 @@ public class BoxDimensionLightingBake : MonoBehaviour
 
                 Gol.World.isStatic = true;
                 SetStaticRecursively(Gol.World, true);
+                // Save original ambient settings
+                Color originalAmbientColor = RenderSettings.ambientLight;
+                AmbientMode originalAmbientMode = RenderSettings.ambientMode;
 
                 Gol.ChangeSource(AmbientMode.Trilight);
+                // Set Trilight and HDR color before baking
+                RenderSettings.ambientMode = AmbientMode.Trilight;
+                RenderSettings.ambientLight = new Color(0.05f, 0.01f, 0.27f, 1f);
 
                 // Bake the lightmap
                 Lightmapping.Bake();
 
                 // Reset settings after baking
                 Gol.ChangeSkybox(Gol.BoxDimensionCubemap);
+                // Restore ambient settings to Flat and white after baking
+                RenderSettings.ambientMode = AmbientMode.Flat;
+                RenderSettings.ambientLight = Color.white;
 
                 Gol.World.isStatic = false;
                 SetStaticRecursively(Gol.World, false);
-
-                Gol.ChangeSource(AmbientMode.Trilight);
+                // Reset to original settings if needed
+                RenderSettings.ambientMode = originalAmbientMode;
+                RenderSettings.ambientLight = originalAmbientColor;
             }
             else
             {

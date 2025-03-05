@@ -86,7 +86,11 @@ namespace HutongGames.PlayMaker.Actions
                 return;
             }
 			
+			#if UNITY_6000_0_OR_NEWER
+			var velocity = rigidbody2d.linearVelocity;
+			#else
 			var velocity = rigidbody2d.velocity;
+			#endif
 
 		    if (space == Space.Self)
 		    {

@@ -93,9 +93,15 @@ namespace HutongGames.PlayMaker.Actions
 
 			if (vector.IsNone)
 			{
+				#if UNITY_6000_0_OR_NEWER
+				velocity = space == Space.World ?
+					rigidbody.linearVelocity : 
+					cachedTransform.InverseTransformDirection(rigidbody.linearVelocity);
+				#else
 				velocity = space == Space.World ?
 					rigidbody.velocity : 
 					cachedTransform.InverseTransformDirection(rigidbody.velocity);
+				#endif
 			}
 			else
 			{
@@ -109,8 +115,11 @@ namespace HutongGames.PlayMaker.Actions
 			if (!z.IsNone) velocity.z = z.Value;
 
 			// apply
-			
+			#if UNITY_6000_0_OR_NEWER
+			rigidbody.linearVelocity = space == Space.World ? velocity : cachedTransform.TransformDirection(velocity);
+			#else
 			rigidbody.velocity = space == Space.World ? velocity : cachedTransform.TransformDirection(velocity);
+			#endif
 		}
 	}
 }

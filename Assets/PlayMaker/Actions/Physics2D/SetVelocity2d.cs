@@ -90,12 +90,20 @@ namespace HutongGames.PlayMaker.Actions
             if (vector.IsNone)
             {
                 if (space == Space.World)
-                {
+                {   
+					#if UNITY_6000_0_OR_NEWER
+					velocity = rigidbody2d.linearVelocity;
+					#else
                     velocity = rigidbody2d.velocity;
+					#endif
                 }
                 else
                 {
+					#if UNITY_6000_0_OR_NEWER
+					var localVelocity = cachedTransform.InverseTransformDirection(rigidbody2d.linearVelocity);
+					#else
                     var localVelocity = cachedTransform.InverseTransformDirection(rigidbody2d.velocity);
+					#endif
                     velocity.x = localVelocity.x;
                     velocity.y = localVelocity.y;
                 }
@@ -118,7 +126,12 @@ namespace HutongGames.PlayMaker.Actions
                 velocity.Set(v.x, v.y);
             }
 
+		
+			#if UNITY_6000_0_OR_NEWER
+			rigidbody2d.linearVelocity = velocity;
+			#else
             rigidbody2d.velocity = velocity;
+			#endif
         }
 	}
 }
