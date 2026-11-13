@@ -1,0 +1,1614 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 1219815696, guid: e743331561ef77147ae48cda9bcb8209, type: 3}
+  m_Name: QuestFSM.AAC001Q004Crabs
+  m_EditorClassIdentifier: 
+  category: Quest
+  fsm:
+    dataVersion: 1
+    usedInTemplate: {fileID: 11400000}
+    name: FSM
+    startState: StartQuest
+    states:
+    - name: StartQuest
+      description: Use this state to determine where you want to start the quest.
+      colorIndex: 0
+      position:
+        serializedVersion: 2
+        x: 50
+        y: 110
+        width: 261
+        height: 32
+      isBreakpoint: 0
+      isSequence: 0
+      hideUnused: 0
+      transitions:
+      - fsmEvent:
+          name: FINISHED
+          isSystemEvent: 1
+          isGlobal: 0
+        toState: Obj0FSM
+        linkStyle: 0
+        linkConstraint: 0
+        linkTarget: 0
+        colorIndex: 0
+      actionData:
+        actionNames: []
+        customNames: []
+        actionEnabled: 
+        actionIsOpen: 
+        actionStartIndex: 
+        actionHashCodes: 
+        unityObjectParams: []
+        fsmGameObjectParams: []
+        fsmOwnerDefaultParams: []
+        animationCurveParams: []
+        functionCallParams: []
+        fsmTemplateControlParams: []
+        fsmEventTargetParams: []
+        fsmPropertyParams: []
+        layoutOptionParams: []
+        fsmStringParams: []
+        fsmObjectParams: []
+        fsmVarParams: []
+        fsmArrayParams: []
+        fsmEnumParams: []
+        fsmFloatParams: []
+        fsmIntParams: []
+        fsmBoolParams: []
+        fsmVector2Params: []
+        fsmVector3Params: []
+        fsmColorParams: []
+        fsmRectParams: []
+        fsmQuaternionParams: []
+        stringParams: []
+        byteData: 
+        arrayParamSizes: 
+        arrayParamTypes: []
+        customTypeSizes: 
+        customTypeNames: []
+        paramDataType: 
+        paramName: []
+        paramDataPos: 
+        paramByteDataSize: 
+    - name: Obj0FSM
+      description: Talk to Aunt Arctic
+      colorIndex: 1
+      position:
+        serializedVersion: 2
+        x: 407
+        y: 122
+        width: 114
+        height: 32
+      isBreakpoint: 0
+      isSequence: 0
+      hideUnused: 0
+      transitions:
+      - fsmEvent:
+          name: FINISHED
+          isSystemEvent: 1
+          isGlobal: 0
+        toState: Obj1FSM
+        linkStyle: 0
+        linkConstraint: 0
+        linkTarget: 0
+        colorIndex: 0
+      actionData:
+        actionNames:
+        - ClubPenguin.Adventure.ObjectiveAction
+        - HutongGames.PlayMaker.Actions.RunFSM
+        - ClubPenguin.Audio.FabricSetSwitchAction
+        - ClubPenguin.Analytics.AnalyticsGameActionAction
+        customNames:
+        - 
+        - 
+        - 
+        - 
+        actionEnabled: 01010101
+        actionIsOpen: 01010101
+        actionStartIndex: 0000000004000000070000000a000000
+        actionHashCodes: 67682403d33f7a05786b390229b3ec00
+        unityObjectParams: []
+        fsmGameObjectParams:
+        - useVariable: 0
+          name: 
+          tooltip: 
+          showInInspector: 0
+          networkSync: 0
+          value: {fileID: 0}
+        fsmOwnerDefaultParams: []
+        animationCurveParams: []
+        functionCallParams: []
+        fsmTemplateControlParams:
+        - targetType: 0
+          target: {fileID: 11400000, guid: 0d19ea1139eb64c4a88d7d30ade6e788, type: 2}
+          inputVariables: []
+          outputVariables: []
+          outputEvents: []
+        fsmEventTargetParams: []
+        fsmPropertyParams: []
+        layoutOptionParams: []
+        fsmStringParams:
+        - useVariable: 0
+          name: 
+          tooltip: 
+          showInInspector: 0
+          networkSync: 0
+          value: MUS/Quest/AuntArctic/C001Q004
+        - useVariable: 0
+          name: 
+          tooltip: 
+          showInInspector: 0
+          networkSync: 0
+          value: AuntArcticMedLow
+        fsmObjectParams: []
+        fsmVarParams: []
+        fsmArrayParams: []
+        fsmEnumParams: []
+        fsmFloatParams: []
+        fsmIntParams: []
+        fsmBoolParams: []
+        fsmVector2Params: []
+        fsmVector3Params: []
+        fsmColorParams: []
+        fsmRectParams: []
+        fsmQuaternionParams: []
+        stringParams: []
+        byteData: 54616c6b20746f2041756e742041726374696351756573742e546578742e4141433030315130303348617463682e4f626a3046534d2e6931386e4465736372697074696f6e00ffffffff00717565737441756e7441726374696330317c303454616c6b2d746f2d41756e742d41726374696330304f626a302d4765745f73656e745f746f5f526f636b686f707065723030
+        arrayParamSizes: 
+        arrayParamTypes: []
+        customTypeSizes: 
+        customTypeNames: []
+        paramDataType: 03000000030000000100000000000000260000001700000001000000120000001200000013000000030000000300000003000000030000000300000003000000030000000300000003000000030000000300000003000000
+        paramName:
+        - Description
+        - i18nDescription
+        - NotifyPlayer
+        - DefinitionRewardIndex
+        - fsmTemplateControl
+        - finishEvent
+        - everyFrame
+        - EventName
+        - SwitchTo
+        - TheObject
+        - Context
+        - QuestId
+        - SeasonAndEpisode
+        - ObjectiveName
+        - ObjectiveNumber
+        - StepName
+        - StepNumber
+        - Action
+        - Type
+        - Location
+        - Level
+        - Message
+        paramDataPos: 00000000130000004500000046000000000000004a0000004a0000000000000001000000000000004b000000500000005a0000005f00000072000000740000008f0000009100000091000000910000009100000091000000
+        paramByteDataSize: 13000000320000000100000004000000000000000000000001000000000000000000000000000000050000000a0000000500000013000000020000001b000000020000000000000000000000000000000000000000000000
+    - name: End
+      description: 
+      colorIndex: 0
+      position:
+        serializedVersion: 2
+        x: 392.2422
+        y: 907.21875
+        width: 100
+        height: 16
+      isBreakpoint: 0
+      isSequence: 0
+      hideUnused: 0
+      transitions: []
+      actionData:
+        actionNames:
+        - ClubPenguin.Adventure.EndQuestAction
+        customNames:
+        - 
+        actionEnabled: 01
+        actionIsOpen: 01
+        actionStartIndex: 00000000
+        actionHashCodes: 00000000
+        unityObjectParams: []
+        fsmGameObjectParams: []
+        fsmOwnerDefaultParams: []
+        animationCurveParams: []
+        functionCallParams: []
+        fsmTemplateControlParams: []
+        fsmEventTargetParams: []
+        fsmPropertyParams: []
+        layoutOptionParams: []
+        fsmStringParams: []
+        fsmObjectParams: []
+        fsmVarParams: []
+        fsmArrayParams: []
+        fsmEnumParams: []
+        fsmFloatParams: []
+        fsmIntParams: []
+        fsmBoolParams: []
+        fsmVector2Params: []
+        fsmVector3Params: []
+        fsmColorParams: []
+        fsmRectParams: []
+        fsmQuaternionParams: []
+        stringParams: []
+        byteData: 
+        arrayParamSizes: 
+        arrayParamTypes: []
+        customTypeSizes: 
+        customTypeNames: []
+        paramDataType: 
+        paramName: []
+        paramDataPos: 
+        paramByteDataSize: 
+    - name: Obj2FSM
+      description: Fish for sea glass
+      colorIndex: 1
+      position:
+        serializedVersion: 2
+        x: 401.4375
+        y: 317.4453
+        width: 111
+        height: 32
+      isBreakpoint: 0
+      isSequence: 0
+      hideUnused: 0
+      transitions:
+      - fsmEvent:
+          name: FINISHED
+          isSystemEvent: 1
+          isGlobal: 0
+        toState: Obj3FSM
+        linkStyle: 0
+        linkConstraint: 0
+        linkTarget: 0
+        colorIndex: 0
+      actionData:
+        actionNames:
+        - ClubPenguin.Adventure.ObjectiveAction
+        - HutongGames.PlayMaker.Actions.RunFSM
+        - ClubPenguin.Analytics.AnalyticsGameActionAction
+        - ClubPenguin.Audio.FabricSetSwitchAction
+        customNames:
+        - 
+        - 
+        - 
+        - 
+        actionEnabled: 01010101
+        actionIsOpen: 01010101
+        actionStartIndex: 00000000040000000700000013000000
+        actionHashCodes: 67682403d33f7a0529b3ec00786b3902
+        unityObjectParams: []
+        fsmGameObjectParams:
+        - useVariable: 0
+          name: 
+          tooltip: 
+          showInInspector: 0
+          networkSync: 0
+          value: {fileID: 0}
+        fsmOwnerDefaultParams: []
+        animationCurveParams: []
+        functionCallParams: []
+        fsmTemplateControlParams:
+        - targetType: 0
+          target: {fileID: 11400000, guid: 0fff8ac9025331147bba4c4b5ded9c7a, type: 2}
+          inputVariables: []
+          outputVariables: []
+          outputEvents: []
+        fsmEventTargetParams: []
+        fsmPropertyParams: []
+        layoutOptionParams: []
+        fsmStringParams:
+        - useVariable: 0
+          name: 
+          tooltip: 
+          showInInspector: 0
+          networkSync: 0
+          value: MUS/Quest/AuntArctic/C001Q004
+        - useVariable: 0
+          name: 
+          tooltip: 
+          showInInspector: 0
+          networkSync: 0
+          value: AuntArcticMedLow
+        fsmObjectParams: []
+        fsmVarParams: []
+        fsmArrayParams: []
+        fsmEnumParams: []
+        fsmFloatParams: []
+        fsmIntParams: []
+        fsmBoolParams: []
+        fsmVector2Params: []
+        fsmVector3Params: []
+        fsmColorParams: []
+        fsmRectParams: []
+        fsmQuaternionParams: []
+        stringParams: []
+        byteData: 4669736820666f722073656120676c61737351756573742e546578742e4141433030315130303443726162732e4f626a3246534d2e6931386e4465736372697074696f6e01ffffffff00717565737441756e7441726374696330317c3034466973682d666f722d7365612d676c61737330324f626a322d476c6173735f676574735f73746f6c656e5f62795f615f637261623030
+        arrayParamSizes: 
+        arrayParamTypes: []
+        customTypeSizes: 
+        customTypeNames: []
+        paramDataType: 03000000030000000100000000000000260000001700000001000000030000000300000003000000030000000300000003000000030000000300000003000000030000000300000003000000120000001200000013000000
+        paramName:
+        - Description
+        - i18nDescription
+        - NotifyPlayer
+        - DefinitionRewardIndex
+        - fsmTemplateControl
+        - finishEvent
+        - everyFrame
+        - Context
+        - QuestId
+        - SeasonAndEpisode
+        - ObjectiveName
+        - ObjectiveNumber
+        - StepName
+        - StepNumber
+        - Action
+        - Type
+        - Location
+        - Level
+        - Message
+        - EventName
+        - SwitchTo
+        - TheObject
+        paramDataPos: 000000001200000044000000450000000000000049000000490000004a0000004f000000590000005e0000007000000072000000920000009400000094000000940000009400000094000000000000000100000000000000
+        paramByteDataSize: 12000000320000000100000004000000000000000000000001000000050000000a00000005000000120000000200000020000000020000000000000000000000000000000000000000000000000000000000000000000000
+    - name: Obj4FSM
+      description: Dress as a crab
+      colorIndex: 1
+      position:
+        serializedVersion: 2
+        x: 398.60938
+        y: 562.4219
+        width: 104.5
+        height: 32
+      isBreakpoint: 0
+      isSequence: 0
+      hideUnused: 0
+      transitions:
+      - fsmEvent:
+          name: FINISHED
+          isSystemEvent: 1
+          isGlobal: 0
+        toState: Obj5FSM
+        linkStyle: 0
+        linkConstraint: 0
+        linkTarget: 0
+        colorIndex: 0
+      actionData:
+        actionNames:
+        - ClubPenguin.Adventure.ObjectiveAction
+        - HutongGames.PlayMaker.Actions.RunFSM
+        - ClubPenguin.Analytics.AnalyticsGameActionAction
+        - ClubPenguin.Audio.FabricSetSwitchAction
+        - ClubPenguin.Adventure.MascotDialogOverride
+        customNames:
+        - 
+        - 
+        - 
+        - 
+        - 
+        actionEnabled: 0101010101
+        actionIsOpen: 0101010101
+        actionStartIndex: 0000000004000000070000001300000016000000
+        actionHashCodes: 67682403d33f7a0529b3ec00786b390249851102
+        unityObjectParams:
+        - {fileID: 11400000, guid: d57aa7efb9f0765449fbaaa4f56666bc, type: 2}
+        fsmGameObjectParams:
+        - useVariable: 0
+          name: 
+          tooltip: 
+          showInInspector: 0
+          networkSync: 0
+          value: {fileID: 0}
+        fsmOwnerDefaultParams: []
+        animationCurveParams: []
+        functionCallParams: []
+        fsmTemplateControlParams:
+        - targetType: 0
+          target: {fileID: 11400000, guid: e0cf975f6b76a7544ba419f861d57db0, type: 2}
+          inputVariables: []
+          outputVariables: []
+          outputEvents: []
+        fsmEventTargetParams: []
+        fsmPropertyParams: []
+        layoutOptionParams: []
+        fsmStringParams:
+        - useVariable: 0
+          name: 
+          tooltip: 
+          showInInspector: 0
+          networkSync: 0
+          value: MUS/Quest/AuntArctic/C001Q004
+        - useVariable: 0
+          name: 
+          tooltip: 
+          showInInspector: 0
+          networkSync: 0
+          value: AuntArcticMedium
+        fsmObjectParams: []
+        fsmVarParams: []
+        fsmArrayParams: []
+        fsmEnumParams: []
+        fsmFloatParams: []
+        fsmIntParams: []
+        fsmBoolParams: []
+        fsmVector2Params: []
+        fsmVector3Params: []
+        fsmColorParams: []
+        fsmRectParams: []
+        fsmQuaternionParams: []
+        stringParams: []
+        byteData: 44726573732061732061206372616251756573742e546578742e4141433030315130303443726162732e4f626a3446534d2e6931386e4465736372697074696f6e01ffffffff00717565737441756e7441726374696330317c303444726573732d61732d612d6372616230344f626a342d44726573735f75705f61735f63726162303041756e74417263746963
+        arrayParamSizes: 
+        arrayParamTypes: []
+        customTypeSizes: 
+        customTypeNames: []
+        paramDataType: 030000000300000001000000000000002600000017000000010000000300000003000000030000000300000003000000030000000300000003000000030000000300000003000000030000001200000012000000130000000300000005000000
+        paramName:
+        - Description
+        - i18nDescription
+        - NotifyPlayer
+        - DefinitionRewardIndex
+        - fsmTemplateControl
+        - finishEvent
+        - everyFrame
+        - Context
+        - QuestId
+        - SeasonAndEpisode
+        - ObjectiveName
+        - ObjectiveNumber
+        - StepName
+        - StepNumber
+        - Action
+        - Type
+        - Location
+        - Level
+        - Message
+        - EventName
+        - SwitchTo
+        - TheObject
+        - MascotName
+        - Dialog
+        paramDataPos: 000000000f0000004100000042000000000000004600000046000000470000004c000000560000005b0000006a0000006c0000008100000083000000830000008300000083000000830000000000000001000000000000008300000000000000
+        paramByteDataSize: 0f000000320000000100000004000000000000000000000001000000050000000a000000050000000f00000002000000150000000200000000000000000000000000000000000000000000000000000000000000000000000a00000000000000
+    - name: Obj1FSM
+      description: Talk to Rockhopper
+      colorIndex: 1
+      position:
+        serializedVersion: 2
+        x: 403
+        y: 210.48438
+        width: 117
+        height: 32
+      isBreakpoint: 0
+      isSequence: 0
+      hideUnused: 0
+      transitions:
+      - fsmEvent:
+          name: FINISHED
+          isSystemEvent: 1
+          isGlobal: 0
+        toState: Obj2FSM
+        linkStyle: 0
+        linkConstraint: 0
+        linkTarget: 0
+        colorIndex: 0
+      actionData:
+        actionNames:
+        - ClubPenguin.Adventure.ObjectiveAction
+        - HutongGames.PlayMaker.Actions.RunFSM
+        - ClubPenguin.Analytics.AnalyticsGameActionAction
+        - ClubPenguin.Audio.FabricSetSwitchAction
+        customNames:
+        - 
+        - 
+        - 
+        - 
+        actionEnabled: 01010101
+        actionIsOpen: 01010101
+        actionStartIndex: 00000000040000000700000013000000
+        actionHashCodes: 67682403d33f7a0529b3ec00786b3902
+        unityObjectParams: []
+        fsmGameObjectParams:
+        - useVariable: 0
+          name: 
+          tooltip: 
+          showInInspector: 0
+          networkSync: 0
+          value: {fileID: 0}
+        fsmOwnerDefaultParams: []
+        animationCurveParams: []
+        functionCallParams: []
+        fsmTemplateControlParams:
+        - targetType: 0
+          target: {fileID: 11400000, guid: a822d59e5fdaf424a9b13960819facbb, type: 2}
+          inputVariables: []
+          outputVariables: []
+          outputEvents: []
+        fsmEventTargetParams: []
+        fsmPropertyParams: []
+        layoutOptionParams: []
+        fsmStringParams:
+        - useVariable: 0
+          name: 
+          tooltip: 
+          showInInspector: 0
+          networkSync: 0
+          value: MUS/Quest/AuntArctic/C001Q004
+        - useVariable: 0
+          name: 
+          tooltip: 
+          showInInspector: 0
+          networkSync: 0
+          value: AuntArcticMedLow
+        fsmObjectParams: []
+        fsmVarParams: []
+        fsmArrayParams: []
+        fsmEnumParams: []
+        fsmFloatParams: []
+        fsmIntParams: []
+        fsmBoolParams: []
+        fsmVector2Params: []
+        fsmVector3Params: []
+        fsmColorParams: []
+        fsmRectParams: []
+        fsmQuaternionParams: []
+        stringParams: []
+        byteData: 54616c6b20746f20526f636b686f7070657251756573742e546578742e4141433030315130303443726162732e4f626a3146534d2e6931386e4465736372697074696f6e01ffffffff00717565737441756e7441726374696330317c303454616c6b2d746f2d526f636b686f7070657230314f626a312d526f636b686f707065725f6f66666572735f68656c703030
+        arrayParamSizes: 
+        arrayParamTypes: []
+        customTypeSizes: 
+        customTypeNames: []
+        paramDataType: 03000000030000000100000000000000260000001700000001000000030000000300000003000000030000000300000003000000030000000300000003000000030000000300000003000000120000001200000013000000
+        paramName:
+        - Description
+        - i18nDescription
+        - NotifyPlayer
+        - DefinitionRewardIndex
+        - fsmTemplateControl
+        - finishEvent
+        - everyFrame
+        - Context
+        - QuestId
+        - SeasonAndEpisode
+        - ObjectiveName
+        - ObjectiveNumber
+        - StepName
+        - StepNumber
+        - Action
+        - Type
+        - Location
+        - Level
+        - Message
+        - EventName
+        - SwitchTo
+        - TheObject
+        paramDataPos: 000000001200000044000000450000000000000049000000490000004a0000004f000000590000005e00000070000000720000008d0000008f0000008f0000008f0000008f0000008f000000000000000100000000000000
+        paramByteDataSize: 12000000320000000100000004000000000000000000000001000000050000000a0000000500000012000000020000001b000000020000000000000000000000000000000000000000000000000000000000000000000000
+    - name: Obj3FSM
+      description: Speak to Aunt Arctic
+      colorIndex: 1
+      position:
+        serializedVersion: 2
+        x: 399.5
+        y: 433.73438
+        width: 120.5
+        height: 32
+      isBreakpoint: 0
+      isSequence: 0
+      hideUnused: 0
+      transitions:
+      - fsmEvent:
+          name: FINISHED
+          isSystemEvent: 1
+          isGlobal: 0
+        toState: Obj4FSM
+        linkStyle: 0
+        linkConstraint: 0
+        linkTarget: 0
+        colorIndex: 0
+      actionData:
+        actionNames:
+        - ClubPenguin.Adventure.ObjectiveAction
+        - HutongGames.PlayMaker.Actions.RunFSM
+        - ClubPenguin.Analytics.AnalyticsGameActionAction
+        - ClubPenguin.Audio.FabricSetSwitchAction
+        customNames:
+        - 
+        - 
+        - 
+        - 
+        actionEnabled: 01010101
+        actionIsOpen: 01010101
+        actionStartIndex: 00000000040000000700000013000000
+        actionHashCodes: 67682403d33f7a0529b3ec00786b3902
+        unityObjectParams: []
+        fsmGameObjectParams:
+        - useVariable: 0
+          name: 
+          tooltip: 
+          showInInspector: 0
+          networkSync: 0
+          value: {fileID: 0}
+        fsmOwnerDefaultParams: []
+        animationCurveParams: []
+        functionCallParams: []
+        fsmTemplateControlParams:
+        - targetType: 0
+          target: {fileID: 11400000, guid: 0dde37e4a38f71f43ad89857973f8c5b, type: 2}
+          inputVariables: []
+          outputVariables: []
+          outputEvents: []
+        fsmEventTargetParams: []
+        fsmPropertyParams: []
+        layoutOptionParams: []
+        fsmStringParams:
+        - useVariable: 0
+          name: 
+          tooltip: 
+          showInInspector: 0
+          networkSync: 0
+          value: MUS/Quest/AuntArctic/C001Q004
+        - useVariable: 0
+          name: 
+          tooltip: 
+          showInInspector: 0
+          networkSync: 0
+          value: AuntArcticMedium
+        fsmObjectParams: []
+        fsmVarParams: []
+        fsmArrayParams: []
+        fsmEnumParams: []
+        fsmFloatParams: []
+        fsmIntParams: []
+        fsmBoolParams: []
+        fsmVector2Params: []
+        fsmVector3Params: []
+        fsmColorParams: []
+        fsmRectParams: []
+        fsmQuaternionParams: []
+        stringParams: []
+        byteData: 537065616b20746f2041756e742041726374696351756573742e546578742e4141433030315130303443726162732e4f626a3446534d2e4368616e6765204f626a2e6931386e54657874010000000000717565737441756e7441726374696330317c3034537065616b2d746f2d41756e742d41726374696330334f626a332d4765745f637261625f64697367756973653030
+        arrayParamSizes: 
+        arrayParamTypes: []
+        customTypeSizes: 
+        customTypeNames: []
+        paramDataType: 03000000030000000100000000000000260000001700000001000000030000000300000003000000030000000300000003000000030000000300000003000000030000000300000003000000120000001200000013000000
+        paramName:
+        - Description
+        - i18nDescription
+        - NotifyPlayer
+        - DefinitionRewardIndex
+        - fsmTemplateControl
+        - finishEvent
+        - everyFrame
+        - Context
+        - QuestId
+        - SeasonAndEpisode
+        - ObjectiveName
+        - ObjectiveNumber
+        - StepName
+        - StepNumber
+        - Action
+        - Type
+        - Location
+        - Level
+        - Message
+        - EventName
+        - SwitchTo
+        - TheObject
+        paramDataPos: 00000000140000004a0000004b000000000000004f0000004f00000050000000550000005f00000064000000780000007a000000900000009200000092000000920000009200000092000000000000000100000000000000
+        paramByteDataSize: 14000000360000000100000004000000000000000000000001000000050000000a00000005000000140000000200000016000000020000000000000000000000000000000000000000000000000000000000000000000000
+    - name: InitializeQuest
+      description: 
+      colorIndex: 3
+      position:
+        serializedVersion: 2
+        x: 683.91406
+        y: 125.61719
+        width: 117
+        height: 32
+      isBreakpoint: 0
+      isSequence: 0
+      hideUnused: 0
+      transitions:
+      - fsmEvent:
+          name: FINISHED
+          isSystemEvent: 1
+          isGlobal: 0
+        toState: --- BI TIME --- start
+        linkStyle: 0
+        linkConstraint: 0
+        linkTarget: 0
+        colorIndex: 0
+      actionData:
+        actionNames: []
+        customNames: []
+        actionEnabled: 
+        actionIsOpen: 
+        actionStartIndex: 
+        actionHashCodes: 
+        unityObjectParams: []
+        fsmGameObjectParams: []
+        fsmOwnerDefaultParams: []
+        animationCurveParams: []
+        functionCallParams: []
+        fsmTemplateControlParams: []
+        fsmEventTargetParams: []
+        fsmPropertyParams: []
+        layoutOptionParams: []
+        fsmStringParams: []
+        fsmObjectParams: []
+        fsmVarParams: []
+        fsmArrayParams: []
+        fsmEnumParams: []
+        fsmFloatParams: []
+        fsmIntParams: []
+        fsmBoolParams: []
+        fsmVector2Params: []
+        fsmVector3Params: []
+        fsmColorParams: []
+        fsmRectParams: []
+        fsmQuaternionParams: []
+        stringParams: []
+        byteData: 
+        arrayParamSizes: 
+        arrayParamTypes: []
+        customTypeSizes: 
+        customTypeNames: []
+        paramDataType: 
+        paramName: []
+        paramDataPos: 
+        paramByteDataSize: 
+    - name: InitComplete
+      description: 
+      colorIndex: 3
+      position:
+        serializedVersion: 2
+        x: 673.9297
+        y: 399.66406
+        width: 105
+        height: 16
+      isBreakpoint: 0
+      isSequence: 0
+      hideUnused: 0
+      transitions: []
+      actionData:
+        actionNames:
+        - ClubPenguin.Adventure.QuestInitializationCompleteAction
+        customNames:
+        - 
+        actionEnabled: 01
+        actionIsOpen: 01
+        actionStartIndex: 00000000
+        actionHashCodes: 00000000
+        unityObjectParams: []
+        fsmGameObjectParams: []
+        fsmOwnerDefaultParams: []
+        animationCurveParams: []
+        functionCallParams: []
+        fsmTemplateControlParams: []
+        fsmEventTargetParams: []
+        fsmPropertyParams: []
+        layoutOptionParams: []
+        fsmStringParams: []
+        fsmObjectParams: []
+        fsmVarParams: []
+        fsmArrayParams: []
+        fsmEnumParams: []
+        fsmFloatParams: []
+        fsmIntParams: []
+        fsmBoolParams: []
+        fsmVector2Params: []
+        fsmVector3Params: []
+        fsmColorParams: []
+        fsmRectParams: []
+        fsmQuaternionParams: []
+        stringParams: []
+        byteData: 
+        arrayParamSizes: 
+        arrayParamTypes: []
+        customTypeSizes: 
+        customTypeNames: []
+        paramDataType: 
+        paramName: []
+        paramDataPos: 
+        paramByteDataSize: 
+    - name: Play Quest Music ++Audio++
+      description: 
+      colorIndex: 0
+      position:
+        serializedVersion: 2
+        x: 678.91406
+        y: 267.6172
+        width: 214
+        height: 32
+      isBreakpoint: 0
+      isSequence: 1
+      hideUnused: 0
+      transitions:
+      - fsmEvent:
+          name: FINISHED
+          isSystemEvent: 1
+          isGlobal: 0
+        toState: Suppress Quest Notifier in Clothing Designer
+        linkStyle: 0
+        linkConstraint: 0
+        linkTarget: 0
+        colorIndex: 0
+      actionData:
+        actionNames:
+        - ClubPenguin.Audio.FabricPlaySoundAction
+        - ClubPenguin.Audio.SendFabricEventAction
+        customNames:
+        - 
+        - 
+        actionEnabled: 0101
+        actionIsOpen: 0101
+        actionStartIndex: 0000000003000000
+        actionHashCodes: f840d200e11b9604
+        unityObjectParams: []
+        fsmGameObjectParams:
+        - useVariable: 0
+          name: 
+          tooltip: 
+          showInInspector: 0
+          networkSync: 0
+          value: {fileID: 0}
+        - useVariable: 0
+          name: 
+          tooltip: 
+          showInInspector: 0
+          networkSync: 0
+          value: {fileID: 0}
+        fsmOwnerDefaultParams: []
+        animationCurveParams: []
+        functionCallParams: []
+        fsmTemplateControlParams: []
+        fsmEventTargetParams: []
+        fsmPropertyParams: []
+        layoutOptionParams: []
+        fsmStringParams:
+        - useVariable: 0
+          name: 
+          tooltip: 
+          showInInspector: 0
+          networkSync: 0
+          value: MUS/Quest/AuntArctic/C001Q004
+        - useVariable: 0
+          name: 
+          tooltip: 
+          showInInspector: 0
+          networkSync: 0
+          value: MIX/MusicWorldOff
+        fsmObjectParams: []
+        fsmVarParams: []
+        fsmArrayParams: []
+        fsmEnumParams: []
+        fsmFloatParams: []
+        fsmIntParams: []
+        fsmBoolParams: []
+        fsmVector2Params: []
+        fsmVector3Params: []
+        fsmColorParams: []
+        fsmRectParams: []
+        fsmQuaternionParams: []
+        stringParams: []
+        byteData: 0000000000
+        arrayParamSizes: 
+        arrayParamTypes: []
+        customTypeSizes: 
+        customTypeNames: []
+        paramDataType: 120000001300000001000000120000001300000007000000
+        paramName:
+        - EventName
+        - OverrideSoundSource
+        - RestartIfPlaying
+        - EventName
+        - OverrideSoundSource
+        - EventAction
+        paramDataPos: 000000000000000000000000010000000100000001000000
+        paramByteDataSize: 000000000000000001000000000000000000000004000000
+    - name: Obj5FSM
+      description: Dive into the Sea Caves
+      colorIndex: 1
+      position:
+        serializedVersion: 2
+        x: 394.5078
+        y: 674.3047
+        width: 132
+        height: 32
+      isBreakpoint: 0
+      isSequence: 0
+      hideUnused: 0
+      transitions:
+      - fsmEvent:
+          name: FINISHED
+          isSystemEvent: 1
+          isGlobal: 0
+        toState: Obj6FSM
+        linkStyle: 0
+        linkConstraint: 0
+        linkTarget: 0
+        colorIndex: 0
+      actionData:
+        actionNames:
+        - ClubPenguin.Adventure.ObjectiveAction
+        - HutongGames.PlayMaker.Actions.RunFSM
+        - ClubPenguin.Analytics.AnalyticsGameActionAction
+        - ClubPenguin.Audio.FabricSetSwitchAction
+        customNames:
+        - 
+        - 
+        - 
+        - 
+        actionEnabled: 01010101
+        actionIsOpen: 01010101
+        actionStartIndex: 00000000040000000700000013000000
+        actionHashCodes: 67682403d33f7a0529b3ec00786b3902
+        unityObjectParams: []
+        fsmGameObjectParams:
+        - useVariable: 0
+          name: 
+          tooltip: 
+          showInInspector: 0
+          networkSync: 0
+          value: {fileID: 0}
+        fsmOwnerDefaultParams: []
+        animationCurveParams: []
+        functionCallParams: []
+        fsmTemplateControlParams:
+        - targetType: 0
+          target: {fileID: 11400000, guid: 055f322bcfcc8a64ab92971799222acf, type: 2}
+          inputVariables: []
+          outputVariables: []
+          outputEvents: []
+        fsmEventTargetParams: []
+        fsmPropertyParams: []
+        layoutOptionParams: []
+        fsmStringParams:
+        - useVariable: 0
+          name: 
+          tooltip: 
+          showInInspector: 0
+          networkSync: 0
+          value: MUS/Quest/AuntArctic/C001Q004
+        - useVariable: 0
+          name: 
+          tooltip: 
+          showInInspector: 0
+          networkSync: 0
+          value: AuntArcticMedium
+        fsmObjectParams: []
+        fsmVarParams: []
+        fsmArrayParams: []
+        fsmEnumParams: []
+        fsmFloatParams: []
+        fsmIntParams: []
+        fsmBoolParams: []
+        fsmVector2Params: []
+        fsmVector3Params: []
+        fsmColorParams: []
+        fsmRectParams: []
+        fsmQuaternionParams: []
+        stringParams: []
+        byteData: 4469766520696e746f207468652053656120436176657351756573742e546578742e4141433030315130303348617463682e4f626a3546534d2e6931386e4465736372697074696f6e01ffffffff46494e495348454400717565737441756e7441726374696330317c3034446976652d696e746f2d7468652d5365612d436176657330354f626a352d53636172655f63726162735f616e645f6765745f676c6173733030
+        arrayParamSizes: 
+        arrayParamTypes: []
+        customTypeSizes: 
+        customTypeNames: []
+        paramDataType: 03000000030000000100000000000000260000001700000001000000030000000300000003000000030000000300000003000000030000000300000003000000030000000300000003000000120000001200000013000000
+        paramName:
+        - Description
+        - i18nDescription
+        - NotifyPlayer
+        - DefinitionRewardIndex
+        - fsmTemplateControl
+        - finishEvent
+        - everyFrame
+        - Context
+        - QuestId
+        - SeasonAndEpisode
+        - ObjectiveName
+        - ObjectiveNumber
+        - StepName
+        - StepNumber
+        - Action
+        - Type
+        - Location
+        - Level
+        - Message
+        - EventName
+        - SwitchTo
+        - TheObject
+        paramDataPos: 0000000017000000490000004a000000000000004e00000056000000570000005c000000660000006b0000008200000084000000a2000000a4000000a4000000a4000000a4000000a4000000000000000100000000000000
+        paramByteDataSize: 17000000320000000100000004000000000000000800000001000000050000000a0000000500000017000000020000001e000000020000000000000000000000000000000000000000000000000000000000000000000000
+    - name: Obj6FSM
+      description: Return to Rockhopper
+      colorIndex: 1
+      position:
+        serializedVersion: 2
+        x: 393.0625
+        y: 790.58594
+        width: 125
+        height: 32
+      isBreakpoint: 0
+      isSequence: 0
+      hideUnused: 0
+      transitions:
+      - fsmEvent:
+          name: FINISHED
+          isSystemEvent: 1
+          isGlobal: 0
+        toState: End
+        linkStyle: 0
+        linkConstraint: 0
+        linkTarget: 0
+        colorIndex: 0
+      actionData:
+        actionNames:
+        - ClubPenguin.Adventure.ObjectiveAction
+        - HutongGames.PlayMaker.Actions.RunFSM
+        - ClubPenguin.Analytics.AnalyticsGameActionAction
+        - ClubPenguin.Audio.FabricSetSwitchAction
+        customNames:
+        - 
+        - 
+        - 
+        - 
+        actionEnabled: 01010101
+        actionIsOpen: 01010101
+        actionStartIndex: 00000000040000000700000013000000
+        actionHashCodes: 67682403d33f7a0529b3ec00786b3902
+        unityObjectParams: []
+        fsmGameObjectParams:
+        - useVariable: 0
+          name: 
+          tooltip: 
+          showInInspector: 0
+          networkSync: 0
+          value: {fileID: 0}
+        fsmOwnerDefaultParams: []
+        animationCurveParams: []
+        functionCallParams: []
+        fsmTemplateControlParams:
+        - targetType: 0
+          target: {fileID: 11400000, guid: fcbc2b12582f678468646d00ee7c2e98, type: 2}
+          inputVariables: []
+          outputVariables: []
+          outputEvents: []
+        fsmEventTargetParams: []
+        fsmPropertyParams: []
+        layoutOptionParams: []
+        fsmStringParams:
+        - useVariable: 0
+          name: 
+          tooltip: 
+          showInInspector: 0
+          networkSync: 0
+          value: MUS/Quest/AuntArctic/C001Q004
+        - useVariable: 0
+          name: 
+          tooltip: 
+          showInInspector: 0
+          networkSync: 0
+          value: AuntArcticTheme
+        fsmObjectParams: []
+        fsmVarParams: []
+        fsmArrayParams: []
+        fsmEnumParams: []
+        fsmFloatParams: []
+        fsmIntParams: []
+        fsmBoolParams: []
+        fsmVector2Params: []
+        fsmVector3Params: []
+        fsmColorParams: []
+        fsmRectParams: []
+        fsmQuaternionParams: []
+        stringParams: []
+        byteData: 52657475726e20746f20526f636b686f7070657251756573742e546578742e4141433030315130303443726162732e4f626a3646534d2e6931386e4465736372697074696f6e01ffffffff00717565737441756e7441726374696330317c303452657475726e2d746f2d526f636b686f7070657230364f626a362d476976655f676c6173735f746f5f526f636b686f707065723030
+        arrayParamSizes: 
+        arrayParamTypes: []
+        customTypeSizes: 
+        customTypeNames: []
+        paramDataType: 03000000030000000100000000000000260000001700000001000000030000000300000003000000030000000300000003000000030000000300000003000000030000000300000003000000120000001200000013000000
+        paramName:
+        - Description
+        - i18nDescription
+        - NotifyPlayer
+        - DefinitionRewardIndex
+        - fsmTemplateControl
+        - finishEvent
+        - everyFrame
+        - Context
+        - QuestId
+        - SeasonAndEpisode
+        - ObjectiveName
+        - ObjectiveNumber
+        - StepName
+        - StepNumber
+        - Action
+        - Type
+        - Location
+        - Level
+        - Message
+        - EventName
+        - SwitchTo
+        - TheObject
+        paramDataPos: 00000000140000004600000047000000000000004b0000004b0000004c000000510000005b000000600000007400000076000000930000009500000095000000950000009500000095000000000000000100000000000000
+        paramByteDataSize: 14000000320000000100000004000000000000000000000001000000050000000a0000000500000014000000020000001d000000020000000000000000000000000000000000000000000000000000000000000000000000
+    - name: Suppress Quest Notifier in Clothing Designer
+      description: 
+      colorIndex: 0
+      position:
+        serializedVersion: 2
+        x: 674
+        y: 336
+        width: 315
+        height: 32
+      isBreakpoint: 0
+      isSequence: 0
+      hideUnused: 0
+      transitions:
+      - fsmEvent:
+          name: FINISHED
+          isSystemEvent: 1
+          isGlobal: 0
+        toState: InitComplete
+        linkStyle: 0
+        linkConstraint: 0
+        linkTarget: 0
+        colorIndex: 0
+      actionData:
+        actionNames:
+        - ClubPenguin.Adventure.SuppressQuestNotifierAction
+        customNames:
+        - 
+        actionEnabled: 01
+        actionIsOpen: 01
+        actionStartIndex: 00000000
+        actionHashCodes: 24459200
+        unityObjectParams: []
+        fsmGameObjectParams: []
+        fsmOwnerDefaultParams: []
+        animationCurveParams: []
+        functionCallParams: []
+        fsmTemplateControlParams: []
+        fsmEventTargetParams: []
+        fsmPropertyParams: []
+        layoutOptionParams: []
+        fsmStringParams:
+        - useVariable: 0
+          name: 
+          tooltip: 
+          showInInspector: 0
+          networkSync: 0
+          value: ClothingDesigner
+        fsmObjectParams: []
+        fsmVarParams: []
+        fsmArrayParams: []
+        fsmEnumParams: []
+        fsmFloatParams: []
+        fsmIntParams: []
+        fsmBoolParams: []
+        fsmVector2Params: []
+        fsmVector3Params: []
+        fsmColorParams: []
+        fsmRectParams: []
+        fsmQuaternionParams: []
+        stringParams: []
+        byteData: 0101
+        arrayParamSizes: 
+        arrayParamTypes: []
+        customTypeSizes: 
+        customTypeNames: []
+        paramDataType: 010000000100000012000000
+        paramName:
+        - Suppress
+        - AutoShow
+        - SceneName
+        paramDataPos: 000000000100000000000000
+        paramByteDataSize: 010000000100000000000000
+    - name: CleanUpQuest
+      description: 
+      colorIndex: 6
+      position:
+        serializedVersion: 2
+        x: 1101
+        y: 134
+        width: 114
+        height: 32
+      isBreakpoint: 0
+      isSequence: 0
+      hideUnused: 0
+      transitions:
+      - fsmEvent:
+          name: FINISHED
+          isSystemEvent: 1
+          isGlobal: 0
+        toState: --- BI TIME --- end
+        linkStyle: 0
+        linkConstraint: 0
+        linkTarget: 0
+        colorIndex: 0
+      actionData:
+        actionNames: []
+        customNames: []
+        actionEnabled: 
+        actionIsOpen: 
+        actionStartIndex: 
+        actionHashCodes: 
+        unityObjectParams: []
+        fsmGameObjectParams: []
+        fsmOwnerDefaultParams: []
+        animationCurveParams: []
+        functionCallParams: []
+        fsmTemplateControlParams: []
+        fsmEventTargetParams: []
+        fsmPropertyParams: []
+        layoutOptionParams: []
+        fsmStringParams: []
+        fsmObjectParams: []
+        fsmVarParams: []
+        fsmArrayParams: []
+        fsmEnumParams: []
+        fsmFloatParams: []
+        fsmIntParams: []
+        fsmBoolParams: []
+        fsmVector2Params: []
+        fsmVector3Params: []
+        fsmColorParams: []
+        fsmRectParams: []
+        fsmQuaternionParams: []
+        stringParams: []
+        byteData: 
+        arrayParamSizes: 
+        arrayParamTypes: []
+        customTypeSizes: 
+        customTypeNames: []
+        paramDataType: 
+        paramName: []
+        paramDataPos: 
+        paramByteDataSize: 
+    - name: Stop Quest Music ++Audio++
+      description: 
+      colorIndex: 0
+      position:
+        serializedVersion: 2
+        x: 1094
+        y: 271
+        width: 215
+        height: 16
+      isBreakpoint: 0
+      isSequence: 0
+      hideUnused: 0
+      transitions: []
+      actionData:
+        actionNames:
+        - ClubPenguin.Audio.SendFabricEventAction
+        customNames:
+        - 
+        actionEnabled: 01
+        actionIsOpen: 01
+        actionStartIndex: 00000000
+        actionHashCodes: e11b9604
+        unityObjectParams: []
+        fsmGameObjectParams:
+        - useVariable: 0
+          name: 
+          tooltip: 
+          showInInspector: 0
+          networkSync: 0
+          value: {fileID: 0}
+        fsmOwnerDefaultParams: []
+        animationCurveParams: []
+        functionCallParams: []
+        fsmTemplateControlParams: []
+        fsmEventTargetParams: []
+        fsmPropertyParams: []
+        layoutOptionParams: []
+        fsmStringParams:
+        - useVariable: 0
+          name: 
+          tooltip: 
+          showInInspector: 0
+          networkSync: 0
+          value: MUS/Quest/AuntArctic/C001Q004
+        fsmObjectParams: []
+        fsmVarParams: []
+        fsmArrayParams: []
+        fsmEnumParams: []
+        fsmFloatParams: []
+        fsmIntParams: []
+        fsmBoolParams: []
+        fsmVector2Params: []
+        fsmVector3Params: []
+        fsmColorParams: []
+        fsmRectParams: []
+        fsmQuaternionParams: []
+        stringParams: []
+        byteData: 01000000
+        arrayParamSizes: 
+        arrayParamTypes: []
+        customTypeSizes: 
+        customTypeNames: []
+        paramDataType: 120000001300000007000000
+        paramName:
+        - EventName
+        - OverrideSoundSource
+        - EventAction
+        paramDataPos: 000000000000000000000000
+        paramByteDataSize: 000000000000000004000000
+    - name: --- BI TIME --- start
+      description: AAC001Q004_time
+      colorIndex: 0
+      position:
+        serializedVersion: 2
+        x: 682.5
+        y: 188.35156
+        width: 151
+        height: 32
+      isBreakpoint: 0
+      isSequence: 0
+      hideUnused: 0
+      transitions:
+      - fsmEvent:
+          name: FINISHED
+          isSystemEvent: 1
+          isGlobal: 0
+        toState: Play Quest Music ++Audio++
+        linkStyle: 0
+        linkConstraint: 0
+        linkTarget: 0
+        colorIndex: 0
+      actionData:
+        actionNames:
+        - ClubPenguin.Analytics.StartAnalyticsTimerAction
+        customNames:
+        - 
+        actionEnabled: 01
+        actionIsOpen: 01
+        actionStartIndex: 00000000
+        actionHashCodes: 3e3b3e04
+        unityObjectParams: []
+        fsmGameObjectParams: []
+        fsmOwnerDefaultParams: []
+        animationCurveParams: []
+        functionCallParams: []
+        fsmTemplateControlParams: []
+        fsmEventTargetParams: []
+        fsmPropertyParams: []
+        layoutOptionParams: []
+        fsmStringParams:
+        - useVariable: 0
+          name: 
+          tooltip: 
+          showInInspector: 0
+          networkSync: 0
+          value: AAC001Q004_time
+        fsmObjectParams: []
+        fsmVarParams: []
+        fsmArrayParams: []
+        fsmEnumParams: []
+        fsmFloatParams: []
+        fsmIntParams: []
+        fsmBoolParams: []
+        fsmVector2Params: []
+        fsmVector3Params: []
+        fsmColorParams: []
+        fsmRectParams: []
+        fsmQuaternionParams: []
+        stringParams: []
+        byteData: 717565737441414330303151303034
+        arrayParamSizes: 
+        arrayParamTypes: []
+        customTypeSizes: 
+        customTypeNames: []
+        paramDataType: 12000000030000000300000003000000030000000300000003000000030000000300000003000000030000000300000003000000
+        paramName:
+        - TimerID
+        - Context
+        - QuestId
+        - SeasonAndEpisode
+        - ObjectiveName
+        - ObjectiveNumber
+        - StepName
+        - StepNumber
+        - Action
+        - Type
+        - Location
+        - Level
+        - Message
+        paramDataPos: 0000000000000000050000000500000005000000050000000500000005000000050000000f0000000f0000000f0000000f000000
+        paramByteDataSize: 00000000050000000000000000000000000000000000000000000000000000000a00000000000000000000000000000000000000
+    - name: --- BI TIME --- end
+      description: AAC001Q004_time
+      colorIndex: 0
+      position:
+        serializedVersion: 2
+        x: 1098.5312
+        y: 193
+        width: 147
+        height: 32
+      isBreakpoint: 0
+      isSequence: 0
+      hideUnused: 0
+      transitions:
+      - fsmEvent:
+          name: FINISHED
+          isSystemEvent: 1
+          isGlobal: 0
+        toState: Stop Quest Music ++Audio++
+        linkStyle: 0
+        linkConstraint: 0
+        linkTarget: 0
+        colorIndex: 0
+      actionData:
+        actionNames:
+        - ClubPenguin.Analytics.EndAnalyticsTimerAction
+        customNames:
+        - 
+        actionEnabled: 01
+        actionIsOpen: 01
+        actionStartIndex: 00000000
+        actionHashCodes: 13227100
+        unityObjectParams: []
+        fsmGameObjectParams: []
+        fsmOwnerDefaultParams: []
+        animationCurveParams: []
+        functionCallParams: []
+        fsmTemplateControlParams: []
+        fsmEventTargetParams: []
+        fsmPropertyParams: []
+        layoutOptionParams: []
+        fsmStringParams:
+        - useVariable: 0
+          name: 
+          tooltip: 
+          showInInspector: 0
+          networkSync: 0
+          value: AAC001Q004_time
+        fsmObjectParams: []
+        fsmVarParams: []
+        fsmArrayParams: []
+        fsmEnumParams: []
+        fsmFloatParams: []
+        fsmIntParams: []
+        fsmBoolParams: []
+        fsmVector2Params: []
+        fsmVector3Params: []
+        fsmColorParams: []
+        fsmRectParams: []
+        fsmQuaternionParams: []
+        stringParams: []
+        byteData: 
+        arrayParamSizes: 
+        arrayParamTypes: []
+        customTypeSizes: 
+        customTypeNames: []
+        paramDataType: 12000000
+        paramName:
+        - TimerID
+        paramDataPos: 00000000
+        paramByteDataSize: 00000000
+    events:
+    - name: FINISHED
+      isSystemEvent: 1
+      isGlobal: 0
+    - name: True
+      isSystemEvent: 0
+      isGlobal: 0
+    - name: False
+      isSystemEvent: 0
+      isGlobal: 0
+    globalTransitions: []
+    variables:
+      floatVariables: []
+      intVariables:
+      - useVariable: 1
+        name: RootSeaGlassCaught
+        tooltip: 
+        showInInspector: 0
+        networkSync: 0
+        value: 0
+      boolVariables:
+      - useVariable: 1
+        name: RootClosetCheck
+        tooltip: 
+        showInInspector: 0
+        networkSync: 0
+        value: 0
+      - useVariable: 1
+        name: RootCrabsMoved
+        tooltip: 
+        showInInspector: 0
+        networkSync: 0
+        value: 0
+      - useVariable: 1
+        name: RootGuardHint
+        tooltip: 
+        showInInspector: 0
+        networkSync: 0
+        value: 0
+      - useVariable: 1
+        name: RootPickUpSpawned
+        tooltip: 
+        showInInspector: 0
+        networkSync: 0
+        value: 0
+      stringVariables: []
+      vector2Variables: []
+      vector3Variables: []
+      colorVariables: []
+      rectVariables: []
+      quaternionVariables: []
+      gameObjectVariables:
+      - useVariable: 1
+        name: RootDailyChellengesPanel
+        tooltip: 
+        showInInspector: 0
+        networkSync: 0
+        value: {fileID: 0}
+      objectVariables: []
+      materialVariables: []
+      textureVariables: []
+      arrayVariables: []
+      enumVariables: []
+      categories:
+      - 
+      variableCategoryIDs: 000000000000000000000000000000000000000000000000
+    description: 
+    docUrl: 
+    showStateLabel: 1
+    maxLoopCount: 0
+    watermark: 
+    password: 
+    locked: 0
+    manualUpdate: 0
+    outVariableIndices: 
+    keepDelayedEventsOnStateExit: 0
+    preprocessed: 0
+    ExposedEvents: []
+    OutputEvents: []
+    RestartOnEnable: 1
+    ResetVariablesOnEnable: 0
+    EnableDebugFlow: 0
+    EnableBreakpoints: 1
+    editorFlags: 3
+    activeStateName: 
+    mouseEvents: 0
+    handleLevelLoaded: 0
+    handleTriggerEnter2D: 0
+    handleTriggerExit2D: 0
+    handleTriggerStay2D: 0
+    handleCollisionEnter2D: 0
+    handleCollisionExit2D: 0
+    handleCollisionStay2D: 0
+    handleTriggerEnter: 0
+    handleTriggerExit: 0
+    handleTriggerStay: 0
+    handleCollisionEnter: 0
+    handleCollisionExit: 0
+    handleCollisionStay: 0
+    handleParticleCollision: 0
+    handleControllerColliderHit: 0
+    handleJointBreak: 0
+    handleJointBreak2D: 0
+    handleOnGUI: 0
+    handleFixedUpdate: 0
+    handleLateUpdate: 0
+    handleApplicationEvents: 0
+    handleUiEvents: 0
+    handleLegacyNetworking: 0
+    handleAnimatorMove: 0
+    handleAnimatorIK: 0

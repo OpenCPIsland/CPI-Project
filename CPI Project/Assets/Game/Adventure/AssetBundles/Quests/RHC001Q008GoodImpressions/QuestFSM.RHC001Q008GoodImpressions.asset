@@ -1,0 +1,5541 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 1219815696, guid: e743331561ef77147ae48cda9bcb8209, type: 3}
+  m_Name: QuestFSM.RHC001Q008GoodImpressions
+  m_EditorClassIdentifier: 
+  category: Quest
+  fsm:
+    dataVersion: 1
+    usedInTemplate: {fileID: 11400000}
+    name: FSM
+    startState: StartQuest
+    states:
+    - name: StartQuest
+      description: Use this state to determine where you want to start the quest.
+      colorIndex: 0
+      position:
+        serializedVersion: 2
+        x: 64
+        y: 102
+        width: 261
+        height: 32
+      isBreakpoint: 0
+      isSequence: 0
+      hideUnused: 0
+      transitions:
+      - fsmEvent:
+          name: FINISHED
+          isSystemEvent: 1
+          isGlobal: 0
+        toState: Obj0 Intro Dialog
+        linkStyle: 0
+        linkConstraint: 0
+        linkTarget: 0
+        colorIndex: 0
+      actionData:
+        actionNames: []
+        customNames: []
+        actionEnabled: 
+        actionIsOpen: 
+        actionStartIndex: 
+        actionHashCodes: 
+        unityObjectParams: []
+        fsmGameObjectParams: []
+        fsmOwnerDefaultParams: []
+        animationCurveParams: []
+        functionCallParams: []
+        fsmTemplateControlParams: []
+        fsmEventTargetParams: []
+        fsmPropertyParams: []
+        layoutOptionParams: []
+        fsmStringParams: []
+        fsmObjectParams: []
+        fsmVarParams: []
+        fsmArrayParams: []
+        fsmEnumParams: []
+        fsmFloatParams: []
+        fsmIntParams: []
+        fsmBoolParams: []
+        fsmVector2Params: []
+        fsmVector3Params: []
+        fsmColorParams: []
+        fsmRectParams: []
+        fsmQuaternionParams: []
+        stringParams: []
+        byteData: 
+        arrayParamSizes: 
+        arrayParamTypes: []
+        customTypeSizes: 
+        customTypeNames: []
+        paramDataType: 
+        paramName: []
+        paramDataPos: 
+        paramByteDataSize: 
+    - name: Obj0 Intro Dialog
+      description: Talk to Rockhopper
+      colorIndex: 1
+      position:
+        serializedVersion: 2
+        x: 384
+        y: 127
+        width: 141.5
+        height: 32
+      isBreakpoint: 0
+      isSequence: 0
+      hideUnused: 0
+      transitions:
+      - fsmEvent:
+          name: FINISHED
+          isSystemEvent: 1
+          isGlobal: 0
+        toState: Obj1FSM
+        linkStyle: 0
+        linkConstraint: 0
+        linkTarget: 0
+        colorIndex: 0
+      actionData:
+        actionNames:
+        - ClubPenguin.Adventure.ObjectiveAction
+        - HutongGames.PlayMaker.Actions.RunFSM
+        - ClubPenguin.Audio.FabricSetSwitchAction
+        - ClubPenguin.Analytics.AnalyticsGameActionAction
+        customNames:
+        - 
+        - 
+        - 
+        - 
+        actionEnabled: 01010101
+        actionIsOpen: 01010101
+        actionStartIndex: 0000000004000000070000000a000000
+        actionHashCodes: 67682403d33f7a05786b390229b3ec00
+        unityObjectParams: []
+        fsmGameObjectParams:
+        - useVariable: 0
+          name: 
+          tooltip: 
+          showInInspector: 0
+          networkSync: 0
+          value: {fileID: 0}
+        fsmOwnerDefaultParams: []
+        animationCurveParams: []
+        functionCallParams: []
+        fsmTemplateControlParams:
+        - targetType: 0
+          target: {fileID: 11400000, guid: 57c5c874e60d1fa43be07d57e9db820f, type: 2}
+          inputVariables: []
+          outputVariables: []
+          outputEvents: []
+        fsmEventTargetParams: []
+        fsmPropertyParams: []
+        layoutOptionParams: []
+        fsmStringParams:
+        - useVariable: 0
+          name: 
+          tooltip: 
+          showInInspector: 0
+          networkSync: 0
+          value: MUS/Quest/Rockhopper/C001Q008
+        - useVariable: 0
+          name: 
+          tooltip: 
+          showInInspector: 0
+          networkSync: 0
+          value: RockhopperLow
+        fsmObjectParams: []
+        fsmVarParams: []
+        fsmArrayParams: []
+        fsmEnumParams: []
+        fsmFloatParams: []
+        fsmIntParams: []
+        fsmBoolParams: []
+        fsmVector2Params: []
+        fsmVector3Params: []
+        fsmColorParams: []
+        fsmRectParams: []
+        fsmQuaternionParams: []
+        stringParams: []
+        byteData: 54616c6b20746f20526f636b686f7070657251756573742e546578742e4141433030315130303443726162732e4f626a3146534d2e6931386e4465736372697074696f6e01ffffffff007175657374526f636b686f7070657230317c303854616c6b2d746f2d526f636b686f7070657230304f626a302d4765745f706c616e5f66726f6d5f52483030
+        arrayParamSizes: 
+        arrayParamTypes: []
+        customTypeSizes: 
+        customTypeNames: []
+        paramDataType: 03000000030000000100000000000000260000001700000001000000120000001200000013000000030000000300000003000000030000000300000003000000030000000300000003000000030000000300000003000000
+        paramName:
+        - Description
+        - i18nDescription
+        - NotifyPlayer
+        - DefinitionRewardIndex
+        - fsmTemplateControl
+        - finishEvent
+        - everyFrame
+        - EventName
+        - SwitchTo
+        - TheObject
+        - Context
+        - QuestId
+        - SeasonAndEpisode
+        - ObjectiveName
+        - ObjectiveNumber
+        - StepName
+        - StepNumber
+        - Action
+        - Type
+        - Location
+        - Level
+        - Message
+        paramDataPos: 000000001200000044000000450000000000000049000000490000000000000001000000000000004a0000004f000000590000005e0000007000000072000000870000008900000089000000890000008900000089000000
+        paramByteDataSize: 12000000320000000100000004000000000000000000000001000000000000000000000000000000050000000a00000005000000120000000200000015000000020000000000000000000000000000000000000000000000
+    - name: Obj1FSM
+      description: Talk to Aunt Arctic
+      colorIndex: 1
+      position:
+        serializedVersion: 2
+        x: 383
+        y: 213
+        width: 114
+        height: 32
+      isBreakpoint: 0
+      isSequence: 0
+      hideUnused: 0
+      transitions:
+      - fsmEvent:
+          name: FINISHED
+          isSystemEvent: 1
+          isGlobal: 0
+        toState: Obj2FSM
+        linkStyle: 0
+        linkConstraint: 0
+        linkTarget: 0
+        colorIndex: 0
+      actionData:
+        actionNames:
+        - ClubPenguin.Adventure.ObjectiveAction
+        - HutongGames.PlayMaker.Actions.RunFSM
+        - ClubPenguin.Audio.FabricSetSwitchAction
+        - ClubPenguin.Analytics.AnalyticsGameActionAction
+        customNames:
+        - 
+        - 
+        - 
+        - 
+        actionEnabled: 01010101
+        actionIsOpen: 01010101
+        actionStartIndex: 0000000004000000070000000a000000
+        actionHashCodes: 67682403d33f7a05786b390229b3ec00
+        unityObjectParams: []
+        fsmGameObjectParams:
+        - useVariable: 0
+          name: 
+          tooltip: 
+          showInInspector: 0
+          networkSync: 0
+          value: {fileID: 0}
+        fsmOwnerDefaultParams: []
+        animationCurveParams: []
+        functionCallParams: []
+        fsmTemplateControlParams:
+        - targetType: 0
+          target: {fileID: 11400000, guid: e74c6b9ddf8bf3c4e84494307d5bb002, type: 2}
+          inputVariables:
+          - variable:
+              useVariable: 1
+              name: LocalPlayer
+              tooltip: 
+              showInInspector: 0
+              networkSync: 0
+            fsmVar:
+              variableName: LocalPlayer
+              objectType: 
+              useVariable: 0
+              type: 3
+              floatValue: 0
+              intValue: 0
+              boolValue: 0
+              stringValue: 
+              vector4Value: {x: 0, y: 0, z: 0, w: 0}
+              objectReference: {fileID: 0}
+              arrayValue:
+                useVariable: 0
+                name: 
+                tooltip: 
+                showInInspector: 0
+                networkSync: 0
+                type: -1
+                objectTypeName: 
+                floatValues: []
+                intValues: 
+                boolValues: 
+                stringValues: []
+                vector4Values: []
+                objectReferences: []
+            isEdited: 0
+          outputVariables: []
+          outputEvents: []
+        fsmEventTargetParams: []
+        fsmPropertyParams: []
+        layoutOptionParams: []
+        fsmStringParams:
+        - useVariable: 0
+          name: 
+          tooltip: 
+          showInInspector: 0
+          networkSync: 0
+          value: MUS/Quest/Rockhopper/C001Q008
+        - useVariable: 0
+          name: 
+          tooltip: 
+          showInInspector: 0
+          networkSync: 0
+          value: RockhopperLow
+        fsmObjectParams: []
+        fsmVarParams: []
+        fsmArrayParams: []
+        fsmEnumParams: []
+        fsmFloatParams: []
+        fsmIntParams: []
+        fsmBoolParams: []
+        fsmVector2Params: []
+        fsmVector3Params: []
+        fsmColorParams: []
+        fsmRectParams: []
+        fsmQuaternionParams: []
+        stringParams: []
+        byteData: 54616c6b20746f2041756e742041726374696351756573742e546578742e4141433030315130303348617463682e4f626a3046534d2e6931386e4465736372697074696f6e01ffffffff007175657374526f636b686f7070657230317c303854616c6b2d746f2d41756e742d41726374696330314f626a312d4c6561726e5f6f665f4141735f626f6f6b3030
+        arrayParamSizes: 
+        arrayParamTypes: []
+        customTypeSizes: 
+        customTypeNames: []
+        paramDataType: 03000000030000000100000000000000260000001700000001000000120000001200000013000000030000000300000003000000030000000300000003000000030000000300000003000000030000000300000003000000
+        paramName:
+        - Description
+        - i18nDescription
+        - NotifyPlayer
+        - DefinitionRewardIndex
+        - fsmTemplateControl
+        - finishEvent
+        - everyFrame
+        - EventName
+        - SwitchTo
+        - TheObject
+        - Context
+        - QuestId
+        - SeasonAndEpisode
+        - ObjectiveName
+        - ObjectiveNumber
+        - StepName
+        - StepNumber
+        - Action
+        - Type
+        - Location
+        - Level
+        - Message
+        paramDataPos: 00000000130000004500000046000000000000004a0000004a0000000000000001000000000000004b000000500000005a0000005f00000072000000740000008a0000008c0000008c0000008c0000008c0000008c000000
+        paramByteDataSize: 13000000320000000100000004000000000000000000000001000000000000000000000000000000050000000a00000005000000130000000200000016000000020000000000000000000000000000000000000000000000
+    - name: Obj2FSM
+      description: Find Aunt Arctic's book
+      colorIndex: 1
+      position:
+        serializedVersion: 2
+        x: 382.98438
+        y: 308.89062
+        width: 129
+        height: 32
+      isBreakpoint: 0
+      isSequence: 0
+      hideUnused: 0
+      transitions:
+      - fsmEvent:
+          name: FINISHED
+          isSystemEvent: 1
+          isGlobal: 0
+        toState: Obj3FSM
+        linkStyle: 0
+        linkConstraint: 0
+        linkTarget: 0
+        colorIndex: 0
+      actionData:
+        actionNames:
+        - ClubPenguin.Adventure.ObjectiveAction
+        - HutongGames.PlayMaker.Actions.RunFSM
+        - ClubPenguin.Audio.FabricSetSwitchAction
+        - ClubPenguin.Analytics.AnalyticsGameActionAction
+        customNames:
+        - 
+        - 
+        - 
+        - 
+        actionEnabled: 01010101
+        actionIsOpen: 01010101
+        actionStartIndex: 0000000004000000070000000a000000
+        actionHashCodes: 67682403d33f7a05786b390229b3ec00
+        unityObjectParams: []
+        fsmGameObjectParams:
+        - useVariable: 0
+          name: 
+          tooltip: 
+          showInInspector: 0
+          networkSync: 0
+          value: {fileID: 0}
+        fsmOwnerDefaultParams: []
+        animationCurveParams: []
+        functionCallParams: []
+        fsmTemplateControlParams:
+        - targetType: 0
+          target: {fileID: 11400000, guid: 4623767f67d4c694cb8d5c659d3ad8c1, type: 2}
+          inputVariables:
+          - variable:
+              useVariable: 1
+              name: PUCbookCenterPointV3
+              tooltip: 
+              showInInspector: 0
+              networkSync: 0
+            fsmVar:
+              variableName: PUCbookCenterPointV3
+              objectType: 
+              useVariable: 0
+              type: 6
+              floatValue: 0
+              intValue: 0
+              boolValue: 0
+              stringValue: 
+              vector4Value: {x: 0, y: 0, z: 0, w: 0}
+              objectReference: {fileID: 0}
+              arrayValue:
+                useVariable: 0
+                name: 
+                tooltip: 
+                showInInspector: 0
+                networkSync: 0
+                type: -1
+                objectTypeName: 
+                floatValues: []
+                intValues: 
+                boolValues: 
+                stringValues: []
+                vector4Values: []
+                objectReferences: []
+            isEdited: 0
+          - variable:
+              useVariable: 1
+              name: Book
+              tooltip: 
+              showInInspector: 0
+              networkSync: 0
+            fsmVar:
+              variableName: Book
+              objectType: 
+              useVariable: 0
+              type: 3
+              floatValue: 0
+              intValue: 0
+              boolValue: 0
+              stringValue: 
+              vector4Value: {x: 0, y: 0, z: 0, w: 0}
+              objectReference: {fileID: 0}
+              arrayValue:
+                useVariable: 0
+                name: 
+                tooltip: 
+                showInInspector: 0
+                networkSync: 0
+                type: -1
+                objectTypeName: 
+                floatValues: []
+                intValues: 
+                boolValues: 
+                stringValues: []
+                vector4Values: []
+                objectReferences: []
+            isEdited: 0
+          - variable:
+              useVariable: 1
+              name: LocalPlayer
+              tooltip: 
+              showInInspector: 0
+              networkSync: 0
+            fsmVar:
+              variableName: LocalPlayer
+              objectType: 
+              useVariable: 0
+              type: 3
+              floatValue: 0
+              intValue: 0
+              boolValue: 0
+              stringValue: 
+              vector4Value: {x: 0, y: 0, z: 0, w: 0}
+              objectReference: {fileID: 0}
+              arrayValue:
+                useVariable: 0
+                name: 
+                tooltip: 
+                showInInspector: 0
+                networkSync: 0
+                type: -1
+                objectTypeName: 
+                floatValues: []
+                intValues: 
+                boolValues: 
+                stringValues: []
+                vector4Values: []
+                objectReferences: []
+            isEdited: 0
+          - variable:
+              useVariable: 1
+              name: PUCbookCenter
+              tooltip: 
+              showInInspector: 0
+              networkSync: 0
+            fsmVar:
+              variableName: PUCbookCenter
+              objectType: 
+              useVariable: 0
+              type: 3
+              floatValue: 0
+              intValue: 0
+              boolValue: 0
+              stringValue: 
+              vector4Value: {x: 0, y: 0, z: 0, w: 0}
+              objectReference: {fileID: 0}
+              arrayValue:
+                useVariable: 0
+                name: 
+                tooltip: 
+                showInInspector: 0
+                networkSync: 0
+                type: -1
+                objectTypeName: 
+                floatValues: []
+                intValues: 
+                boolValues: 
+                stringValues: []
+                vector4Values: []
+                objectReferences: []
+            isEdited: 0
+          - variable:
+              useVariable: 1
+              name: PUCbookSparkles
+              tooltip: 
+              showInInspector: 0
+              networkSync: 0
+            fsmVar:
+              variableName: PUCbookSparkles
+              objectType: 
+              useVariable: 0
+              type: 3
+              floatValue: 0
+              intValue: 0
+              boolValue: 0
+              stringValue: 
+              vector4Value: {x: 0, y: 0, z: 0, w: 0}
+              objectReference: {fileID: 0}
+              arrayValue:
+                useVariable: 0
+                name: 
+                tooltip: 
+                showInInspector: 0
+                networkSync: 0
+                type: -1
+                objectTypeName: 
+                floatValues: []
+                intValues: 
+                boolValues: 
+                stringValues: []
+                vector4Values: []
+                objectReferences: []
+            isEdited: 0
+          - variable:
+              useVariable: 1
+              name: PUCbookWorld
+              tooltip: 
+              showInInspector: 0
+              networkSync: 0
+            fsmVar:
+              variableName: PUCbookWorld
+              objectType: 
+              useVariable: 0
+              type: 3
+              floatValue: 0
+              intValue: 0
+              boolValue: 0
+              stringValue: 
+              vector4Value: {x: 0, y: 0, z: 0, w: 0}
+              objectReference: {fileID: 0}
+              arrayValue:
+                useVariable: 0
+                name: 
+                tooltip: 
+                showInInspector: 0
+                networkSync: 0
+                type: -1
+                objectTypeName: 
+                floatValues: []
+                intValues: 
+                boolValues: 
+                stringValues: []
+                vector4Values: []
+                objectReferences: []
+            isEdited: 0
+          - variable:
+              useVariable: 1
+              name: PUCjamWorld
+              tooltip: 
+              showInInspector: 0
+              networkSync: 0
+            fsmVar:
+              variableName: PUCjamWorld
+              objectType: 
+              useVariable: 0
+              type: 3
+              floatValue: 0
+              intValue: 0
+              boolValue: 0
+              stringValue: 
+              vector4Value: {x: 0, y: 0, z: 0, w: 0}
+              objectReference: {fileID: 0}
+              arrayValue:
+                useVariable: 0
+                name: 
+                tooltip: 
+                showInInspector: 0
+                networkSync: 0
+                type: -1
+                objectTypeName: 
+                floatValues: []
+                intValues: 
+                boolValues: 
+                stringValues: []
+                vector4Values: []
+                objectReferences: []
+            isEdited: 0
+          - variable:
+              useVariable: 1
+              name: SparklesBook
+              tooltip: 
+              showInInspector: 0
+              networkSync: 0
+            fsmVar:
+              variableName: SparklesBook
+              objectType: 
+              useVariable: 0
+              type: 3
+              floatValue: 0
+              intValue: 0
+              boolValue: 0
+              stringValue: 
+              vector4Value: {x: 0, y: 0, z: 0, w: 0}
+              objectReference: {fileID: 0}
+              arrayValue:
+                useVariable: 0
+                name: 
+                tooltip: 
+                showInInspector: 0
+                networkSync: 0
+                type: -1
+                objectTypeName: 
+                floatValues: []
+                intValues: 
+                boolValues: 
+                stringValues: []
+                vector4Values: []
+                objectReferences: []
+            isEdited: 0
+          - variable:
+              useVariable: 1
+              name: TriggerPickedUpBook
+              tooltip: 
+              showInInspector: 0
+              networkSync: 0
+            fsmVar:
+              variableName: TriggerPickedUpBook
+              objectType: 
+              useVariable: 0
+              type: 3
+              floatValue: 0
+              intValue: 0
+              boolValue: 0
+              stringValue: 
+              vector4Value: {x: 0, y: 0, z: 0, w: 0}
+              objectReference: {fileID: 0}
+              arrayValue:
+                useVariable: 0
+                name: 
+                tooltip: 
+                showInInspector: 0
+                networkSync: 0
+                type: -1
+                objectTypeName: 
+                floatValues: []
+                intValues: 
+                boolValues: 
+                stringValues: []
+                vector4Values: []
+                objectReferences: []
+            isEdited: 0
+          - variable:
+              useVariable: 1
+              name: TriggerPickedUpJam
+              tooltip: 
+              showInInspector: 0
+              networkSync: 0
+            fsmVar:
+              variableName: TriggerPickedUpJam
+              objectType: 
+              useVariable: 0
+              type: 3
+              floatValue: 0
+              intValue: 0
+              boolValue: 0
+              stringValue: 
+              vector4Value: {x: 0, y: 0, z: 0, w: 0}
+              objectReference: {fileID: 0}
+              arrayValue:
+                useVariable: 0
+                name: 
+                tooltip: 
+                showInInspector: 0
+                networkSync: 0
+                type: -1
+                objectTypeName: 
+                floatValues: []
+                intValues: 
+                boolValues: 
+                stringValues: []
+                vector4Values: []
+                objectReferences: []
+            isEdited: 0
+          - variable:
+              useVariable: 1
+              name: TriggerWalkZipline
+              tooltip: 
+              showInInspector: 0
+              networkSync: 0
+            fsmVar:
+              variableName: TriggerWalkZipline
+              objectType: 
+              useVariable: 0
+              type: 3
+              floatValue: 0
+              intValue: 0
+              boolValue: 0
+              stringValue: 
+              vector4Value: {x: 0, y: 0, z: 0, w: 0}
+              objectReference: {fileID: 0}
+              arrayValue:
+                useVariable: 0
+                name: 
+                tooltip: 
+                showInInspector: 0
+                networkSync: 0
+                type: -1
+                objectTypeName: 
+                floatValues: []
+                intValues: 
+                boolValues: 
+                stringValues: []
+                vector4Values: []
+                objectReferences: []
+            isEdited: 0
+          - variable:
+              useVariable: 1
+              name: TriggerZiplineComplete
+              tooltip: 
+              showInInspector: 0
+              networkSync: 0
+            fsmVar:
+              variableName: TriggerZiplineComplete
+              objectType: 
+              useVariable: 0
+              type: 3
+              floatValue: 0
+              intValue: 0
+              boolValue: 0
+              stringValue: 
+              vector4Value: {x: 0, y: 0, z: 0, w: 0}
+              objectReference: {fileID: 0}
+              arrayValue:
+                useVariable: 0
+                name: 
+                tooltip: 
+                showInInspector: 0
+                networkSync: 0
+                type: -1
+                objectTypeName: 
+                floatValues: []
+                intValues: 
+                boolValues: 
+                stringValues: []
+                vector4Values: []
+                objectReferences: []
+            isEdited: 0
+          - variable:
+              useVariable: 1
+              name: ZiplineCoveToDock
+              tooltip: 
+              showInInspector: 0
+              networkSync: 0
+            fsmVar:
+              variableName: ZiplineCoveToDock
+              objectType: 
+              useVariable: 0
+              type: 3
+              floatValue: 0
+              intValue: 0
+              boolValue: 0
+              stringValue: 
+              vector4Value: {x: 0, y: 0, z: 0, w: 0}
+              objectReference: {fileID: 0}
+              arrayValue:
+                useVariable: 0
+                name: 
+                tooltip: 
+                showInInspector: 0
+                networkSync: 0
+                type: -1
+                objectTypeName: 
+                floatValues: []
+                intValues: 
+                boolValues: 
+                stringValues: []
+                vector4Values: []
+                objectReferences: []
+            isEdited: 0
+          outputVariables: []
+          outputEvents: []
+        fsmEventTargetParams: []
+        fsmPropertyParams: []
+        layoutOptionParams: []
+        fsmStringParams:
+        - useVariable: 0
+          name: 
+          tooltip: 
+          showInInspector: 0
+          networkSync: 0
+          value: MUS/Quest/Rockhopper/C001Q008
+        - useVariable: 0
+          name: 
+          tooltip: 
+          showInInspector: 0
+          networkSync: 0
+          value: RockhopperLow
+        fsmObjectParams: []
+        fsmVarParams: []
+        fsmArrayParams: []
+        fsmEnumParams: []
+        fsmFloatParams: []
+        fsmIntParams: []
+        fsmBoolParams: []
+        fsmVector2Params: []
+        fsmVector3Params: []
+        fsmColorParams: []
+        fsmRectParams: []
+        fsmQuaternionParams: []
+        stringParams: []
+        byteData: 46696e642041756e7420417263746963277320626f6f6b51756573742e546578742e52484330303151303038476f6f64496d7072657373696f6e732e4f626a3246534d2e6931386e4465736372697074696f6e01ffffffff007175657374526f636b686f7070657230317c303846696e642d41756e742d417263746963732d626f6f6b30324f626a322d4765745f626f6f6b5f776974685f626f6f6b5f776f726d3030
+        arrayParamSizes: 
+        arrayParamTypes: []
+        customTypeSizes: 
+        customTypeNames: []
+        paramDataType: 03000000030000000100000000000000260000001700000001000000120000001200000013000000030000000300000003000000030000000300000003000000030000000300000003000000030000000300000003000000
+        paramName:
+        - Description
+        - i18nDescription
+        - NotifyPlayer
+        - DefinitionRewardIndex
+        - fsmTemplateControl
+        - finishEvent
+        - everyFrame
+        - EventName
+        - SwitchTo
+        - TheObject
+        - Context
+        - QuestId
+        - SeasonAndEpisode
+        - ObjectiveName
+        - ObjectiveNumber
+        - StepName
+        - StepNumber
+        - Action
+        - Type
+        - Location
+        - Level
+        - Message
+        paramDataPos: 00000000170000005300000054000000000000005800000058000000000000000100000000000000590000005e000000680000006d0000008300000085000000a1000000a3000000a3000000a3000000a3000000a3000000
+        paramByteDataSize: 170000003c0000000100000004000000000000000000000001000000000000000000000000000000050000000a0000000500000016000000020000001c000000020000000000000000000000000000000000000000000000
+    - name: End
+      description: 
+      colorIndex: 0
+      position:
+        serializedVersion: 2
+        x: 640.125
+        y: 945.21875
+        width: 100
+        height: 16
+      isBreakpoint: 0
+      isSequence: 0
+      hideUnused: 0
+      transitions: []
+      actionData:
+        actionNames:
+        - ClubPenguin.Adventure.EndQuestAction
+        customNames:
+        - 
+        actionEnabled: 01
+        actionIsOpen: 01
+        actionStartIndex: 00000000
+        actionHashCodes: 00000000
+        unityObjectParams: []
+        fsmGameObjectParams: []
+        fsmOwnerDefaultParams: []
+        animationCurveParams: []
+        functionCallParams: []
+        fsmTemplateControlParams: []
+        fsmEventTargetParams: []
+        fsmPropertyParams: []
+        layoutOptionParams: []
+        fsmStringParams: []
+        fsmObjectParams: []
+        fsmVarParams: []
+        fsmArrayParams: []
+        fsmEnumParams: []
+        fsmFloatParams: []
+        fsmIntParams: []
+        fsmBoolParams: []
+        fsmVector2Params: []
+        fsmVector3Params: []
+        fsmColorParams: []
+        fsmRectParams: []
+        fsmQuaternionParams: []
+        stringParams: []
+        byteData: 
+        arrayParamSizes: 
+        arrayParamTypes: []
+        customTypeSizes: 
+        customTypeNames: []
+        paramDataType: 
+        paramName: []
+        paramDataPos: 
+        paramByteDataSize: 
+    - name: DEBUG
+      description: Prevent quest from ending.
+      colorIndex: 6
+      position:
+        serializedVersion: 2
+        x: 376.6875
+        y: 927.2344
+        width: 145.5
+        height: 32
+      isBreakpoint: 0
+      isSequence: 0
+      hideUnused: 0
+      transitions:
+      - fsmEvent:
+          name: Impossible
+          isSystemEvent: 0
+          isGlobal: 0
+        toState: End
+        linkStyle: 0
+        linkConstraint: 0
+        linkTarget: 0
+        colorIndex: 0
+      actionData:
+        actionNames:
+        - ClubPenguin.Adventure.ObjectiveAction
+        customNames:
+        - 
+        actionEnabled: 01
+        actionIsOpen: 01
+        actionStartIndex: 00000000
+        actionHashCodes: 67682403
+        unityObjectParams: []
+        fsmGameObjectParams: []
+        fsmOwnerDefaultParams: []
+        animationCurveParams: []
+        functionCallParams: []
+        fsmTemplateControlParams: []
+        fsmEventTargetParams: []
+        fsmPropertyParams: []
+        layoutOptionParams: []
+        fsmStringParams: []
+        fsmObjectParams: []
+        fsmVarParams: []
+        fsmArrayParams: []
+        fsmEnumParams: []
+        fsmFloatParams: []
+        fsmIntParams: []
+        fsmBoolParams: []
+        fsmVector2Params: []
+        fsmVector3Params: []
+        fsmColorParams: []
+        fsmRectParams: []
+        fsmQuaternionParams: []
+        stringParams: []
+        byteData: 456e64206f66205465737401ffffffff
+        arrayParamSizes: 
+        arrayParamTypes: []
+        customTypeSizes: 
+        customTypeNames: []
+        paramDataType: 03000000030000000100000000000000
+        paramName:
+        - Description
+        - i18nDescription
+        - NotifyPlayer
+        - DefinitionRewardIndex
+        paramDataPos: 000000000b0000000b0000000c000000
+        paramByteDataSize: 0b000000000000000100000004000000
+    - name: Obj3FSM
+      description: Jump on the airbag
+      colorIndex: 1
+      position:
+        serializedVersion: 2
+        x: 380.9922
+        y: 414.39844
+        width: 116.5
+        height: 32
+      isBreakpoint: 0
+      isSequence: 0
+      hideUnused: 0
+      transitions:
+      - fsmEvent:
+          name: FINISHED
+          isSystemEvent: 1
+          isGlobal: 0
+        toState: Obj4FSM
+        linkStyle: 0
+        linkConstraint: 0
+        linkTarget: 0
+        colorIndex: 0
+      actionData:
+        actionNames:
+        - ClubPenguin.Adventure.ObjectiveAction
+        - HutongGames.PlayMaker.Actions.RunFSM
+        - ClubPenguin.Audio.FabricSetSwitchAction
+        - ClubPenguin.Analytics.AnalyticsGameActionAction
+        customNames:
+        - 
+        - 
+        - 
+        - 
+        actionEnabled: 01010101
+        actionIsOpen: 01010101
+        actionStartIndex: 0000000004000000070000000a000000
+        actionHashCodes: 67682403d33f7a05786b390229b3ec00
+        unityObjectParams: []
+        fsmGameObjectParams:
+        - useVariable: 0
+          name: 
+          tooltip: 
+          showInInspector: 0
+          networkSync: 0
+          value: {fileID: 0}
+        fsmOwnerDefaultParams: []
+        animationCurveParams: []
+        functionCallParams: []
+        fsmTemplateControlParams:
+        - targetType: 0
+          target: {fileID: 11400000, guid: 4d9ab6666652aac4c9d1af06802b4e5c, type: 2}
+          inputVariables:
+          - variable:
+              useVariable: 1
+              name: RefRootBlobBounces
+              tooltip: 
+              showInInspector: 0
+              networkSync: 0
+            fsmVar:
+              variableName: RefRootBlobBounces
+              objectType: 
+              useVariable: 0
+              type: 1
+              floatValue: 0
+              intValue: 0
+              boolValue: 0
+              stringValue: 
+              vector4Value: {x: 0, y: 0, z: 0, w: 0}
+              objectReference: {fileID: 0}
+              arrayValue:
+                useVariable: 0
+                name: 
+                tooltip: 
+                showInInspector: 0
+                networkSync: 0
+                type: -1
+                objectTypeName: 
+                floatValues: []
+                intValues: 
+                boolValues: 
+                stringValues: []
+                vector4Values: []
+                objectReferences: []
+            isEdited: 0
+          - variable:
+              useVariable: 1
+              name: DefaultBlobSpringPosition
+              tooltip: 
+              showInInspector: 0
+              networkSync: 0
+            fsmVar:
+              variableName: DefaultBlobSpringPosition
+              objectType: 
+              useVariable: 0
+              type: 6
+              floatValue: 0
+              intValue: 0
+              boolValue: 0
+              stringValue: 
+              vector4Value: {x: 0, y: 0, z: 0, w: 0}
+              objectReference: {fileID: 0}
+              arrayValue:
+                useVariable: 0
+                name: 
+                tooltip: 
+                showInInspector: 0
+                networkSync: 0
+                type: -1
+                objectTypeName: 
+                floatValues: []
+                intValues: 
+                boolValues: 
+                stringValues: []
+                vector4Values: []
+                objectReferences: []
+            isEdited: 0
+          - variable:
+              useVariable: 1
+              name: DefaultBlobSpringRotation
+              tooltip: 
+              showInInspector: 0
+              networkSync: 0
+            fsmVar:
+              variableName: DefaultBlobSpringRotation
+              objectType: 
+              useVariable: 0
+              type: 6
+              floatValue: 0
+              intValue: 0
+              boolValue: 0
+              stringValue: 
+              vector4Value: {x: 0, y: 0, z: 0, w: 0}
+              objectReference: {fileID: 0}
+              arrayValue:
+                useVariable: 0
+                name: 
+                tooltip: 
+                showInInspector: 0
+                networkSync: 0
+                type: -1
+                objectTypeName: 
+                floatValues: []
+                intValues: 
+                boolValues: 
+                stringValues: []
+                vector4Values: []
+                objectReferences: []
+            isEdited: 0
+          - variable:
+              useVariable: 1
+              name: DefaultBlobSpring
+              tooltip: 
+              showInInspector: 0
+              networkSync: 0
+            fsmVar:
+              variableName: DefaultBlobSpring
+              objectType: 
+              useVariable: 0
+              type: 3
+              floatValue: 0
+              intValue: 0
+              boolValue: 0
+              stringValue: 
+              vector4Value: {x: 0, y: 0, z: 0, w: 0}
+              objectReference: {fileID: 0}
+              arrayValue:
+                useVariable: 0
+                name: 
+                tooltip: 
+                showInInspector: 0
+                networkSync: 0
+                type: -1
+                objectTypeName: 
+                floatValues: []
+                intValues: 
+                boolValues: 
+                stringValues: []
+                vector4Values: []
+                objectReferences: []
+            isEdited: 0
+          - variable:
+              useVariable: 1
+              name: LocalPlayer
+              tooltip: 
+              showInInspector: 0
+              networkSync: 0
+            fsmVar:
+              variableName: LocalPlayer
+              objectType: 
+              useVariable: 0
+              type: 3
+              floatValue: 0
+              intValue: 0
+              boolValue: 0
+              stringValue: 
+              vector4Value: {x: 0, y: 0, z: 0, w: 0}
+              objectReference: {fileID: 0}
+              arrayValue:
+                useVariable: 0
+                name: 
+                tooltip: 
+                showInInspector: 0
+                networkSync: 0
+                type: -1
+                objectTypeName: 
+                floatValues: []
+                intValues: 
+                boolValues: 
+                stringValues: []
+                vector4Values: []
+                objectReferences: []
+            isEdited: 0
+          - variable:
+              useVariable: 1
+              name: PUCbookWorld
+              tooltip: 
+              showInInspector: 0
+              networkSync: 0
+            fsmVar:
+              variableName: PUCbookWorld
+              objectType: 
+              useVariable: 0
+              type: 3
+              floatValue: 0
+              intValue: 0
+              boolValue: 0
+              stringValue: 
+              vector4Value: {x: 0, y: 0, z: 0, w: 0}
+              objectReference: {fileID: 0}
+              arrayValue:
+                useVariable: 0
+                name: 
+                tooltip: 
+                showInInspector: 0
+                networkSync: 0
+                type: -1
+                objectTypeName: 
+                floatValues: []
+                intValues: 
+                boolValues: 
+                stringValues: []
+                vector4Values: []
+                objectReferences: []
+            isEdited: 0
+          - variable:
+              useVariable: 1
+              name: QuestBlobSpring
+              tooltip: 
+              showInInspector: 0
+              networkSync: 0
+            fsmVar:
+              variableName: QuestBlobSpring
+              objectType: 
+              useVariable: 0
+              type: 3
+              floatValue: 0
+              intValue: 0
+              boolValue: 0
+              stringValue: 
+              vector4Value: {x: 0, y: 0, z: 0, w: 0}
+              objectReference: {fileID: 0}
+              arrayValue:
+                useVariable: 0
+                name: 
+                tooltip: 
+                showInInspector: 0
+                networkSync: 0
+                type: -1
+                objectTypeName: 
+                floatValues: []
+                intValues: 
+                boolValues: 
+                stringValues: []
+                vector4Values: []
+                objectReferences: []
+            isEdited: 0
+          - variable:
+              useVariable: 1
+              name: SparklesBook
+              tooltip: 
+              showInInspector: 0
+              networkSync: 0
+            fsmVar:
+              variableName: SparklesBook
+              objectType: 
+              useVariable: 0
+              type: 3
+              floatValue: 0
+              intValue: 0
+              boolValue: 0
+              stringValue: 
+              vector4Value: {x: 0, y: 0, z: 0, w: 0}
+              objectReference: {fileID: 0}
+              arrayValue:
+                useVariable: 0
+                name: 
+                tooltip: 
+                showInInspector: 0
+                networkSync: 0
+                type: -1
+                objectTypeName: 
+                floatValues: []
+                intValues: 
+                boolValues: 
+                stringValues: []
+                vector4Values: []
+                objectReferences: []
+            isEdited: 0
+          - variable:
+              useVariable: 1
+              name: TriggerPickedUpBook
+              tooltip: 
+              showInInspector: 0
+              networkSync: 0
+            fsmVar:
+              variableName: TriggerPickedUpBook
+              objectType: 
+              useVariable: 0
+              type: 3
+              floatValue: 0
+              intValue: 0
+              boolValue: 0
+              stringValue: 
+              vector4Value: {x: 0, y: 0, z: 0, w: 0}
+              objectReference: {fileID: 0}
+              arrayValue:
+                useVariable: 0
+                name: 
+                tooltip: 
+                showInInspector: 0
+                networkSync: 0
+                type: -1
+                objectTypeName: 
+                floatValues: []
+                intValues: 
+                boolValues: 
+                stringValues: []
+                vector4Values: []
+                objectReferences: []
+            isEdited: 0
+          outputVariables: []
+          outputEvents: []
+        fsmEventTargetParams: []
+        fsmPropertyParams: []
+        layoutOptionParams: []
+        fsmStringParams:
+        - useVariable: 0
+          name: 
+          tooltip: 
+          showInInspector: 0
+          networkSync: 0
+          value: MUS/Quest/Rockhopper/C001Q008
+        - useVariable: 0
+          name: 
+          tooltip: 
+          showInInspector: 0
+          networkSync: 0
+          value: RockhopperLow
+        fsmObjectParams: []
+        fsmVarParams: []
+        fsmArrayParams: []
+        fsmEnumParams: []
+        fsmFloatParams: []
+        fsmIntParams: []
+        fsmBoolParams: []
+        fsmVector2Params: []
+        fsmVector3Params: []
+        fsmColorParams: []
+        fsmRectParams: []
+        fsmQuaternionParams: []
+        stringParams: []
+        byteData: 4a756d70206f6e207468652061697262616751756573742e546578742e52484330303151303038476f6f64496d7072657373696f6e732e4f626a3346534d2e6931386e4465736372697074696f6e01ffffffff007175657374526f636b686f7070657230317c30384a756d702d6f6e2d7468652d61697262616730334f626a332d426f756e63655f776f726d5f6f75745f6f665f626f6f6b3030
+        arrayParamSizes: 
+        arrayParamTypes: []
+        customTypeSizes: 
+        customTypeNames: []
+        paramDataType: 03000000030000000100000000000000260000001700000001000000120000001200000013000000030000000300000003000000030000000300000003000000030000000300000003000000030000000300000003000000
+        paramName:
+        - Description
+        - i18nDescription
+        - NotifyPlayer
+        - DefinitionRewardIndex
+        - fsmTemplateControl
+        - finishEvent
+        - everyFrame
+        - EventName
+        - SwitchTo
+        - TheObject
+        - Context
+        - QuestId
+        - SeasonAndEpisode
+        - ObjectiveName
+        - ObjectiveNumber
+        - StepName
+        - StepNumber
+        - Action
+        - Type
+        - Location
+        - Level
+        - Message
+        paramDataPos: 00000000120000004e0000004f000000000000005300000053000000000000000100000000000000540000005900000063000000680000007a0000007c000000980000009a0000009a0000009a0000009a0000009a000000
+        paramByteDataSize: 120000003c0000000100000004000000000000000000000001000000000000000000000000000000050000000a0000000500000012000000020000001c000000020000000000000000000000000000000000000000000000
+    - name: Obj4FSM
+      description: Fish up an inky squid
+      colorIndex: 1
+      position:
+        serializedVersion: 2
+        x: 380.71094
+        y: 519.9375
+        width: 122.5
+        height: 32
+      isBreakpoint: 0
+      isSequence: 0
+      hideUnused: 0
+      transitions:
+      - fsmEvent:
+          name: FINISHED
+          isSystemEvent: 1
+          isGlobal: 0
+        toState: Obj5FSM
+        linkStyle: 0
+        linkConstraint: 0
+        linkTarget: 0
+        colorIndex: 0
+      actionData:
+        actionNames:
+        - ClubPenguin.Adventure.ObjectiveAction
+        - HutongGames.PlayMaker.Actions.RunFSM
+        - ClubPenguin.Audio.FabricSetSwitchAction
+        - ClubPenguin.Analytics.AnalyticsGameActionAction
+        customNames:
+        - 
+        - 
+        - 
+        - 
+        actionEnabled: 01010101
+        actionIsOpen: 01010101
+        actionStartIndex: 0000000004000000070000000a000000
+        actionHashCodes: 67682403d33f7a05786b390229b3ec00
+        unityObjectParams: []
+        fsmGameObjectParams:
+        - useVariable: 0
+          name: 
+          tooltip: 
+          showInInspector: 0
+          networkSync: 0
+          value: {fileID: 0}
+        fsmOwnerDefaultParams: []
+        animationCurveParams: []
+        functionCallParams: []
+        fsmTemplateControlParams:
+        - targetType: 0
+          target: {fileID: 11400000, guid: f5130f0f93ff1594b929672fdf2f1edf, type: 2}
+          inputVariables:
+          - variable:
+              useVariable: 1
+              name: PickedUpFishSlobber
+              tooltip: 
+              showInInspector: 0
+              networkSync: 0
+            fsmVar:
+              variableName: PickedUpFishSlobber
+              objectType: 
+              useVariable: 0
+              type: 2
+              floatValue: 0
+              intValue: 0
+              boolValue: 0
+              stringValue: 
+              vector4Value: {x: 0, y: 0, z: 0, w: 0}
+              objectReference: {fileID: 0}
+              arrayValue:
+                useVariable: 0
+                name: 
+                tooltip: 
+                showInInspector: 0
+                networkSync: 0
+                type: -1
+                objectTypeName: 
+                floatValues: []
+                intValues: 
+                boolValues: 
+                stringValues: []
+                vector4Values: []
+                objectReferences: []
+            isEdited: 0
+          - variable:
+              useVariable: 1
+              name: PlayerOnFishing1
+              tooltip: 
+              showInInspector: 0
+              networkSync: 0
+            fsmVar:
+              variableName: PlayerOnFishing1
+              objectType: 
+              useVariable: 0
+              type: 2
+              floatValue: 0
+              intValue: 0
+              boolValue: 0
+              stringValue: 
+              vector4Value: {x: 0, y: 0, z: 0, w: 0}
+              objectReference: {fileID: 0}
+              arrayValue:
+                useVariable: 0
+                name: 
+                tooltip: 
+                showInInspector: 0
+                networkSync: 0
+                type: -1
+                objectTypeName: 
+                floatValues: []
+                intValues: 
+                boolValues: 
+                stringValues: []
+                vector4Values: []
+                objectReferences: []
+            isEdited: 0
+          - variable:
+              useVariable: 1
+              name: PlayerOnFishing2
+              tooltip: 
+              showInInspector: 0
+              networkSync: 0
+            fsmVar:
+              variableName: PlayerOnFishing2
+              objectType: 
+              useVariable: 0
+              type: 2
+              floatValue: 0
+              intValue: 0
+              boolValue: 0
+              stringValue: 
+              vector4Value: {x: 0, y: 0, z: 0, w: 0}
+              objectReference: {fileID: 0}
+              arrayValue:
+                useVariable: 0
+                name: 
+                tooltip: 
+                showInInspector: 0
+                networkSync: 0
+                type: -1
+                objectTypeName: 
+                floatValues: []
+                intValues: 
+                boolValues: 
+                stringValues: []
+                vector4Values: []
+                objectReferences: []
+            isEdited: 0
+          - variable:
+              useVariable: 1
+              name: RefRootRHSaidFishingTip
+              tooltip: 
+              showInInspector: 0
+              networkSync: 0
+            fsmVar:
+              variableName: RefRootRHSaidFishingTip
+              objectType: 
+              useVariable: 0
+              type: 2
+              floatValue: 0
+              intValue: 0
+              boolValue: 0
+              stringValue: 
+              vector4Value: {x: 0, y: 0, z: 0, w: 0}
+              objectReference: {fileID: 0}
+              arrayValue:
+                useVariable: 0
+                name: 
+                tooltip: 
+                showInInspector: 0
+                networkSync: 0
+                type: -1
+                objectTypeName: 
+                floatValues: []
+                intValues: 
+                boolValues: 
+                stringValues: []
+                vector4Values: []
+                objectReferences: []
+            isEdited: 0
+          - variable:
+              useVariable: 1
+              name: Crate1
+              tooltip: 
+              showInInspector: 0
+              networkSync: 0
+            fsmVar:
+              variableName: Crate1
+              objectType: 
+              useVariable: 0
+              type: 3
+              floatValue: 0
+              intValue: 0
+              boolValue: 0
+              stringValue: 
+              vector4Value: {x: 0, y: 0, z: 0, w: 0}
+              objectReference: {fileID: 0}
+              arrayValue:
+                useVariable: 0
+                name: 
+                tooltip: 
+                showInInspector: 0
+                networkSync: 0
+                type: -1
+                objectTypeName: 
+                floatValues: []
+                intValues: 
+                boolValues: 
+                stringValues: []
+                vector4Values: []
+                objectReferences: []
+            isEdited: 0
+          - variable:
+              useVariable: 1
+              name: LocalPlayer
+              tooltip: 
+              showInInspector: 0
+              networkSync: 0
+            fsmVar:
+              variableName: LocalPlayer
+              objectType: 
+              useVariable: 0
+              type: 3
+              floatValue: 0
+              intValue: 0
+              boolValue: 0
+              stringValue: 
+              vector4Value: {x: 0, y: 0, z: 0, w: 0}
+              objectReference: {fileID: 0}
+              arrayValue:
+                useVariable: 0
+                name: 
+                tooltip: 
+                showInInspector: 0
+                networkSync: 0
+                type: -1
+                objectTypeName: 
+                floatValues: []
+                intValues: 
+                boolValues: 
+                stringValues: []
+                vector4Values: []
+                objectReferences: []
+            isEdited: 0
+          - variable:
+              useVariable: 1
+              name: PUCconchWorld
+              tooltip: 
+              showInInspector: 0
+              networkSync: 0
+            fsmVar:
+              variableName: PUCconchWorld
+              objectType: 
+              useVariable: 0
+              type: 3
+              floatValue: 0
+              intValue: 0
+              boolValue: 0
+              stringValue: 
+              vector4Value: {x: 0, y: 0, z: 0, w: 0}
+              objectReference: {fileID: 0}
+              arrayValue:
+                useVariable: 0
+                name: 
+                tooltip: 
+                showInInspector: 0
+                networkSync: 0
+                type: -1
+                objectTypeName: 
+                floatValues: []
+                intValues: 
+                boolValues: 
+                stringValues: []
+                vector4Values: []
+                objectReferences: []
+            isEdited: 0
+          - variable:
+              useVariable: 1
+              name: Player
+              tooltip: 
+              showInInspector: 0
+              networkSync: 0
+            fsmVar:
+              variableName: Player
+              objectType: 
+              useVariable: 0
+              type: 3
+              floatValue: 0
+              intValue: 0
+              boolValue: 0
+              stringValue: 
+              vector4Value: {x: 0, y: 0, z: 0, w: 0}
+              objectReference: {fileID: 0}
+              arrayValue:
+                useVariable: 0
+                name: 
+                tooltip: 
+                showInInspector: 0
+                networkSync: 0
+                type: -1
+                objectTypeName: 
+                floatValues: []
+                intValues: 
+                boolValues: 
+                stringValues: []
+                vector4Values: []
+                objectReferences: []
+            isEdited: 0
+          - variable:
+              useVariable: 1
+              name: SparklesConch
+              tooltip: 
+              showInInspector: 0
+              networkSync: 0
+            fsmVar:
+              variableName: SparklesConch
+              objectType: 
+              useVariable: 0
+              type: 3
+              floatValue: 0
+              intValue: 0
+              boolValue: 0
+              stringValue: 
+              vector4Value: {x: 0, y: 0, z: 0, w: 0}
+              objectReference: {fileID: 0}
+              arrayValue:
+                useVariable: 0
+                name: 
+                tooltip: 
+                showInInspector: 0
+                networkSync: 0
+                type: -1
+                objectTypeName: 
+                floatValues: []
+                intValues: 
+                boolValues: 
+                stringValues: []
+                vector4Values: []
+                objectReferences: []
+            isEdited: 0
+          - variable:
+              useVariable: 1
+              name: TriggerFishingZone1
+              tooltip: 
+              showInInspector: 0
+              networkSync: 0
+            fsmVar:
+              variableName: TriggerFishingZone1
+              objectType: 
+              useVariable: 0
+              type: 3
+              floatValue: 0
+              intValue: 0
+              boolValue: 0
+              stringValue: 
+              vector4Value: {x: 0, y: 0, z: 0, w: 0}
+              objectReference: {fileID: 0}
+              arrayValue:
+                useVariable: 0
+                name: 
+                tooltip: 
+                showInInspector: 0
+                networkSync: 0
+                type: -1
+                objectTypeName: 
+                floatValues: []
+                intValues: 
+                boolValues: 
+                stringValues: []
+                vector4Values: []
+                objectReferences: []
+            isEdited: 0
+          - variable:
+              useVariable: 1
+              name: TriggerFishingZone2
+              tooltip: 
+              showInInspector: 0
+              networkSync: 0
+            fsmVar:
+              variableName: TriggerFishingZone2
+              objectType: 
+              useVariable: 0
+              type: 3
+              floatValue: 0
+              intValue: 0
+              boolValue: 0
+              stringValue: 
+              vector4Value: {x: 0, y: 0, z: 0, w: 0}
+              objectReference: {fileID: 0}
+              arrayValue:
+                useVariable: 0
+                name: 
+                tooltip: 
+                showInInspector: 0
+                networkSync: 0
+                type: -1
+                objectTypeName: 
+                floatValues: []
+                intValues: 
+                boolValues: 
+                stringValues: []
+                vector4Values: []
+                objectReferences: []
+            isEdited: 0
+          - variable:
+              useVariable: 1
+              name: TriggerPickedUpConch
+              tooltip: 
+              showInInspector: 0
+              networkSync: 0
+            fsmVar:
+              variableName: TriggerPickedUpConch
+              objectType: 
+              useVariable: 0
+              type: 3
+              floatValue: 0
+              intValue: 0
+              boolValue: 0
+              stringValue: 
+              vector4Value: {x: 0, y: 0, z: 0, w: 0}
+              objectReference: {fileID: 0}
+              arrayValue:
+                useVariable: 0
+                name: 
+                tooltip: 
+                showInInspector: 0
+                networkSync: 0
+                type: -1
+                objectTypeName: 
+                floatValues: []
+                intValues: 
+                boolValues: 
+                stringValues: []
+                vector4Values: []
+                objectReferences: []
+            isEdited: 0
+          outputVariables: []
+          outputEvents: []
+        fsmEventTargetParams: []
+        fsmPropertyParams: []
+        layoutOptionParams: []
+        fsmStringParams:
+        - useVariable: 0
+          name: 
+          tooltip: 
+          showInInspector: 0
+          networkSync: 0
+          value: MUS/Quest/Rockhopper/C001Q008
+        - useVariable: 0
+          name: 
+          tooltip: 
+          showInInspector: 0
+          networkSync: 0
+          value: RockhopperLow
+        fsmObjectParams: []
+        fsmVarParams: []
+        fsmArrayParams: []
+        fsmEnumParams: []
+        fsmFloatParams: []
+        fsmIntParams: []
+        fsmBoolParams: []
+        fsmVector2Params: []
+        fsmVector3Params: []
+        fsmColorParams: []
+        fsmRectParams: []
+        fsmQuaternionParams: []
+        stringParams: []
+        byteData: 4669736820757020616e20696e6b7920737175696451756573742e546578742e52484330303151303038476f6f64496d7072657373696f6e732e4f626a3446534d2e4368616e67654f626a332e6931386e5465787401ffffffff007175657374526f636b686f7070657230317c3038466973682d75702d616e2d696e6b792d737175696430344f626a342d4765745f696e6b5f73717569645f776974685f776f726d3030
+        arrayParamSizes: 
+        arrayParamTypes: []
+        customTypeSizes: 
+        customTypeNames: []
+        paramDataType: 03000000030000000100000000000000260000001700000001000000120000001200000013000000030000000300000003000000030000000300000003000000030000000300000003000000030000000300000003000000
+        paramName:
+        - Description
+        - i18nDescription
+        - NotifyPlayer
+        - DefinitionRewardIndex
+        - fsmTemplateControl
+        - finishEvent
+        - everyFrame
+        - EventName
+        - SwitchTo
+        - TheObject
+        - Context
+        - QuestId
+        - SeasonAndEpisode
+        - ObjectiveName
+        - ObjectiveNumber
+        - StepName
+        - StepNumber
+        - Action
+        - Type
+        - Location
+        - Level
+        - Message
+        paramDataPos: 00000000150000005500000056000000000000005a0000005a0000000000000001000000000000005b000000600000006a0000006f0000008400000086000000a2000000a4000000a4000000a4000000a4000000a4000000
+        paramByteDataSize: 15000000400000000100000004000000000000000000000001000000000000000000000000000000050000000a0000000500000015000000020000001c000000020000000000000000000000000000000000000000000000
+    - name: Obj5FSM
+      description: Talk to Rockhopper
+      colorIndex: 1
+      position:
+        serializedVersion: 2
+        x: 380.25
+        y: 625.52344
+        width: 117
+        height: 32
+      isBreakpoint: 0
+      isSequence: 0
+      hideUnused: 0
+      transitions:
+      - fsmEvent:
+          name: FINISHED
+          isSystemEvent: 1
+          isGlobal: 0
+        toState: Obj6FSM
+        linkStyle: 0
+        linkConstraint: 0
+        linkTarget: 0
+        colorIndex: 0
+      actionData:
+        actionNames:
+        - ClubPenguin.Adventure.ObjectiveAction
+        - HutongGames.PlayMaker.Actions.RunFSM
+        - ClubPenguin.Audio.FabricSetSwitchAction
+        - ClubPenguin.Analytics.AnalyticsGameActionAction
+        customNames:
+        - 
+        - 
+        - 
+        - 
+        actionEnabled: 01010101
+        actionIsOpen: 01010101
+        actionStartIndex: 0000000004000000070000000a000000
+        actionHashCodes: 67682403d33f7a05786b390229b3ec00
+        unityObjectParams: []
+        fsmGameObjectParams:
+        - useVariable: 0
+          name: 
+          tooltip: 
+          showInInspector: 0
+          networkSync: 0
+          value: {fileID: 0}
+        fsmOwnerDefaultParams: []
+        animationCurveParams: []
+        functionCallParams: []
+        fsmTemplateControlParams:
+        - targetType: 0
+          target: {fileID: 11400000, guid: 2080eb858590ff64bb7f430349ccdcca, type: 2}
+          inputVariables:
+          - variable:
+              useVariable: 1
+              name: LocalPlayer
+              tooltip: 
+              showInInspector: 0
+              networkSync: 0
+            fsmVar:
+              variableName: LocalPlayer
+              objectType: 
+              useVariable: 0
+              type: 3
+              floatValue: 0
+              intValue: 0
+              boolValue: 0
+              stringValue: 
+              vector4Value: {x: 0, y: 0, z: 0, w: 0}
+              objectReference: {fileID: 0}
+              arrayValue:
+                useVariable: 0
+                name: 
+                tooltip: 
+                showInInspector: 0
+                networkSync: 0
+                type: -1
+                objectTypeName: 
+                floatValues: []
+                intValues: 
+                boolValues: 
+                stringValues: []
+                vector4Values: []
+                objectReferences: []
+            isEdited: 0
+          outputVariables: []
+          outputEvents: []
+        fsmEventTargetParams: []
+        fsmPropertyParams: []
+        layoutOptionParams: []
+        fsmStringParams:
+        - useVariable: 0
+          name: 
+          tooltip: 
+          showInInspector: 0
+          networkSync: 0
+          value: MUS/Quest/Rockhopper/C001Q008
+        - useVariable: 0
+          name: 
+          tooltip: 
+          showInInspector: 0
+          networkSync: 0
+          value: RockhopperMedium
+        fsmObjectParams: []
+        fsmVarParams: []
+        fsmArrayParams: []
+        fsmEnumParams: []
+        fsmFloatParams: []
+        fsmIntParams: []
+        fsmBoolParams: []
+        fsmVector2Params: []
+        fsmVector3Params: []
+        fsmColorParams: []
+        fsmRectParams: []
+        fsmQuaternionParams: []
+        stringParams: []
+        byteData: 54616c6b20746f20526f636b686f7070657251756573742e546578742e4141433030315130303443726162732e4f626a3146534d2e6931386e4465736372697074696f6e01ffffffff007175657374526f636b686f7070657230317c303854616c6b2d746f2d526f636b686f7070657230354f626a352d486561725f706c616e5f746f5f6d616b655f696d7072657373696f6e733030
+        arrayParamSizes: 
+        arrayParamTypes: []
+        customTypeSizes: 
+        customTypeNames: []
+        paramDataType: 03000000030000000100000000000000260000001700000001000000120000001200000013000000030000000300000003000000030000000300000003000000030000000300000003000000030000000300000003000000
+        paramName:
+        - Description
+        - i18nDescription
+        - NotifyPlayer
+        - DefinitionRewardIndex
+        - fsmTemplateControl
+        - finishEvent
+        - everyFrame
+        - EventName
+        - SwitchTo
+        - TheObject
+        - Context
+        - QuestId
+        - SeasonAndEpisode
+        - ObjectiveName
+        - ObjectiveNumber
+        - StepName
+        - StepNumber
+        - Action
+        - Type
+        - Location
+        - Level
+        - Message
+        paramDataPos: 000000001200000044000000450000000000000049000000490000000000000001000000000000004a0000004f000000590000005e0000007000000072000000940000009600000096000000960000009600000096000000
+        paramByteDataSize: 12000000320000000100000004000000000000000000000001000000000000000000000000000000050000000a00000005000000120000000200000022000000020000000000000000000000000000000000000000000000
+    - name: Obj6FSM
+      description: Make good impressions
+      colorIndex: 1
+      position:
+        serializedVersion: 2
+        x: 383.25
+        y: 724.52344
+        width: 130.5
+        height: 32
+      isBreakpoint: 0
+      isSequence: 0
+      hideUnused: 0
+      transitions:
+      - fsmEvent:
+          name: FINISHED
+          isSystemEvent: 1
+          isGlobal: 0
+        toState: Obj7FSM
+        linkStyle: 0
+        linkConstraint: 0
+        linkTarget: 0
+        colorIndex: 0
+      actionData:
+        actionNames:
+        - ClubPenguin.Adventure.ObjectiveAction
+        - HutongGames.PlayMaker.Actions.RunFSM
+        - ClubPenguin.Audio.FabricSetSwitchAction
+        - ClubPenguin.Analytics.AnalyticsGameActionAction
+        customNames:
+        - 
+        - 
+        - 
+        - 
+        actionEnabled: 01010101
+        actionIsOpen: 01010101
+        actionStartIndex: 0000000004000000070000000a000000
+        actionHashCodes: 67682403d33f7a05786b390229b3ec00
+        unityObjectParams: []
+        fsmGameObjectParams:
+        - useVariable: 0
+          name: 
+          tooltip: 
+          showInInspector: 0
+          networkSync: 0
+          value: {fileID: 0}
+        fsmOwnerDefaultParams: []
+        animationCurveParams: []
+        functionCallParams: []
+        fsmTemplateControlParams:
+        - targetType: 0
+          target: {fileID: 11400000, guid: 07aa571e7c8f1c94bb85149277384f21, type: 2}
+          inputVariables:
+          - variable:
+              useVariable: 1
+              name: RefRootNumberOfTabletsFinished
+              tooltip: 
+              showInInspector: 0
+              networkSync: 0
+            fsmVar:
+              variableName: RefRootNumberOfTabletsFinished
+              objectType: 
+              useVariable: 0
+              type: 1
+              floatValue: 0
+              intValue: 0
+              boolValue: 0
+              stringValue: 
+              vector4Value: {x: 0, y: 0, z: 0, w: 0}
+              objectReference: {fileID: 0}
+              arrayValue:
+                useVariable: 0
+                name: 
+                tooltip: 
+                showInInspector: 0
+                networkSync: 0
+                type: -1
+                objectTypeName: 
+                floatValues: []
+                intValues: 
+                boolValues: 
+                stringValues: []
+                vector4Values: []
+                objectReferences: []
+            isEdited: 0
+          - variable:
+              useVariable: 1
+              name: RefRootSubtaskTablet1Jumps
+              tooltip: 
+              showInInspector: 0
+              networkSync: 0
+            fsmVar:
+              variableName: RefRootSubtaskTablet1Jumps
+              objectType: 
+              useVariable: 0
+              type: 1
+              floatValue: 0
+              intValue: 0
+              boolValue: 0
+              stringValue: 
+              vector4Value: {x: 0, y: 0, z: 0, w: 0}
+              objectReference: {fileID: 0}
+              arrayValue:
+                useVariable: 0
+                name: 
+                tooltip: 
+                showInInspector: 0
+                networkSync: 0
+                type: -1
+                objectTypeName: 
+                floatValues: []
+                intValues: 
+                boolValues: 
+                stringValues: []
+                vector4Values: []
+                objectReferences: []
+            isEdited: 0
+          - variable:
+              useVariable: 1
+              name: RefRootTablet1Status
+              tooltip: 
+              showInInspector: 0
+              networkSync: 0
+            fsmVar:
+              variableName: RefRootTablet1Status
+              objectType: 
+              useVariable: 0
+              type: 1
+              floatValue: 0
+              intValue: 0
+              boolValue: 0
+              stringValue: 
+              vector4Value: {x: 0, y: 0, z: 0, w: 0}
+              objectReference: {fileID: 0}
+              arrayValue:
+                useVariable: 0
+                name: 
+                tooltip: 
+                showInInspector: 0
+                networkSync: 0
+                type: -1
+                objectTypeName: 
+                floatValues: []
+                intValues: 
+                boolValues: 
+                stringValues: []
+                vector4Values: []
+                objectReferences: []
+            isEdited: 0
+          - variable:
+              useVariable: 1
+              name: RefRootTablet2Status
+              tooltip: 
+              showInInspector: 0
+              networkSync: 0
+            fsmVar:
+              variableName: RefRootTablet2Status
+              objectType: 
+              useVariable: 0
+              type: 1
+              floatValue: 0
+              intValue: 0
+              boolValue: 0
+              stringValue: 
+              vector4Value: {x: 0, y: 0, z: 0, w: 0}
+              objectReference: {fileID: 0}
+              arrayValue:
+                useVariable: 0
+                name: 
+                tooltip: 
+                showInInspector: 0
+                networkSync: 0
+                type: -1
+                objectTypeName: 
+                floatValues: []
+                intValues: 
+                boolValues: 
+                stringValues: []
+                vector4Values: []
+                objectReferences: []
+            isEdited: 0
+          - variable:
+              useVariable: 1
+              name: RefRootTablet3Status
+              tooltip: 
+              showInInspector: 0
+              networkSync: 0
+            fsmVar:
+              variableName: RefRootTablet3Status
+              objectType: 
+              useVariable: 0
+              type: 1
+              floatValue: 0
+              intValue: 0
+              boolValue: 0
+              stringValue: 
+              vector4Value: {x: 0, y: 0, z: 0, w: 0}
+              objectReference: {fileID: 0}
+              arrayValue:
+                useVariable: 0
+                name: 
+                tooltip: 
+                showInInspector: 0
+                networkSync: 0
+                type: -1
+                objectTypeName: 
+                floatValues: []
+                intValues: 
+                boolValues: 
+                stringValues: []
+                vector4Values: []
+                objectReferences: []
+            isEdited: 0
+          - variable:
+              useVariable: 1
+              name: RefRootSubtaskTablet1Clothed
+              tooltip: 
+              showInInspector: 0
+              networkSync: 0
+            fsmVar:
+              variableName: RefRootSubtaskTablet1Clothed
+              objectType: 
+              useVariable: 0
+              type: 2
+              floatValue: 0
+              intValue: 0
+              boolValue: 0
+              stringValue: 
+              vector4Value: {x: 0, y: 0, z: 0, w: 0}
+              objectReference: {fileID: 0}
+              arrayValue:
+                useVariable: 0
+                name: 
+                tooltip: 
+                showInInspector: 0
+                networkSync: 0
+                type: -1
+                objectTypeName: 
+                floatValues: []
+                intValues: 
+                boolValues: 
+                stringValues: []
+                vector4Values: []
+                objectReferences: []
+            isEdited: 0
+          - variable:
+              useVariable: 1
+              name: RefRootSubtaskTablet1Inked
+              tooltip: 
+              showInInspector: 0
+              networkSync: 0
+            fsmVar:
+              variableName: RefRootSubtaskTablet1Inked
+              objectType: 
+              useVariable: 0
+              type: 2
+              floatValue: 0
+              intValue: 0
+              boolValue: 0
+              stringValue: 
+              vector4Value: {x: 0, y: 0, z: 0, w: 0}
+              objectReference: {fileID: 0}
+              arrayValue:
+                useVariable: 0
+                name: 
+                tooltip: 
+                showInInspector: 0
+                networkSync: 0
+                type: -1
+                objectTypeName: 
+                floatValues: []
+                intValues: 
+                boolValues: 
+                stringValues: []
+                vector4Values: []
+                objectReferences: []
+            isEdited: 0
+          - variable:
+              useVariable: 1
+              name: RefRootTablet1Finished
+              tooltip: 
+              showInInspector: 0
+              networkSync: 0
+            fsmVar:
+              variableName: RefRootTablet1Finished
+              objectType: 
+              useVariable: 0
+              type: 2
+              floatValue: 0
+              intValue: 0
+              boolValue: 0
+              stringValue: 
+              vector4Value: {x: 0, y: 0, z: 0, w: 0}
+              objectReference: {fileID: 0}
+              arrayValue:
+                useVariable: 0
+                name: 
+                tooltip: 
+                showInInspector: 0
+                networkSync: 0
+                type: -1
+                objectTypeName: 
+                floatValues: []
+                intValues: 
+                boolValues: 
+                stringValues: []
+                vector4Values: []
+                objectReferences: []
+            isEdited: 0
+          - variable:
+              useVariable: 1
+              name: RefRootTablet2Finished
+              tooltip: 
+              showInInspector: 0
+              networkSync: 0
+            fsmVar:
+              variableName: RefRootTablet2Finished
+              objectType: 
+              useVariable: 0
+              type: 2
+              floatValue: 0
+              intValue: 0
+              boolValue: 0
+              stringValue: 
+              vector4Value: {x: 0, y: 0, z: 0, w: 0}
+              objectReference: {fileID: 0}
+              arrayValue:
+                useVariable: 0
+                name: 
+                tooltip: 
+                showInInspector: 0
+                networkSync: 0
+                type: -1
+                objectTypeName: 
+                floatValues: []
+                intValues: 
+                boolValues: 
+                stringValues: []
+                vector4Values: []
+                objectReferences: []
+            isEdited: 0
+          - variable:
+              useVariable: 1
+              name: RefRootTablet3Finished
+              tooltip: 
+              showInInspector: 0
+              networkSync: 0
+            fsmVar:
+              variableName: RefRootTablet3Finished
+              objectType: 
+              useVariable: 0
+              type: 2
+              floatValue: 0
+              intValue: 0
+              boolValue: 0
+              stringValue: 
+              vector4Value: {x: 0, y: 0, z: 0, w: 0}
+              objectReference: {fileID: 0}
+              arrayValue:
+                useVariable: 0
+                name: 
+                tooltip: 
+                showInInspector: 0
+                networkSync: 0
+                type: -1
+                objectTypeName: 
+                floatValues: []
+                intValues: 
+                boolValues: 
+                stringValues: []
+                vector4Values: []
+                objectReferences: []
+            isEdited: 0
+          - variable:
+              useVariable: 1
+              name: TriggerDirectlyOntopPlaque1Enter
+              tooltip: 
+              showInInspector: 0
+              networkSync: 0
+            fsmVar:
+              variableName: TriggerDirectlyOntopPlaque1Enter
+              objectType: 
+              useVariable: 0
+              type: 2
+              floatValue: 0
+              intValue: 0
+              boolValue: 0
+              stringValue: 
+              vector4Value: {x: 0, y: 0, z: 0, w: 0}
+              objectReference: {fileID: 0}
+              arrayValue:
+                useVariable: 0
+                name: 
+                tooltip: 
+                showInInspector: 0
+                networkSync: 0
+                type: -1
+                objectTypeName: 
+                floatValues: []
+                intValues: 
+                boolValues: 
+                stringValues: []
+                vector4Values: []
+                objectReferences: []
+            isEdited: 0
+          - variable:
+              useVariable: 1
+              name: TriggerDirectlyOntopPlaque2Enter
+              tooltip: 
+              showInInspector: 0
+              networkSync: 0
+            fsmVar:
+              variableName: TriggerDirectlyOntopPlaque2Enter
+              objectType: 
+              useVariable: 0
+              type: 2
+              floatValue: 0
+              intValue: 0
+              boolValue: 0
+              stringValue: 
+              vector4Value: {x: 0, y: 0, z: 0, w: 0}
+              objectReference: {fileID: 0}
+              arrayValue:
+                useVariable: 0
+                name: 
+                tooltip: 
+                showInInspector: 0
+                networkSync: 0
+                type: -1
+                objectTypeName: 
+                floatValues: []
+                intValues: 
+                boolValues: 
+                stringValues: []
+                vector4Values: []
+                objectReferences: []
+            isEdited: 0
+          - variable:
+              useVariable: 1
+              name: TriggerDirectlyOntopPlaque3Enter
+              tooltip: 
+              showInInspector: 0
+              networkSync: 0
+            fsmVar:
+              variableName: TriggerDirectlyOntopPlaque3Enter
+              objectType: 
+              useVariable: 0
+              type: 2
+              floatValue: 0
+              intValue: 0
+              boolValue: 0
+              stringValue: 
+              vector4Value: {x: 0, y: 0, z: 0, w: 0}
+              objectReference: {fileID: 0}
+              arrayValue:
+                useVariable: 0
+                name: 
+                tooltip: 
+                showInInspector: 0
+                networkSync: 0
+                type: -1
+                objectTypeName: 
+                floatValues: []
+                intValues: 
+                boolValues: 
+                stringValues: []
+                vector4Values: []
+                objectReferences: []
+            isEdited: 0
+          - variable:
+              useVariable: 1
+              name: TriggerPuzzle1EquipHintEnter
+              tooltip: 
+              showInInspector: 0
+              networkSync: 0
+            fsmVar:
+              variableName: TriggerPuzzle1EquipHintEnter
+              objectType: 
+              useVariable: 0
+              type: 2
+              floatValue: 0
+              intValue: 0
+              boolValue: 0
+              stringValue: 
+              vector4Value: {x: 0, y: 0, z: 0, w: 0}
+              objectReference: {fileID: 0}
+              arrayValue:
+                useVariable: 0
+                name: 
+                tooltip: 
+                showInInspector: 0
+                networkSync: 0
+                type: -1
+                objectTypeName: 
+                floatValues: []
+                intValues: 
+                boolValues: 
+                stringValues: []
+                vector4Values: []
+                objectReferences: []
+            isEdited: 0
+          - variable:
+              useVariable: 1
+              name: TriggerPuzzle2EquipHintEnter
+              tooltip: 
+              showInInspector: 0
+              networkSync: 0
+            fsmVar:
+              variableName: TriggerPuzzle2EquipHintEnter
+              objectType: 
+              useVariable: 0
+              type: 2
+              floatValue: 0
+              intValue: 0
+              boolValue: 0
+              stringValue: 
+              vector4Value: {x: 0, y: 0, z: 0, w: 0}
+              objectReference: {fileID: 0}
+              arrayValue:
+                useVariable: 0
+                name: 
+                tooltip: 
+                showInInspector: 0
+                networkSync: 0
+                type: -1
+                objectTypeName: 
+                floatValues: []
+                intValues: 
+                boolValues: 
+                stringValues: []
+                vector4Values: []
+                objectReferences: []
+            isEdited: 0
+          - variable:
+              useVariable: 1
+              name: TriggerPuzzle3EquipHintEnter
+              tooltip: 
+              showInInspector: 0
+              networkSync: 0
+            fsmVar:
+              variableName: TriggerPuzzle3EquipHintEnter
+              objectType: 
+              useVariable: 0
+              type: 2
+              floatValue: 0
+              intValue: 0
+              boolValue: 0
+              stringValue: 
+              vector4Value: {x: 0, y: 0, z: 0, w: 0}
+              objectReference: {fileID: 0}
+              arrayValue:
+                useVariable: 0
+                name: 
+                tooltip: 
+                showInInspector: 0
+                networkSync: 0
+                type: -1
+                objectTypeName: 
+                floatValues: []
+                intValues: 
+                boolValues: 
+                stringValues: []
+                vector4Values: []
+                objectReferences: []
+            isEdited: 0
+          - variable:
+              useVariable: 1
+              name: LocalPlayer
+              tooltip: 
+              showInInspector: 0
+              networkSync: 0
+            fsmVar:
+              variableName: LocalPlayer
+              objectType: 
+              useVariable: 0
+              type: 3
+              floatValue: 0
+              intValue: 0
+              boolValue: 0
+              stringValue: 
+              vector4Value: {x: 0, y: 0, z: 0, w: 0}
+              objectReference: {fileID: 0}
+              arrayValue:
+                useVariable: 0
+                name: 
+                tooltip: 
+                showInInspector: 0
+                networkSync: 0
+                type: -1
+                objectTypeName: 
+                floatValues: []
+                intValues: 
+                boolValues: 
+                stringValues: []
+                vector4Values: []
+                objectReferences: []
+            isEdited: 0
+          - variable:
+              useVariable: 1
+              name: RefRootPillarPuzzle1
+              tooltip: 
+              showInInspector: 0
+              networkSync: 0
+            fsmVar:
+              variableName: RefRootPillarPuzzle1
+              objectType: 
+              useVariable: 0
+              type: 3
+              floatValue: 0
+              intValue: 0
+              boolValue: 0
+              stringValue: 
+              vector4Value: {x: 0, y: 0, z: 0, w: 0}
+              objectReference: {fileID: 0}
+              arrayValue:
+                useVariable: 0
+                name: 
+                tooltip: 
+                showInInspector: 0
+                networkSync: 0
+                type: -1
+                objectTypeName: 
+                floatValues: []
+                intValues: 
+                boolValues: 
+                stringValues: []
+                vector4Values: []
+                objectReferences: []
+            isEdited: 0
+          - variable:
+              useVariable: 1
+              name: RefRootPillarPuzzle2
+              tooltip: 
+              showInInspector: 0
+              networkSync: 0
+            fsmVar:
+              variableName: RefRootPillarPuzzle2
+              objectType: 
+              useVariable: 0
+              type: 3
+              floatValue: 0
+              intValue: 0
+              boolValue: 0
+              stringValue: 
+              vector4Value: {x: 0, y: 0, z: 0, w: 0}
+              objectReference: {fileID: 0}
+              arrayValue:
+                useVariable: 0
+                name: 
+                tooltip: 
+                showInInspector: 0
+                networkSync: 0
+                type: -1
+                objectTypeName: 
+                floatValues: []
+                intValues: 
+                boolValues: 
+                stringValues: []
+                vector4Values: []
+                objectReferences: []
+            isEdited: 0
+          - variable:
+              useVariable: 1
+              name: RefRootPillarPuzzle3
+              tooltip: 
+              showInInspector: 0
+              networkSync: 0
+            fsmVar:
+              variableName: RefRootPillarPuzzle3
+              objectType: 
+              useVariable: 0
+              type: 3
+              floatValue: 0
+              intValue: 0
+              boolValue: 0
+              stringValue: 
+              vector4Value: {x: 0, y: 0, z: 0, w: 0}
+              objectReference: {fileID: 0}
+              arrayValue:
+                useVariable: 0
+                name: 
+                tooltip: 
+                showInInspector: 0
+                networkSync: 0
+                type: -1
+                objectTypeName: 
+                floatValues: []
+                intValues: 
+                boolValues: 
+                stringValues: []
+                vector4Values: []
+                objectReferences: []
+            isEdited: 0
+          - variable:
+              useVariable: 1
+              name: RefRootTriggerPuzzle1Inspection
+              tooltip: 
+              showInInspector: 0
+              networkSync: 0
+            fsmVar:
+              variableName: RefRootTriggerPuzzle1Inspection
+              objectType: 
+              useVariable: 0
+              type: 3
+              floatValue: 0
+              intValue: 0
+              boolValue: 0
+              stringValue: 
+              vector4Value: {x: 0, y: 0, z: 0, w: 0}
+              objectReference: {fileID: 0}
+              arrayValue:
+                useVariable: 0
+                name: 
+                tooltip: 
+                showInInspector: 0
+                networkSync: 0
+                type: -1
+                objectTypeName: 
+                floatValues: []
+                intValues: 
+                boolValues: 
+                stringValues: []
+                vector4Values: []
+                objectReferences: []
+            isEdited: 0
+          - variable:
+              useVariable: 1
+              name: RefRootTriggerPuzzle2Inspection
+              tooltip: 
+              showInInspector: 0
+              networkSync: 0
+            fsmVar:
+              variableName: RefRootTriggerPuzzle2Inspection
+              objectType: 
+              useVariable: 0
+              type: 3
+              floatValue: 0
+              intValue: 0
+              boolValue: 0
+              stringValue: 
+              vector4Value: {x: 0, y: 0, z: 0, w: 0}
+              objectReference: {fileID: 0}
+              arrayValue:
+                useVariable: 0
+                name: 
+                tooltip: 
+                showInInspector: 0
+                networkSync: 0
+                type: -1
+                objectTypeName: 
+                floatValues: []
+                intValues: 
+                boolValues: 
+                stringValues: []
+                vector4Values: []
+                objectReferences: []
+            isEdited: 0
+          - variable:
+              useVariable: 1
+              name: RefRootTriggerPuzzle3Inspection
+              tooltip: 
+              showInInspector: 0
+              networkSync: 0
+            fsmVar:
+              variableName: RefRootTriggerPuzzle3Inspection
+              objectType: 
+              useVariable: 0
+              type: 3
+              floatValue: 0
+              intValue: 0
+              boolValue: 0
+              stringValue: 
+              vector4Value: {x: 0, y: 0, z: 0, w: 0}
+              objectReference: {fileID: 0}
+              arrayValue:
+                useVariable: 0
+                name: 
+                tooltip: 
+                showInInspector: 0
+                networkSync: 0
+                type: -1
+                objectTypeName: 
+                floatValues: []
+                intValues: 
+                boolValues: 
+                stringValues: []
+                vector4Values: []
+                objectReferences: []
+            isEdited: 0
+          - variable:
+              useVariable: 1
+              name: Tablet1Sparkles
+              tooltip: 
+              showInInspector: 0
+              networkSync: 0
+            fsmVar:
+              variableName: Tablet1Sparkles
+              objectType: 
+              useVariable: 0
+              type: 3
+              floatValue: 0
+              intValue: 0
+              boolValue: 0
+              stringValue: 
+              vector4Value: {x: 0, y: 0, z: 0, w: 0}
+              objectReference: {fileID: 0}
+              arrayValue:
+                useVariable: 0
+                name: 
+                tooltip: 
+                showInInspector: 0
+                networkSync: 0
+                type: -1
+                objectTypeName: 
+                floatValues: []
+                intValues: 
+                boolValues: 
+                stringValues: []
+                vector4Values: []
+                objectReferences: []
+            isEdited: 0
+          - variable:
+              useVariable: 1
+              name: Tablet2Sparkles
+              tooltip: 
+              showInInspector: 0
+              networkSync: 0
+            fsmVar:
+              variableName: Tablet2Sparkles
+              objectType: 
+              useVariable: 0
+              type: 3
+              floatValue: 0
+              intValue: 0
+              boolValue: 0
+              stringValue: 
+              vector4Value: {x: 0, y: 0, z: 0, w: 0}
+              objectReference: {fileID: 0}
+              arrayValue:
+                useVariable: 0
+                name: 
+                tooltip: 
+                showInInspector: 0
+                networkSync: 0
+                type: -1
+                objectTypeName: 
+                floatValues: []
+                intValues: 
+                boolValues: 
+                stringValues: []
+                vector4Values: []
+                objectReferences: []
+            isEdited: 0
+          - variable:
+              useVariable: 1
+              name: Tablet3Sparkles
+              tooltip: 
+              showInInspector: 0
+              networkSync: 0
+            fsmVar:
+              variableName: Tablet3Sparkles
+              objectType: 
+              useVariable: 0
+              type: 3
+              floatValue: 0
+              intValue: 0
+              boolValue: 0
+              stringValue: 
+              vector4Value: {x: 0, y: 0, z: 0, w: 0}
+              objectReference: {fileID: 0}
+              arrayValue:
+                useVariable: 0
+                name: 
+                tooltip: 
+                showInInspector: 0
+                networkSync: 0
+                type: -1
+                objectTypeName: 
+                floatValues: []
+                intValues: 
+                boolValues: 
+                stringValues: []
+                vector4Values: []
+                objectReferences: []
+            isEdited: 0
+          - variable:
+              useVariable: 1
+              name: TriggerDirectlyOntopPlaque1
+              tooltip: 
+              showInInspector: 0
+              networkSync: 0
+            fsmVar:
+              variableName: TriggerDirectlyOntopPlaque1
+              objectType: 
+              useVariable: 0
+              type: 3
+              floatValue: 0
+              intValue: 0
+              boolValue: 0
+              stringValue: 
+              vector4Value: {x: 0, y: 0, z: 0, w: 0}
+              objectReference: {fileID: 0}
+              arrayValue:
+                useVariable: 0
+                name: 
+                tooltip: 
+                showInInspector: 0
+                networkSync: 0
+                type: -1
+                objectTypeName: 
+                floatValues: []
+                intValues: 
+                boolValues: 
+                stringValues: []
+                vector4Values: []
+                objectReferences: []
+            isEdited: 0
+          - variable:
+              useVariable: 1
+              name: TriggerDirectlyOntopPlaque2
+              tooltip: 
+              showInInspector: 0
+              networkSync: 0
+            fsmVar:
+              variableName: TriggerDirectlyOntopPlaque2
+              objectType: 
+              useVariable: 0
+              type: 3
+              floatValue: 0
+              intValue: 0
+              boolValue: 0
+              stringValue: 
+              vector4Value: {x: 0, y: 0, z: 0, w: 0}
+              objectReference: {fileID: 0}
+              arrayValue:
+                useVariable: 0
+                name: 
+                tooltip: 
+                showInInspector: 0
+                networkSync: 0
+                type: -1
+                objectTypeName: 
+                floatValues: []
+                intValues: 
+                boolValues: 
+                stringValues: []
+                vector4Values: []
+                objectReferences: []
+            isEdited: 0
+          - variable:
+              useVariable: 1
+              name: TriggerDirectlyOntopPlaque3
+              tooltip: 
+              showInInspector: 0
+              networkSync: 0
+            fsmVar:
+              variableName: TriggerDirectlyOntopPlaque3
+              objectType: 
+              useVariable: 0
+              type: 3
+              floatValue: 0
+              intValue: 0
+              boolValue: 0
+              stringValue: 
+              vector4Value: {x: 0, y: 0, z: 0, w: 0}
+              objectReference: {fileID: 0}
+              arrayValue:
+                useVariable: 0
+                name: 
+                tooltip: 
+                showInInspector: 0
+                networkSync: 0
+                type: -1
+                objectTypeName: 
+                floatValues: []
+                intValues: 
+                boolValues: 
+                stringValues: []
+                vector4Values: []
+                objectReferences: []
+            isEdited: 0
+          - variable:
+              useVariable: 1
+              name: TriggerJumpDetectionPlaque1
+              tooltip: 
+              showInInspector: 0
+              networkSync: 0
+            fsmVar:
+              variableName: TriggerJumpDetectionPlaque1
+              objectType: 
+              useVariable: 0
+              type: 3
+              floatValue: 0
+              intValue: 0
+              boolValue: 0
+              stringValue: 
+              vector4Value: {x: 0, y: 0, z: 0, w: 0}
+              objectReference: {fileID: 0}
+              arrayValue:
+                useVariable: 0
+                name: 
+                tooltip: 
+                showInInspector: 0
+                networkSync: 0
+                type: -1
+                objectTypeName: 
+                floatValues: []
+                intValues: 
+                boolValues: 
+                stringValues: []
+                vector4Values: []
+                objectReferences: []
+            isEdited: 0
+          - variable:
+              useVariable: 1
+              name: TriggerJumpDetectionPlaque2
+              tooltip: 
+              showInInspector: 0
+              networkSync: 0
+            fsmVar:
+              variableName: TriggerJumpDetectionPlaque2
+              objectType: 
+              useVariable: 0
+              type: 3
+              floatValue: 0
+              intValue: 0
+              boolValue: 0
+              stringValue: 
+              vector4Value: {x: 0, y: 0, z: 0, w: 0}
+              objectReference: {fileID: 0}
+              arrayValue:
+                useVariable: 0
+                name: 
+                tooltip: 
+                showInInspector: 0
+                networkSync: 0
+                type: -1
+                objectTypeName: 
+                floatValues: []
+                intValues: 
+                boolValues: 
+                stringValues: []
+                vector4Values: []
+                objectReferences: []
+            isEdited: 0
+          - variable:
+              useVariable: 1
+              name: TriggerJumpDetectionPlaque3
+              tooltip: 
+              showInInspector: 0
+              networkSync: 0
+            fsmVar:
+              variableName: TriggerJumpDetectionPlaque3
+              objectType: 
+              useVariable: 0
+              type: 3
+              floatValue: 0
+              intValue: 0
+              boolValue: 0
+              stringValue: 
+              vector4Value: {x: 0, y: 0, z: 0, w: 0}
+              objectReference: {fileID: 0}
+              arrayValue:
+                useVariable: 0
+                name: 
+                tooltip: 
+                showInInspector: 0
+                networkSync: 0
+                type: -1
+                objectTypeName: 
+                floatValues: []
+                intValues: 
+                boolValues: 
+                stringValues: []
+                vector4Values: []
+                objectReferences: []
+            isEdited: 0
+          - variable:
+              useVariable: 1
+              name: TriggerPuzzle1ApplySail
+              tooltip: 
+              showInInspector: 0
+              networkSync: 0
+            fsmVar:
+              variableName: TriggerPuzzle1ApplySail
+              objectType: 
+              useVariable: 0
+              type: 3
+              floatValue: 0
+              intValue: 0
+              boolValue: 0
+              stringValue: 
+              vector4Value: {x: 0, y: 0, z: 0, w: 0}
+              objectReference: {fileID: 0}
+              arrayValue:
+                useVariable: 0
+                name: 
+                tooltip: 
+                showInInspector: 0
+                networkSync: 0
+                type: -1
+                objectTypeName: 
+                floatValues: []
+                intValues: 
+                boolValues: 
+                stringValues: []
+                vector4Values: []
+                objectReferences: []
+            isEdited: 0
+          - variable:
+              useVariable: 1
+              name: TriggerPuzzle1CollectSail
+              tooltip: 
+              showInInspector: 0
+              networkSync: 0
+            fsmVar:
+              variableName: TriggerPuzzle1CollectSail
+              objectType: 
+              useVariable: 0
+              type: 3
+              floatValue: 0
+              intValue: 0
+              boolValue: 0
+              stringValue: 
+              vector4Value: {x: 0, y: 0, z: 0, w: 0}
+              objectReference: {fileID: 0}
+              arrayValue:
+                useVariable: 0
+                name: 
+                tooltip: 
+                showInInspector: 0
+                networkSync: 0
+                type: -1
+                objectTypeName: 
+                floatValues: []
+                intValues: 
+                boolValues: 
+                stringValues: []
+                vector4Values: []
+                objectReferences: []
+            isEdited: 0
+          - variable:
+              useVariable: 1
+              name: TriggerPuzzle1EquipHint
+              tooltip: 
+              showInInspector: 0
+              networkSync: 0
+            fsmVar:
+              variableName: TriggerPuzzle1EquipHint
+              objectType: 
+              useVariable: 0
+              type: 3
+              floatValue: 0
+              intValue: 0
+              boolValue: 0
+              stringValue: 
+              vector4Value: {x: 0, y: 0, z: 0, w: 0}
+              objectReference: {fileID: 0}
+              arrayValue:
+                useVariable: 0
+                name: 
+                tooltip: 
+                showInInspector: 0
+                networkSync: 0
+                type: -1
+                objectTypeName: 
+                floatValues: []
+                intValues: 
+                boolValues: 
+                stringValues: []
+                vector4Values: []
+                objectReferences: []
+            isEdited: 0
+          - variable:
+              useVariable: 1
+              name: TriggerPuzzle2ApplySail
+              tooltip: 
+              showInInspector: 0
+              networkSync: 0
+            fsmVar:
+              variableName: TriggerPuzzle2ApplySail
+              objectType: 
+              useVariable: 0
+              type: 3
+              floatValue: 0
+              intValue: 0
+              boolValue: 0
+              stringValue: 
+              vector4Value: {x: 0, y: 0, z: 0, w: 0}
+              objectReference: {fileID: 0}
+              arrayValue:
+                useVariable: 0
+                name: 
+                tooltip: 
+                showInInspector: 0
+                networkSync: 0
+                type: -1
+                objectTypeName: 
+                floatValues: []
+                intValues: 
+                boolValues: 
+                stringValues: []
+                vector4Values: []
+                objectReferences: []
+            isEdited: 0
+          - variable:
+              useVariable: 1
+              name: TriggerPuzzle2CollectSail
+              tooltip: 
+              showInInspector: 0
+              networkSync: 0
+            fsmVar:
+              variableName: TriggerPuzzle2CollectSail
+              objectType: 
+              useVariable: 0
+              type: 3
+              floatValue: 0
+              intValue: 0
+              boolValue: 0
+              stringValue: 
+              vector4Value: {x: 0, y: 0, z: 0, w: 0}
+              objectReference: {fileID: 0}
+              arrayValue:
+                useVariable: 0
+                name: 
+                tooltip: 
+                showInInspector: 0
+                networkSync: 0
+                type: -1
+                objectTypeName: 
+                floatValues: []
+                intValues: 
+                boolValues: 
+                stringValues: []
+                vector4Values: []
+                objectReferences: []
+            isEdited: 0
+          - variable:
+              useVariable: 1
+              name: TriggerPuzzle2EquipHint
+              tooltip: 
+              showInInspector: 0
+              networkSync: 0
+            fsmVar:
+              variableName: TriggerPuzzle2EquipHint
+              objectType: 
+              useVariable: 0
+              type: 3
+              floatValue: 0
+              intValue: 0
+              boolValue: 0
+              stringValue: 
+              vector4Value: {x: 0, y: 0, z: 0, w: 0}
+              objectReference: {fileID: 0}
+              arrayValue:
+                useVariable: 0
+                name: 
+                tooltip: 
+                showInInspector: 0
+                networkSync: 0
+                type: -1
+                objectTypeName: 
+                floatValues: []
+                intValues: 
+                boolValues: 
+                stringValues: []
+                vector4Values: []
+                objectReferences: []
+            isEdited: 0
+          - variable:
+              useVariable: 1
+              name: TriggerPuzzle3ApplySail
+              tooltip: 
+              showInInspector: 0
+              networkSync: 0
+            fsmVar:
+              variableName: TriggerPuzzle3ApplySail
+              objectType: 
+              useVariable: 0
+              type: 3
+              floatValue: 0
+              intValue: 0
+              boolValue: 0
+              stringValue: 
+              vector4Value: {x: 0, y: 0, z: 0, w: 0}
+              objectReference: {fileID: 0}
+              arrayValue:
+                useVariable: 0
+                name: 
+                tooltip: 
+                showInInspector: 0
+                networkSync: 0
+                type: -1
+                objectTypeName: 
+                floatValues: []
+                intValues: 
+                boolValues: 
+                stringValues: []
+                vector4Values: []
+                objectReferences: []
+            isEdited: 0
+          - variable:
+              useVariable: 1
+              name: TriggerPuzzle3CollectSail
+              tooltip: 
+              showInInspector: 0
+              networkSync: 0
+            fsmVar:
+              variableName: TriggerPuzzle3CollectSail
+              objectType: 
+              useVariable: 0
+              type: 3
+              floatValue: 0
+              intValue: 0
+              boolValue: 0
+              stringValue: 
+              vector4Value: {x: 0, y: 0, z: 0, w: 0}
+              objectReference: {fileID: 0}
+              arrayValue:
+                useVariable: 0
+                name: 
+                tooltip: 
+                showInInspector: 0
+                networkSync: 0
+                type: -1
+                objectTypeName: 
+                floatValues: []
+                intValues: 
+                boolValues: 
+                stringValues: []
+                vector4Values: []
+                objectReferences: []
+            isEdited: 0
+          - variable:
+              useVariable: 1
+              name: TriggerPuzzle3EquipHint
+              tooltip: 
+              showInInspector: 0
+              networkSync: 0
+            fsmVar:
+              variableName: TriggerPuzzle3EquipHint
+              objectType: 
+              useVariable: 0
+              type: 3
+              floatValue: 0
+              intValue: 0
+              boolValue: 0
+              stringValue: 
+              vector4Value: {x: 0, y: 0, z: 0, w: 0}
+              objectReference: {fileID: 0}
+              arrayValue:
+                useVariable: 0
+                name: 
+                tooltip: 
+                showInInspector: 0
+                networkSync: 0
+                type: -1
+                objectTypeName: 
+                floatValues: []
+                intValues: 
+                boolValues: 
+                stringValues: []
+                vector4Values: []
+                objectReferences: []
+            isEdited: 0
+          - variable:
+              useVariable: 1
+              name: RefRootSubtaskTablet2Jumps
+              tooltip: 
+              showInInspector: 0
+              networkSync: 0
+            fsmVar:
+              variableName: RefRootSubtaskTablet2Jumps
+              objectType: 
+              useVariable: 0
+              type: 1
+              floatValue: 0
+              intValue: 0
+              boolValue: 0
+              stringValue: 
+              vector4Value: {x: 0, y: 0, z: 0, w: 0}
+              objectReference: {fileID: 0}
+              arrayValue:
+                useVariable: 0
+                name: 
+                tooltip: 
+                showInInspector: 0
+                networkSync: 0
+                type: -1
+                objectTypeName: 
+                floatValues: []
+                intValues: 
+                boolValues: 
+                stringValues: []
+                vector4Values: []
+                objectReferences: []
+            isEdited: 0
+          - variable:
+              useVariable: 1
+              name: RefRootSubtaskTablet3Jumps
+              tooltip: 
+              showInInspector: 0
+              networkSync: 0
+            fsmVar:
+              variableName: RefRootSubtaskTablet3Jumps
+              objectType: 
+              useVariable: 0
+              type: 1
+              floatValue: 0
+              intValue: 0
+              boolValue: 0
+              stringValue: 
+              vector4Value: {x: 0, y: 0, z: 0, w: 0}
+              objectReference: {fileID: 0}
+              arrayValue:
+                useVariable: 0
+                name: 
+                tooltip: 
+                showInInspector: 0
+                networkSync: 0
+                type: -1
+                objectTypeName: 
+                floatValues: []
+                intValues: 
+                boolValues: 
+                stringValues: []
+                vector4Values: []
+                objectReferences: []
+            isEdited: 0
+          - variable:
+              useVariable: 1
+              name: RefRootSubtaskTablet2Clothed
+              tooltip: 
+              showInInspector: 0
+              networkSync: 0
+            fsmVar:
+              variableName: RefRootSubtaskTablet2Clothed
+              objectType: 
+              useVariable: 0
+              type: 2
+              floatValue: 0
+              intValue: 0
+              boolValue: 0
+              stringValue: 
+              vector4Value: {x: 0, y: 0, z: 0, w: 0}
+              objectReference: {fileID: 0}
+              arrayValue:
+                useVariable: 0
+                name: 
+                tooltip: 
+                showInInspector: 0
+                networkSync: 0
+                type: -1
+                objectTypeName: 
+                floatValues: []
+                intValues: 
+                boolValues: 
+                stringValues: []
+                vector4Values: []
+                objectReferences: []
+            isEdited: 0
+          - variable:
+              useVariable: 1
+              name: RefRootSubtaskTablet2Inked
+              tooltip: 
+              showInInspector: 0
+              networkSync: 0
+            fsmVar:
+              variableName: RefRootSubtaskTablet2Inked
+              objectType: 
+              useVariable: 0
+              type: 2
+              floatValue: 0
+              intValue: 0
+              boolValue: 0
+              stringValue: 
+              vector4Value: {x: 0, y: 0, z: 0, w: 0}
+              objectReference: {fileID: 0}
+              arrayValue:
+                useVariable: 0
+                name: 
+                tooltip: 
+                showInInspector: 0
+                networkSync: 0
+                type: -1
+                objectTypeName: 
+                floatValues: []
+                intValues: 
+                boolValues: 
+                stringValues: []
+                vector4Values: []
+                objectReferences: []
+            isEdited: 0
+          - variable:
+              useVariable: 1
+              name: RefRootSubtaskTablet3Clothed
+              tooltip: 
+              showInInspector: 0
+              networkSync: 0
+            fsmVar:
+              variableName: RefRootSubtaskTablet3Clothed
+              objectType: 
+              useVariable: 0
+              type: 2
+              floatValue: 0
+              intValue: 0
+              boolValue: 0
+              stringValue: 
+              vector4Value: {x: 0, y: 0, z: 0, w: 0}
+              objectReference: {fileID: 0}
+              arrayValue:
+                useVariable: 0
+                name: 
+                tooltip: 
+                showInInspector: 0
+                networkSync: 0
+                type: -1
+                objectTypeName: 
+                floatValues: []
+                intValues: 
+                boolValues: 
+                stringValues: []
+                vector4Values: []
+                objectReferences: []
+            isEdited: 0
+          - variable:
+              useVariable: 1
+              name: RefRootSubtaskTablet3Inked
+              tooltip: 
+              showInInspector: 0
+              networkSync: 0
+            fsmVar:
+              variableName: RefRootSubtaskTablet3Inked
+              objectType: 
+              useVariable: 0
+              type: 2
+              floatValue: 0
+              intValue: 0
+              boolValue: 0
+              stringValue: 
+              vector4Value: {x: 0, y: 0, z: 0, w: 0}
+              objectReference: {fileID: 0}
+              arrayValue:
+                useVariable: 0
+                name: 
+                tooltip: 
+                showInInspector: 0
+                networkSync: 0
+                type: -1
+                objectTypeName: 
+                floatValues: []
+                intValues: 
+                boolValues: 
+                stringValues: []
+                vector4Values: []
+                objectReferences: []
+            isEdited: 0
+          - variable:
+              useVariable: 1
+              name: RockhopperWantsToComment
+              tooltip: 
+              showInInspector: 0
+              networkSync: 0
+            fsmVar:
+              variableName: RockhopperWantsToComment
+              objectType: 
+              useVariable: 0
+              type: 2
+              floatValue: 0
+              intValue: 0
+              boolValue: 0
+              stringValue: 
+              vector4Value: {x: 0, y: 0, z: 0, w: 0}
+              objectReference: {fileID: 0}
+              arrayValue:
+                useVariable: 0
+                name: 
+                tooltip: 
+                showInInspector: 0
+                networkSync: 0
+                type: -1
+                objectTypeName: 
+                floatValues: []
+                intValues: 
+                boolValues: 
+                stringValues: []
+                vector4Values: []
+                objectReferences: []
+            isEdited: 0
+          - variable:
+              useVariable: 1
+              name: PUCconchWorld
+              tooltip: 
+              showInInspector: 0
+              networkSync: 0
+            fsmVar:
+              variableName: PUCconchWorld
+              objectType: 
+              useVariable: 0
+              type: 3
+              floatValue: 0
+              intValue: 0
+              boolValue: 0
+              stringValue: 
+              vector4Value: {x: 0, y: 0, z: 0, w: 0}
+              objectReference: {fileID: 0}
+              arrayValue:
+                useVariable: 0
+                name: 
+                tooltip: 
+                showInInspector: 0
+                networkSync: 0
+                type: -1
+                objectTypeName: 
+                floatValues: []
+                intValues: 
+                boolValues: 
+                stringValues: []
+                vector4Values: []
+                objectReferences: []
+            isEdited: 0
+          - variable:
+              useVariable: 1
+              name: SparklesConch
+              tooltip: 
+              showInInspector: 0
+              networkSync: 0
+            fsmVar:
+              variableName: SparklesConch
+              objectType: 
+              useVariable: 0
+              type: 3
+              floatValue: 0
+              intValue: 0
+              boolValue: 0
+              stringValue: 
+              vector4Value: {x: 0, y: 0, z: 0, w: 0}
+              objectReference: {fileID: 0}
+              arrayValue:
+                useVariable: 0
+                name: 
+                tooltip: 
+                showInInspector: 0
+                networkSync: 0
+                type: -1
+                objectTypeName: 
+                floatValues: []
+                intValues: 
+                boolValues: 
+                stringValues: []
+                vector4Values: []
+                objectReferences: []
+            isEdited: 0
+          - variable:
+              useVariable: 1
+              name: TriggerPickedUpConch
+              tooltip: 
+              showInInspector: 0
+              networkSync: 0
+            fsmVar:
+              variableName: TriggerPickedUpConch
+              objectType: 
+              useVariable: 0
+              type: 3
+              floatValue: 0
+              intValue: 0
+              boolValue: 0
+              stringValue: 
+              vector4Value: {x: 0, y: 0, z: 0, w: 0}
+              objectReference: {fileID: 0}
+              arrayValue:
+                useVariable: 0
+                name: 
+                tooltip: 
+                showInInspector: 0
+                networkSync: 0
+                type: -1
+                objectTypeName: 
+                floatValues: []
+                intValues: 
+                boolValues: 
+                stringValues: []
+                vector4Values: []
+                objectReferences: []
+            isEdited: 0
+          - variable:
+              useVariable: 1
+              name: ZoneCamera
+              tooltip: 
+              showInInspector: 0
+              networkSync: 0
+            fsmVar:
+              variableName: ZoneCamera
+              objectType: 
+              useVariable: 0
+              type: 3
+              floatValue: 0
+              intValue: 0
+              boolValue: 0
+              stringValue: 
+              vector4Value: {x: 0, y: 0, z: 0, w: 0}
+              objectReference: {fileID: 0}
+              arrayValue:
+                useVariable: 0
+                name: 
+                tooltip: 
+                showInInspector: 0
+                networkSync: 0
+                type: -1
+                objectTypeName: 
+                floatValues: []
+                intValues: 
+                boolValues: 
+                stringValues: []
+                vector4Values: []
+                objectReferences: []
+            isEdited: 0
+          - variable:
+              useVariable: 1
+              name: RefRootCollectedSailsTotal
+              tooltip: 
+              showInInspector: 0
+              networkSync: 0
+            fsmVar:
+              variableName: RefRootCollectedSailsTotal
+              objectType: 
+              useVariable: 0
+              type: 1
+              floatValue: 0
+              intValue: 0
+              boolValue: 0
+              stringValue: 
+              vector4Value: {x: 0, y: 0, z: 0, w: 0}
+              objectReference: {fileID: 0}
+              arrayValue:
+                useVariable: 0
+                name: 
+                tooltip: 
+                showInInspector: 0
+                networkSync: 0
+                type: -1
+                objectTypeName: 
+                floatValues: []
+                intValues: 
+                boolValues: 
+                stringValues: []
+                vector4Values: []
+                objectReferences: []
+            isEdited: 0
+          - variable:
+              useVariable: 1
+              name: StateMachineID
+              tooltip: 
+              showInInspector: 0
+              networkSync: 0
+            fsmVar:
+              variableName: StateMachineID
+              objectType: 
+              useVariable: 0
+              type: 1
+              floatValue: 0
+              intValue: 0
+              boolValue: 0
+              stringValue: 
+              vector4Value: {x: 0, y: 0, z: 0, w: 0}
+              objectReference: {fileID: 0}
+              arrayValue:
+                useVariable: 0
+                name: 
+                tooltip: 
+                showInInspector: 0
+                networkSync: 0
+                type: -1
+                objectTypeName: 
+                floatValues: []
+                intValues: 
+                boolValues: 
+                stringValues: []
+                vector4Values: []
+                objectReferences: []
+            isEdited: 0
+          - variable:
+              useVariable: 1
+              name: RefRootAddItemSails
+              tooltip: 
+              showInInspector: 0
+              networkSync: 0
+            fsmVar:
+              variableName: RefRootAddItemSails
+              objectType: 
+              useVariable: 0
+              type: 2
+              floatValue: 0
+              intValue: 0
+              boolValue: 0
+              stringValue: 
+              vector4Value: {x: 0, y: 0, z: 0, w: 0}
+              objectReference: {fileID: 0}
+              arrayValue:
+                useVariable: 0
+                name: 
+                tooltip: 
+                showInInspector: 0
+                networkSync: 0
+                type: -1
+                objectTypeName: 
+                floatValues: []
+                intValues: 
+                boolValues: 
+                stringValues: []
+                vector4Values: []
+                objectReferences: []
+            isEdited: 0
+          outputVariables: []
+          outputEvents: []
+        fsmEventTargetParams: []
+        fsmPropertyParams: []
+        layoutOptionParams: []
+        fsmStringParams:
+        - useVariable: 0
+          name: 
+          tooltip: 
+          showInInspector: 0
+          networkSync: 0
+          value: MUS/Quest/Rockhopper/C001Q008
+        - useVariable: 0
+          name: 
+          tooltip: 
+          showInInspector: 0
+          networkSync: 0
+          value: RockhopperMedium
+        fsmObjectParams: []
+        fsmVarParams: []
+        fsmArrayParams: []
+        fsmEnumParams: []
+        fsmFloatParams: []
+        fsmIntParams: []
+        fsmBoolParams: []
+        fsmVector2Params: []
+        fsmVector3Params: []
+        fsmColorParams: []
+        fsmRectParams: []
+        fsmQuaternionParams: []
+        stringParams: []
+        byteData: 4d616b6520676f6f6420696d7072657373696f6e7351756573742e546578742e52484330303151303038476f6f64496d7072657373696f6e732e4f626a3646534d2e4368616e6765204f626a205465787420322e6931386e5465787401ffffffff007175657374526f636b686f7070657230317c30384d616b652d676f6f642d696d7072657373696f6e7330364f626a362d4d616b655f696d7072657373696f6e735f6f665f70757a7a6c65733030
+        arrayParamSizes: 
+        arrayParamTypes: []
+        customTypeSizes: 
+        customTypeNames: []
+        paramDataType: 03000000030000000100000000000000260000001700000001000000120000001200000013000000030000000300000003000000030000000300000003000000030000000300000003000000030000000300000003000000
+        paramName:
+        - Description
+        - i18nDescription
+        - NotifyPlayer
+        - DefinitionRewardIndex
+        - fsmTemplateControl
+        - finishEvent
+        - everyFrame
+        - EventName
+        - SwitchTo
+        - TheObject
+        - Context
+        - QuestId
+        - SeasonAndEpisode
+        - ObjectiveName
+        - ObjectiveNumber
+        - StepName
+        - StepNumber
+        - Action
+        - Type
+        - Location
+        - Level
+        - Message
+        paramDataPos: 00000000150000005c0000005d000000000000006100000061000000000000000100000000000000620000006700000071000000760000008b0000008d000000ad000000af000000af000000af000000af000000af000000
+        paramByteDataSize: 15000000470000000100000004000000000000000000000001000000000000000000000000000000050000000a00000005000000150000000200000020000000020000000000000000000000000000000000000000000000
+    - name: Is Player in Beach
+      description: 
+      colorIndex: 3
+      position:
+        serializedVersion: 2
+        x: 650.4844
+        y: 449.21875
+        width: 140
+        height: 48
+      isBreakpoint: 0
+      isSequence: 0
+      hideUnused: 0
+      transitions:
+      - fsmEvent:
+          name: True
+          isSystemEvent: 0
+          isGlobal: 0
+        toState: Spawn Pillar Puzzles Plaques
+        linkStyle: 0
+        linkConstraint: 0
+        linkTarget: 0
+        colorIndex: 0
+      - fsmEvent:
+          name: False
+          isSystemEvent: 0
+          isGlobal: 0
+        toState: InitComplete
+        linkStyle: 0
+        linkConstraint: 0
+        linkTarget: 0
+        colorIndex: 0
+      actionData:
+        actionNames:
+        - ClubPenguin.Adventure.CheckSceneMatchesAction
+        customNames:
+        - 
+        actionEnabled: 01
+        actionIsOpen: 01
+        actionStartIndex: 00000000
+        actionHashCodes: 2fd47001
+        unityObjectParams: []
+        fsmGameObjectParams: []
+        fsmOwnerDefaultParams: []
+        animationCurveParams: []
+        functionCallParams: []
+        fsmTemplateControlParams: []
+        fsmEventTargetParams: []
+        fsmPropertyParams: []
+        layoutOptionParams: []
+        fsmStringParams: []
+        fsmObjectParams: []
+        fsmVarParams: []
+        fsmArrayParams: []
+        fsmEnumParams: []
+        fsmFloatParams: []
+        fsmIntParams: []
+        fsmBoolParams: []
+        fsmVector2Params: []
+        fsmVector3Params: []
+        fsmColorParams: []
+        fsmRectParams: []
+        fsmQuaternionParams: []
+        stringParams: []
+        byteData: 42656163685472756546616c7365
+        arrayParamSizes: 
+        arrayParamTypes: []
+        customTypeSizes: 
+        customTypeNames: []
+        paramDataType: 030000001700000017000000
+        paramName:
+        - SceneName
+        - DoesMatchEvent
+        - DoesNotMatchEvent
+        paramDataPos: 000000000500000009000000
+        paramByteDataSize: 050000000400000005000000
+    - name: InitComplete
+      description: 
+      colorIndex: 3
+      position:
+        serializedVersion: 2
+        x: 649
+        y: 762.77344
+        width: 105
+        height: 16
+      isBreakpoint: 0
+      isSequence: 0
+      hideUnused: 0
+      transitions: []
+      actionData:
+        actionNames:
+        - ClubPenguin.Adventure.QuestInitializationCompleteAction
+        customNames:
+        - 
+        actionEnabled: 01
+        actionIsOpen: 01
+        actionStartIndex: 00000000
+        actionHashCodes: 00000000
+        unityObjectParams: []
+        fsmGameObjectParams: []
+        fsmOwnerDefaultParams: []
+        animationCurveParams: []
+        functionCallParams: []
+        fsmTemplateControlParams: []
+        fsmEventTargetParams: []
+        fsmPropertyParams: []
+        layoutOptionParams: []
+        fsmStringParams: []
+        fsmObjectParams: []
+        fsmVarParams: []
+        fsmArrayParams: []
+        fsmEnumParams: []
+        fsmFloatParams: []
+        fsmIntParams: []
+        fsmBoolParams: []
+        fsmVector2Params: []
+        fsmVector3Params: []
+        fsmColorParams: []
+        fsmRectParams: []
+        fsmQuaternionParams: []
+        stringParams: []
+        byteData: 
+        arrayParamSizes: 
+        arrayParamTypes: []
+        customTypeSizes: 
+        customTypeNames: []
+        paramDataType: 
+        paramName: []
+        paramDataPos: 
+        paramByteDataSize: 
+    - name: InitializeQuest
+      description: 
+      colorIndex: 3
+      position:
+        serializedVersion: 2
+        x: 656
+        y: 128.42188
+        width: 117
+        height: 32
+      isBreakpoint: 0
+      isSequence: 0
+      hideUnused: 0
+      transitions:
+      - fsmEvent:
+          name: FINISHED
+          isSystemEvent: 1
+          isGlobal: 0
+        toState: --- BI TIME --- start
+        linkStyle: 0
+        linkConstraint: 0
+        linkTarget: 0
+        colorIndex: 0
+      actionData:
+        actionNames: []
+        customNames: []
+        actionEnabled: 
+        actionIsOpen: 
+        actionStartIndex: 
+        actionHashCodes: 
+        unityObjectParams: []
+        fsmGameObjectParams: []
+        fsmOwnerDefaultParams: []
+        animationCurveParams: []
+        functionCallParams: []
+        fsmTemplateControlParams: []
+        fsmEventTargetParams: []
+        fsmPropertyParams: []
+        layoutOptionParams: []
+        fsmStringParams: []
+        fsmObjectParams: []
+        fsmVarParams: []
+        fsmArrayParams: []
+        fsmEnumParams: []
+        fsmFloatParams: []
+        fsmIntParams: []
+        fsmBoolParams: []
+        fsmVector2Params: []
+        fsmVector3Params: []
+        fsmColorParams: []
+        fsmRectParams: []
+        fsmQuaternionParams: []
+        stringParams: []
+        byteData: 
+        arrayParamSizes: 
+        arrayParamTypes: []
+        customTypeSizes: 
+        customTypeNames: []
+        paramDataType: 
+        paramName: []
+        paramDataPos: 
+        paramByteDataSize: 
+    - name: Spawn TriggerPuzzle1Inspection
+      description: Removed due to change request.
+      colorIndex: 6
+      position:
+        serializedVersion: 2
+        x: 645.9844
+        y: 560.0469
+        width: 238
+        height: 32
+      isBreakpoint: 0
+      isSequence: 0
+      hideUnused: 0
+      transitions:
+      - fsmEvent:
+          name: FINISHED
+          isSystemEvent: 1
+          isGlobal: 0
+        toState: Spawn TriggerPuzzle2Inspection
+        linkStyle: 0
+        linkConstraint: 0
+        linkTarget: 0
+        colorIndex: 0
+      actionData:
+        actionNames:
+        - ClubPenguin.Adventure.CreateQuestObject
+        customNames:
+        - 
+        actionEnabled: 01
+        actionIsOpen: 01
+        actionStartIndex: 00000000
+        actionHashCodes: eb67b000
+        unityObjectParams: []
+        fsmGameObjectParams:
+        - useVariable: 0
+          name: 
+          tooltip: 
+          showInInspector: 0
+          networkSync: 0
+          value: {fileID: 1389304319094669, guid: d0b0b2f54f3022449b827201d1e83aed,
+            type: 3}
+        - useVariable: 0
+          name: 
+          tooltip: 
+          showInInspector: 0
+          networkSync: 0
+          value: {fileID: 1019646325929782, guid: 1c099c1d58fd93949ba7dfd1066660ca,
+            type: 3}
+        - useVariable: 1
+          name: RootTriggerPuzzle1Inspection
+          tooltip: 
+          showInInspector: 0
+          networkSync: 0
+          value: {fileID: 0}
+        fsmOwnerDefaultParams: []
+        animationCurveParams: []
+        functionCallParams: []
+        fsmTemplateControlParams: []
+        fsmEventTargetParams: []
+        fsmPropertyParams: []
+        layoutOptionParams: []
+        fsmStringParams: []
+        fsmObjectParams: []
+        fsmVarParams: []
+        fsmArrayParams: []
+        fsmEnumParams: []
+        fsmFloatParams: []
+        fsmIntParams: []
+        fsmBoolParams: []
+        fsmVector2Params: []
+        fsmVector3Params: []
+        fsmColorParams: []
+        fsmRectParams: []
+        fsmQuaternionParams: []
+        stringParams: []
+        byteData: 000000000000000000000000010000000000000000000000000100000000000000000000000001
+        arrayParamSizes: 
+        arrayParamTypes: []
+        customTypeSizes: 
+        customTypeNames: []
+        paramDataType: 13000000130000001c0000001c0000001c00000013000000
+        paramName:
+        - Prefab
+        - SpawnPoint
+        - Position
+        - Rotation
+        - Scale
+        - StoreObject
+        paramDataPos: 0000000001000000000000000d0000001a00000002000000
+        paramByteDataSize: 00000000000000000d0000000d0000000d00000000000000
+    - name: Spawn TriggerPuzzle2Inspection
+      description: Removed due to change request.
+      colorIndex: 3
+      position:
+        serializedVersion: 2
+        x: 646.7344
+        y: 623.6719
+        width: 238
+        height: 32
+      isBreakpoint: 0
+      isSequence: 0
+      hideUnused: 0
+      transitions:
+      - fsmEvent:
+          name: FINISHED
+          isSystemEvent: 1
+          isGlobal: 0
+        toState: Spawn TriggerPuzzle3Inspection
+        linkStyle: 0
+        linkConstraint: 0
+        linkTarget: 0
+        colorIndex: 0
+      actionData:
+        actionNames:
+        - ClubPenguin.Adventure.CreateQuestObject
+        customNames:
+        - 
+        actionEnabled: 01
+        actionIsOpen: 01
+        actionStartIndex: 00000000
+        actionHashCodes: eb67b000
+        unityObjectParams: []
+        fsmGameObjectParams:
+        - useVariable: 0
+          name: 
+          tooltip: 
+          showInInspector: 0
+          networkSync: 0
+          value: {fileID: 1208758382674824, guid: 725a895e1fde0734994e2401e83729ad,
+            type: 3}
+        - useVariable: 0
+          name: 
+          tooltip: 
+          showInInspector: 0
+          networkSync: 0
+          value: {fileID: 1621773997537030, guid: 1c099c1d58fd93949ba7dfd1066660ca,
+            type: 3}
+        - useVariable: 1
+          name: RootTriggerPuzzle2Inspection
+          tooltip: 
+          showInInspector: 0
+          networkSync: 0
+          value: {fileID: 0}
+        fsmOwnerDefaultParams: []
+        animationCurveParams: []
+        functionCallParams: []
+        fsmTemplateControlParams: []
+        fsmEventTargetParams: []
+        fsmPropertyParams: []
+        layoutOptionParams: []
+        fsmStringParams: []
+        fsmObjectParams: []
+        fsmVarParams: []
+        fsmArrayParams: []
+        fsmEnumParams: []
+        fsmFloatParams: []
+        fsmIntParams: []
+        fsmBoolParams: []
+        fsmVector2Params: []
+        fsmVector3Params: []
+        fsmColorParams: []
+        fsmRectParams: []
+        fsmQuaternionParams: []
+        stringParams: []
+        byteData: 000000000000000000000000010000000000000000000000000100000000000000000000000001
+        arrayParamSizes: 
+        arrayParamTypes: []
+        customTypeSizes: 
+        customTypeNames: []
+        paramDataType: 13000000130000001c0000001c0000001c00000013000000
+        paramName:
+        - Prefab
+        - SpawnPoint
+        - Position
+        - Rotation
+        - Scale
+        - StoreObject
+        paramDataPos: 0000000001000000000000000d0000001a00000002000000
+        paramByteDataSize: 00000000000000000d0000000d0000000d00000000000000
+    - name: Spawn TriggerPuzzle3Inspection
+      description: Removed due to change request.
+      colorIndex: 1
+      position:
+        serializedVersion: 2
+        x: 648.8906
+        y: 688.96875
+        width: 238
+        height: 32
+      isBreakpoint: 0
+      isSequence: 0
+      hideUnused: 0
+      transitions:
+      - fsmEvent:
+          name: FINISHED
+          isSystemEvent: 1
+          isGlobal: 0
+        toState: InitComplete
+        linkStyle: 0
+        linkConstraint: 0
+        linkTarget: 0
+        colorIndex: 0
+      actionData:
+        actionNames:
+        - ClubPenguin.Adventure.CreateQuestObject
+        customNames:
+        - 
+        actionEnabled: 01
+        actionIsOpen: 01
+        actionStartIndex: 00000000
+        actionHashCodes: eb67b000
+        unityObjectParams: []
+        fsmGameObjectParams:
+        - useVariable: 0
+          name: 
+          tooltip: 
+          showInInspector: 0
+          networkSync: 0
+          value: {fileID: 1945235615805639, guid: 03ec573f092c1d74c919add87ede53aa,
+            type: 3}
+        - useVariable: 0
+          name: 
+          tooltip: 
+          showInInspector: 0
+          networkSync: 0
+          value: {fileID: 1097555086970198, guid: 1c099c1d58fd93949ba7dfd1066660ca,
+            type: 3}
+        - useVariable: 1
+          name: RootTriggerPuzzle3Inspection
+          tooltip: 
+          showInInspector: 0
+          networkSync: 0
+          value: {fileID: 0}
+        fsmOwnerDefaultParams: []
+        animationCurveParams: []
+        functionCallParams: []
+        fsmTemplateControlParams: []
+        fsmEventTargetParams: []
+        fsmPropertyParams: []
+        layoutOptionParams: []
+        fsmStringParams: []
+        fsmObjectParams: []
+        fsmVarParams: []
+        fsmArrayParams: []
+        fsmEnumParams: []
+        fsmFloatParams: []
+        fsmIntParams: []
+        fsmBoolParams: []
+        fsmVector2Params: []
+        fsmVector3Params: []
+        fsmColorParams: []
+        fsmRectParams: []
+        fsmQuaternionParams: []
+        stringParams: []
+        byteData: 000000000000000000000000010000000000000000000000000100000000000000000000000001
+        arrayParamSizes: 
+        arrayParamTypes: []
+        customTypeSizes: 
+        customTypeNames: []
+        paramDataType: 13000000130000001c0000001c0000001c00000013000000
+        paramName:
+        - Prefab
+        - SpawnPoint
+        - Position
+        - Rotation
+        - Scale
+        - StoreObject
+        paramDataPos: 0000000001000000000000000d0000001a00000002000000
+        paramByteDataSize: 00000000000000000d0000000d0000000d00000000000000
+    - name: Spawn Pillar Puzzles Plaques
+      description: 
+      colorIndex: 0
+      position:
+        serializedVersion: 2
+        x: 651.9844
+        y: 515.8125
+        width: 214
+        height: 32
+      isBreakpoint: 0
+      isSequence: 0
+      hideUnused: 0
+      transitions:
+      - fsmEvent:
+          name: FINISHED
+          isSystemEvent: 1
+          isGlobal: 0
+        toState: InitComplete
+        linkStyle: 0
+        linkConstraint: 0
+        linkTarget: 0
+        colorIndex: 0
+      actionData:
+        actionNames:
+        - ClubPenguin.Adventure.CreateQuestObject
+        - ClubPenguin.Adventure.CreateQuestObject
+        - ClubPenguin.Adventure.CreateQuestObject
+        customNames:
+        - 
+        - 
+        - 
+        actionEnabled: 010101
+        actionIsOpen: 010101
+        actionStartIndex: 00000000060000000c000000
+        actionHashCodes: eb67b000eb67b000eb67b000
+        unityObjectParams: []
+        fsmGameObjectParams:
+        - useVariable: 0
+          name: 
+          tooltip: 
+          showInInspector: 0
+          networkSync: 0
+          value: {fileID: 1580955317846681, guid: f1976c85d8736d2498df3a2065ef7250,
+            type: 3}
+        - useVariable: 0
+          name: 
+          tooltip: 
+          showInInspector: 0
+          networkSync: 0
+          value: {fileID: 1019646325929782, guid: 1c099c1d58fd93949ba7dfd1066660ca,
+            type: 3}
+        - useVariable: 1
+          name: RootPillarPuzzle1
+          tooltip: 
+          showInInspector: 0
+          networkSync: 0
+          value: {fileID: 0}
+        - useVariable: 0
+          name: 
+          tooltip: 
+          showInInspector: 0
+          networkSync: 0
+          value: {fileID: 1354946266499295, guid: 64f1b3e28db98ff4bb46035e7572f892,
+            type: 3}
+        - useVariable: 0
+          name: 
+          tooltip: 
+          showInInspector: 0
+          networkSync: 0
+          value: {fileID: 1621773997537030, guid: 1c099c1d58fd93949ba7dfd1066660ca,
+            type: 3}
+        - useVariable: 1
+          name: RootPillarPuzzle2
+          tooltip: 
+          showInInspector: 0
+          networkSync: 0
+          value: {fileID: 0}
+        - useVariable: 0
+          name: 
+          tooltip: 
+          showInInspector: 0
+          networkSync: 0
+          value: {fileID: 1758729540459269, guid: 61fc9ea357396474db071ffd285cfa69,
+            type: 3}
+        - useVariable: 0
+          name: 
+          tooltip: 
+          showInInspector: 0
+          networkSync: 0
+          value: {fileID: 1097555086970198, guid: 1c099c1d58fd93949ba7dfd1066660ca,
+            type: 3}
+        - useVariable: 1
+          name: RootPillarPuzzle3
+          tooltip: 
+          showInInspector: 0
+          networkSync: 0
+          value: {fileID: 0}
+        fsmOwnerDefaultParams: []
+        animationCurveParams: []
+        functionCallParams: []
+        fsmTemplateControlParams: []
+        fsmEventTargetParams: []
+        fsmPropertyParams: []
+        layoutOptionParams: []
+        fsmStringParams: []
+        fsmObjectParams: []
+        fsmVarParams: []
+        fsmArrayParams: []
+        fsmEnumParams: []
+        fsmFloatParams: []
+        fsmIntParams: []
+        fsmBoolParams: []
+        fsmVector2Params: []
+        fsmVector3Params: []
+        fsmColorParams: []
+        fsmRectParams: []
+        fsmQuaternionParams: []
+        stringParams: []
+        byteData: 000000000000000000000000010000000000000000000000000100000000000000000000000001000000000000000000000000010000000000000000000000000100000000000000000000000001000000000000000000000000010000000000000000000000000100000000000000000000000001
+        arrayParamSizes: 
+        arrayParamTypes: []
+        customTypeSizes: 
+        customTypeNames: []
+        paramDataType: 13000000130000001c0000001c0000001c0000001300000013000000130000001c0000001c0000001c0000001300000013000000130000001c0000001c0000001c00000013000000
+        paramName:
+        - Prefab
+        - SpawnPoint
+        - Position
+        - Rotation
+        - Scale
+        - StoreObject
+        - Prefab
+        - SpawnPoint
+        - Position
+        - Rotation
+        - Scale
+        - StoreObject
+        - Prefab
+        - SpawnPoint
+        - Position
+        - Rotation
+        - Scale
+        - StoreObject
+        paramDataPos: 0000000001000000000000000d0000001a0000000200000003000000040000002700000034000000410000000500000006000000070000004e0000005b0000006800000008000000
+        paramByteDataSize: 00000000000000000d0000000d0000000d0000000000000000000000000000000d0000000d0000000d0000000000000000000000000000000d0000000d0000000d00000000000000
+    - name: Obj7FSM
+      description: Talk to Rockhopper
+      colorIndex: 1
+      position:
+        serializedVersion: 2
+        x: 378.2578
+        y: 826.4453
+        width: 117
+        height: 32
+      isBreakpoint: 0
+      isSequence: 0
+      hideUnused: 0
+      transitions:
+      - fsmEvent:
+          name: FINISHED
+          isSystemEvent: 1
+          isGlobal: 0
+        toState: End
+        linkStyle: 0
+        linkConstraint: 0
+        linkTarget: 0
+        colorIndex: 0
+      actionData:
+        actionNames:
+        - ClubPenguin.Adventure.ObjectiveAction
+        - HutongGames.PlayMaker.Actions.RunFSM
+        - ClubPenguin.Audio.FabricSetSwitchAction
+        - ClubPenguin.Analytics.AnalyticsGameActionAction
+        customNames:
+        - 
+        - 
+        - 
+        - 
+        actionEnabled: 01010101
+        actionIsOpen: 01010101
+        actionStartIndex: 0000000004000000070000000a000000
+        actionHashCodes: 67682403d33f7a05786b390229b3ec00
+        unityObjectParams: []
+        fsmGameObjectParams:
+        - useVariable: 0
+          name: 
+          tooltip: 
+          showInInspector: 0
+          networkSync: 0
+          value: {fileID: 0}
+        fsmOwnerDefaultParams: []
+        animationCurveParams: []
+        functionCallParams: []
+        fsmTemplateControlParams:
+        - targetType: 0
+          target: {fileID: 11400000, guid: 61b3c4ddd3fe38d4fb43880a420c9528, type: 2}
+          inputVariables:
+          - variable:
+              useVariable: 1
+              name: LocalPlayer
+              tooltip: 
+              showInInspector: 0
+              networkSync: 0
+            fsmVar:
+              variableName: LocalPlayer
+              objectType: 
+              useVariable: 0
+              type: 3
+              floatValue: 0
+              intValue: 0
+              boolValue: 0
+              stringValue: 
+              vector4Value: {x: 0, y: 0, z: 0, w: 0}
+              objectReference: {fileID: 0}
+              arrayValue:
+                useVariable: 0
+                name: 
+                tooltip: 
+                showInInspector: 0
+                networkSync: 0
+                type: -1
+                objectTypeName: 
+                floatValues: []
+                intValues: 
+                boolValues: 
+                stringValues: []
+                vector4Values: []
+                objectReferences: []
+            isEdited: 0
+          - variable:
+              useVariable: 1
+              name: RockhopperWantsToComment
+              tooltip: 
+              showInInspector: 0
+              networkSync: 0
+            fsmVar:
+              variableName: RockhopperWantsToComment
+              objectType: 
+              useVariable: 0
+              type: 2
+              floatValue: 0
+              intValue: 0
+              boolValue: 0
+              stringValue: 
+              vector4Value: {x: 0, y: 0, z: 0, w: 0}
+              objectReference: {fileID: 0}
+              arrayValue:
+                useVariable: 0
+                name: 
+                tooltip: 
+                showInInspector: 0
+                networkSync: 0
+                type: -1
+                objectTypeName: 
+                floatValues: []
+                intValues: 
+                boolValues: 
+                stringValues: []
+                vector4Values: []
+                objectReferences: []
+            isEdited: 0
+          - variable:
+              useVariable: 1
+              name: RockhopperRotationDefault
+              tooltip: 
+              showInInspector: 0
+              networkSync: 0
+            fsmVar:
+              variableName: RockhopperRotationDefault
+              objectType: 
+              useVariable: 0
+              type: 6
+              floatValue: 0
+              intValue: 0
+              boolValue: 0
+              stringValue: 
+              vector4Value: {x: 0, y: 0, z: 0, w: 0}
+              objectReference: {fileID: 0}
+              arrayValue:
+                useVariable: 0
+                name: 
+                tooltip: 
+                showInInspector: 0
+                networkSync: 0
+                type: -1
+                objectTypeName: 
+                floatValues: []
+                intValues: 
+                boolValues: 
+                stringValues: []
+                vector4Values: []
+                objectReferences: []
+            isEdited: 0
+          - variable:
+              useVariable: 1
+              name: 3InkedSails
+              tooltip: 
+              showInInspector: 0
+              networkSync: 0
+            fsmVar:
+              variableName: 3InkedSails
+              objectType: 
+              useVariable: 0
+              type: 3
+              floatValue: 0
+              intValue: 0
+              boolValue: 0
+              stringValue: 
+              vector4Value: {x: 0, y: 0, z: 0, w: 0}
+              objectReference: {fileID: 0}
+              arrayValue:
+                useVariable: 0
+                name: 
+                tooltip: 
+                showInInspector: 0
+                networkSync: 0
+                type: -1
+                objectTypeName: 
+                floatValues: []
+                intValues: 
+                boolValues: 
+                stringValues: []
+                vector4Values: []
+                objectReferences: []
+            isEdited: 0
+          - variable:
+              useVariable: 1
+              name: Rockhopper
+              tooltip: 
+              showInInspector: 0
+              networkSync: 0
+            fsmVar:
+              variableName: Rockhopper
+              objectType: 
+              useVariable: 0
+              type: 3
+              floatValue: 0
+              intValue: 0
+              boolValue: 0
+              stringValue: 
+              vector4Value: {x: 0, y: 0, z: 0, w: 0}
+              objectReference: {fileID: 0}
+              arrayValue:
+                useVariable: 0
+                name: 
+                tooltip: 
+                showInInspector: 0
+                networkSync: 0
+                type: -1
+                objectTypeName: 
+                floatValues: []
+                intValues: 
+                boolValues: 
+                stringValues: []
+                vector4Values: []
+                objectReferences: []
+            isEdited: 0
+          outputVariables: []
+          outputEvents: []
+        fsmEventTargetParams: []
+        fsmPropertyParams: []
+        layoutOptionParams: []
+        fsmStringParams:
+        - useVariable: 0
+          name: 
+          tooltip: 
+          showInInspector: 0
+          networkSync: 0
+          value: MUS/Quest/Rockhopper/C001Q008
+        - useVariable: 0
+          name: 
+          tooltip: 
+          showInInspector: 0
+          networkSync: 0
+          value: RockhopperTheme
+        fsmObjectParams: []
+        fsmVarParams: []
+        fsmArrayParams: []
+        fsmEnumParams: []
+        fsmFloatParams: []
+        fsmIntParams: []
+        fsmBoolParams: []
+        fsmVector2Params: []
+        fsmVector3Params: []
+        fsmColorParams: []
+        fsmRectParams: []
+        fsmQuaternionParams: []
+        stringParams: []
+        byteData: 54616c6b20746f20526f636b686f7070657251756573742e546578742e4141433030315130303443726162732e4f626a3146534d2e6931386e4465736372697074696f6e01ffffffff007175657374526f636b686f7070657230317c303854616c6b2d746f2d526f636b686f7070657230374f626a372d52657475726e5f746f5f615f636f6e66757365645f52483030
+        arrayParamSizes: 
+        arrayParamTypes: []
+        customTypeSizes: 
+        customTypeNames: []
+        paramDataType: 03000000030000000100000000000000260000001700000001000000120000001200000013000000030000000300000003000000030000000300000003000000030000000300000003000000030000000300000003000000
+        paramName:
+        - Description
+        - i18nDescription
+        - NotifyPlayer
+        - DefinitionRewardIndex
+        - fsmTemplateControl
+        - finishEvent
+        - everyFrame
+        - EventName
+        - SwitchTo
+        - TheObject
+        - Context
+        - QuestId
+        - SeasonAndEpisode
+        - ObjectiveName
+        - ObjectiveNumber
+        - StepName
+        - StepNumber
+        - Action
+        - Type
+        - Location
+        - Level
+        - Message
+        paramDataPos: 000000001200000044000000450000000000000049000000490000000000000001000000000000004a0000004f000000590000005e00000070000000720000008e0000009000000090000000900000009000000090000000
+        paramByteDataSize: 12000000320000000100000004000000000000000000000001000000000000000000000000000000050000000a0000000500000012000000020000001c000000020000000000000000000000000000000000000000000000
+    - name: Play Quest Music ++Audio++
+      description: 
+      colorIndex: 0
+      position:
+        serializedVersion: 2
+        x: 653.5
+        y: 253.5
+        width: 207
+        height: 32
+      isBreakpoint: 0
+      isSequence: 1
+      hideUnused: 0
+      transitions:
+      - fsmEvent:
+          name: FINISHED
+          isSystemEvent: 1
+          isGlobal: 0
+        toState: Is Player In the Changeroom?
+        linkStyle: 0
+        linkConstraint: 0
+        linkTarget: 0
+        colorIndex: 0
+      actionData:
+        actionNames:
+        - ClubPenguin.Audio.FabricPlaySoundAction
+        - ClubPenguin.Audio.SendFabricEventAction
+        customNames:
+        - 
+        - 
+        actionEnabled: 0101
+        actionIsOpen: 0101
+        actionStartIndex: 0000000003000000
+        actionHashCodes: f840d200e11b9604
+        unityObjectParams: []
+        fsmGameObjectParams:
+        - useVariable: 0
+          name: 
+          tooltip: 
+          showInInspector: 0
+          networkSync: 0
+          value: {fileID: 0}
+        - useVariable: 0
+          name: 
+          tooltip: 
+          showInInspector: 0
+          networkSync: 0
+          value: {fileID: 0}
+        fsmOwnerDefaultParams: []
+        animationCurveParams: []
+        functionCallParams: []
+        fsmTemplateControlParams: []
+        fsmEventTargetParams: []
+        fsmPropertyParams: []
+        layoutOptionParams: []
+        fsmStringParams:
+        - useVariable: 0
+          name: 
+          tooltip: 
+          showInInspector: 0
+          networkSync: 0
+          value: MUS/Quest/Rockhopper/C001Q008
+        - useVariable: 0
+          name: 
+          tooltip: 
+          showInInspector: 0
+          networkSync: 0
+          value: MIX/MusicWorldOff
+        fsmObjectParams: []
+        fsmVarParams: []
+        fsmArrayParams: []
+        fsmEnumParams: []
+        fsmFloatParams: []
+        fsmIntParams: []
+        fsmBoolParams: []
+        fsmVector2Params: []
+        fsmVector3Params: []
+        fsmColorParams: []
+        fsmRectParams: []
+        fsmQuaternionParams: []
+        stringParams: []
+        byteData: 0000000000
+        arrayParamSizes: 
+        arrayParamTypes: []
+        customTypeSizes: 
+        customTypeNames: []
+        paramDataType: 120000001300000001000000120000001300000007000000
+        paramName:
+        - EventName
+        - OverrideSoundSource
+        - RestartIfPlaying
+        - EventName
+        - OverrideSoundSource
+        - EventAction
+        paramDataPos: 000000000000000000000000010000000100000001000000
+        paramByteDataSize: 000000000000000001000000000000000000000004000000
+    - name: CleanupQuest
+      description: 
+      colorIndex: 6
+      position:
+        serializedVersion: 2
+        x: 986.5
+        y: 135
+        width: 108
+        height: 32
+      isBreakpoint: 0
+      isSequence: 0
+      hideUnused: 0
+      transitions:
+      - fsmEvent:
+          name: FINISHED
+          isSystemEvent: 1
+          isGlobal: 0
+        toState: --- BI TIME --- end
+        linkStyle: 0
+        linkConstraint: 0
+        linkTarget: 0
+        colorIndex: 0
+      actionData:
+        actionNames: []
+        customNames: []
+        actionEnabled: 
+        actionIsOpen: 
+        actionStartIndex: 
+        actionHashCodes: 
+        unityObjectParams: []
+        fsmGameObjectParams: []
+        fsmOwnerDefaultParams: []
+        animationCurveParams: []
+        functionCallParams: []
+        fsmTemplateControlParams: []
+        fsmEventTargetParams: []
+        fsmPropertyParams: []
+        layoutOptionParams: []
+        fsmStringParams: []
+        fsmObjectParams: []
+        fsmVarParams: []
+        fsmArrayParams: []
+        fsmEnumParams: []
+        fsmFloatParams: []
+        fsmIntParams: []
+        fsmBoolParams: []
+        fsmVector2Params: []
+        fsmVector3Params: []
+        fsmColorParams: []
+        fsmRectParams: []
+        fsmQuaternionParams: []
+        stringParams: []
+        byteData: 
+        arrayParamSizes: 
+        arrayParamTypes: []
+        customTypeSizes: 
+        customTypeNames: []
+        paramDataType: 
+        paramName: []
+        paramDataPos: 
+        paramByteDataSize: 
+    - name: Stop Quest Music ++Audio++
+      description: 
+      colorIndex: 0
+      position:
+        serializedVersion: 2
+        x: 985.5
+        y: 252
+        width: 210
+        height: 16
+      isBreakpoint: 0
+      isSequence: 0
+      hideUnused: 0
+      transitions: []
+      actionData:
+        actionNames:
+        - ClubPenguin.Audio.SendFabricEventAction
+        customNames:
+        - 
+        actionEnabled: 01
+        actionIsOpen: 01
+        actionStartIndex: 00000000
+        actionHashCodes: e11b9604
+        unityObjectParams: []
+        fsmGameObjectParams:
+        - useVariable: 0
+          name: 
+          tooltip: 
+          showInInspector: 0
+          networkSync: 0
+          value: {fileID: 0}
+        fsmOwnerDefaultParams: []
+        animationCurveParams: []
+        functionCallParams: []
+        fsmTemplateControlParams: []
+        fsmEventTargetParams: []
+        fsmPropertyParams: []
+        layoutOptionParams: []
+        fsmStringParams:
+        - useVariable: 0
+          name: 
+          tooltip: 
+          showInInspector: 0
+          networkSync: 0
+          value: MUS/Quest/Rockhopper/C001Q008
+        fsmObjectParams: []
+        fsmVarParams: []
+        fsmArrayParams: []
+        fsmEnumParams: []
+        fsmFloatParams: []
+        fsmIntParams: []
+        fsmBoolParams: []
+        fsmVector2Params: []
+        fsmVector3Params: []
+        fsmColorParams: []
+        fsmRectParams: []
+        fsmQuaternionParams: []
+        stringParams: []
+        byteData: 01000000
+        arrayParamSizes: 
+        arrayParamTypes: []
+        customTypeSizes: 
+        customTypeNames: []
+        paramDataType: 120000001300000007000000
+        paramName:
+        - EventName
+        - OverrideSoundSource
+        - EventAction
+        paramDataPos: 000000000000000000000000
+        paramByteDataSize: 000000000000000004000000
+    - name: --- BI TIME --- start
+      description: RHC001Q008_time
+      colorIndex: 0
+      position:
+        serializedVersion: 2
+        x: 654.5
+        y: 177
+        width: 151
+        height: 32
+      isBreakpoint: 0
+      isSequence: 0
+      hideUnused: 0
+      transitions:
+      - fsmEvent:
+          name: FINISHED
+          isSystemEvent: 1
+          isGlobal: 0
+        toState: Play Quest Music ++Audio++
+        linkStyle: 0
+        linkConstraint: 0
+        linkTarget: 0
+        colorIndex: 0
+      actionData:
+        actionNames:
+        - ClubPenguin.Analytics.StartAnalyticsTimerAction
+        customNames:
+        - 
+        actionEnabled: 01
+        actionIsOpen: 01
+        actionStartIndex: 00000000
+        actionHashCodes: 3e3b3e04
+        unityObjectParams: []
+        fsmGameObjectParams: []
+        fsmOwnerDefaultParams: []
+        animationCurveParams: []
+        functionCallParams: []
+        fsmTemplateControlParams: []
+        fsmEventTargetParams: []
+        fsmPropertyParams: []
+        layoutOptionParams: []
+        fsmStringParams:
+        - useVariable: 0
+          name: 
+          tooltip: 
+          showInInspector: 0
+          networkSync: 0
+          value: RHC001Q008_time
+        fsmObjectParams: []
+        fsmVarParams: []
+        fsmArrayParams: []
+        fsmEnumParams: []
+        fsmFloatParams: []
+        fsmIntParams: []
+        fsmBoolParams: []
+        fsmVector2Params: []
+        fsmVector3Params: []
+        fsmColorParams: []
+        fsmRectParams: []
+        fsmQuaternionParams: []
+        stringParams: []
+        byteData: 717565737452484330303151303038
+        arrayParamSizes: 
+        arrayParamTypes: []
+        customTypeSizes: 
+        customTypeNames: []
+        paramDataType: 12000000030000000300000003000000030000000300000003000000030000000300000003000000030000000300000003000000
+        paramName:
+        - TimerID
+        - Context
+        - QuestId
+        - SeasonAndEpisode
+        - ObjectiveName
+        - ObjectiveNumber
+        - StepName
+        - StepNumber
+        - Action
+        - Type
+        - Location
+        - Level
+        - Message
+        paramDataPos: 0000000000000000050000000500000005000000050000000500000005000000050000000f0000000f0000000f0000000f000000
+        paramByteDataSize: 00000000050000000000000000000000000000000000000000000000000000000a00000000000000000000000000000000000000
+    - name: --- BI TIME --- end
+      description: RHC001Q008_time
+      colorIndex: 0
+      position:
+        serializedVersion: 2
+        x: 985.53125
+        y: 180.64844
+        width: 147.5
+        height: 32
+      isBreakpoint: 0
+      isSequence: 0
+      hideUnused: 0
+      transitions:
+      - fsmEvent:
+          name: FINISHED
+          isSystemEvent: 1
+          isGlobal: 0
+        toState: Stop Quest Music ++Audio++
+        linkStyle: 0
+        linkConstraint: 0
+        linkTarget: 0
+        colorIndex: 0
+      actionData:
+        actionNames:
+        - ClubPenguin.Analytics.EndAnalyticsTimerAction
+        customNames:
+        - 
+        actionEnabled: 01
+        actionIsOpen: 01
+        actionStartIndex: 00000000
+        actionHashCodes: 13227100
+        unityObjectParams: []
+        fsmGameObjectParams: []
+        fsmOwnerDefaultParams: []
+        animationCurveParams: []
+        functionCallParams: []
+        fsmTemplateControlParams: []
+        fsmEventTargetParams: []
+        fsmPropertyParams: []
+        layoutOptionParams: []
+        fsmStringParams:
+        - useVariable: 0
+          name: 
+          tooltip: 
+          showInInspector: 0
+          networkSync: 0
+          value: RHC001Q008_time
+        fsmObjectParams: []
+        fsmVarParams: []
+        fsmArrayParams: []
+        fsmEnumParams: []
+        fsmFloatParams: []
+        fsmIntParams: []
+        fsmBoolParams: []
+        fsmVector2Params: []
+        fsmVector3Params: []
+        fsmColorParams: []
+        fsmRectParams: []
+        fsmQuaternionParams: []
+        stringParams: []
+        byteData: 
+        arrayParamSizes: 
+        arrayParamTypes: []
+        customTypeSizes: 
+        customTypeNames: []
+        paramDataType: 12000000
+        paramName:
+        - TimerID
+        paramDataPos: 00000000
+        paramByteDataSize: 00000000
+    - name: Is Player In the Changeroom?
+      description: 
+      colorIndex: 3
+      position:
+        serializedVersion: 2
+        x: 653.09375
+        y: 312.72656
+        width: 217
+        height: 48
+      isBreakpoint: 0
+      isSequence: 0
+      hideUnused: 0
+      transitions:
+      - fsmEvent:
+          name: True
+          isSystemEvent: 0
+          isGlobal: 0
+        toState: SuppressQuestNotifier
+        linkStyle: 0
+        linkConstraint: 0
+        linkTarget: 0
+        colorIndex: 0
+      - fsmEvent:
+          name: False
+          isSystemEvent: 0
+          isGlobal: 0
+        toState: Is Player in Beach
+        linkStyle: 0
+        linkConstraint: 0
+        linkTarget: 0
+        colorIndex: 0
+      actionData:
+        actionNames:
+        - ClubPenguin.Adventure.CheckSceneMatchesAction
+        customNames:
+        - 
+        actionEnabled: 01
+        actionIsOpen: 01
+        actionStartIndex: 00000000
+        actionHashCodes: 2fd47001
+        unityObjectParams: []
+        fsmGameObjectParams: []
+        fsmOwnerDefaultParams: []
+        animationCurveParams: []
+        functionCallParams: []
+        fsmTemplateControlParams: []
+        fsmEventTargetParams: []
+        fsmPropertyParams: []
+        layoutOptionParams: []
+        fsmStringParams: []
+        fsmObjectParams: []
+        fsmVarParams: []
+        fsmArrayParams: []
+        fsmEnumParams: []
+        fsmFloatParams: []
+        fsmIntParams: []
+        fsmBoolParams: []
+        fsmVector2Params: []
+        fsmVector3Params: []
+        fsmColorParams: []
+        fsmRectParams: []
+        fsmQuaternionParams: []
+        stringParams: []
+        byteData: 436c6f7468696e6744657369676e65725472756546616c7365
+        arrayParamSizes: 
+        arrayParamTypes: []
+        customTypeSizes: 
+        customTypeNames: []
+        paramDataType: 030000001700000017000000
+        paramName:
+        - SceneName
+        - DoesMatchEvent
+        - DoesNotMatchEvent
+        paramDataPos: 000000001000000014000000
+        paramByteDataSize: 100000000400000005000000
+    - name: SuppressQuestNotifier
+      description: 
+      colorIndex: 5
+      position:
+        serializedVersion: 2
+        x: 651.09375
+        y: 374.72656
+        width: 170
+        height: 32
+      isBreakpoint: 0
+      isSequence: 0
+      hideUnused: 0
+      transitions:
+      - fsmEvent:
+          name: FINISHED
+          isSystemEvent: 1
+          isGlobal: 0
+        toState: Is Player in Beach
+        linkStyle: 0
+        linkConstraint: 0
+        linkTarget: 0
+        colorIndex: 0
+      actionData:
+        actionNames:
+        - ClubPenguin.Adventure.SuppressQuestNotifierAction
+        customNames:
+        - 
+        actionEnabled: 01
+        actionIsOpen: 01
+        actionStartIndex: 00000000
+        actionHashCodes: 24459200
+        unityObjectParams: []
+        fsmGameObjectParams: []
+        fsmOwnerDefaultParams: []
+        animationCurveParams: []
+        functionCallParams: []
+        fsmTemplateControlParams: []
+        fsmEventTargetParams: []
+        fsmPropertyParams: []
+        layoutOptionParams: []
+        fsmStringParams:
+        - useVariable: 1
+          name: 
+          tooltip: 
+          showInInspector: 0
+          networkSync: 0
+          value: 
+        fsmObjectParams: []
+        fsmVarParams: []
+        fsmArrayParams: []
+        fsmEnumParams: []
+        fsmFloatParams: []
+        fsmIntParams: []
+        fsmBoolParams: []
+        fsmVector2Params: []
+        fsmVector3Params: []
+        fsmColorParams: []
+        fsmRectParams: []
+        fsmQuaternionParams: []
+        stringParams: []
+        byteData: 0101
+        arrayParamSizes: 
+        arrayParamTypes: []
+        customTypeSizes: 
+        customTypeNames: []
+        paramDataType: 010000000100000012000000
+        paramName:
+        - Suppress
+        - AutoShow
+        - SceneName
+        paramDataPos: 000000000100000000000000
+        paramByteDataSize: 010000000100000000000000
+    events:
+    - name: FINISHED
+      isSystemEvent: 1
+      isGlobal: 0
+    - name: Impossible
+      isSystemEvent: 0
+      isGlobal: 0
+    - name: True
+      isSystemEvent: 0
+      isGlobal: 0
+    - name: False
+      isSystemEvent: 0
+      isGlobal: 0
+    globalTransitions: []
+    variables:
+      floatVariables: []
+      intVariables:
+      - useVariable: 1
+        name: RootBlobBounces
+        tooltip: 
+        showInInspector: 0
+        networkSync: 0
+        value: 0
+      - useVariable: 1
+        name: RootCollectedSailsTotal
+        tooltip: 
+        showInInspector: 0
+        networkSync: 0
+        value: 0
+      - useVariable: 1
+        name: RootNumberOfTabletsFinished
+        tooltip: 
+        showInInspector: 0
+        networkSync: 0
+        value: 0
+      - useVariable: 1
+        name: RootSubtaskTablet1Jumps
+        tooltip: 
+        showInInspector: 0
+        networkSync: 0
+        value: 0
+      - useVariable: 1
+        name: RootSubtaskTablet2Jumps
+        tooltip: 
+        showInInspector: 0
+        networkSync: 0
+        value: 0
+      - useVariable: 1
+        name: RootSubtaskTablet3Jumps
+        tooltip: 
+        showInInspector: 0
+        networkSync: 0
+        value: 0
+      - useVariable: 1
+        name: RootTablet1Status
+        tooltip: 
+        showInInspector: 0
+        networkSync: 0
+        value: 0
+      - useVariable: 1
+        name: RootTablet2Status
+        tooltip: 
+        showInInspector: 0
+        networkSync: 0
+        value: 0
+      - useVariable: 1
+        name: RootTablet3Status
+        tooltip: 
+        showInInspector: 0
+        networkSync: 0
+        value: 0
+      boolVariables:
+      - useVariable: 1
+        name: RootAddItemSails
+        tooltip: 
+        showInInspector: 0
+        networkSync: 0
+        value: 0
+      - useVariable: 1
+        name: RootSubtaskTablet1Clothed
+        tooltip: 
+        showInInspector: 0
+        networkSync: 0
+        value: 0
+      - useVariable: 1
+        name: RootSubtaskTablet1Inked
+        tooltip: 
+        showInInspector: 0
+        networkSync: 0
+        value: 0
+      - useVariable: 1
+        name: RootSubtaskTablet2Clothed
+        tooltip: 
+        showInInspector: 0
+        networkSync: 0
+        value: 0
+      - useVariable: 1
+        name: RootSubtaskTablet2Inked
+        tooltip: 
+        showInInspector: 0
+        networkSync: 0
+        value: 0
+      - useVariable: 1
+        name: RootSubtaskTablet3Clothed
+        tooltip: 
+        showInInspector: 0
+        networkSync: 0
+        value: 0
+      - useVariable: 1
+        name: RootSubtaskTablet3Inked
+        tooltip: 
+        showInInspector: 0
+        networkSync: 0
+        value: 0
+      - useVariable: 1
+        name: RootTablet1Finished
+        tooltip: 
+        showInInspector: 0
+        networkSync: 0
+        value: 0
+      - useVariable: 1
+        name: RootTablet2Finished
+        tooltip: 
+        showInInspector: 0
+        networkSync: 0
+        value: 0
+      - useVariable: 1
+        name: RootTablet3Finished
+        tooltip: 
+        showInInspector: 0
+        networkSync: 0
+        value: 0
+      stringVariables: []
+      vector2Variables: []
+      vector3Variables: []
+      colorVariables: []
+      rectVariables: []
+      quaternionVariables: []
+      gameObjectVariables:
+      - useVariable: 1
+        name: RootPillarPuzzle1
+        tooltip: 
+        showInInspector: 0
+        networkSync: 0
+        value: {fileID: 0}
+      - useVariable: 1
+        name: RootPillarPuzzle2
+        tooltip: 
+        showInInspector: 0
+        networkSync: 0
+        value: {fileID: 0}
+      - useVariable: 1
+        name: RootPillarPuzzle3
+        tooltip: 
+        showInInspector: 0
+        networkSync: 0
+        value: {fileID: 0}
+      - useVariable: 1
+        name: RootTriggerPuzzle1Inspection
+        tooltip: 
+        showInInspector: 0
+        networkSync: 0
+        value: {fileID: 0}
+      - useVariable: 1
+        name: RootTriggerPuzzle2Inspection
+        tooltip: 
+        showInInspector: 0
+        networkSync: 0
+        value: {fileID: 0}
+      - useVariable: 1
+        name: RootTriggerPuzzle3Inspection
+        tooltip: 
+        showInInspector: 0
+        networkSync: 0
+        value: {fileID: 0}
+      objectVariables: []
+      materialVariables: []
+      textureVariables: []
+      arrayVariables: []
+      enumVariables: []
+      categories:
+      - 
+      variableCategoryIDs: 00000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000
+    description: 
+    docUrl: 
+    showStateLabel: 1
+    maxLoopCount: 0
+    watermark: 
+    password: 
+    locked: 0
+    manualUpdate: 0
+    outVariableIndices: 
+    keepDelayedEventsOnStateExit: 0
+    preprocessed: 0
+    ExposedEvents: []
+    OutputEvents: []
+    RestartOnEnable: 1
+    ResetVariablesOnEnable: 0
+    EnableDebugFlow: 0
+    EnableBreakpoints: 1
+    editorFlags: 3
+    activeStateName: 
+    mouseEvents: 0
+    handleLevelLoaded: 0
+    handleTriggerEnter2D: 0
+    handleTriggerExit2D: 0
+    handleTriggerStay2D: 0
+    handleCollisionEnter2D: 0
+    handleCollisionExit2D: 0
+    handleCollisionStay2D: 0
+    handleTriggerEnter: 0
+    handleTriggerExit: 0
+    handleTriggerStay: 0
+    handleCollisionEnter: 0
+    handleCollisionExit: 0
+    handleCollisionStay: 0
+    handleParticleCollision: 0
+    handleControllerColliderHit: 0
+    handleJointBreak: 0
+    handleJointBreak2D: 0
+    handleOnGUI: 0
+    handleFixedUpdate: 0
+    handleLateUpdate: 0
+    handleApplicationEvents: 0
+    handleUiEvents: 0
+    handleLegacyNetworking: 0
+    handleAnimatorMove: 0
+    handleAnimatorIK: 0

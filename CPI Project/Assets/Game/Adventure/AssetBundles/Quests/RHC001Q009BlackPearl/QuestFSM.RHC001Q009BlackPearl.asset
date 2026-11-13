@@ -1,0 +1,2592 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 1219815696, guid: e743331561ef77147ae48cda9bcb8209, type: 3}
+  m_Name: QuestFSM.RHC001Q009BlackPearl
+  m_EditorClassIdentifier: 
+  category: Quest
+  fsm:
+    dataVersion: 1
+    usedInTemplate: {fileID: 11400000}
+    name: FSM
+    startState: StartQuest
+    states:
+    - name: StartQuest
+      description: Use this state to determine where you want to start the quest.
+      colorIndex: 0
+      position:
+        serializedVersion: 2
+        x: 53.851562
+        y: 104.50781
+        width: 261
+        height: 32
+      isBreakpoint: 0
+      isSequence: 0
+      hideUnused: 0
+      transitions:
+      - fsmEvent:
+          name: FINISHED
+          isSystemEvent: 1
+          isGlobal: 0
+        toState: Obj0
+        linkStyle: 0
+        linkConstraint: 0
+        linkTarget: 0
+        colorIndex: 0
+      actionData:
+        actionNames: []
+        customNames: []
+        actionEnabled: 
+        actionIsOpen: 
+        actionStartIndex: 
+        actionHashCodes: 
+        unityObjectParams: []
+        fsmGameObjectParams: []
+        fsmOwnerDefaultParams: []
+        animationCurveParams: []
+        functionCallParams: []
+        fsmTemplateControlParams: []
+        fsmEventTargetParams: []
+        fsmPropertyParams: []
+        layoutOptionParams: []
+        fsmStringParams: []
+        fsmObjectParams: []
+        fsmVarParams: []
+        fsmArrayParams: []
+        fsmEnumParams: []
+        fsmFloatParams: []
+        fsmIntParams: []
+        fsmBoolParams: []
+        fsmVector2Params: []
+        fsmVector3Params: []
+        fsmColorParams: []
+        fsmRectParams: []
+        fsmQuaternionParams: []
+        stringParams: []
+        byteData: 
+        arrayParamSizes: 
+        arrayParamTypes: []
+        customTypeSizes: 
+        customTypeNames: []
+        paramDataType: 
+        paramName: []
+        paramDataPos: 
+        paramByteDataSize: 
+    - name: Obj0
+      description: Talk to Rockhopper
+      colorIndex: 1
+      position:
+        serializedVersion: 2
+        x: 394.85156
+        y: 105.50781
+        width: 117
+        height: 32
+      isBreakpoint: 0
+      isSequence: 0
+      hideUnused: 0
+      transitions:
+      - fsmEvent:
+          name: FINISHED
+          isSystemEvent: 1
+          isGlobal: 0
+        toState: Obj1
+        linkStyle: 0
+        linkConstraint: 0
+        linkTarget: 0
+        colorIndex: 0
+      actionData:
+        actionNames:
+        - ClubPenguin.Adventure.ObjectiveAction
+        - HutongGames.PlayMaker.Actions.RunFSM
+        - ClubPenguin.Analytics.AnalyticsGameActionAction
+        - ClubPenguin.Audio.FabricSetSwitchAction
+        customNames:
+        - 
+        - 
+        - 
+        - 
+        actionEnabled: 01010101
+        actionIsOpen: 01010101
+        actionStartIndex: 00000000040000000700000013000000
+        actionHashCodes: 67682403d33f7a0529b3ec00786b3902
+        unityObjectParams: []
+        fsmGameObjectParams:
+        - useVariable: 0
+          name: 
+          tooltip: 
+          showInInspector: 0
+          networkSync: 0
+          value: {fileID: 0}
+        fsmOwnerDefaultParams: []
+        animationCurveParams: []
+        functionCallParams: []
+        fsmTemplateControlParams:
+        - targetType: 0
+          target: {fileID: 11400000, guid: 0b471b7bf10d95d458cd23b623432592, type: 2}
+          inputVariables: []
+          outputVariables: []
+          outputEvents: []
+        fsmEventTargetParams: []
+        fsmPropertyParams: []
+        layoutOptionParams: []
+        fsmStringParams:
+        - useVariable: 0
+          name: 
+          tooltip: 
+          showInInspector: 0
+          networkSync: 0
+          value: MUS/Quest/Rockhopper/C001Q009
+        - useVariable: 0
+          name: 
+          tooltip: 
+          showInInspector: 0
+          networkSync: 0
+          value: RockhopperLow
+        fsmObjectParams: []
+        fsmVarParams: []
+        fsmArrayParams: []
+        fsmEnumParams: []
+        fsmFloatParams: []
+        fsmIntParams: []
+        fsmBoolParams: []
+        fsmVector2Params: []
+        fsmVector3Params: []
+        fsmColorParams: []
+        fsmRectParams: []
+        fsmQuaternionParams: []
+        stringParams: []
+        byteData: 54616c6b20746f20526f636b686f7070657251756573742e546578742e4141433030315130303443726162732e4f626a3146534d2e6931386e4465736372697074696f6e01ffffffff46494e4953484544007175657374526f636b686f7070657230317c303954616c6b2d746f2d526f636b686f7070657230304f626a302d52485f6861735f616e5f696465613030
+        arrayParamSizes: 
+        arrayParamTypes: []
+        customTypeSizes: 
+        customTypeNames: []
+        paramDataType: 03000000030000000100000000000000260000001700000001000000030000000300000003000000030000000300000003000000030000000300000003000000030000000300000003000000120000001200000013000000
+        paramName:
+        - Description
+        - i18nDescription
+        - NotifyPlayer
+        - DefinitionRewardIndex
+        - fsmTemplateControl
+        - finishEvent
+        - everyFrame
+        - Context
+        - QuestId
+        - SeasonAndEpisode
+        - ObjectiveName
+        - ObjectiveNumber
+        - StepName
+        - StepNumber
+        - Action
+        - Type
+        - Location
+        - Level
+        - Message
+        - EventName
+        - SwitchTo
+        - TheObject
+        paramDataPos: 0000000012000000440000004500000000000000490000005100000052000000570000006100000066000000780000007a0000008d0000008f0000008f0000008f0000008f0000008f000000000000000100000000000000
+        paramByteDataSize: 12000000320000000100000004000000000000000800000001000000050000000a00000005000000120000000200000013000000020000000000000000000000000000000000000000000000000000000000000000000000
+    - name: DEBUGEndTest
+      description: End of Quest
+      colorIndex: 6
+      position:
+        serializedVersion: 2
+        x: 377.85156
+        y: 740.5078
+        width: 119
+        height: 32
+      isBreakpoint: 0
+      isSequence: 0
+      hideUnused: 0
+      transitions:
+      - fsmEvent:
+          name: Impossible
+          isSystemEvent: 0
+          isGlobal: 0
+        toState: End
+        linkStyle: 0
+        linkConstraint: 0
+        linkTarget: 0
+        colorIndex: 0
+      actionData:
+        actionNames:
+        - ClubPenguin.Adventure.ObjectiveAction
+        customNames:
+        - 
+        actionEnabled: 01
+        actionIsOpen: 01
+        actionStartIndex: 00000000
+        actionHashCodes: 67682403
+        unityObjectParams: []
+        fsmGameObjectParams: []
+        fsmOwnerDefaultParams: []
+        animationCurveParams: []
+        functionCallParams: []
+        fsmTemplateControlParams: []
+        fsmEventTargetParams: []
+        fsmPropertyParams: []
+        layoutOptionParams: []
+        fsmStringParams: []
+        fsmObjectParams: []
+        fsmVarParams: []
+        fsmArrayParams: []
+        fsmEnumParams: []
+        fsmFloatParams: []
+        fsmIntParams: []
+        fsmBoolParams: []
+        fsmVector2Params: []
+        fsmVector3Params: []
+        fsmColorParams: []
+        fsmRectParams: []
+        fsmQuaternionParams: []
+        stringParams: []
+        byteData: 456e64206f66205465737401ffffffff
+        arrayParamSizes: 
+        arrayParamTypes: []
+        customTypeSizes: 
+        customTypeNames: []
+        paramDataType: 03000000030000000100000000000000
+        paramName:
+        - Description
+        - i18nDescription
+        - NotifyPlayer
+        - DefinitionRewardIndex
+        paramDataPos: 000000000b0000000b0000000c000000
+        paramByteDataSize: 0b000000000000000100000004000000
+    - name: End
+      description: 
+      colorIndex: 0
+      position:
+        serializedVersion: 2
+        x: 379.85156
+        y: 828.5078
+        width: 100
+        height: 16
+      isBreakpoint: 0
+      isSequence: 0
+      hideUnused: 0
+      transitions: []
+      actionData:
+        actionNames:
+        - ClubPenguin.Adventure.EndQuestAction
+        customNames:
+        - 
+        actionEnabled: 01
+        actionIsOpen: 01
+        actionStartIndex: 00000000
+        actionHashCodes: 00000000
+        unityObjectParams: []
+        fsmGameObjectParams: []
+        fsmOwnerDefaultParams: []
+        animationCurveParams: []
+        functionCallParams: []
+        fsmTemplateControlParams: []
+        fsmEventTargetParams: []
+        fsmPropertyParams: []
+        layoutOptionParams: []
+        fsmStringParams: []
+        fsmObjectParams: []
+        fsmVarParams: []
+        fsmArrayParams: []
+        fsmEnumParams: []
+        fsmFloatParams: []
+        fsmIntParams: []
+        fsmBoolParams: []
+        fsmVector2Params: []
+        fsmVector3Params: []
+        fsmColorParams: []
+        fsmRectParams: []
+        fsmQuaternionParams: []
+        stringParams: []
+        byteData: 
+        arrayParamSizes: 
+        arrayParamTypes: []
+        customTypeSizes: 
+        customTypeNames: []
+        paramDataType: 
+        paramName: []
+        paramDataPos: 
+        paramByteDataSize: 
+    - name: Obj1
+      description: Talk to Rockhopper
+      colorIndex: 1
+      position:
+        serializedVersion: 2
+        x: 394.0078
+        y: 205.84375
+        width: 117
+        height: 32
+      isBreakpoint: 0
+      isSequence: 0
+      hideUnused: 0
+      transitions:
+      - fsmEvent:
+          name: FINISHED
+          isSystemEvent: 1
+          isGlobal: 0
+        toState: Obj2
+        linkStyle: 0
+        linkConstraint: 0
+        linkTarget: 0
+        colorIndex: 0
+      actionData:
+        actionNames:
+        - ClubPenguin.Adventure.ObjectiveAction
+        - HutongGames.PlayMaker.Actions.RunFSM
+        - ClubPenguin.Analytics.AnalyticsGameActionAction
+        - ClubPenguin.Audio.FabricSetSwitchAction
+        customNames:
+        - 
+        - 
+        - 
+        - 
+        actionEnabled: 01010101
+        actionIsOpen: 01010101
+        actionStartIndex: 00000000040000000700000013000000
+        actionHashCodes: 67682403d33f7a0529b3ec00786b3902
+        unityObjectParams: []
+        fsmGameObjectParams:
+        - useVariable: 0
+          name: 
+          tooltip: 
+          showInInspector: 0
+          networkSync: 0
+          value: {fileID: 0}
+        fsmOwnerDefaultParams: []
+        animationCurveParams: []
+        functionCallParams: []
+        fsmTemplateControlParams:
+        - targetType: 0
+          target: {fileID: 11400000, guid: da72e0f8ba453f94c87e927f877af450, type: 2}
+          inputVariables:
+          - variable:
+              useVariable: 1
+              name: RefRootJigsawFirstTry
+              tooltip: 
+              showInInspector: 0
+              networkSync: 0
+            fsmVar:
+              variableName: RefRootJigsawFirstTry
+              objectType: 
+              useVariable: 0
+              type: 2
+              floatValue: 0
+              intValue: 0
+              boolValue: 0
+              stringValue: 
+              vector4Value: {x: 0, y: 0, z: 0, w: 0}
+              objectReference: {fileID: 0}
+              arrayValue:
+                useVariable: 0
+                name: 
+                tooltip: 
+                showInInspector: 0
+                networkSync: 0
+                type: -1
+                objectTypeName: 
+                floatValues: []
+                intValues: 
+                boolValues: 
+                stringValues: []
+                vector4Values: []
+                objectReferences: []
+            isEdited: 0
+          - variable:
+              useVariable: 1
+              name: RefRootXferedFromPrevObj
+              tooltip: 
+              showInInspector: 0
+              networkSync: 0
+            fsmVar:
+              variableName: RefRootXferedFromPrevObj
+              objectType: 
+              useVariable: 0
+              type: 2
+              floatValue: 0
+              intValue: 0
+              boolValue: 0
+              stringValue: 
+              vector4Value: {x: 0, y: 0, z: 0, w: 0}
+              objectReference: {fileID: 0}
+              arrayValue:
+                useVariable: 0
+                name: 
+                tooltip: 
+                showInInspector: 0
+                networkSync: 0
+                type: -1
+                objectTypeName: 
+                floatValues: []
+                intValues: 
+                boolValues: 
+                stringValues: []
+                vector4Values: []
+                objectReferences: []
+            isEdited: 0
+          outputVariables: []
+          outputEvents: []
+        fsmEventTargetParams: []
+        fsmPropertyParams: []
+        layoutOptionParams: []
+        fsmStringParams:
+        - useVariable: 0
+          name: 
+          tooltip: 
+          showInInspector: 0
+          networkSync: 0
+          value: MUS/Quest/Rockhopper/C001Q009
+        - useVariable: 0
+          name: 
+          tooltip: 
+          showInInspector: 0
+          networkSync: 0
+          value: RockhopperLow
+        fsmObjectParams: []
+        fsmVarParams: []
+        fsmArrayParams: []
+        fsmEnumParams: []
+        fsmFloatParams: []
+        fsmIntParams: []
+        fsmBoolParams: []
+        fsmVector2Params: []
+        fsmVector3Params: []
+        fsmColorParams: []
+        fsmRectParams: []
+        fsmQuaternionParams: []
+        stringParams: []
+        byteData: 54616c6b20746f20526f636b686f7070657251756573742e546578742e4141433030315130303443726162732e4f626a3146534d2e6931386e4465736372697074696f6e01ffffffff46494e4953484544007175657374526f636b686f7070657230317c303954616c6b2d746f2d526f636b686f7070657230314f626a312d417373656d626c655f696d7072657373696f6e735f746f5f66696e645f696e737472756374696f6e733030
+        arrayParamSizes: 
+        arrayParamTypes: []
+        customTypeSizes: 
+        customTypeNames: []
+        paramDataType: 03000000030000000100000000000000260000001700000001000000030000000300000003000000030000000300000003000000030000000300000003000000030000000300000003000000120000001200000013000000
+        paramName:
+        - Description
+        - i18nDescription
+        - NotifyPlayer
+        - DefinitionRewardIndex
+        - fsmTemplateControl
+        - finishEvent
+        - everyFrame
+        - Context
+        - QuestId
+        - SeasonAndEpisode
+        - ObjectiveName
+        - ObjectiveNumber
+        - StepName
+        - StepNumber
+        - Action
+        - Type
+        - Location
+        - Level
+        - Message
+        - EventName
+        - SwitchTo
+        - TheObject
+        paramDataPos: 0000000012000000440000004500000000000000490000005100000052000000570000006100000066000000780000007a000000a8000000aa000000aa000000aa000000aa000000aa000000000000000100000000000000
+        paramByteDataSize: 12000000320000000100000004000000000000000800000001000000050000000a0000000500000012000000020000002e000000020000000000000000000000000000000000000000000000000000000000000000000000
+    - name: Obj2
+      description: Go to Sea Caves
+      colorIndex: 1
+      position:
+        serializedVersion: 2
+        x: 393.0078
+        y: 310.84375
+        width: 107.5
+        height: 32
+      isBreakpoint: 0
+      isSequence: 0
+      hideUnused: 0
+      transitions:
+      - fsmEvent:
+          name: FINISHED
+          isSystemEvent: 1
+          isGlobal: 0
+        toState: Obj3
+        linkStyle: 0
+        linkConstraint: 0
+        linkTarget: 0
+        colorIndex: 0
+      actionData:
+        actionNames:
+        - ClubPenguin.Adventure.ObjectiveAction
+        - HutongGames.PlayMaker.Actions.RunFSM
+        - ClubPenguin.Analytics.AnalyticsGameActionAction
+        - ClubPenguin.Audio.FabricSetSwitchAction
+        customNames:
+        - 
+        - 
+        - 
+        - 
+        actionEnabled: 01010101
+        actionIsOpen: 01010101
+        actionStartIndex: 00000000040000000700000013000000
+        actionHashCodes: 67682403d33f7a0529b3ec00786b3902
+        unityObjectParams: []
+        fsmGameObjectParams:
+        - useVariable: 0
+          name: 
+          tooltip: 
+          showInInspector: 0
+          networkSync: 0
+          value: {fileID: 0}
+        fsmOwnerDefaultParams: []
+        animationCurveParams: []
+        functionCallParams: []
+        fsmTemplateControlParams:
+        - targetType: 0
+          target: {fileID: 11400000, guid: e9c3d5fd2cfaded49933fcc637e859ab, type: 2}
+          inputVariables:
+          - variable:
+              useVariable: 1
+              name: ObjText
+              tooltip: 
+              showInInspector: 0
+              networkSync: 0
+            fsmVar:
+              variableName: ObjText
+              objectType: 
+              useVariable: 0
+              type: 4
+              floatValue: 0
+              intValue: 0
+              boolValue: 0
+              stringValue: 
+              vector4Value: {x: 0, y: 0, z: 0, w: 0}
+              objectReference: {fileID: 0}
+              arrayValue:
+                useVariable: 0
+                name: 
+                tooltip: 
+                showInInspector: 0
+                networkSync: 0
+                type: -1
+                objectTypeName: 
+                floatValues: []
+                intValues: 
+                boolValues: 
+                stringValues: []
+                vector4Values: []
+                objectReferences: []
+            isEdited: 0
+          - variable:
+              useVariable: 1
+              name: GiantClamPearl
+              tooltip: 
+              showInInspector: 0
+              networkSync: 0
+            fsmVar:
+              variableName: GiantClamPearl
+              objectType: 
+              useVariable: 0
+              type: 3
+              floatValue: 0
+              intValue: 0
+              boolValue: 0
+              stringValue: 
+              vector4Value: {x: 0, y: 0, z: 0, w: 0}
+              objectReference: {fileID: 0}
+              arrayValue:
+                useVariable: 0
+                name: 
+                tooltip: 
+                showInInspector: 0
+                networkSync: 0
+                type: -1
+                objectTypeName: 
+                floatValues: []
+                intValues: 
+                boolValues: 
+                stringValues: []
+                vector4Values: []
+                objectReferences: []
+            isEdited: 0
+          - variable:
+              useVariable: 1
+              name: GiantClamShell
+              tooltip: 
+              showInInspector: 0
+              networkSync: 0
+            fsmVar:
+              variableName: GiantClamShell
+              objectType: 
+              useVariable: 0
+              type: 3
+              floatValue: 0
+              intValue: 0
+              boolValue: 0
+              stringValue: 
+              vector4Value: {x: 0, y: 0, z: 0, w: 0}
+              objectReference: {fileID: 0}
+              arrayValue:
+                useVariable: 0
+                name: 
+                tooltip: 
+                showInInspector: 0
+                networkSync: 0
+                type: -1
+                objectTypeName: 
+                floatValues: []
+                intValues: 
+                boolValues: 
+                stringValues: []
+                vector4Values: []
+                objectReferences: []
+            isEdited: 0
+          - variable:
+              useVariable: 1
+              name: GiantClamSparkles
+              tooltip: 
+              showInInspector: 0
+              networkSync: 0
+            fsmVar:
+              variableName: GiantClamSparkles
+              objectType: 
+              useVariable: 0
+              type: 3
+              floatValue: 0
+              intValue: 0
+              boolValue: 0
+              stringValue: 
+              vector4Value: {x: 0, y: 0, z: 0, w: 0}
+              objectReference: {fileID: 0}
+              arrayValue:
+                useVariable: 0
+                name: 
+                tooltip: 
+                showInInspector: 0
+                networkSync: 0
+                type: -1
+                objectTypeName: 
+                floatValues: []
+                intValues: 
+                boolValues: 
+                stringValues: []
+                vector4Values: []
+                objectReferences: []
+            isEdited: 0
+          - variable:
+              useVariable: 1
+              name: InvisibleWallPearlBlock
+              tooltip: 
+              showInInspector: 0
+              networkSync: 0
+            fsmVar:
+              variableName: InvisibleWallPearlBlock
+              objectType: 
+              useVariable: 0
+              type: 3
+              floatValue: 0
+              intValue: 0
+              boolValue: 0
+              stringValue: 
+              vector4Value: {x: 0, y: 0, z: 0, w: 0}
+              objectReference: {fileID: 0}
+              arrayValue:
+                useVariable: 0
+                name: 
+                tooltip: 
+                showInInspector: 0
+                networkSync: 0
+                type: -1
+                objectTypeName: 
+                floatValues: []
+                intValues: 
+                boolValues: 
+                stringValues: []
+                vector4Values: []
+                objectReferences: []
+            isEdited: 0
+          - variable:
+              useVariable: 1
+              name: LocalPlayer
+              tooltip: 
+              showInInspector: 0
+              networkSync: 0
+            fsmVar:
+              variableName: LocalPlayer
+              objectType: 
+              useVariable: 0
+              type: 3
+              floatValue: 0
+              intValue: 0
+              boolValue: 0
+              stringValue: 
+              vector4Value: {x: 0, y: 0, z: 0, w: 0}
+              objectReference: {fileID: 0}
+              arrayValue:
+                useVariable: 0
+                name: 
+                tooltip: 
+                showInInspector: 0
+                networkSync: 0
+                type: -1
+                objectTypeName: 
+                floatValues: []
+                intValues: 
+                boolValues: 
+                stringValues: []
+                vector4Values: []
+                objectReferences: []
+            isEdited: 0
+          - variable:
+              useVariable: 1
+              name: TriggerWalkPearlAppear
+              tooltip: 
+              showInInspector: 0
+              networkSync: 0
+            fsmVar:
+              variableName: TriggerWalkPearlAppear
+              objectType: 
+              useVariable: 0
+              type: 3
+              floatValue: 0
+              intValue: 0
+              boolValue: 0
+              stringValue: 
+              vector4Value: {x: 0, y: 0, z: 0, w: 0}
+              objectReference: {fileID: 0}
+              arrayValue:
+                useVariable: 0
+                name: 
+                tooltip: 
+                showInInspector: 0
+                networkSync: 0
+                type: -1
+                objectTypeName: 
+                floatValues: []
+                intValues: 
+                boolValues: 
+                stringValues: []
+                vector4Values: []
+                objectReferences: []
+            isEdited: 0
+          - variable:
+              useVariable: 1
+              name: TriggerWalkPearlCollect
+              tooltip: 
+              showInInspector: 0
+              networkSync: 0
+            fsmVar:
+              variableName: TriggerWalkPearlCollect
+              objectType: 
+              useVariable: 0
+              type: 3
+              floatValue: 0
+              intValue: 0
+              boolValue: 0
+              stringValue: 
+              vector4Value: {x: 0, y: 0, z: 0, w: 0}
+              objectReference: {fileID: 0}
+              arrayValue:
+                useVariable: 0
+                name: 
+                tooltip: 
+                showInInspector: 0
+                networkSync: 0
+                type: -1
+                objectTypeName: 
+                floatValues: []
+                intValues: 
+                boolValues: 
+                stringValues: []
+                vector4Values: []
+                objectReferences: []
+            isEdited: 0
+          - variable:
+              useVariable: 1
+              name: RefRootFoundPearl
+              tooltip: 
+              showInInspector: 0
+              networkSync: 0
+            fsmVar:
+              variableName: RefRootFoundPearl
+              objectType: 
+              useVariable: 0
+              type: 2
+              floatValue: 0
+              intValue: 0
+              boolValue: 0
+              stringValue: 
+              vector4Value: {x: 0, y: 0, z: 0, w: 0}
+              objectReference: {fileID: 0}
+              arrayValue:
+                useVariable: 0
+                name: 
+                tooltip: 
+                showInInspector: 0
+                networkSync: 0
+                type: -1
+                objectTypeName: 
+                floatValues: []
+                intValues: 
+                boolValues: 
+                stringValues: []
+                vector4Values: []
+                objectReferences: []
+            isEdited: 0
+          outputVariables: []
+          outputEvents: []
+        fsmEventTargetParams: []
+        fsmPropertyParams: []
+        layoutOptionParams: []
+        fsmStringParams:
+        - useVariable: 0
+          name: 
+          tooltip: 
+          showInInspector: 0
+          networkSync: 0
+          value: MUS/Quest/Rockhopper/C001Q009
+        - useVariable: 0
+          name: 
+          tooltip: 
+          showInInspector: 0
+          networkSync: 0
+          value: RockhopperLow
+        fsmObjectParams: []
+        fsmVarParams: []
+        fsmArrayParams: []
+        fsmEnumParams: []
+        fsmFloatParams: []
+        fsmIntParams: []
+        fsmBoolParams: []
+        fsmVector2Params: []
+        fsmVector3Params: []
+        fsmColorParams: []
+        fsmRectParams: []
+        fsmQuaternionParams: []
+        stringParams: []
+        byteData: 476f20746f2053656120436176657351756573742e546578742e52484330303151303039426c61636b506561726c2e4f626a3246534d2e6931386e4465736372697074696f6e01ffffffff46494e4953484544007175657374526f636b686f7070657230317c3039476f2d746f2d5365612d436176657330324f626a322d477261625f6769616e745f706561726c3030
+        arrayParamSizes: 
+        arrayParamTypes: []
+        customTypeSizes: 
+        customTypeNames: []
+        paramDataType: 03000000030000000100000000000000260000001700000001000000030000000300000003000000030000000300000003000000030000000300000003000000030000000300000003000000120000001200000013000000
+        paramName:
+        - Description
+        - i18nDescription
+        - NotifyPlayer
+        - DefinitionRewardIndex
+        - fsmTemplateControl
+        - finishEvent
+        - everyFrame
+        - Context
+        - QuestId
+        - SeasonAndEpisode
+        - ObjectiveName
+        - ObjectiveNumber
+        - StepName
+        - StepNumber
+        - Action
+        - Type
+        - Location
+        - Level
+        - Message
+        - EventName
+        - SwitchTo
+        - TheObject
+        paramDataPos: 000000000f0000004600000047000000000000004b000000530000005400000059000000630000006800000077000000790000008e0000009000000090000000900000009000000090000000000000000100000000000000
+        paramByteDataSize: 0f000000370000000100000004000000000000000800000001000000050000000a000000050000000f0000000200000015000000020000000000000000000000000000000000000000000000000000000000000000000000
+    - name: Obj3
+      description: Go to the Beach
+      colorIndex: 1
+      position:
+        serializedVersion: 2
+        x: 393
+        y: 418
+        width: 105.5
+        height: 32
+      isBreakpoint: 0
+      isSequence: 0
+      hideUnused: 0
+      transitions:
+      - fsmEvent:
+          name: FINISHED
+          isSystemEvent: 1
+          isGlobal: 0
+        toState: Obj4
+        linkStyle: 0
+        linkConstraint: 0
+        linkTarget: 0
+        colorIndex: 0
+      actionData:
+        actionNames:
+        - ClubPenguin.Adventure.ObjectiveAction
+        - HutongGames.PlayMaker.Actions.RunFSM
+        - ClubPenguin.Analytics.AnalyticsGameActionAction
+        - ClubPenguin.Audio.FabricSetSwitchAction
+        customNames:
+        - 
+        - 
+        - 
+        - 
+        actionEnabled: 01010101
+        actionIsOpen: 01010101
+        actionStartIndex: 00000000040000000700000013000000
+        actionHashCodes: 67682403d33f7a0529b3ec00786b3902
+        unityObjectParams: []
+        fsmGameObjectParams:
+        - useVariable: 0
+          name: 
+          tooltip: 
+          showInInspector: 0
+          networkSync: 0
+          value: {fileID: 0}
+        fsmOwnerDefaultParams: []
+        animationCurveParams: []
+        functionCallParams: []
+        fsmTemplateControlParams:
+        - targetType: 0
+          target: {fileID: 11400000, guid: 7e60379f5e02dec449eeb11d100f9016, type: 2}
+          inputVariables:
+          - variable:
+              useVariable: 1
+              name: BurstGrass
+              tooltip: 
+              showInInspector: 0
+              networkSync: 0
+            fsmVar:
+              variableName: BurstGrass
+              objectType: 
+              useVariable: 0
+              type: 3
+              floatValue: 0
+              intValue: 0
+              boolValue: 0
+              stringValue: 
+              vector4Value: {x: 0, y: 0, z: 0, w: 0}
+              objectReference: {fileID: 0}
+              arrayValue:
+                useVariable: 0
+                name: 
+                tooltip: 
+                showInInspector: 0
+                networkSync: 0
+                type: -1
+                objectTypeName: 
+                floatValues: []
+                intValues: 
+                boolValues: 
+                stringValues: []
+                vector4Values: []
+                objectReferences: []
+            isEdited: 0
+          - variable:
+              useVariable: 1
+              name: GiantClamPearl
+              tooltip: 
+              showInInspector: 0
+              networkSync: 0
+            fsmVar:
+              variableName: GiantClamPearl
+              objectType: 
+              useVariable: 0
+              type: 3
+              floatValue: 0
+              intValue: 0
+              boolValue: 0
+              stringValue: 
+              vector4Value: {x: 0, y: 0, z: 0, w: 0}
+              objectReference: {fileID: 0}
+              arrayValue:
+                useVariable: 0
+                name: 
+                tooltip: 
+                showInInspector: 0
+                networkSync: 0
+                type: -1
+                objectTypeName: 
+                floatValues: []
+                intValues: 
+                boolValues: 
+                stringValues: []
+                vector4Values: []
+                objectReferences: []
+            isEdited: 0
+          - variable:
+              useVariable: 1
+              name: LavaSmoke
+              tooltip: 
+              showInInspector: 0
+              networkSync: 0
+            fsmVar:
+              variableName: LavaSmoke
+              objectType: 
+              useVariable: 0
+              type: 3
+              floatValue: 0
+              intValue: 0
+              boolValue: 0
+              stringValue: 
+              vector4Value: {x: 0, y: 0, z: 0, w: 0}
+              objectReference: {fileID: 0}
+              arrayValue:
+                useVariable: 0
+                name: 
+                tooltip: 
+                showInInspector: 0
+                networkSync: 0
+                type: -1
+                objectTypeName: 
+                floatValues: []
+                intValues: 
+                boolValues: 
+                stringValues: []
+                vector4Values: []
+                objectReferences: []
+            isEdited: 0
+          - variable:
+              useVariable: 1
+              name: LavaSplash
+              tooltip: 
+              showInInspector: 0
+              networkSync: 0
+            fsmVar:
+              variableName: LavaSplash
+              objectType: 
+              useVariable: 0
+              type: 3
+              floatValue: 0
+              intValue: 0
+              boolValue: 0
+              stringValue: 
+              vector4Value: {x: 0, y: 0, z: 0, w: 0}
+              objectReference: {fileID: 0}
+              arrayValue:
+                useVariable: 0
+                name: 
+                tooltip: 
+                showInInspector: 0
+                networkSync: 0
+                type: -1
+                objectTypeName: 
+                floatValues: []
+                intValues: 
+                boolValues: 
+                stringValues: []
+                vector4Values: []
+                objectReferences: []
+            isEdited: 0
+          - variable:
+              useVariable: 1
+              name: LocalPlayer
+              tooltip: 
+              showInInspector: 0
+              networkSync: 0
+            fsmVar:
+              variableName: LocalPlayer
+              objectType: 
+              useVariable: 0
+              type: 3
+              floatValue: 0
+              intValue: 0
+              boolValue: 0
+              stringValue: 
+              vector4Value: {x: 0, y: 0, z: 0, w: 0}
+              objectReference: {fileID: 0}
+              arrayValue:
+                useVariable: 0
+                name: 
+                tooltip: 
+                showInInspector: 0
+                networkSync: 0
+                type: -1
+                objectTypeName: 
+                floatValues: []
+                intValues: 
+                boolValues: 
+                stringValues: []
+                vector4Values: []
+                objectReferences: []
+            isEdited: 0
+          - variable:
+              useVariable: 1
+              name: PearlBlack
+              tooltip: 
+              showInInspector: 0
+              networkSync: 0
+            fsmVar:
+              variableName: PearlBlack
+              objectType: 
+              useVariable: 0
+              type: 3
+              floatValue: 0
+              intValue: 0
+              boolValue: 0
+              stringValue: 
+              vector4Value: {x: 0, y: 0, z: 0, w: 0}
+              objectReference: {fileID: 0}
+              arrayValue:
+                useVariable: 0
+                name: 
+                tooltip: 
+                showInInspector: 0
+                networkSync: 0
+                type: -1
+                objectTypeName: 
+                floatValues: []
+                intValues: 
+                boolValues: 
+                stringValues: []
+                vector4Values: []
+                objectReferences: []
+            isEdited: 0
+          - variable:
+              useVariable: 1
+              name: TriggerWalkPearlToss
+              tooltip: 
+              showInInspector: 0
+              networkSync: 0
+            fsmVar:
+              variableName: TriggerWalkPearlToss
+              objectType: 
+              useVariable: 0
+              type: 3
+              floatValue: 0
+              intValue: 0
+              boolValue: 0
+              stringValue: 
+              vector4Value: {x: 0, y: 0, z: 0, w: 0}
+              objectReference: {fileID: 0}
+              arrayValue:
+                useVariable: 0
+                name: 
+                tooltip: 
+                showInInspector: 0
+                networkSync: 0
+                type: -1
+                objectTypeName: 
+                floatValues: []
+                intValues: 
+                boolValues: 
+                stringValues: []
+                vector4Values: []
+                objectReferences: []
+            isEdited: 0
+          - variable:
+              useVariable: 1
+              name: VolcanoEruption
+              tooltip: 
+              showInInspector: 0
+              networkSync: 0
+            fsmVar:
+              variableName: VolcanoEruption
+              objectType: 
+              useVariable: 0
+              type: 3
+              floatValue: 0
+              intValue: 0
+              boolValue: 0
+              stringValue: 
+              vector4Value: {x: 0, y: 0, z: 0, w: 0}
+              objectReference: {fileID: 0}
+              arrayValue:
+                useVariable: 0
+                name: 
+                tooltip: 
+                showInInspector: 0
+                networkSync: 0
+                type: -1
+                objectTypeName: 
+                floatValues: []
+                intValues: 
+                boolValues: 
+                stringValues: []
+                vector4Values: []
+                objectReferences: []
+            isEdited: 0
+          outputVariables: []
+          outputEvents: []
+        fsmEventTargetParams: []
+        fsmPropertyParams: []
+        layoutOptionParams: []
+        fsmStringParams:
+        - useVariable: 0
+          name: 
+          tooltip: 
+          showInInspector: 0
+          networkSync: 0
+          value: MUS/Quest/Rockhopper/C001Q009
+        - useVariable: 0
+          name: 
+          tooltip: 
+          showInInspector: 0
+          networkSync: 0
+          value: RockhopperLow
+        fsmObjectParams: []
+        fsmVarParams: []
+        fsmArrayParams: []
+        fsmEnumParams: []
+        fsmFloatParams: []
+        fsmIntParams: []
+        fsmBoolParams: []
+        fsmVector2Params: []
+        fsmVector3Params: []
+        fsmColorParams: []
+        fsmRectParams: []
+        fsmQuaternionParams: []
+        stringParams: []
+        byteData: 476f20746f2074686520426561636851756573742e546578742e52484330303151303039426c61636b506561726c2e4f626a3346534d2e6931386e4465736372697074696f6e01ffffffff46494e4953484544007175657374526f636b686f7070657230317c3039476f2d746f2d7468652d426561636830334f626a332d436f6f6b5f706561726c5f6f6e5f766f6c63616e6f3030
+        arrayParamSizes: 
+        arrayParamTypes: []
+        customTypeSizes: 
+        customTypeNames: []
+        paramDataType: 03000000030000000100000000000000260000001700000001000000030000000300000003000000030000000300000003000000030000000300000003000000030000000300000003000000120000001200000013000000
+        paramName:
+        - Description
+        - i18nDescription
+        - NotifyPlayer
+        - DefinitionRewardIndex
+        - fsmTemplateControl
+        - finishEvent
+        - everyFrame
+        - Context
+        - QuestId
+        - SeasonAndEpisode
+        - ObjectiveName
+        - ObjectiveNumber
+        - StepName
+        - StepNumber
+        - Action
+        - Type
+        - Location
+        - Level
+        - Message
+        - EventName
+        - SwitchTo
+        - TheObject
+        paramDataPos: 000000000f0000004600000047000000000000004b00000053000000540000005900000063000000680000007700000079000000930000009500000095000000950000009500000095000000000000000100000000000000
+        paramByteDataSize: 0f000000370000000100000004000000000000000800000001000000050000000a000000050000000f000000020000001a000000020000000000000000000000000000000000000000000000000000000000000000000000
+    - name: Obj4
+      description: Go to the Boardwalk
+      colorIndex: 1
+      position:
+        serializedVersion: 2
+        x: 391
+        y: 525
+        width: 121
+        height: 32
+      isBreakpoint: 0
+      isSequence: 0
+      hideUnused: 0
+      transitions:
+      - fsmEvent:
+          name: FINISHED
+          isSystemEvent: 1
+          isGlobal: 0
+        toState: Obj5
+        linkStyle: 0
+        linkConstraint: 0
+        linkTarget: 0
+        colorIndex: 0
+      actionData:
+        actionNames:
+        - ClubPenguin.Adventure.ObjectiveAction
+        - HutongGames.PlayMaker.Actions.RunFSM
+        - ClubPenguin.Adventure.MascotDialogOverride
+        - ClubPenguin.Analytics.AnalyticsGameActionAction
+        - ClubPenguin.Audio.FabricSetSwitchAction
+        customNames:
+        - 
+        - 
+        - 
+        - 
+        - 
+        actionEnabled: 0101010101
+        actionIsOpen: 0101010101
+        actionStartIndex: 0000000004000000070000000900000015000000
+        actionHashCodes: 67682403d33f7a054985110229b3ec00786b3902
+        unityObjectParams:
+        - {fileID: 11400000, guid: ec0222b672dfd8f43adcd76ede5bb38b, type: 2}
+        fsmGameObjectParams:
+        - useVariable: 0
+          name: 
+          tooltip: 
+          showInInspector: 0
+          networkSync: 0
+          value: {fileID: 0}
+        fsmOwnerDefaultParams: []
+        animationCurveParams: []
+        functionCallParams: []
+        fsmTemplateControlParams:
+        - targetType: 0
+          target: {fileID: 11400000, guid: f241eae95d3918448a2f7e0f4420d10d, type: 2}
+          inputVariables:
+          - variable:
+              useVariable: 1
+              name: RefRootXferedFromPrevObj
+              tooltip: 
+              showInInspector: 0
+              networkSync: 0
+            fsmVar:
+              variableName: RefRootXferedFromPrevObj
+              objectType: 
+              useVariable: 0
+              type: 2
+              floatValue: 0
+              intValue: 0
+              boolValue: 0
+              stringValue: 
+              vector4Value: {x: 0, y: 0, z: 0, w: 0}
+              objectReference: {fileID: 0}
+              arrayValue:
+                useVariable: 0
+                name: 
+                tooltip: 
+                showInInspector: 0
+                networkSync: 0
+                type: -1
+                objectTypeName: 
+                floatValues: []
+                intValues: 
+                boolValues: 
+                stringValues: []
+                vector4Values: []
+                objectReferences: []
+            isEdited: 0
+          - variable:
+              useVariable: 1
+              name: LavaSmokeBeach
+              tooltip: 
+              showInInspector: 0
+              networkSync: 0
+            fsmVar:
+              variableName: LavaSmokeBeach
+              objectType: 
+              useVariable: 0
+              type: 3
+              floatValue: 0
+              intValue: 0
+              boolValue: 0
+              stringValue: 
+              vector4Value: {x: 0, y: 0, z: 0, w: 0}
+              objectReference: {fileID: 0}
+              arrayValue:
+                useVariable: 0
+                name: 
+                tooltip: 
+                showInInspector: 0
+                networkSync: 0
+                type: -1
+                objectTypeName: 
+                floatValues: []
+                intValues: 
+                boolValues: 
+                stringValues: []
+                vector4Values: []
+                objectReferences: []
+            isEdited: 0
+          - variable:
+              useVariable: 1
+              name: LavaSmokeBoardwalk
+              tooltip: 
+              showInInspector: 0
+              networkSync: 0
+            fsmVar:
+              variableName: LavaSmokeBoardwalk
+              objectType: 
+              useVariable: 0
+              type: 3
+              floatValue: 0
+              intValue: 0
+              boolValue: 0
+              stringValue: 
+              vector4Value: {x: 0, y: 0, z: 0, w: 0}
+              objectReference: {fileID: 0}
+              arrayValue:
+                useVariable: 0
+                name: 
+                tooltip: 
+                showInInspector: 0
+                networkSync: 0
+                type: -1
+                objectTypeName: 
+                floatValues: []
+                intValues: 
+                boolValues: 
+                stringValues: []
+                vector4Values: []
+                objectReferences: []
+            isEdited: 0
+          - variable:
+              useVariable: 1
+              name: PearlBlack
+              tooltip: 
+              showInInspector: 0
+              networkSync: 0
+            fsmVar:
+              variableName: PearlBlack
+              objectType: 
+              useVariable: 0
+              type: 3
+              floatValue: 0
+              intValue: 0
+              boolValue: 0
+              stringValue: 
+              vector4Value: {x: 0, y: 0, z: 0, w: 0}
+              objectReference: {fileID: 0}
+              arrayValue:
+                useVariable: 0
+                name: 
+                tooltip: 
+                showInInspector: 0
+                networkSync: 0
+                type: -1
+                objectTypeName: 
+                floatValues: []
+                intValues: 
+                boolValues: 
+                stringValues: []
+                vector4Values: []
+                objectReferences: []
+            isEdited: 0
+          - variable:
+              useVariable: 1
+              name: QuestSparklesRiseHigh
+              tooltip: 
+              showInInspector: 0
+              networkSync: 0
+            fsmVar:
+              variableName: QuestSparklesRiseHigh
+              objectType: 
+              useVariable: 0
+              type: 3
+              floatValue: 0
+              intValue: 0
+              boolValue: 0
+              stringValue: 
+              vector4Value: {x: 0, y: 0, z: 0, w: 0}
+              objectReference: {fileID: 0}
+              arrayValue:
+                useVariable: 0
+                name: 
+                tooltip: 
+                showInInspector: 0
+                networkSync: 0
+                type: -1
+                objectTypeName: 
+                floatValues: []
+                intValues: 
+                boolValues: 
+                stringValues: []
+                vector4Values: []
+                objectReferences: []
+            isEdited: 0
+          - variable:
+              useVariable: 1
+              name: TriggerActionPearlBlackCollect
+              tooltip: 
+              showInInspector: 0
+              networkSync: 0
+            fsmVar:
+              variableName: TriggerActionPearlBlackCollect
+              objectType: 
+              useVariable: 0
+              type: 3
+              floatValue: 0
+              intValue: 0
+              boolValue: 0
+              stringValue: 
+              vector4Value: {x: 0, y: 0, z: 0, w: 0}
+              objectReference: {fileID: 0}
+              arrayValue:
+                useVariable: 0
+                name: 
+                tooltip: 
+                showInInspector: 0
+                networkSync: 0
+                type: -1
+                objectTypeName: 
+                floatValues: []
+                intValues: 
+                boolValues: 
+                stringValues: []
+                vector4Values: []
+                objectReferences: []
+            isEdited: 0
+          outputVariables: []
+          outputEvents: []
+        fsmEventTargetParams: []
+        fsmPropertyParams: []
+        layoutOptionParams: []
+        fsmStringParams:
+        - useVariable: 0
+          name: 
+          tooltip: 
+          showInInspector: 0
+          networkSync: 0
+          value: MUS/Quest/Rockhopper/C001Q009
+        - useVariable: 0
+          name: 
+          tooltip: 
+          showInInspector: 0
+          networkSync: 0
+          value: RockhopperMedHigh
+        fsmObjectParams: []
+        fsmVarParams: []
+        fsmArrayParams: []
+        fsmEnumParams: []
+        fsmFloatParams: []
+        fsmIntParams: []
+        fsmBoolParams: []
+        fsmVector2Params: []
+        fsmVector3Params: []
+        fsmColorParams: []
+        fsmRectParams: []
+        fsmQuaternionParams: []
+        stringParams: []
+        byteData: 476f20746f2074686520426f61726477616c6b51756573742e546578742e414143303031513030354c69676874686f7573652e332e4368616e67654f626a302e6931386e5465787401ffffffff46494e495348454400526f636b686f707065727175657374526f636b686f7070657230317c3039476f2d746f2d7468652d426f61726477616c6b30344f626a342d5265636f7665725f626c61636b5f706561726c3030
+        arrayParamSizes: 
+        arrayParamTypes: []
+        customTypeSizes: 
+        customTypeNames: []
+        paramDataType: 030000000300000001000000000000002600000017000000010000000300000005000000030000000300000003000000030000000300000003000000030000000300000003000000030000000300000003000000120000001200000013000000
+        paramName:
+        - Description
+        - i18nDescription
+        - NotifyPlayer
+        - DefinitionRewardIndex
+        - fsmTemplateControl
+        - finishEvent
+        - everyFrame
+        - MascotName
+        - Dialog
+        - Context
+        - QuestId
+        - SeasonAndEpisode
+        - ObjectiveName
+        - ObjectiveNumber
+        - StepName
+        - StepNumber
+        - Action
+        - Type
+        - Location
+        - Level
+        - Message
+        - EventName
+        - SwitchTo
+        - TheObject
+        paramDataPos: 00000000130000004800000049000000000000004d00000055000000560000000000000060000000650000006f000000740000008700000089000000a1000000a3000000a3000000a3000000a3000000a3000000000000000100000000000000
+        paramByteDataSize: 130000003500000001000000040000000000000008000000010000000a00000000000000050000000a00000005000000130000000200000018000000020000000000000000000000000000000000000000000000000000000000000000000000
+    - name: Obj5
+      description: Search the Cove
+      colorIndex: 1
+      position:
+        serializedVersion: 2
+        x: 390
+        y: 631
+        width: 107.5
+        height: 32
+      isBreakpoint: 0
+      isSequence: 0
+      hideUnused: 0
+      transitions:
+      - fsmEvent:
+          name: FINISHED
+          isSystemEvent: 1
+          isGlobal: 0
+        toState: End
+        linkStyle: 0
+        linkConstraint: 0
+        linkTarget: 0
+        colorIndex: 0
+      actionData:
+        actionNames:
+        - ClubPenguin.Adventure.ObjectiveAction
+        - HutongGames.PlayMaker.Actions.RunFSM
+        - ClubPenguin.Adventure.MascotDialogOverride
+        - ClubPenguin.Analytics.AnalyticsGameActionAction
+        - ClubPenguin.Audio.FabricSetSwitchAction
+        customNames:
+        - 
+        - 
+        - 
+        - 
+        - 
+        actionEnabled: 0101010101
+        actionIsOpen: 0101010101
+        actionStartIndex: 0000000004000000070000000900000015000000
+        actionHashCodes: 67682403d33f7a054985110229b3ec00786b3902
+        unityObjectParams:
+        - {fileID: 11400000, guid: 4f550ad7614677b4fa1a5fdb6d95f906, type: 2}
+        fsmGameObjectParams:
+        - useVariable: 0
+          name: 
+          tooltip: 
+          showInInspector: 0
+          networkSync: 0
+          value: {fileID: 0}
+        fsmOwnerDefaultParams: []
+        animationCurveParams: []
+        functionCallParams: []
+        fsmTemplateControlParams:
+        - targetType: 0
+          target: {fileID: 11400000, guid: 54abb39d990a4a549a31065d86d45c6c, type: 2}
+          inputVariables:
+          - variable:
+              useVariable: 1
+              name: LocalPlayer
+              tooltip: 
+              showInInspector: 0
+              networkSync: 0
+            fsmVar:
+              variableName: LocalPlayer
+              objectType: 
+              useVariable: 0
+              type: 3
+              floatValue: 0
+              intValue: 0
+              boolValue: 0
+              stringValue: 
+              vector4Value: {x: 0, y: 0, z: 0, w: 0}
+              objectReference: {fileID: 0}
+              arrayValue:
+                useVariable: 0
+                name: 
+                tooltip: 
+                showInInspector: 0
+                networkSync: 0
+                type: -1
+                objectTypeName: 
+                floatValues: []
+                intValues: 
+                boolValues: 
+                stringValues: []
+                vector4Values: []
+                objectReferences: []
+            isEdited: 0
+          - variable:
+              useVariable: 1
+              name: PearlBlack
+              tooltip: 
+              showInInspector: 0
+              networkSync: 0
+            fsmVar:
+              variableName: PearlBlack
+              objectType: 
+              useVariable: 0
+              type: 3
+              floatValue: 0
+              intValue: 0
+              boolValue: 0
+              stringValue: 
+              vector4Value: {x: 0, y: 0, z: 0, w: 0}
+              objectReference: {fileID: 0}
+              arrayValue:
+                useVariable: 0
+                name: 
+                tooltip: 
+                showInInspector: 0
+                networkSync: 0
+                type: -1
+                objectTypeName: 
+                floatValues: []
+                intValues: 
+                boolValues: 
+                stringValues: []
+                vector4Values: []
+                objectReferences: []
+            isEdited: 0
+          - variable:
+              useVariable: 1
+              name: QuestSparklesRiseHigh
+              tooltip: 
+              showInInspector: 0
+              networkSync: 0
+            fsmVar:
+              variableName: QuestSparklesRiseHigh
+              objectType: 
+              useVariable: 0
+              type: 3
+              floatValue: 0
+              intValue: 0
+              boolValue: 0
+              stringValue: 
+              vector4Value: {x: 0, y: 0, z: 0, w: 0}
+              objectReference: {fileID: 0}
+              arrayValue:
+                useVariable: 0
+                name: 
+                tooltip: 
+                showInInspector: 0
+                networkSync: 0
+                type: -1
+                objectTypeName: 
+                floatValues: []
+                intValues: 
+                boolValues: 
+                stringValues: []
+                vector4Values: []
+                objectReferences: []
+            isEdited: 0
+          - variable:
+              useVariable: 1
+              name: TriggerActInsertFalse
+              tooltip: 
+              showInInspector: 0
+              networkSync: 0
+            fsmVar:
+              variableName: TriggerActInsertFalse
+              objectType: 
+              useVariable: 0
+              type: 3
+              floatValue: 0
+              intValue: 0
+              boolValue: 0
+              stringValue: 
+              vector4Value: {x: 0, y: 0, z: 0, w: 0}
+              objectReference: {fileID: 0}
+              arrayValue:
+                useVariable: 0
+                name: 
+                tooltip: 
+                showInInspector: 0
+                networkSync: 0
+                type: -1
+                objectTypeName: 
+                floatValues: []
+                intValues: 
+                boolValues: 
+                stringValues: []
+                vector4Values: []
+                objectReferences: []
+            isEdited: 0
+          - variable:
+              useVariable: 1
+              name: TriggerWalkNearTablet
+              tooltip: 
+              showInInspector: 0
+              networkSync: 0
+            fsmVar:
+              variableName: TriggerWalkNearTablet
+              objectType: 
+              useVariable: 0
+              type: 3
+              floatValue: 0
+              intValue: 0
+              boolValue: 0
+              stringValue: 
+              vector4Value: {x: 0, y: 0, z: 0, w: 0}
+              objectReference: {fileID: 0}
+              arrayValue:
+                useVariable: 0
+                name: 
+                tooltip: 
+                showInInspector: 0
+                networkSync: 0
+                type: -1
+                objectTypeName: 
+                floatValues: []
+                intValues: 
+                boolValues: 
+                stringValues: []
+                vector4Values: []
+                objectReferences: []
+            isEdited: 0
+          outputVariables: []
+          outputEvents: []
+        fsmEventTargetParams: []
+        fsmPropertyParams: []
+        layoutOptionParams: []
+        fsmStringParams:
+        - useVariable: 0
+          name: 
+          tooltip: 
+          showInInspector: 0
+          networkSync: 0
+          value: MUS/Quest/Rockhopper/C001Q009
+        - useVariable: 0
+          name: 
+          tooltip: 
+          showInInspector: 0
+          networkSync: 0
+          value: RockhopperTheme
+        fsmObjectParams: []
+        fsmVarParams: []
+        fsmArrayParams: []
+        fsmEnumParams: []
+        fsmFloatParams: []
+        fsmIntParams: []
+        fsmBoolParams: []
+        fsmVector2Params: []
+        fsmVector3Params: []
+        fsmColorParams: []
+        fsmRectParams: []
+        fsmQuaternionParams: []
+        stringParams: []
+        byteData: 5365617263682074686520436f766551756573742e546578742e52484330303151303039426c61636b506561726c2e4f626a3546534d2e6931386e4465736372697074696f6e01ffffffff46494e495348454400526f636b686f707065727175657374526f636b686f7070657230317c30395365617263682d7468652d436f766530354f626a352d506c6163655f706561726c5f696e5f616e6369656e745f73746f6e653030
+        arrayParamSizes: 
+        arrayParamTypes: []
+        customTypeSizes: 
+        customTypeNames: []
+        paramDataType: 030000000300000001000000000000002600000017000000010000000300000005000000030000000300000003000000030000000300000003000000030000000300000003000000030000000300000003000000120000001200000013000000
+        paramName:
+        - Description
+        - i18nDescription
+        - NotifyPlayer
+        - DefinitionRewardIndex
+        - fsmTemplateControl
+        - finishEvent
+        - everyFrame
+        - MascotName
+        - Dialog
+        - Context
+        - QuestId
+        - SeasonAndEpisode
+        - ObjectiveName
+        - ObjectiveNumber
+        - StepName
+        - StepNumber
+        - Action
+        - Type
+        - Location
+        - Level
+        - Message
+        - EventName
+        - SwitchTo
+        - TheObject
+        paramDataPos: 000000000f0000004600000047000000000000004b0000005300000054000000000000005e000000630000006d000000720000008100000083000000a4000000a6000000a6000000a6000000a6000000a6000000000000000100000000000000
+        paramByteDataSize: 0f0000003700000001000000040000000000000008000000010000000a00000000000000050000000a000000050000000f0000000200000021000000020000000000000000000000000000000000000000000000000000000000000000000000
+    - name: InitializeQuest
+      description: 
+      colorIndex: 3
+      position:
+        serializedVersion: 2
+        x: 613.5
+        y: 107.5
+        width: 111
+        height: 32
+      isBreakpoint: 0
+      isSequence: 0
+      hideUnused: 0
+      transitions:
+      - fsmEvent:
+          name: FINISHED
+          isSystemEvent: 1
+          isGlobal: 0
+        toState: Is Player In the Changeroom?
+        linkStyle: 0
+        linkConstraint: 0
+        linkTarget: 0
+        colorIndex: 0
+      actionData:
+        actionNames: []
+        customNames: []
+        actionEnabled: 
+        actionIsOpen: 
+        actionStartIndex: 
+        actionHashCodes: 
+        unityObjectParams: []
+        fsmGameObjectParams: []
+        fsmOwnerDefaultParams: []
+        animationCurveParams: []
+        functionCallParams: []
+        fsmTemplateControlParams: []
+        fsmEventTargetParams: []
+        fsmPropertyParams: []
+        layoutOptionParams: []
+        fsmStringParams: []
+        fsmObjectParams: []
+        fsmVarParams: []
+        fsmArrayParams: []
+        fsmEnumParams: []
+        fsmFloatParams: []
+        fsmIntParams: []
+        fsmBoolParams: []
+        fsmVector2Params: []
+        fsmVector3Params: []
+        fsmColorParams: []
+        fsmRectParams: []
+        fsmQuaternionParams: []
+        stringParams: []
+        byteData: 
+        arrayParamSizes: 
+        arrayParamTypes: []
+        customTypeSizes: 
+        customTypeNames: []
+        paramDataType: 
+        paramName: []
+        paramDataPos: 
+        paramByteDataSize: 
+    - name: InitComplete
+      description: 
+      colorIndex: 3
+      position:
+        serializedVersion: 2
+        x: 608.5156
+        y: 410.54688
+        width: 101
+        height: 16
+      isBreakpoint: 0
+      isSequence: 0
+      hideUnused: 0
+      transitions: []
+      actionData:
+        actionNames:
+        - ClubPenguin.Adventure.QuestInitializationCompleteAction
+        customNames:
+        - 
+        actionEnabled: 01
+        actionIsOpen: 01
+        actionStartIndex: 00000000
+        actionHashCodes: 00000000
+        unityObjectParams: []
+        fsmGameObjectParams: []
+        fsmOwnerDefaultParams: []
+        animationCurveParams: []
+        functionCallParams: []
+        fsmTemplateControlParams: []
+        fsmEventTargetParams: []
+        fsmPropertyParams: []
+        layoutOptionParams: []
+        fsmStringParams: []
+        fsmObjectParams: []
+        fsmVarParams: []
+        fsmArrayParams: []
+        fsmEnumParams: []
+        fsmFloatParams: []
+        fsmIntParams: []
+        fsmBoolParams: []
+        fsmVector2Params: []
+        fsmVector3Params: []
+        fsmColorParams: []
+        fsmRectParams: []
+        fsmQuaternionParams: []
+        stringParams: []
+        byteData: 
+        arrayParamSizes: 
+        arrayParamTypes: []
+        customTypeSizes: 
+        customTypeNames: []
+        paramDataType: 
+        paramName: []
+        paramDataPos: 
+        paramByteDataSize: 
+    - name: Play Quest Music ++Audio++
+      description: 
+      colorIndex: 0
+      position:
+        serializedVersion: 2
+        x: 609.5
+        y: 358.5
+        width: 207
+        height: 32
+      isBreakpoint: 0
+      isSequence: 1
+      hideUnused: 0
+      transitions:
+      - fsmEvent:
+          name: FINISHED
+          isSystemEvent: 1
+          isGlobal: 0
+        toState: InitComplete
+        linkStyle: 0
+        linkConstraint: 0
+        linkTarget: 0
+        colorIndex: 0
+      actionData:
+        actionNames:
+        - ClubPenguin.Audio.FabricPlaySoundAction
+        - ClubPenguin.Audio.SendFabricEventAction
+        customNames:
+        - 
+        - 
+        actionEnabled: 0101
+        actionIsOpen: 0101
+        actionStartIndex: 0000000003000000
+        actionHashCodes: f840d200e11b9604
+        unityObjectParams: []
+        fsmGameObjectParams:
+        - useVariable: 0
+          name: 
+          tooltip: 
+          showInInspector: 0
+          networkSync: 0
+          value: {fileID: 0}
+        - useVariable: 0
+          name: 
+          tooltip: 
+          showInInspector: 0
+          networkSync: 0
+          value: {fileID: 0}
+        fsmOwnerDefaultParams: []
+        animationCurveParams: []
+        functionCallParams: []
+        fsmTemplateControlParams: []
+        fsmEventTargetParams: []
+        fsmPropertyParams: []
+        layoutOptionParams: []
+        fsmStringParams:
+        - useVariable: 0
+          name: 
+          tooltip: 
+          showInInspector: 0
+          networkSync: 0
+          value: MUS/Quest/Rockhopper/C001Q009
+        - useVariable: 0
+          name: 
+          tooltip: 
+          showInInspector: 0
+          networkSync: 0
+          value: MIX/MusicWorldOff
+        fsmObjectParams: []
+        fsmVarParams: []
+        fsmArrayParams: []
+        fsmEnumParams: []
+        fsmFloatParams: []
+        fsmIntParams: []
+        fsmBoolParams: []
+        fsmVector2Params: []
+        fsmVector3Params: []
+        fsmColorParams: []
+        fsmRectParams: []
+        fsmQuaternionParams: []
+        stringParams: []
+        byteData: 0000000000
+        arrayParamSizes: 
+        arrayParamTypes: []
+        customTypeSizes: 
+        customTypeNames: []
+        paramDataType: 120000001300000001000000120000001300000007000000
+        paramName:
+        - EventName
+        - OverrideSoundSource
+        - RestartIfPlaying
+        - EventName
+        - OverrideSoundSource
+        - EventAction
+        paramDataPos: 000000000000000000000000010000000100000001000000
+        paramByteDataSize: 000000000000000001000000000000000000000004000000
+    - name: CleanupQuest
+      description: 
+      colorIndex: 6
+      position:
+        serializedVersion: 2
+        x: 891.5
+        y: 115
+        width: 108
+        height: 32
+      isBreakpoint: 0
+      isSequence: 0
+      hideUnused: 0
+      transitions:
+      - fsmEvent:
+          name: FINISHED
+          isSystemEvent: 1
+          isGlobal: 0
+        toState: --- BI TIME --- end
+        linkStyle: 0
+        linkConstraint: 0
+        linkTarget: 0
+        colorIndex: 0
+      actionData:
+        actionNames: []
+        customNames: []
+        actionEnabled: 
+        actionIsOpen: 
+        actionStartIndex: 
+        actionHashCodes: 
+        unityObjectParams: []
+        fsmGameObjectParams: []
+        fsmOwnerDefaultParams: []
+        animationCurveParams: []
+        functionCallParams: []
+        fsmTemplateControlParams: []
+        fsmEventTargetParams: []
+        fsmPropertyParams: []
+        layoutOptionParams: []
+        fsmStringParams: []
+        fsmObjectParams: []
+        fsmVarParams: []
+        fsmArrayParams: []
+        fsmEnumParams: []
+        fsmFloatParams: []
+        fsmIntParams: []
+        fsmBoolParams: []
+        fsmVector2Params: []
+        fsmVector3Params: []
+        fsmColorParams: []
+        fsmRectParams: []
+        fsmQuaternionParams: []
+        stringParams: []
+        byteData: 
+        arrayParamSizes: 
+        arrayParamTypes: []
+        customTypeSizes: 
+        customTypeNames: []
+        paramDataType: 
+        paramName: []
+        paramDataPos: 
+        paramByteDataSize: 
+    - name: Stop Quest Music ++Audio++
+      description: 
+      colorIndex: 0
+      position:
+        serializedVersion: 2
+        x: 889.5
+        y: 236
+        width: 210
+        height: 16
+      isBreakpoint: 0
+      isSequence: 0
+      hideUnused: 0
+      transitions: []
+      actionData:
+        actionNames:
+        - ClubPenguin.Audio.SendFabricEventAction
+        customNames:
+        - 
+        actionEnabled: 01
+        actionIsOpen: 01
+        actionStartIndex: 00000000
+        actionHashCodes: e11b9604
+        unityObjectParams: []
+        fsmGameObjectParams:
+        - useVariable: 0
+          name: 
+          tooltip: 
+          showInInspector: 0
+          networkSync: 0
+          value: {fileID: 0}
+        fsmOwnerDefaultParams: []
+        animationCurveParams: []
+        functionCallParams: []
+        fsmTemplateControlParams: []
+        fsmEventTargetParams: []
+        fsmPropertyParams: []
+        layoutOptionParams: []
+        fsmStringParams:
+        - useVariable: 0
+          name: 
+          tooltip: 
+          showInInspector: 0
+          networkSync: 0
+          value: MUS/Quest/Rockhopper/C001Q009
+        fsmObjectParams: []
+        fsmVarParams: []
+        fsmArrayParams: []
+        fsmEnumParams: []
+        fsmFloatParams: []
+        fsmIntParams: []
+        fsmBoolParams: []
+        fsmVector2Params: []
+        fsmVector3Params: []
+        fsmColorParams: []
+        fsmRectParams: []
+        fsmQuaternionParams: []
+        stringParams: []
+        byteData: 01000000
+        arrayParamSizes: 
+        arrayParamTypes: []
+        customTypeSizes: 
+        customTypeNames: []
+        paramDataType: 120000001300000007000000
+        paramName:
+        - EventName
+        - OverrideSoundSource
+        - EventAction
+        paramDataPos: 000000000000000000000000
+        paramByteDataSize: 000000000000000004000000
+    - name: --- BI TIME --- start
+      description: RHC001Q009_time
+      colorIndex: 0
+      position:
+        serializedVersion: 2
+        x: 611.5
+        y: 290
+        width: 151
+        height: 32
+      isBreakpoint: 0
+      isSequence: 0
+      hideUnused: 0
+      transitions:
+      - fsmEvent:
+          name: FINISHED
+          isSystemEvent: 1
+          isGlobal: 0
+        toState: Play Quest Music ++Audio++
+        linkStyle: 0
+        linkConstraint: 0
+        linkTarget: 0
+        colorIndex: 0
+      actionData:
+        actionNames:
+        - ClubPenguin.Analytics.StartAnalyticsTimerAction
+        customNames:
+        - 
+        actionEnabled: 01
+        actionIsOpen: 01
+        actionStartIndex: 00000000
+        actionHashCodes: 3e3b3e04
+        unityObjectParams: []
+        fsmGameObjectParams: []
+        fsmOwnerDefaultParams: []
+        animationCurveParams: []
+        functionCallParams: []
+        fsmTemplateControlParams: []
+        fsmEventTargetParams: []
+        fsmPropertyParams: []
+        layoutOptionParams: []
+        fsmStringParams:
+        - useVariable: 0
+          name: 
+          tooltip: 
+          showInInspector: 0
+          networkSync: 0
+          value: RHC001Q009_time
+        fsmObjectParams: []
+        fsmVarParams: []
+        fsmArrayParams: []
+        fsmEnumParams: []
+        fsmFloatParams: []
+        fsmIntParams: []
+        fsmBoolParams: []
+        fsmVector2Params: []
+        fsmVector3Params: []
+        fsmColorParams: []
+        fsmRectParams: []
+        fsmQuaternionParams: []
+        stringParams: []
+        byteData: 717565737452484330303151303039
+        arrayParamSizes: 
+        arrayParamTypes: []
+        customTypeSizes: 
+        customTypeNames: []
+        paramDataType: 12000000030000000300000003000000030000000300000003000000030000000300000003000000030000000300000003000000
+        paramName:
+        - TimerID
+        - Context
+        - QuestId
+        - SeasonAndEpisode
+        - ObjectiveName
+        - ObjectiveNumber
+        - StepName
+        - StepNumber
+        - Action
+        - Type
+        - Location
+        - Level
+        - Message
+        paramDataPos: 0000000000000000050000000500000005000000050000000500000005000000050000000f0000000f0000000f0000000f000000
+        paramByteDataSize: 00000000050000000000000000000000000000000000000000000000000000000a00000000000000000000000000000000000000
+    - name: --- BI TIME --- end
+      description: RHC001Q009_time
+      colorIndex: 0
+      position:
+        serializedVersion: 2
+        x: 890.53125
+        y: 162.64844
+        width: 147.5
+        height: 32
+      isBreakpoint: 0
+      isSequence: 0
+      hideUnused: 0
+      transitions:
+      - fsmEvent:
+          name: FINISHED
+          isSystemEvent: 1
+          isGlobal: 0
+        toState: Stop Quest Music ++Audio++
+        linkStyle: 0
+        linkConstraint: 0
+        linkTarget: 0
+        colorIndex: 0
+      actionData:
+        actionNames:
+        - ClubPenguin.Analytics.EndAnalyticsTimerAction
+        customNames:
+        - 
+        actionEnabled: 01
+        actionIsOpen: 01
+        actionStartIndex: 00000000
+        actionHashCodes: 13227100
+        unityObjectParams: []
+        fsmGameObjectParams: []
+        fsmOwnerDefaultParams: []
+        animationCurveParams: []
+        functionCallParams: []
+        fsmTemplateControlParams: []
+        fsmEventTargetParams: []
+        fsmPropertyParams: []
+        layoutOptionParams: []
+        fsmStringParams:
+        - useVariable: 0
+          name: 
+          tooltip: 
+          showInInspector: 0
+          networkSync: 0
+          value: RHC001Q009_time
+        fsmObjectParams: []
+        fsmVarParams: []
+        fsmArrayParams: []
+        fsmEnumParams: []
+        fsmFloatParams: []
+        fsmIntParams: []
+        fsmBoolParams: []
+        fsmVector2Params: []
+        fsmVector3Params: []
+        fsmColorParams: []
+        fsmRectParams: []
+        fsmQuaternionParams: []
+        stringParams: []
+        byteData: 
+        arrayParamSizes: 
+        arrayParamTypes: []
+        customTypeSizes: 
+        customTypeNames: []
+        paramDataType: 12000000
+        paramName:
+        - TimerID
+        paramDataPos: 00000000
+        paramByteDataSize: 00000000
+    - name: Is Player In the Changeroom?
+      description: 
+      colorIndex: 3
+      position:
+        serializedVersion: 2
+        x: 612.28125
+        y: 161
+        width: 217
+        height: 48
+      isBreakpoint: 0
+      isSequence: 0
+      hideUnused: 0
+      transitions:
+      - fsmEvent:
+          name: True
+          isSystemEvent: 0
+          isGlobal: 0
+        toState: SuppressQuestNotifier
+        linkStyle: 0
+        linkConstraint: 0
+        linkTarget: 0
+        colorIndex: 0
+      - fsmEvent:
+          name: False
+          isSystemEvent: 0
+          isGlobal: 0
+        toState: --- BI TIME --- start
+        linkStyle: 0
+        linkConstraint: 0
+        linkTarget: 0
+        colorIndex: 0
+      actionData:
+        actionNames:
+        - ClubPenguin.Adventure.CheckSceneMatchesAction
+        customNames:
+        - 
+        actionEnabled: 01
+        actionIsOpen: 01
+        actionStartIndex: 00000000
+        actionHashCodes: 2fd47001
+        unityObjectParams: []
+        fsmGameObjectParams: []
+        fsmOwnerDefaultParams: []
+        animationCurveParams: []
+        functionCallParams: []
+        fsmTemplateControlParams: []
+        fsmEventTargetParams: []
+        fsmPropertyParams: []
+        layoutOptionParams: []
+        fsmStringParams: []
+        fsmObjectParams: []
+        fsmVarParams: []
+        fsmArrayParams: []
+        fsmEnumParams: []
+        fsmFloatParams: []
+        fsmIntParams: []
+        fsmBoolParams: []
+        fsmVector2Params: []
+        fsmVector3Params: []
+        fsmColorParams: []
+        fsmRectParams: []
+        fsmQuaternionParams: []
+        stringParams: []
+        byteData: 436c6f7468696e6744657369676e65725472756546616c7365
+        arrayParamSizes: 
+        arrayParamTypes: []
+        customTypeSizes: 
+        customTypeNames: []
+        paramDataType: 030000001700000017000000
+        paramName:
+        - SceneName
+        - DoesMatchEvent
+        - DoesNotMatchEvent
+        paramDataPos: 000000001000000014000000
+        paramByteDataSize: 100000000400000005000000
+    - name: SuppressQuestNotifier
+      description: 
+      colorIndex: 5
+      position:
+        serializedVersion: 2
+        x: 611.5
+        y: 237.64062
+        width: 170
+        height: 32
+      isBreakpoint: 0
+      isSequence: 0
+      hideUnused: 0
+      transitions:
+      - fsmEvent:
+          name: FINISHED
+          isSystemEvent: 1
+          isGlobal: 0
+        toState: --- BI TIME --- start
+        linkStyle: 0
+        linkConstraint: 0
+        linkTarget: 0
+        colorIndex: 0
+      actionData:
+        actionNames:
+        - ClubPenguin.Adventure.SuppressQuestNotifierAction
+        customNames:
+        - 
+        actionEnabled: 01
+        actionIsOpen: 01
+        actionStartIndex: 00000000
+        actionHashCodes: 24459200
+        unityObjectParams: []
+        fsmGameObjectParams: []
+        fsmOwnerDefaultParams: []
+        animationCurveParams: []
+        functionCallParams: []
+        fsmTemplateControlParams: []
+        fsmEventTargetParams: []
+        fsmPropertyParams: []
+        layoutOptionParams: []
+        fsmStringParams:
+        - useVariable: 1
+          name: 
+          tooltip: 
+          showInInspector: 0
+          networkSync: 0
+          value: 
+        fsmObjectParams: []
+        fsmVarParams: []
+        fsmArrayParams: []
+        fsmEnumParams: []
+        fsmFloatParams: []
+        fsmIntParams: []
+        fsmBoolParams: []
+        fsmVector2Params: []
+        fsmVector3Params: []
+        fsmColorParams: []
+        fsmRectParams: []
+        fsmQuaternionParams: []
+        stringParams: []
+        byteData: 0101
+        arrayParamSizes: 
+        arrayParamTypes: []
+        customTypeSizes: 
+        customTypeNames: []
+        paramDataType: 010000000100000012000000
+        paramName:
+        - Suppress
+        - AutoShow
+        - SceneName
+        paramDataPos: 000000000100000000000000
+        paramByteDataSize: 010000000100000000000000
+    events:
+    - name: FINISHED
+      isSystemEvent: 1
+      isGlobal: 0
+    - name: Impossible
+      isSystemEvent: 0
+      isGlobal: 0
+    - name: True
+      isSystemEvent: 0
+      isGlobal: 0
+    - name: False
+      isSystemEvent: 0
+      isGlobal: 0
+    globalTransitions: []
+    variables:
+      floatVariables: []
+      intVariables: []
+      boolVariables:
+      - useVariable: 1
+        name: RootFoundPearl
+        tooltip: 
+        showInInspector: 0
+        networkSync: 0
+        value: 0
+      - useVariable: 1
+        name: RootJigsawFirstTry
+        tooltip: 
+        showInInspector: 0
+        networkSync: 0
+        value: 1
+      - useVariable: 1
+        name: RootXferedFromPrevObj
+        tooltip: 
+        showInInspector: 0
+        networkSync: 0
+        value: 0
+      stringVariables: []
+      vector2Variables: []
+      vector3Variables: []
+      colorVariables: []
+      rectVariables: []
+      quaternionVariables: []
+      gameObjectVariables: []
+      objectVariables: []
+      materialVariables: []
+      textureVariables: []
+      arrayVariables: []
+      enumVariables: []
+      categories:
+      - 
+      variableCategoryIDs: 000000000000000000000000
+    description: 
+    docUrl: 
+    showStateLabel: 1
+    maxLoopCount: 0
+    watermark: 
+    password: 
+    locked: 0
+    manualUpdate: 0
+    outVariableIndices: 
+    keepDelayedEventsOnStateExit: 0
+    preprocessed: 0
+    ExposedEvents: []
+    OutputEvents: []
+    RestartOnEnable: 1
+    ResetVariablesOnEnable: 0
+    EnableDebugFlow: 0
+    EnableBreakpoints: 1
+    editorFlags: 3
+    activeStateName: 
+    mouseEvents: 0
+    handleLevelLoaded: 0
+    handleTriggerEnter2D: 0
+    handleTriggerExit2D: 0
+    handleTriggerStay2D: 0
+    handleCollisionEnter2D: 0
+    handleCollisionExit2D: 0
+    handleCollisionStay2D: 0
+    handleTriggerEnter: 0
+    handleTriggerExit: 0
+    handleTriggerStay: 0
+    handleCollisionEnter: 0
+    handleCollisionExit: 0
+    handleCollisionStay: 0
+    handleParticleCollision: 0
+    handleControllerColliderHit: 0
+    handleJointBreak: 0
+    handleJointBreak2D: 0
+    handleOnGUI: 0
+    handleFixedUpdate: 0
+    handleLateUpdate: 0
+    handleApplicationEvents: 0
+    handleUiEvents: 0
+    handleLegacyNetworking: 0
+    handleAnimatorMove: 0
+    handleAnimatorIK: 0

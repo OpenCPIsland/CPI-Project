@@ -1,0 +1,3587 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 1219815696, guid: e743331561ef77147ae48cda9bcb8209, type: 3}
+  m_Name: QuestFSM.AAC001Q005Lighthouse.Obj1
+  m_EditorClassIdentifier: 
+  category: Quest
+  fsm:
+    dataVersion: 1
+    usedInTemplate: {fileID: 11400000}
+    name: FSM
+    startState: Start Objective
+    states:
+    - name: Start Objective
+      description: Use this state to determine where you want to start the objective.
+      colorIndex: 0
+      position:
+        serializedVersion: 2
+        x: 53.507812
+        y: 108.953125
+        width: 288
+        height: 32
+      isBreakpoint: 0
+      isSequence: 1
+      hideUnused: 0
+      transitions:
+      - fsmEvent:
+          name: FINISHED
+          isSystemEvent: 1
+          isGlobal: 0
+        toState: Find Local Player
+        linkStyle: 0
+        linkConstraint: 0
+        linkTarget: 0
+        colorIndex: 0
+      actionData:
+        actionNames: []
+        customNames: []
+        actionEnabled: 
+        actionIsOpen: 
+        actionStartIndex: 
+        actionHashCodes: 
+        unityObjectParams: []
+        fsmGameObjectParams: []
+        fsmOwnerDefaultParams: []
+        animationCurveParams: []
+        functionCallParams: []
+        fsmTemplateControlParams: []
+        fsmEventTargetParams: []
+        fsmPropertyParams: []
+        layoutOptionParams: []
+        fsmStringParams: []
+        fsmObjectParams: []
+        fsmVarParams: []
+        fsmArrayParams: []
+        fsmEnumParams: []
+        fsmFloatParams: []
+        fsmIntParams: []
+        fsmBoolParams: []
+        fsmVector2Params: []
+        fsmVector3Params: []
+        fsmColorParams: []
+        fsmRectParams: []
+        fsmQuaternionParams: []
+        stringParams: []
+        byteData: 
+        arrayParamSizes: 
+        arrayParamTypes: []
+        customTypeSizes: 
+        customTypeNames: []
+        paramDataType: 
+        paramName: []
+        paramDataPos: 
+        paramByteDataSize: 
+    - name: PlayerAtBoardwalk
+      description: 
+      colorIndex: 3
+      position:
+        serializedVersion: 2
+        x: 398.32812
+        y: 166.1875
+        width: 148
+        height: 48
+      isBreakpoint: 0
+      isSequence: 0
+      hideUnused: 0
+      transitions:
+      - fsmEvent:
+          name: True
+          isSystemEvent: 0
+          isGlobal: 0
+        toState: Add Animation to Lighouse Door
+        linkStyle: 0
+        linkConstraint: 0
+        linkTarget: 0
+        colorIndex: 0
+      - fsmEvent:
+          name: False
+          isSystemEvent: 0
+          isGlobal: 0
+        toState: ChangeObj0
+        linkStyle: 0
+        linkConstraint: 0
+        linkTarget: 0
+        colorIndex: 0
+      actionData:
+        actionNames:
+        - ClubPenguin.Adventure.CheckSceneMatchesAction
+        customNames:
+        - 
+        actionEnabled: 01
+        actionIsOpen: 01
+        actionStartIndex: 00000000
+        actionHashCodes: 2fd47001
+        unityObjectParams: []
+        fsmGameObjectParams: []
+        fsmOwnerDefaultParams: []
+        animationCurveParams: []
+        functionCallParams: []
+        fsmTemplateControlParams: []
+        fsmEventTargetParams: []
+        fsmPropertyParams: []
+        layoutOptionParams: []
+        fsmStringParams: []
+        fsmObjectParams: []
+        fsmVarParams: []
+        fsmArrayParams: []
+        fsmEnumParams: []
+        fsmFloatParams: []
+        fsmIntParams: []
+        fsmBoolParams: []
+        fsmVector2Params: []
+        fsmVector3Params: []
+        fsmColorParams: []
+        fsmRectParams: []
+        fsmQuaternionParams: []
+        stringParams: []
+        byteData: 426f61726477616c6b5472756546616c7365
+        arrayParamSizes: 
+        arrayParamTypes: []
+        customTypeSizes: 
+        customTypeNames: []
+        paramDataType: 030000001700000017000000
+        paramName:
+        - SceneName
+        - DoesMatchEvent
+        - DoesNotMatchEvent
+        paramDataPos: 00000000090000000d000000
+        paramByteDataSize: 090000000400000005000000
+    - name: Set Waypoint Boardwalk
+      description: 
+      colorIndex: 3
+      position:
+        serializedVersion: 2
+        x: 397.5
+        y: 325.4922
+        width: 184
+        height: 16
+      isBreakpoint: 0
+      isSequence: 0
+      hideUnused: 0
+      transitions: []
+      actionData:
+        actionNames:
+        - ClubPenguin.Adventure.SetWaypointAction
+        customNames:
+        - 
+        actionEnabled: 01
+        actionIsOpen: 01
+        actionStartIndex: 00000000
+        actionHashCodes: 951d3601
+        unityObjectParams: []
+        fsmGameObjectParams:
+        - useVariable: 0
+          name: 
+          tooltip: 
+          showInInspector: 0
+          networkSync: 0
+          value: {fileID: 0}
+        fsmOwnerDefaultParams: []
+        animationCurveParams: []
+        functionCallParams: []
+        fsmTemplateControlParams: []
+        fsmEventTargetParams: []
+        fsmPropertyParams: []
+        layoutOptionParams: []
+        fsmStringParams: []
+        fsmObjectParams: []
+        fsmVarParams: []
+        fsmArrayParams: []
+        fsmEnumParams: []
+        fsmFloatParams: []
+        fsmIntParams: []
+        fsmBoolParams: []
+        fsmVector2Params: []
+        fsmVector3Params: []
+        fsmColorParams: []
+        fsmRectParams: []
+        fsmQuaternionParams: []
+        stringParams: []
+        byteData: 426f61726477616c6b0100000000000000000000000001
+        arrayParamSizes: 
+        arrayParamTypes: []
+        customTypeSizes: 
+        customTypeNames: []
+        paramDataType: 030000001300000003000000010000001c000000
+        paramName:
+        - WaypointName
+        - WaypointObject
+        - WaypointZone
+        - ShowOnscreenIndicator
+        - OnscreenIndicatorOffset
+        paramDataPos: 000000000000000000000000090000000a000000
+        paramByteDataSize: 000000000000000009000000010000000d000000
+    - name: ChangeObj0
+      description: Examine the Lighthouse
+      colorIndex: 1
+      position:
+        serializedVersion: 2
+        x: 397.7422
+        y: 232.47656
+        width: 139.5
+        height: 32
+      isBreakpoint: 0
+      isSequence: 0
+      hideUnused: 0
+      transitions:
+      - fsmEvent:
+          name: FINISHED
+          isSystemEvent: 1
+          isGlobal: 0
+        toState: Set Waypoint Boardwalk
+        linkStyle: 0
+        linkConstraint: 0
+        linkTarget: 0
+        colorIndex: 0
+      actionData:
+        actionNames:
+        - ClubPenguin.Adventure.ChangeObjectiveTextAction
+        customNames:
+        - 
+        actionEnabled: 01
+        actionIsOpen: 01
+        actionStartIndex: 00000000
+        actionHashCodes: 2bef5704
+        unityObjectParams: []
+        fsmGameObjectParams: []
+        fsmOwnerDefaultParams: []
+        animationCurveParams: []
+        functionCallParams: []
+        fsmTemplateControlParams: []
+        fsmEventTargetParams: []
+        fsmPropertyParams: []
+        layoutOptionParams: []
+        fsmStringParams: []
+        fsmObjectParams: []
+        fsmVarParams: []
+        fsmArrayParams: []
+        fsmEnumParams: []
+        fsmFloatParams: []
+        fsmIntParams: []
+        fsmBoolParams: []
+        fsmVector2Params: []
+        fsmVector3Params: []
+        fsmColorParams: []
+        fsmRectParams: []
+        fsmQuaternionParams: []
+        stringParams: []
+        byteData: 4578616d696e6520746865204c69676874686f75736551756573742e546578742e414143303031513030354c69676874686f7573652e312e4368616e67654f626a302e6931386e54657874
+        arrayParamSizes: 
+        arrayParamTypes: []
+        customTypeSizes: 
+        customTypeNames: []
+        paramDataType: 0300000003000000
+        paramName:
+        - Text
+        - i18nText
+        paramDataPos: 0000000016000000
+        paramByteDataSize: 1600000035000000
+    - name: Set Waypoint LighthouseSpring
+      description: 
+      colorIndex: 3
+      position:
+        serializedVersion: 2
+        x: 917.03125
+        y: 167.39062
+        width: 228
+        height: 32
+      isBreakpoint: 0
+      isSequence: 0
+      hideUnused: 0
+      transitions:
+      - fsmEvent:
+          name: FINISHED
+          isSystemEvent: 1
+          isGlobal: 0
+        toState: Gameplay
+        linkStyle: 0
+        linkConstraint: 0
+        linkTarget: 0
+        colorIndex: 0
+      actionData:
+        actionNames:
+        - ClubPenguin.Adventure.SetWaypointAction
+        customNames:
+        - 
+        actionEnabled: 01
+        actionIsOpen: 01
+        actionStartIndex: 00000000
+        actionHashCodes: 951d3601
+        unityObjectParams: []
+        fsmGameObjectParams:
+        - useVariable: 0
+          name: 
+          tooltip: 
+          showInInspector: 0
+          networkSync: 0
+          value: {fileID: 0}
+        fsmOwnerDefaultParams: []
+        animationCurveParams: []
+        functionCallParams: []
+        fsmTemplateControlParams: []
+        fsmEventTargetParams: []
+        fsmPropertyParams: []
+        layoutOptionParams: []
+        fsmStringParams: []
+        fsmObjectParams: []
+        fsmVarParams: []
+        fsmArrayParams: []
+        fsmEnumParams: []
+        fsmFloatParams: []
+        fsmIntParams: []
+        fsmBoolParams: []
+        fsmVector2Params: []
+        fsmVector3Params: []
+        fsmColorParams: []
+        fsmRectParams: []
+        fsmQuaternionParams: []
+        stringParams: []
+        byteData: 414143303031513030354d61726b65724c69676874686f757365537072696e67426f61726477616c6b0100000000000080bf0000000000
+        arrayParamSizes: 
+        arrayParamTypes: []
+        customTypeSizes: 
+        customTypeNames: []
+        paramDataType: 030000001300000003000000010000001c000000
+        paramName:
+        - WaypointName
+        - WaypointObject
+        - WaypointZone
+        - ShowOnscreenIndicator
+        - OnscreenIndicatorOffset
+        paramDataPos: 000000000000000020000000290000002a000000
+        paramByteDataSize: 200000000000000009000000010000000d000000
+    - name: Find Local Player
+      description: 
+      colorIndex: 0
+      position:
+        serializedVersion: 2
+        x: 399.25
+        y: 110.52344
+        width: 134
+        height: 32
+      isBreakpoint: 0
+      isSequence: 0
+      hideUnused: 0
+      transitions:
+      - fsmEvent:
+          name: FINISHED
+          isSystemEvent: 1
+          isGlobal: 0
+        toState: PlayerAtBoardwalk
+        linkStyle: 0
+        linkConstraint: 0
+        linkTarget: 0
+        colorIndex: 0
+      actionData:
+        actionNames:
+        - HutongGames.PlayMaker.Actions.FindGameObject
+        customNames:
+        - 
+        actionEnabled: 01
+        actionIsOpen: 01
+        actionStartIndex: 00000000
+        actionHashCodes: 786b3902
+        unityObjectParams: []
+        fsmGameObjectParams:
+        - useVariable: 1
+          name: LocalPlayer
+          tooltip: 
+          showInInspector: 0
+          networkSync: 0
+          value: {fileID: 0}
+        fsmOwnerDefaultParams: []
+        animationCurveParams: []
+        functionCallParams: []
+        fsmTemplateControlParams: []
+        fsmEventTargetParams: []
+        fsmPropertyParams: []
+        layoutOptionParams: []
+        fsmStringParams:
+        - useVariable: 0
+          name: 
+          tooltip: 
+          showInInspector: 0
+          networkSync: 0
+          value: Penguin
+        - useVariable: 0
+          name: 
+          tooltip: 
+          showInInspector: 0
+          networkSync: 0
+          value: Player
+        fsmObjectParams: []
+        fsmVarParams: []
+        fsmArrayParams: []
+        fsmEnumParams: []
+        fsmFloatParams: []
+        fsmIntParams: []
+        fsmBoolParams: []
+        fsmVector2Params: []
+        fsmVector3Params: []
+        fsmColorParams: []
+        fsmRectParams: []
+        fsmQuaternionParams: []
+        stringParams: []
+        byteData: 
+        arrayParamSizes: 
+        arrayParamTypes: []
+        customTypeSizes: 
+        customTypeNames: []
+        paramDataType: 120000001200000013000000
+        paramName:
+        - objectName
+        - withTag
+        - store
+        paramDataPos: 000000000100000000000000
+        paramByteDataSize: 000000000000000000000000
+    - name: Gameplay
+      description: 
+      colorIndex: 0
+      position:
+        serializedVersion: 2
+        x: 1210.0312
+        y: 168.39062
+        width: 222
+        height: 64
+      isBreakpoint: 0
+      isSequence: 0
+      hideUnused: 0
+      transitions:
+      - fsmEvent:
+          name: TriggerWalkLightBalconyEnter
+          isSystemEvent: 0
+          isGlobal: 0
+        toState: --- BI 01 --- Set Waypoint Lighthouse Door
+        linkStyle: 0
+        linkConstraint: 0
+        linkTarget: 0
+        colorIndex: 0
+      - fsmEvent:
+          name: TriggerWalkLightBalconyExit
+          isSystemEvent: 0
+          isGlobal: 0
+        toState: Set Waypoint LighthouseSpring
+        linkStyle: 0
+        linkConstraint: 0
+        linkTarget: 0
+        colorIndex: 0
+      - fsmEvent:
+          name: TriggerActOpenLighthouse
+          isSystemEvent: 0
+          isGlobal: 0
+        toState: --- BI 02 --- Clear Waypoint
+        linkStyle: 0
+        linkConstraint: 0
+        linkTarget: 0
+        colorIndex: 0
+      actionData:
+        actionNames: []
+        customNames: []
+        actionEnabled: 
+        actionIsOpen: 
+        actionStartIndex: 
+        actionHashCodes: 
+        unityObjectParams: []
+        fsmGameObjectParams: []
+        fsmOwnerDefaultParams: []
+        animationCurveParams: []
+        functionCallParams: []
+        fsmTemplateControlParams: []
+        fsmEventTargetParams: []
+        fsmPropertyParams: []
+        layoutOptionParams: []
+        fsmStringParams: []
+        fsmObjectParams: []
+        fsmVarParams: []
+        fsmArrayParams: []
+        fsmEnumParams: []
+        fsmFloatParams: []
+        fsmIntParams: []
+        fsmBoolParams: []
+        fsmVector2Params: []
+        fsmVector3Params: []
+        fsmColorParams: []
+        fsmRectParams: []
+        fsmQuaternionParams: []
+        stringParams: []
+        byteData: 
+        arrayParamSizes: 
+        arrayParamTypes: []
+        customTypeSizes: 
+        customTypeNames: []
+        paramDataType: 
+        paramName: []
+        paramDataPos: 
+        paramByteDataSize: 
+    - name: --- BI 01 --- Set Waypoint Lighthouse Door
+      description: 
+      colorIndex: 3
+      position:
+        serializedVersion: 2
+        x: 1495.5312
+        y: 168.57812
+        width: 306
+        height: 32
+      isBreakpoint: 0
+      isSequence: 0
+      hideUnused: 0
+      transitions:
+      - fsmEvent:
+          name: FINISHED
+          isSystemEvent: 1
+          isGlobal: 0
+        toState: Gameplay
+        linkStyle: 0
+        linkConstraint: 0
+        linkTarget: 0
+        colorIndex: 0
+      actionData:
+        actionNames:
+        - ClubPenguin.Adventure.SetWaypointAction
+        - ClubPenguin.Analytics.AnalyticsGameActionAction
+        customNames:
+        - 
+        - 
+        actionEnabled: 0101
+        actionIsOpen: 0101
+        actionStartIndex: 0000000005000000
+        actionHashCodes: 951d360129b3ec00
+        unityObjectParams: []
+        fsmGameObjectParams:
+        - useVariable: 0
+          name: 
+          tooltip: 
+          showInInspector: 0
+          networkSync: 0
+          value: {fileID: 0}
+        fsmOwnerDefaultParams: []
+        animationCurveParams: []
+        functionCallParams: []
+        fsmTemplateControlParams: []
+        fsmEventTargetParams: []
+        fsmPropertyParams: []
+        layoutOptionParams: []
+        fsmStringParams: []
+        fsmObjectParams: []
+        fsmVarParams: []
+        fsmArrayParams: []
+        fsmEnumParams: []
+        fsmFloatParams: []
+        fsmIntParams: []
+        fsmBoolParams: []
+        fsmVector2Params: []
+        fsmVector3Params: []
+        fsmColorParams: []
+        fsmRectParams: []
+        fsmQuaternionParams: []
+        stringParams: []
+        byteData: 414143303031513030354d61726b65724c69676874686f757365446f6f72426f61726477616c6b0100000000000000000000000001717565737441756e7441726374696330317c30354578616d696e652d7468652d4c69676874686f7573653031526561636865642d4c69676874686f7573652d42616c636f6e793031
+        arrayParamSizes: 
+        arrayParamTypes: []
+        customTypeSizes: 
+        customTypeNames: []
+        paramDataType: 030000001300000003000000010000001c000000030000000300000003000000030000000300000003000000030000000300000003000000030000000300000003000000
+        paramName:
+        - WaypointName
+        - WaypointObject
+        - WaypointZone
+        - ShowOnscreenIndicator
+        - OnscreenIndicatorOffset
+        - Context
+        - QuestId
+        - SeasonAndEpisode
+        - ObjectiveName
+        - ObjectiveNumber
+        - StepName
+        - StepNumber
+        - Action
+        - Type
+        - Location
+        - Level
+        - Message
+        paramDataPos: 00000000000000001e0000002700000028000000350000003a00000044000000490000005f000000610000007b0000007d0000007d0000007d0000007d0000007d000000
+        paramByteDataSize: 1e0000000000000009000000010000000d000000050000000a0000000500000016000000020000001a000000020000000000000000000000000000000000000000000000
+    - name: Spawn TriggerWalkLightBalcony
+      description: 
+      colorIndex: 0
+      position:
+        serializedVersion: 2
+        x: 617
+        y: 227
+        width: 236
+        height: 32
+      isBreakpoint: 0
+      isSequence: 0
+      hideUnused: 0
+      transitions:
+      - fsmEvent:
+          name: FINISHED
+          isSystemEvent: 1
+          isGlobal: 0
+        toState: Spawn TriggerActOpenLighthouse
+        linkStyle: 0
+        linkConstraint: 0
+        linkTarget: 0
+        colorIndex: 0
+      actionData:
+        actionNames:
+        - ClubPenguin.Adventure.CreateQuestObject
+        customNames:
+        - 
+        actionEnabled: 01
+        actionIsOpen: 01
+        actionStartIndex: 00000000
+        actionHashCodes: eb67b000
+        unityObjectParams: []
+        fsmGameObjectParams:
+        - useVariable: 0
+          name: 
+          tooltip: 
+          showInInspector: 0
+          networkSync: 0
+          value: {fileID: 1353846256213333, guid: a0ebc862d580ab14388bccd65d9a5e53,
+            type: 3}
+        - useVariable: 0
+          name: 
+          tooltip: 
+          showInInspector: 0
+          networkSync: 0
+          value: {fileID: 1275286780412633, guid: a47cd83e5b5d0734a9e566374042be7f,
+            type: 3}
+        - useVariable: 1
+          name: TriggerWalkLightBalcony
+          tooltip: 
+          showInInspector: 0
+          networkSync: 0
+          value: {fileID: 0}
+        fsmOwnerDefaultParams: []
+        animationCurveParams: []
+        functionCallParams: []
+        fsmTemplateControlParams: []
+        fsmEventTargetParams: []
+        fsmPropertyParams: []
+        layoutOptionParams: []
+        fsmStringParams: []
+        fsmObjectParams: []
+        fsmVarParams: []
+        fsmArrayParams: []
+        fsmEnumParams: []
+        fsmFloatParams: []
+        fsmIntParams: []
+        fsmBoolParams: []
+        fsmVector2Params: []
+        fsmVector3Params: []
+        fsmColorParams: []
+        fsmRectParams: []
+        fsmQuaternionParams: []
+        stringParams: []
+        byteData: 000000000000000000000000010000000000000000000000000100000000000000000000000001
+        arrayParamSizes: 
+        arrayParamTypes: []
+        customTypeSizes: 
+        customTypeNames: []
+        paramDataType: 13000000130000001c0000001c0000001c00000013000000
+        paramName:
+        - Prefab
+        - SpawnPoint
+        - Position
+        - Rotation
+        - Scale
+        - StoreObject
+        paramDataPos: 0000000001000000000000000d0000001a00000002000000
+        paramByteDataSize: 00000000000000000d0000000d0000000d00000000000000
+    - name: Spawn TriggerActOpenLighthouse
+      description: 
+      colorIndex: 0
+      position:
+        serializedVersion: 2
+        x: 616.65625
+        y: 287.23438
+        width: 245
+        height: 32
+      isBreakpoint: 0
+      isSequence: 0
+      hideUnused: 0
+      transitions:
+      - fsmEvent:
+          name: FINISHED
+          isSystemEvent: 1
+          isGlobal: 0
+        toState: Set Waypoint LighthouseSpring
+        linkStyle: 0
+        linkConstraint: 0
+        linkTarget: 0
+        colorIndex: 0
+      actionData:
+        actionNames:
+        - ClubPenguin.Adventure.CreateQuestObject
+        customNames:
+        - 
+        actionEnabled: 01
+        actionIsOpen: 01
+        actionStartIndex: 00000000
+        actionHashCodes: eb67b000
+        unityObjectParams: []
+        fsmGameObjectParams:
+        - useVariable: 0
+          name: 
+          tooltip: 
+          showInInspector: 0
+          networkSync: 0
+          value: {fileID: 1728756329430596, guid: 6e0b4e6289003674ab97ef6ad70f88fd,
+            type: 3}
+        - useVariable: 0
+          name: 
+          tooltip: 
+          showInInspector: 0
+          networkSync: 0
+          value: {fileID: 1943008847700022, guid: a47cd83e5b5d0734a9e566374042be7f,
+            type: 3}
+        - useVariable: 1
+          name: TriggerActOpenLighthouse
+          tooltip: 
+          showInInspector: 0
+          networkSync: 0
+          value: {fileID: 0}
+        fsmOwnerDefaultParams: []
+        animationCurveParams: []
+        functionCallParams: []
+        fsmTemplateControlParams: []
+        fsmEventTargetParams: []
+        fsmPropertyParams: []
+        layoutOptionParams: []
+        fsmStringParams: []
+        fsmObjectParams: []
+        fsmVarParams: []
+        fsmArrayParams: []
+        fsmEnumParams: []
+        fsmFloatParams: []
+        fsmIntParams: []
+        fsmBoolParams: []
+        fsmVector2Params: []
+        fsmVector3Params: []
+        fsmColorParams: []
+        fsmRectParams: []
+        fsmQuaternionParams: []
+        stringParams: []
+        byteData: 000000000000000000000000010000000000000000000000000100000000000000000000000001
+        arrayParamSizes: 
+        arrayParamTypes: []
+        customTypeSizes: 
+        customTypeNames: []
+        paramDataType: 13000000130000001c0000001c0000001c00000013000000
+        paramName:
+        - Prefab
+        - SpawnPoint
+        - Position
+        - Rotation
+        - Scale
+        - StoreObject
+        paramDataPos: 0000000001000000000000000d0000001a00000002000000
+        paramByteDataSize: 00000000000000000d0000000d0000000d00000000000000
+    - name: --- BI 02 --- Clear Waypoint
+      description: 
+      colorIndex: 3
+      position:
+        serializedVersion: 2
+        x: 1210
+        y: 261
+        width: 207
+        height: 32
+      isBreakpoint: 0
+      isSequence: 0
+      hideUnused: 0
+      transitions:
+      - fsmEvent:
+          name: FINISHED
+          isSystemEvent: 1
+          isGlobal: 0
+        toState: SuppressQuestNotifier
+        linkStyle: 0
+        linkConstraint: 0
+        linkTarget: 0
+        colorIndex: 0
+      actionData:
+        actionNames:
+        - ClubPenguin.Adventure.ClearWaypointAction
+        - ClubPenguin.Analytics.AnalyticsGameActionAction
+        customNames:
+        - 
+        - 
+        actionEnabled: 0101
+        actionIsOpen: 0101
+        actionStartIndex: 0000000000000000
+        actionHashCodes: 0000000029b3ec00
+        unityObjectParams: []
+        fsmGameObjectParams: []
+        fsmOwnerDefaultParams: []
+        animationCurveParams: []
+        functionCallParams: []
+        fsmTemplateControlParams: []
+        fsmEventTargetParams: []
+        fsmPropertyParams: []
+        layoutOptionParams: []
+        fsmStringParams: []
+        fsmObjectParams: []
+        fsmVarParams: []
+        fsmArrayParams: []
+        fsmEnumParams: []
+        fsmFloatParams: []
+        fsmIntParams: []
+        fsmBoolParams: []
+        fsmVector2Params: []
+        fsmVector3Params: []
+        fsmColorParams: []
+        fsmRectParams: []
+        fsmQuaternionParams: []
+        stringParams: []
+        byteData: 717565737441756e7441726374696330317c30354578616d696e652d7468652d4c69676874686f75736530314f70656e65642d4c69676874686f7573652d446f6f723032
+        arrayParamSizes: 
+        arrayParamTypes: []
+        customTypeSizes: 
+        customTypeNames: []
+        paramDataType: 030000000300000003000000030000000300000003000000030000000300000003000000030000000300000003000000
+        paramName:
+        - Context
+        - QuestId
+        - SeasonAndEpisode
+        - ObjectiveName
+        - ObjectiveNumber
+        - StepName
+        - StepNumber
+        - Action
+        - Type
+        - Location
+        - Level
+        - Message
+        paramDataPos: 00000000050000000f000000140000002a0000002c000000420000004400000044000000440000004400000044000000
+        paramByteDataSize: 050000000a00000005000000160000000200000016000000020000000000000000000000000000000000000000000000
+    - name: Finish
+      description: 
+      colorIndex: 0
+      position:
+        serializedVersion: 2
+        x: 2333.6094
+        y: 878.33594
+        width: 100
+        height: 16
+      isBreakpoint: 0
+      isSequence: 0
+      hideUnused: 0
+      transitions: []
+      actionData:
+        actionNames:
+        - HutongGames.PlayMaker.Actions.FinishFSM
+        customNames:
+        - 
+        actionEnabled: 01
+        actionIsOpen: 01
+        actionStartIndex: 00000000
+        actionHashCodes: 00000000
+        unityObjectParams: []
+        fsmGameObjectParams: []
+        fsmOwnerDefaultParams: []
+        animationCurveParams: []
+        functionCallParams: []
+        fsmTemplateControlParams: []
+        fsmEventTargetParams: []
+        fsmPropertyParams: []
+        layoutOptionParams: []
+        fsmStringParams: []
+        fsmObjectParams: []
+        fsmVarParams: []
+        fsmArrayParams: []
+        fsmEnumParams: []
+        fsmFloatParams: []
+        fsmIntParams: []
+        fsmBoolParams: []
+        fsmVector2Params: []
+        fsmVector3Params: []
+        fsmColorParams: []
+        fsmRectParams: []
+        fsmQuaternionParams: []
+        stringParams: []
+        byteData: 
+        arrayParamSizes: 
+        arrayParamTypes: []
+        customTypeSizes: 
+        customTypeNames: []
+        paramDataType: 
+        paramName: []
+        paramDataPos: 
+        paramByteDataSize: 
+    - name: LocomotePlayerOpenLighthouse
+      description: 
+      colorIndex: 0
+      position:
+        serializedVersion: 2
+        x: 1205.9688
+        y: 493.34375
+        width: 234
+        height: 32
+      isBreakpoint: 0
+      isSequence: 0
+      hideUnused: 0
+      transitions:
+      - fsmEvent:
+          name: FINISHED
+          isSystemEvent: 1
+          isGlobal: 0
+        toState: WaitA 1.25Sec
+        linkStyle: 0
+        linkConstraint: 0
+        linkTarget: 0
+        colorIndex: 0
+      actionData:
+        actionNames:
+        - ClubPenguin.Adventure.LocomoteToPointAction
+        customNames:
+        - 
+        actionEnabled: 01
+        actionIsOpen: 01
+        actionStartIndex: 00000000
+        actionHashCodes: 8a899705
+        unityObjectParams: []
+        fsmGameObjectParams:
+        - useVariable: 1
+          name: LocalPlayer
+          tooltip: 
+          showInInspector: 0
+          networkSync: 0
+          value: {fileID: 0}
+        - useVariable: 0
+          name: 
+          tooltip: 
+          showInInspector: 0
+          networkSync: 0
+          value: {fileID: 1626728499373501, guid: a47cd83e5b5d0734a9e566374042be7f,
+            type: 3}
+        fsmOwnerDefaultParams: []
+        animationCurveParams: []
+        functionCallParams: []
+        fsmTemplateControlParams: []
+        fsmEventTargetParams: []
+        fsmPropertyParams: []
+        layoutOptionParams: []
+        fsmStringParams: []
+        fsmObjectParams: []
+        fsmVarParams: []
+        fsmArrayParams: []
+        fsmEnumParams: []
+        fsmFloatParams: []
+        fsmIntParams: []
+        fsmBoolParams: []
+        fsmVector2Params: []
+        fsmVector3Params: []
+        fsmColorParams: []
+        fsmRectParams: []
+        fsmQuaternionParams: []
+        stringParams: []
+        byteData: 000000009a99193e000000804001
+        arrayParamSizes: 
+        arrayParamTypes: []
+        customTypeSizes: 
+        customTypeNames: []
+        paramDataType: 1300000013000000070000000f0000000200000001000000
+        paramName:
+        - Target
+        - Destination
+        - Style
+        - DistanceThreshold
+        - TimeoutTime
+        - WaitForFinish
+        paramDataPos: 00000000010000000000000004000000090000000d000000
+        paramByteDataSize: 000000000000000004000000050000000400000001000000
+    - name: Cam LighthouseFix
+      description: 
+      colorIndex: 7
+      position:
+        serializedVersion: 2
+        x: 1206.9688
+        y: 436.34375
+        width: 145
+        height: 32
+      isBreakpoint: 0
+      isSequence: 0
+      hideUnused: 0
+      transitions:
+      - fsmEvent:
+          name: FINISHED
+          isSystemEvent: 1
+          isGlobal: 0
+        toState: LocomotePlayerOpenLighthouse
+        linkStyle: 0
+        linkConstraint: 0
+        linkTarget: 0
+        colorIndex: 0
+      actionData:
+        actionNames:
+        - ClubPenguin.Cinematography.ChangeCameraAction
+        customNames:
+        - 
+        actionEnabled: 01
+        actionIsOpen: 01
+        actionStartIndex: 00000000
+        actionHashCodes: e4375e05
+        unityObjectParams: []
+        fsmGameObjectParams: []
+        fsmOwnerDefaultParams: []
+        animationCurveParams: []
+        functionCallParams: []
+        fsmTemplateControlParams: []
+        fsmEventTargetParams: []
+        fsmPropertyParams: []
+        layoutOptionParams: []
+        fsmStringParams: []
+        fsmObjectParams: []
+        fsmVarParams: []
+        fsmArrayParams: []
+        fsmEnumParams: []
+        fsmFloatParams: []
+        fsmIntParams: []
+        fsmBoolParams: []
+        fsmVector2Params: []
+        fsmVector3Params: []
+        fsmColorParams: []
+        fsmRectParams: []
+        fsmQuaternionParams: []
+        stringParams: []
+        byteData: 4141433030315130303543616d4c696768746f757365466978506f736974696f6e4141433030315130303543616d4c696768746f757365466978546172676574000000000000000000000000000000000000000000000000000000000000
+        arrayParamSizes: 00000000
+        arrayParamTypes:
+        - ClubPenguin.Cinematography.ChangeCameraActionSettings
+        customTypeSizes: 
+        customTypeNames: []
+        paramDataType: 03000000030000001c0000001c000000010000000100000001000000010000000c000000
+        paramName:
+        - ControllerName
+        - TargetName
+        - StoreOriginalCameraPosition
+        - CameraPosition
+        - PreserveCameraPriority
+        - WaitForCameraToComplete
+        - ResetOnExit
+        - ForceCutTransition
+        - OverrideSettings
+        paramDataPos: 0000000021000000400000004d0000005a0000005b0000005c0000005d00000000000000
+        paramByteDataSize: 210000001f0000000d0000000d0000000100000001000000010000000100000000000000
+    - name: Add Animation to Lighouse Door
+      description: 
+      colorIndex: 0
+      position:
+        serializedVersion: 2
+        x: 617.75
+        y: 168.28125
+        width: 231
+        height: 32
+      isBreakpoint: 0
+      isSequence: 0
+      hideUnused: 0
+      transitions:
+      - fsmEvent:
+          name: FINISHED
+          isSystemEvent: 1
+          isGlobal: 0
+        toState: Spawn TriggerWalkLightBalcony
+        linkStyle: 0
+        linkConstraint: 0
+        linkTarget: 0
+        colorIndex: 0
+      actionData:
+        actionNames:
+        - HutongGames.PlayMaker.Actions.FindGameObject
+        - ClubPenguin.Adventure.AddAnimatorAction
+        customNames:
+        - 
+        - 
+        actionEnabled: 0101
+        actionIsOpen: 0101
+        actionStartIndex: 0000000003000000
+        actionHashCodes: 786b3902fd593400
+        unityObjectParams:
+        - {fileID: 9100000, guid: 87186b76c334cd248a5c2964e33cb03c, type: 2}
+        fsmGameObjectParams:
+        - useVariable: 1
+          name: LighthouseDoor
+          tooltip: 
+          showInInspector: 0
+          networkSync: 0
+          value: {fileID: 0}
+        - useVariable: 1
+          name: LighthouseDoor
+          tooltip: 
+          showInInspector: 0
+          networkSync: 0
+          value: {fileID: 0}
+        fsmOwnerDefaultParams: []
+        animationCurveParams: []
+        functionCallParams: []
+        fsmTemplateControlParams: []
+        fsmEventTargetParams: []
+        fsmPropertyParams: []
+        layoutOptionParams: []
+        fsmStringParams:
+        - useVariable: 0
+          name: 
+          tooltip: 
+          showInInspector: 0
+          networkSync: 0
+          value: LighthouseUpperDoorLightOff
+        - useVariable: 0
+          name: 
+          tooltip: 
+          showInInspector: 0
+          networkSync: 0
+          value: Untagged
+        fsmObjectParams: []
+        fsmVarParams: []
+        fsmArrayParams: []
+        fsmEnumParams: []
+        fsmFloatParams: []
+        fsmIntParams: []
+        fsmBoolParams: []
+        fsmVector2Params: []
+        fsmVector3Params: []
+        fsmColorParams: []
+        fsmRectParams: []
+        fsmQuaternionParams: []
+        stringParams: []
+        byteData: 
+        arrayParamSizes: 
+        arrayParamTypes: []
+        customTypeSizes: 
+        customTypeNames: []
+        paramDataType: 1200000012000000130000001300000005000000
+        paramName:
+        - objectName
+        - withTag
+        - store
+        - TargetObject
+        - animatorController
+        paramDataPos: 0000000001000000000000000100000000000000
+        paramByteDataSize: 0000000000000000000000000000000000000000
+    - name: WaitA 1.25Sec
+      description: 
+      colorIndex: 3
+      position:
+        serializedVersion: 2
+        x: 1205.75
+        y: 554.28125
+        width: 119
+        height: 32
+      isBreakpoint: 0
+      isSequence: 0
+      hideUnused: 0
+      transitions:
+      - fsmEvent:
+          name: FINISHED
+          isSystemEvent: 1
+          isGlobal: 0
+        toState: Animate LighthouseDoor Open
+        linkStyle: 0
+        linkConstraint: 0
+        linkTarget: 0
+        colorIndex: 0
+      actionData:
+        actionNames:
+        - HutongGames.PlayMaker.Actions.Wait
+        customNames:
+        - 
+        actionEnabled: 01
+        actionIsOpen: 01
+        actionStartIndex: 00000000
+        actionHashCodes: 48c01101
+        unityObjectParams: []
+        fsmGameObjectParams: []
+        fsmOwnerDefaultParams: []
+        animationCurveParams: []
+        functionCallParams: []
+        fsmTemplateControlParams: []
+        fsmEventTargetParams: []
+        fsmPropertyParams: []
+        layoutOptionParams: []
+        fsmStringParams: []
+        fsmObjectParams: []
+        fsmVarParams: []
+        fsmArrayParams: []
+        fsmEnumParams: []
+        fsmFloatParams: []
+        fsmIntParams: []
+        fsmBoolParams: []
+        fsmVector2Params: []
+        fsmVector3Params: []
+        fsmColorParams: []
+        fsmRectParams: []
+        fsmQuaternionParams: []
+        stringParams: []
+        byteData: 0000a03f0046494e495348454400
+        arrayParamSizes: 
+        arrayParamTypes: []
+        customTypeSizes: 
+        customTypeNames: []
+        paramDataType: 0f0000001700000001000000
+        paramName:
+        - time
+        - finishEvent
+        - realTime
+        paramDataPos: 00000000050000000d000000
+        paramByteDataSize: 050000000800000001000000
+    - name: Animate LighthouseDoor Open
+      description: 
+      colorIndex: 0
+      position:
+        serializedVersion: 2
+        x: 1205
+        y: 619
+        width: 221
+        height: 32
+      isBreakpoint: 0
+      isSequence: 0
+      hideUnused: 0
+      transitions:
+      - fsmEvent:
+          name: FINISHED
+          isSystemEvent: 1
+          isGlobal: 0
+        toState: WaitB 1.25Sec
+        linkStyle: 0
+        linkConstraint: 0
+        linkTarget: 0
+        colorIndex: 0
+      actionData:
+        actionNames:
+        - ClubPenguin.Adventure.AnimatorTriggerAction
+        customNames:
+        - 
+        actionEnabled: 01
+        actionIsOpen: 01
+        actionStartIndex: 00000000
+        actionHashCodes: 0e92ab01
+        unityObjectParams: []
+        fsmGameObjectParams:
+        - useVariable: 1
+          name: LighthouseDoor
+          tooltip: 
+          showInInspector: 0
+          networkSync: 0
+          value: {fileID: 0}
+        fsmOwnerDefaultParams: []
+        animationCurveParams: []
+        functionCallParams: []
+        fsmTemplateControlParams: []
+        fsmEventTargetParams: []
+        fsmPropertyParams: []
+        layoutOptionParams: []
+        fsmStringParams:
+        - useVariable: 0
+          name: 
+          tooltip: 
+          showInInspector: 0
+          networkSync: 0
+          value: Open
+        fsmObjectParams: []
+        fsmVarParams: []
+        fsmArrayParams: []
+        fsmEnumParams: []
+        fsmFloatParams: []
+        fsmIntParams: []
+        fsmBoolParams: []
+        fsmVector2Params: []
+        fsmVector3Params: []
+        fsmColorParams: []
+        fsmRectParams: []
+        fsmQuaternionParams: []
+        stringParams: []
+        byteData: 00
+        arrayParamSizes: 
+        arrayParamTypes: []
+        customTypeSizes: 
+        customTypeNames: []
+        paramDataType: 010000001300000012000000
+        paramName:
+        - UseOwnerGameObject
+        - Target
+        - Parameter
+        paramDataPos: 000000000000000000000000
+        paramByteDataSize: 010000000000000000000000
+    - name: RemoveControls
+      description: 
+      colorIndex: 4
+      position:
+        serializedVersion: 2
+        x: 1208.75
+        y: 377.28125
+        width: 128
+        height: 32
+      isBreakpoint: 0
+      isSequence: 0
+      hideUnused: 0
+      transitions:
+      - fsmEvent:
+          name: FINISHED
+          isSystemEvent: 1
+          isGlobal: 0
+        toState: Cam LighthouseFix
+        linkStyle: 0
+        linkConstraint: 0
+        linkTarget: 0
+        colorIndex: 0
+      actionData:
+        actionNames:
+        - ClubPenguin.Adventure.TrayControlAction
+        customNames:
+        - 
+        actionEnabled: 01
+        actionIsOpen: 01
+        actionStartIndex: 00000000
+        actionHashCodes: 8a487902
+        unityObjectParams: []
+        fsmGameObjectParams: []
+        fsmOwnerDefaultParams: []
+        animationCurveParams: []
+        functionCallParams: []
+        fsmTemplateControlParams: []
+        fsmEventTargetParams: []
+        fsmPropertyParams: []
+        layoutOptionParams: []
+        fsmStringParams: []
+        fsmObjectParams: []
+        fsmVarParams: []
+        fsmArrayParams: []
+        fsmEnumParams: []
+        fsmFloatParams: []
+        fsmIntParams: []
+        fsmBoolParams: []
+        fsmVector2Params: []
+        fsmVector3Params: []
+        fsmColorParams: []
+        fsmRectParams: []
+        fsmQuaternionParams: []
+        stringParams: []
+        byteData: 020000000300000000000000
+        arrayParamSizes: 
+        arrayParamTypes: []
+        customTypeSizes: 
+        customTypeNames: []
+        paramDataType: 07000000070000000700000003000000
+        paramName:
+        - MainNavActionType
+        - TrayActionType
+        - Screen
+        - SubScreen
+        paramDataPos: 0000000004000000080000000c000000
+        paramByteDataSize: 04000000040000000400000000000000
+    - name: SuppressQuestNotifier
+      description: 
+      colorIndex: 5
+      position:
+        serializedVersion: 2
+        x: 1209.3359
+        y: 321.28125
+        width: 170
+        height: 32
+      isBreakpoint: 0
+      isSequence: 0
+      hideUnused: 0
+      transitions:
+      - fsmEvent:
+          name: FINISHED
+          isSystemEvent: 1
+          isGlobal: 0
+        toState: RemoveControls
+        linkStyle: 0
+        linkConstraint: 0
+        linkTarget: 0
+        colorIndex: 0
+      actionData:
+        actionNames:
+        - ClubPenguin.Adventure.SuppressQuestNotifierAction
+        customNames:
+        - 
+        actionEnabled: 01
+        actionIsOpen: 01
+        actionStartIndex: 00000000
+        actionHashCodes: 24459200
+        unityObjectParams: []
+        fsmGameObjectParams: []
+        fsmOwnerDefaultParams: []
+        animationCurveParams: []
+        functionCallParams: []
+        fsmTemplateControlParams: []
+        fsmEventTargetParams: []
+        fsmPropertyParams: []
+        layoutOptionParams: []
+        fsmStringParams:
+        - useVariable: 1
+          name: 
+          tooltip: 
+          showInInspector: 0
+          networkSync: 0
+          value: 
+        fsmObjectParams: []
+        fsmVarParams: []
+        fsmArrayParams: []
+        fsmEnumParams: []
+        fsmFloatParams: []
+        fsmIntParams: []
+        fsmBoolParams: []
+        fsmVector2Params: []
+        fsmVector3Params: []
+        fsmColorParams: []
+        fsmRectParams: []
+        fsmQuaternionParams: []
+        stringParams: []
+        byteData: 0101
+        arrayParamSizes: 
+        arrayParamTypes: []
+        customTypeSizes: 
+        customTypeNames: []
+        paramDataType: 010000000100000012000000
+        paramName:
+        - Suppress
+        - AutoShow
+        - SceneName
+        paramDataPos: 000000000100000000000000
+        paramByteDataSize: 010000000100000000000000
+    - name: WaitB 1.25Sec
+      description: 
+      colorIndex: 3
+      position:
+        serializedVersion: 2
+        x: 1204.75
+        y: 682.28125
+        width: 119
+        height: 32
+      isBreakpoint: 0
+      isSequence: 0
+      hideUnused: 0
+      transitions:
+      - fsmEvent:
+          name: FINISHED
+          isSystemEvent: 1
+          isGlobal: 0
+        toState: ' --- BI 03 --- Collected Battery Empty'
+        linkStyle: 0
+        linkConstraint: 0
+        linkTarget: 0
+        colorIndex: 0
+      actionData:
+        actionNames:
+        - HutongGames.PlayMaker.Actions.Wait
+        customNames:
+        - 
+        actionEnabled: 01
+        actionIsOpen: 01
+        actionStartIndex: 00000000
+        actionHashCodes: 48c01101
+        unityObjectParams: []
+        fsmGameObjectParams: []
+        fsmOwnerDefaultParams: []
+        animationCurveParams: []
+        functionCallParams: []
+        fsmTemplateControlParams: []
+        fsmEventTargetParams: []
+        fsmPropertyParams: []
+        layoutOptionParams: []
+        fsmStringParams: []
+        fsmObjectParams: []
+        fsmVarParams: []
+        fsmArrayParams: []
+        fsmEnumParams: []
+        fsmFloatParams: []
+        fsmIntParams: []
+        fsmBoolParams: []
+        fsmVector2Params: []
+        fsmVector3Params: []
+        fsmColorParams: []
+        fsmRectParams: []
+        fsmQuaternionParams: []
+        stringParams: []
+        byteData: 0000a03f0046494e495348454400
+        arrayParamSizes: 
+        arrayParamTypes: []
+        customTypeSizes: 
+        customTypeNames: []
+        paramDataType: 0f0000001700000001000000
+        paramName:
+        - time
+        - finishEvent
+        - realTime
+        paramDataPos: 00000000050000000d000000
+        paramByteDataSize: 050000000800000001000000
+    - name: ' --- BI 03 --- Collected Battery Empty'
+      description: 
+      colorIndex: 0
+      position:
+        serializedVersion: 2
+        x: 1495.3828
+        y: 263.28125
+        width: 268
+        height: 32
+      isBreakpoint: 0
+      isSequence: 0
+      hideUnused: 0
+      transitions:
+      - fsmEvent:
+          name: FINISHED
+          isSystemEvent: 1
+          isGlobal: 0
+        toState: PopUp Item BatteryEmpty
+        linkStyle: 0
+        linkConstraint: 0
+        linkTarget: 0
+        colorIndex: 0
+      actionData:
+        actionNames:
+        - ClubPenguin.Adventure.SetItemStateAction
+        - ClubPenguin.Audio.SendFabricEventAction
+        - ClubPenguin.Analytics.AnalyticsGameActionAction
+        customNames:
+        - 
+        - 
+        - 
+        actionEnabled: 010001
+        actionIsOpen: 010101
+        actionStartIndex: 000000000300000006000000
+        actionHashCodes: 9899dd02e11b960429b3ec00
+        unityObjectParams: []
+        fsmGameObjectParams:
+        - useVariable: 0
+          name: 
+          tooltip: 
+          showInInspector: 0
+          networkSync: 0
+          value: {fileID: 0}
+        fsmOwnerDefaultParams: []
+        animationCurveParams: []
+        functionCallParams: []
+        fsmTemplateControlParams: []
+        fsmEventTargetParams: []
+        fsmPropertyParams: []
+        layoutOptionParams: []
+        fsmStringParams:
+        - useVariable: 0
+          name: 
+          tooltip: 
+          showInInspector: 0
+          networkSync: 0
+          value: SFX/UI/RewardAppear
+        fsmObjectParams: []
+        fsmVarParams: []
+        fsmArrayParams: []
+        fsmEnumParams: []
+        fsmFloatParams: []
+        fsmIntParams: []
+        fsmBoolParams: []
+        fsmVector2Params: []
+        fsmVector3Params: []
+        fsmColorParams: []
+        fsmRectParams: []
+        fsmQuaternionParams: []
+        stringParams: []
+        byteData: 42617474657279456d70747900000000000000000000000000717565737441756e7441726374696330317c30354578616d696e652d7468652d4c69676874686f7573653031436f6c6c65637465642d426174746572792d456d7074793033
+        arrayParamSizes: 
+        arrayParamTypes: []
+        customTypeSizes: 
+        customTypeNames: []
+        paramDataType: 030000000700000010000000120000001300000007000000030000000300000003000000030000000300000003000000030000000300000003000000030000000300000003000000
+        paramName:
+        - QuestItemName
+        - QuestState
+        - ItemCount
+        - EventName
+        - OverrideSoundSource
+        - EventAction
+        - Context
+        - QuestId
+        - SeasonAndEpisode
+        - ObjectiveName
+        - ObjectiveNumber
+        - StepName
+        - StepNumber
+        - Action
+        - Type
+        - Location
+        - Level
+        - Message
+        paramDataPos: 000000000c00000010000000000000000000000015000000190000001e000000280000002d00000043000000450000005c0000005e0000005e0000005e0000005e0000005e000000
+        paramByteDataSize: 0c0000000400000005000000000000000000000004000000050000000a00000005000000160000000200000017000000020000000000000000000000000000000000000000000000
+    - name: SFX Collect Item ++Audio++
+      description: 
+      colorIndex: 0
+      position:
+        serializedVersion: 2
+        x: 1494.625
+        y: 380.40625
+        width: 211
+        height: 32
+      isBreakpoint: 0
+      isSequence: 0
+      hideUnused: 0
+      transitions:
+      - fsmEvent:
+          name: FINISHED
+          isSystemEvent: 1
+          isGlobal: 0
+        toState: WaitC 0.1Sec
+        linkStyle: 0
+        linkConstraint: 0
+        linkTarget: 0
+        colorIndex: 0
+      actionData:
+        actionNames:
+        - ClubPenguin.Audio.SendFabricEventAction
+        customNames:
+        - 
+        actionEnabled: 01
+        actionIsOpen: 01
+        actionStartIndex: 00000000
+        actionHashCodes: e11b9604
+        unityObjectParams: []
+        fsmGameObjectParams:
+        - useVariable: 0
+          name: 
+          tooltip: 
+          showInInspector: 0
+          networkSync: 0
+          value: {fileID: 0}
+        fsmOwnerDefaultParams: []
+        animationCurveParams: []
+        functionCallParams: []
+        fsmTemplateControlParams: []
+        fsmEventTargetParams: []
+        fsmPropertyParams: []
+        layoutOptionParams: []
+        fsmStringParams:
+        - useVariable: 0
+          name: 
+          tooltip: 
+          showInInspector: 0
+          networkSync: 0
+          value: SFX/UI/Quest/Item/CollectTonalAA
+        fsmObjectParams: []
+        fsmVarParams: []
+        fsmArrayParams: []
+        fsmEnumParams: []
+        fsmFloatParams: []
+        fsmIntParams: []
+        fsmBoolParams: []
+        fsmVector2Params: []
+        fsmVector3Params: []
+        fsmColorParams: []
+        fsmRectParams: []
+        fsmQuaternionParams: []
+        stringParams: []
+        byteData: 00000000
+        arrayParamSizes: 
+        arrayParamTypes: []
+        customTypeSizes: 
+        customTypeNames: []
+        paramDataType: 120000001300000007000000
+        paramName:
+        - EventName
+        - OverrideSoundSource
+        - EventAction
+        paramDataPos: 000000000000000000000000
+        paramByteDataSize: 000000000000000004000000
+    - name: PopUp Item BatteryEmpty
+      description: 
+      colorIndex: 1
+      position:
+        serializedVersion: 2
+        x: 1494.75
+        y: 320.625
+        width: 192
+        height: 32
+      isBreakpoint: 0
+      isSequence: 0
+      hideUnused: 0
+      transitions:
+      - fsmEvent:
+          name: FINISHED
+          isSystemEvent: 1
+          isGlobal: 0
+        toState: SFX Collect Item ++Audio++
+        linkStyle: 0
+        linkConstraint: 0
+        linkTarget: 0
+        colorIndex: 0
+      actionData:
+        actionNames:
+        - ClubPenguin.Adventure.ShowQuestItemPopupAction
+        customNames:
+        - 
+        actionEnabled: 01
+        actionIsOpen: 01
+        actionStartIndex: 00000000
+        actionHashCodes: 31cd9d01
+        unityObjectParams: []
+        fsmGameObjectParams: []
+        fsmOwnerDefaultParams: []
+        animationCurveParams: []
+        functionCallParams: []
+        fsmTemplateControlParams: []
+        fsmEventTargetParams: []
+        fsmPropertyParams: []
+        layoutOptionParams: []
+        fsmStringParams: []
+        fsmObjectParams: []
+        fsmVarParams: []
+        fsmArrayParams: []
+        fsmEnumParams: []
+        fsmFloatParams: []
+        fsmIntParams: []
+        fsmBoolParams: []
+        fsmVector2Params: []
+        fsmVector3Params: []
+        fsmColorParams: []
+        fsmRectParams: []
+        fsmQuaternionParams: []
+        stringParams: []
+        byteData: 4c69676874686f757365204261747465727951756573742e546578742e414143303031513030354c69676874686f7573652e312e506f705570204974656d2042617474657279456d7074792e6931386e4d65737361676501000000005175657374732f49636f6e5f42617474657279456d7074790000000001000000
+        arrayParamSizes: 01000000
+        arrayParamTypes:
+        - ClubPenguin.UI.QuestItemPopupImageInfo
+        customTypeSizes: 04000000
+        customTypeNames:
+        - ClubPenguin.UI.QuestItemPopupImageInfo
+        paramDataType: 030000000300000003000000030000000300000001000000020000000c000000280000000300000003000000030000000000000000000000
+        paramName:
+        - Message
+        - i18nMessage
+        - PopupPrefabOverrideKey
+        - NotificationMessage
+        - i18nNotificationMessage
+        - WaitForPopupComplete
+        - OpenDelay
+        - imageInfos
+        - 
+        - ItemImagePath
+        - ItemNameText
+        - i18nItemNameText
+        - ItemCount
+        - numImages
+        paramDataPos: 0000000012000000570000005700000057000000570000005800000000000000000000005c00000074000000740000007400000078000000
+        paramByteDataSize: 1200000045000000000000000000000000000000010000000400000000000000000000001800000000000000000000000400000004000000
+    - name: Clear Cam LighthouseFix
+      description: 
+      colorIndex: 7
+      position:
+        serializedVersion: 2
+        x: 1846.6797
+        y: 380.3125
+        width: 184
+        height: 32
+      isBreakpoint: 0
+      isSequence: 0
+      hideUnused: 0
+      transitions:
+      - fsmEvent:
+          name: FINISHED
+          isSystemEvent: 1
+          isGlobal: 0
+        toState: Cam Zipline 2
+        linkStyle: 0
+        linkConstraint: 0
+        linkTarget: 0
+        colorIndex: 0
+      actionData:
+        actionNames:
+        - ClubPenguin.Cinematography.ChangeCameraAction
+        customNames:
+        - 
+        actionEnabled: 01
+        actionIsOpen: 01
+        actionStartIndex: 00000000
+        actionHashCodes: e4375e05
+        unityObjectParams: []
+        fsmGameObjectParams: []
+        fsmOwnerDefaultParams: []
+        animationCurveParams: []
+        functionCallParams: []
+        fsmTemplateControlParams: []
+        fsmEventTargetParams: []
+        fsmPropertyParams: []
+        layoutOptionParams: []
+        fsmStringParams: []
+        fsmObjectParams: []
+        fsmVarParams: []
+        fsmArrayParams: []
+        fsmEnumParams: []
+        fsmFloatParams: []
+        fsmIntParams: []
+        fsmBoolParams: []
+        fsmVector2Params: []
+        fsmVector3Params: []
+        fsmColorParams: []
+        fsmRectParams: []
+        fsmQuaternionParams: []
+        stringParams: []
+        byteData: 4141433030315130303543616d4c696768746f757365466978506f736974696f6e000000000000000000000000000000000000000000000000000000000100
+        arrayParamSizes: 00000000
+        arrayParamTypes:
+        - ClubPenguin.Cinematography.ChangeCameraActionSettings
+        customTypeSizes: 
+        customTypeNames: []
+        paramDataType: 03000000030000001c0000001c000000010000000100000001000000010000000c000000
+        paramName:
+        - ControllerName
+        - TargetName
+        - StoreOriginalCameraPosition
+        - CameraPosition
+        - PreserveCameraPriority
+        - WaitForCameraToComplete
+        - ResetOnExit
+        - ForceCutTransition
+        - OverrideSettings
+        paramDataPos: 0000000021000000210000002e0000003b0000003c0000003d0000003e00000000000000
+        paramByteDataSize: 21000000000000000d0000000d0000000100000001000000010000000100000000000000
+    - name: ReturnControls
+      description: 
+      colorIndex: 4
+      position:
+        serializedVersion: 2
+        x: 2340.1797
+        y: 609.27344
+        width: 119
+        height: 32
+      isBreakpoint: 0
+      isSequence: 0
+      hideUnused: 0
+      transitions:
+      - fsmEvent:
+          name: FINISHED
+          isSystemEvent: 1
+          isGlobal: 0
+        toState: UnsuppressQuestNotifier
+        linkStyle: 0
+        linkConstraint: 0
+        linkTarget: 0
+        colorIndex: 0
+      actionData:
+        actionNames:
+        - ClubPenguin.Adventure.TrayControlAction
+        customNames:
+        - 
+        actionEnabled: 01
+        actionIsOpen: 01
+        actionStartIndex: 00000000
+        actionHashCodes: 8a487902
+        unityObjectParams: []
+        fsmGameObjectParams: []
+        fsmOwnerDefaultParams: []
+        animationCurveParams: []
+        functionCallParams: []
+        fsmTemplateControlParams: []
+        fsmEventTargetParams: []
+        fsmPropertyParams: []
+        layoutOptionParams: []
+        fsmStringParams: []
+        fsmObjectParams: []
+        fsmVarParams: []
+        fsmArrayParams: []
+        fsmEnumParams: []
+        fsmFloatParams: []
+        fsmIntParams: []
+        fsmBoolParams: []
+        fsmVector2Params: []
+        fsmVector3Params: []
+        fsmColorParams: []
+        fsmRectParams: []
+        fsmQuaternionParams: []
+        stringParams: []
+        byteData: 010000000400000000000000
+        arrayParamSizes: 
+        arrayParamTypes: []
+        customTypeSizes: 
+        customTypeNames: []
+        paramDataType: 07000000070000000700000003000000
+        paramName:
+        - MainNavActionType
+        - TrayActionType
+        - Screen
+        - SubScreen
+        paramDataPos: 0000000004000000080000000c000000
+        paramByteDataSize: 04000000040000000400000000000000
+    - name: UnsuppressQuestNotifier
+      description: 
+      colorIndex: 5
+      position:
+        serializedVersion: 2
+        x: 2335.6094
+        y: 676.4453
+        width: 186
+        height: 32
+      isBreakpoint: 0
+      isSequence: 0
+      hideUnused: 0
+      transitions:
+      - fsmEvent:
+          name: FINISHED
+          isSystemEvent: 1
+          isGlobal: 0
+        toState: Destroy TriggerWalkLightBalcony
+        linkStyle: 0
+        linkConstraint: 0
+        linkTarget: 0
+        colorIndex: 0
+      actionData:
+        actionNames:
+        - ClubPenguin.Adventure.SuppressQuestNotifierAction
+        customNames:
+        - 
+        actionEnabled: 01
+        actionIsOpen: 01
+        actionStartIndex: 00000000
+        actionHashCodes: 24459200
+        unityObjectParams: []
+        fsmGameObjectParams: []
+        fsmOwnerDefaultParams: []
+        animationCurveParams: []
+        functionCallParams: []
+        fsmTemplateControlParams: []
+        fsmEventTargetParams: []
+        fsmPropertyParams: []
+        layoutOptionParams: []
+        fsmStringParams:
+        - useVariable: 1
+          name: 
+          tooltip: 
+          showInInspector: 0
+          networkSync: 0
+          value: 
+        fsmObjectParams: []
+        fsmVarParams: []
+        fsmArrayParams: []
+        fsmEnumParams: []
+        fsmFloatParams: []
+        fsmIntParams: []
+        fsmBoolParams: []
+        fsmVector2Params: []
+        fsmVector3Params: []
+        fsmColorParams: []
+        fsmRectParams: []
+        fsmQuaternionParams: []
+        stringParams: []
+        byteData: 0001
+        arrayParamSizes: 
+        arrayParamTypes: []
+        customTypeSizes: 
+        customTypeNames: []
+        paramDataType: 010000000100000012000000
+        paramName:
+        - Suppress
+        - AutoShow
+        - SceneName
+        paramDataPos: 000000000100000000000000
+        paramByteDataSize: 010000000100000000000000
+    - name: WaitC 0.1Sec
+      description: 
+      colorIndex: 3
+      position:
+        serializedVersion: 2
+        x: 1493.75
+        y: 435.28125
+        width: 110
+        height: 32
+      isBreakpoint: 0
+      isSequence: 0
+      hideUnused: 0
+      transitions:
+      - fsmEvent:
+          name: FINISHED
+          isSystemEvent: 1
+          isGlobal: 0
+        toState: Animate LighthouseDoor Close
+        linkStyle: 0
+        linkConstraint: 0
+        linkTarget: 0
+        colorIndex: 0
+      actionData:
+        actionNames:
+        - HutongGames.PlayMaker.Actions.Wait
+        customNames:
+        - 
+        actionEnabled: 01
+        actionIsOpen: 01
+        actionStartIndex: 00000000
+        actionHashCodes: 48c01101
+        unityObjectParams: []
+        fsmGameObjectParams: []
+        fsmOwnerDefaultParams: []
+        animationCurveParams: []
+        functionCallParams: []
+        fsmTemplateControlParams: []
+        fsmEventTargetParams: []
+        fsmPropertyParams: []
+        layoutOptionParams: []
+        fsmStringParams: []
+        fsmObjectParams: []
+        fsmVarParams: []
+        fsmArrayParams: []
+        fsmEnumParams: []
+        fsmFloatParams: []
+        fsmIntParams: []
+        fsmBoolParams: []
+        fsmVector2Params: []
+        fsmVector3Params: []
+        fsmColorParams: []
+        fsmRectParams: []
+        fsmQuaternionParams: []
+        stringParams: []
+        byteData: cdcccc3d0046494e495348454400
+        arrayParamSizes: 
+        arrayParamTypes: []
+        customTypeSizes: 
+        customTypeNames: []
+        paramDataType: 0f0000001700000001000000
+        paramName:
+        - time
+        - finishEvent
+        - realTime
+        paramDataPos: 00000000050000000d000000
+        paramByteDataSize: 050000000800000001000000
+    - name: Animate LighthouseDoor Close
+      description: 
+      colorIndex: 0
+      position:
+        serializedVersion: 2
+        x: 1492.75
+        y: 492.28125
+        width: 222
+        height: 32
+      isBreakpoint: 0
+      isSequence: 0
+      hideUnused: 0
+      transitions:
+      - fsmEvent:
+          name: FINISHED
+          isSystemEvent: 1
+          isGlobal: 0
+        toState: WaitD 1Sec
+        linkStyle: 0
+        linkConstraint: 0
+        linkTarget: 0
+        colorIndex: 0
+      actionData:
+        actionNames:
+        - ClubPenguin.Adventure.AnimatorTriggerAction
+        customNames:
+        - 
+        actionEnabled: 01
+        actionIsOpen: 01
+        actionStartIndex: 00000000
+        actionHashCodes: 0e92ab01
+        unityObjectParams: []
+        fsmGameObjectParams:
+        - useVariable: 1
+          name: LighthouseDoor
+          tooltip: 
+          showInInspector: 0
+          networkSync: 0
+          value: {fileID: 0}
+        fsmOwnerDefaultParams: []
+        animationCurveParams: []
+        functionCallParams: []
+        fsmTemplateControlParams: []
+        fsmEventTargetParams: []
+        fsmPropertyParams: []
+        layoutOptionParams: []
+        fsmStringParams:
+        - useVariable: 0
+          name: 
+          tooltip: 
+          showInInspector: 0
+          networkSync: 0
+          value: Close
+        fsmObjectParams: []
+        fsmVarParams: []
+        fsmArrayParams: []
+        fsmEnumParams: []
+        fsmFloatParams: []
+        fsmIntParams: []
+        fsmBoolParams: []
+        fsmVector2Params: []
+        fsmVector3Params: []
+        fsmColorParams: []
+        fsmRectParams: []
+        fsmQuaternionParams: []
+        stringParams: []
+        byteData: 00
+        arrayParamSizes: 
+        arrayParamTypes: []
+        customTypeSizes: 
+        customTypeNames: []
+        paramDataType: 010000001300000012000000
+        paramName:
+        - UseOwnerGameObject
+        - Target
+        - Parameter
+        paramDataPos: 000000000000000000000000
+        paramByteDataSize: 010000000000000000000000
+    - name: WaitD 1Sec
+      description: 
+      colorIndex: 3
+      position:
+        serializedVersion: 2
+        x: 1491.75
+        y: 553.28125
+        width: 100
+        height: 32
+      isBreakpoint: 0
+      isSequence: 0
+      hideUnused: 0
+      transitions:
+      - fsmEvent:
+          name: FINISHED
+          isSystemEvent: 1
+          isGlobal: 0
+        toState: AuntArctic PopUp 1
+        linkStyle: 0
+        linkConstraint: 0
+        linkTarget: 0
+        colorIndex: 0
+      actionData:
+        actionNames:
+        - HutongGames.PlayMaker.Actions.Wait
+        customNames:
+        - 
+        actionEnabled: 01
+        actionIsOpen: 01
+        actionStartIndex: 00000000
+        actionHashCodes: 48c01101
+        unityObjectParams: []
+        fsmGameObjectParams: []
+        fsmOwnerDefaultParams: []
+        animationCurveParams: []
+        functionCallParams: []
+        fsmTemplateControlParams: []
+        fsmEventTargetParams: []
+        fsmPropertyParams: []
+        layoutOptionParams: []
+        fsmStringParams: []
+        fsmObjectParams: []
+        fsmVarParams: []
+        fsmArrayParams: []
+        fsmEnumParams: []
+        fsmFloatParams: []
+        fsmIntParams: []
+        fsmBoolParams: []
+        fsmVector2Params: []
+        fsmVector3Params: []
+        fsmColorParams: []
+        fsmRectParams: []
+        fsmQuaternionParams: []
+        stringParams: []
+        byteData: cdcccc3d0046494e495348454400
+        arrayParamSizes: 
+        arrayParamTypes: []
+        customTypeSizes: 
+        customTypeNames: []
+        paramDataType: 0f0000001700000001000000
+        paramName:
+        - time
+        - finishEvent
+        - realTime
+        paramDataPos: 00000000050000000d000000
+        paramByteDataSize: 050000000800000001000000
+    - name: AuntArctic PopUp 1
+      description: This battery is charged by wind. Odd...
+      colorIndex: 2
+      position:
+        serializedVersion: 2
+        x: 1491.3359
+        y: 615.4297
+        width: 211
+        height: 32
+      isBreakpoint: 0
+      isSequence: 0
+      hideUnused: 0
+      transitions:
+      - fsmEvent:
+          name: FINISHED
+          isSystemEvent: 1
+          isGlobal: 0
+        toState: Clear Cam LighthouseFix
+        linkStyle: 0
+        linkConstraint: 0
+        linkTarget: 0
+        colorIndex: 0
+      actionData:
+        actionNames:
+        - ClubPenguin.Adventure.ShowQuestMessageAction
+        customNames:
+        - 
+        actionEnabled: 01
+        actionIsOpen: 01
+        actionStartIndex: 00000000
+        actionHashCodes: 4b0c9102
+        unityObjectParams:
+        - {fileID: 0}
+        fsmGameObjectParams: []
+        fsmOwnerDefaultParams: []
+        animationCurveParams: []
+        functionCallParams: []
+        fsmTemplateControlParams: []
+        fsmEventTargetParams: []
+        fsmPropertyParams: []
+        layoutOptionParams: []
+        fsmStringParams:
+        - useVariable: 0
+          name: 
+          tooltip: 
+          showInInspector: 0
+          networkSync: 0
+          value: DIA/AA/AAC001Q005/Obj1/1-2
+        - useVariable: 0
+          name: 
+          tooltip: 
+          showInInspector: 0
+          networkSync: 0
+          value: 
+        - useVariable: 0
+          name: 
+          tooltip: 
+          showInInspector: 0
+          networkSync: 0
+          value: 
+        fsmObjectParams: []
+        fsmVarParams: []
+        fsmArrayParams: []
+        fsmEnumParams: []
+        fsmFloatParams: []
+        fsmIntParams: []
+        fsmBoolParams: []
+        fsmVector2Params: []
+        fsmVector3Params: []
+        fsmColorParams: []
+        fsmRectParams: []
+        fsmQuaternionParams: []
+        stringParams: []
+        byteData: 51756573742e546578742e414143303031513030354c69676874686f7573652e312e41756e7441726374696320506f70557020312e6931386e436f6e74656e747300000000000041756e744172637469630000000000000000000101000101
+        arrayParamSizes: 
+        arrayParamTypes: []
+        customTypeSizes: 
+        customTypeNames: []
+        paramDataType: 030000000100000005000000000000000100000003000000000000000200000003000000010000000100000001000000120000000100000001000000120000000100000012000000
+        paramName:
+        - i18nContents
+        - UseDialogList
+        - DialogList
+        - DialogListItemIndex
+        - RandomDialog
+        - MascotName
+        - DismissTime
+        - AutoCloseTime
+        - ImageContentKey
+        - RichText
+        - ClickToClose
+        - WaitForFinish
+        - AudioEventName
+        - AdvanceSequence
+        - PlayDialogAnimation
+        - DialogAnimationOverride
+        - AutoStopDialogAnimation
+        - EndDialogAnimationOverride
+        paramDataPos: 000000004100000000000000420000004600000047000000510000005500000059000000590000005a0000005b000000000000005c0000005d000000010000005e00000002000000
+        paramByteDataSize: 41000000010000000000000004000000010000000a000000040000000400000000000000010000000100000001000000000000000100000001000000000000000100000000000000
+    - name: AuntArctic PopUp 3
+      description: The rushing air of this zipline should spin the fan and recharge
+        it.
+      colorIndex: 2
+      position:
+        serializedVersion: 2
+        x: 1799.1953
+        y: 610.78125
+        width: 297.5
+        height: 32
+      isBreakpoint: 0
+      isSequence: 0
+      hideUnused: 0
+      transitions:
+      - fsmEvent:
+          name: FINISHED
+          isSystemEvent: 1
+          isGlobal: 0
+        toState: Clear Cam Zipline 2
+        linkStyle: 0
+        linkConstraint: 0
+        linkTarget: 0
+        colorIndex: 0
+      actionData:
+        actionNames:
+        - ClubPenguin.Adventure.ShowQuestMessageAction
+        customNames:
+        - 
+        actionEnabled: 01
+        actionIsOpen: 01
+        actionStartIndex: 00000000
+        actionHashCodes: 4b0c9102
+        unityObjectParams:
+        - {fileID: 0}
+        fsmGameObjectParams: []
+        fsmOwnerDefaultParams: []
+        animationCurveParams: []
+        functionCallParams: []
+        fsmTemplateControlParams: []
+        fsmEventTargetParams: []
+        fsmPropertyParams: []
+        layoutOptionParams: []
+        fsmStringParams:
+        - useVariable: 0
+          name: 
+          tooltip: 
+          showInInspector: 0
+          networkSync: 0
+          value: DIA/AA/AAC001Q005/Obj1/1-2
+        - useVariable: 0
+          name: 
+          tooltip: 
+          showInInspector: 0
+          networkSync: 0
+          value: 
+        - useVariable: 0
+          name: 
+          tooltip: 
+          showInInspector: 0
+          networkSync: 0
+          value: 
+        fsmObjectParams: []
+        fsmVarParams: []
+        fsmArrayParams: []
+        fsmEnumParams: []
+        fsmFloatParams: []
+        fsmIntParams: []
+        fsmBoolParams: []
+        fsmVector2Params: []
+        fsmVector3Params: []
+        fsmColorParams: []
+        fsmRectParams: []
+        fsmQuaternionParams: []
+        stringParams: []
+        byteData: 51756573742e546578742e414143303031513030354c69676874686f7573652e312e41756e7441726374696320506f70557020332e6931386e436f6e74656e747300000000000041756e744172637469630000000000000000000101010101
+        arrayParamSizes: 
+        arrayParamTypes: []
+        customTypeSizes: 
+        customTypeNames: []
+        paramDataType: 030000000100000005000000000000000100000003000000000000000200000003000000010000000100000001000000120000000100000001000000120000000100000012000000
+        paramName:
+        - i18nContents
+        - UseDialogList
+        - DialogList
+        - DialogListItemIndex
+        - RandomDialog
+        - MascotName
+        - DismissTime
+        - AutoCloseTime
+        - ImageContentKey
+        - RichText
+        - ClickToClose
+        - WaitForFinish
+        - AudioEventName
+        - AdvanceSequence
+        - PlayDialogAnimation
+        - DialogAnimationOverride
+        - AutoStopDialogAnimation
+        - EndDialogAnimationOverride
+        paramDataPos: 000000004100000000000000420000004600000047000000510000005500000059000000590000005a0000005b000000000000005c0000005d000000010000005e00000002000000
+        paramByteDataSize: 41000000010000000000000004000000010000000a000000040000000400000000000000010000000100000001000000000000000100000001000000000000000100000000000000
+    - name: Player I Tween Look To Zipline
+      description: 
+      colorIndex: 0
+      position:
+        serializedVersion: 2
+        x: 1845.1484
+        y: 495.35938
+        width: 225
+        height: 32
+      isBreakpoint: 0
+      isSequence: 0
+      hideUnused: 0
+      transitions:
+      - fsmEvent:
+          name: FINISHED
+          isSystemEvent: 1
+          isGlobal: 0
+        toState: Set Waypoint Zipline01
+        linkStyle: 0
+        linkConstraint: 0
+        linkTarget: 0
+        colorIndex: 0
+      actionData:
+        actionNames:
+        - HutongGames.PlayMaker.Actions.iTweenLookTo
+        customNames:
+        - 
+        actionEnabled: 01
+        actionIsOpen: 01
+        actionStartIndex: 00000000
+        actionHashCodes: d1989e04
+        unityObjectParams: []
+        fsmGameObjectParams:
+        - useVariable: 0
+          name: 
+          tooltip: 
+          showInInspector: 0
+          networkSync: 0
+          value: {fileID: 1463418914577325, guid: a47cd83e5b5d0734a9e566374042be7f,
+            type: 3}
+        fsmOwnerDefaultParams:
+        - ownerOption: 1
+          gameObject:
+            useVariable: 1
+            name: LocalPlayer
+            tooltip: 
+            showInInspector: 0
+            networkSync: 0
+            value: {fileID: 0}
+        animationCurveParams: []
+        functionCallParams: []
+        fsmTemplateControlParams: []
+        fsmEventTargetParams: []
+        fsmPropertyParams: []
+        layoutOptionParams: []
+        fsmStringParams:
+        - useVariable: 1
+          name: 
+          tooltip: 
+          showInInspector: 0
+          networkSync: 0
+          value: 
+        fsmObjectParams: []
+        fsmVarParams: []
+        fsmArrayParams: []
+        fsmEnumParams: []
+        fsmFloatParams: []
+        fsmIntParams: []
+        fsmBoolParams: []
+        fsmVector2Params: []
+        fsmVector3Params: []
+        fsmColorParams: []
+        fsmRectParams: []
+        fsmQuaternionParams: []
+        stringParams: []
+        byteData: 000000000000000000000000010000003f0000000000000000000001020000000000000002000000000001000000
+        arrayParamSizes: 
+        arrayParamTypes: []
+        customTypeSizes: 
+        customTypeNames: []
+        paramDataType: 1400000012000000130000001c0000000f0000000f0000000f0000000700000007000000070000001700000017000000110000001100000011000000
+        paramName:
+        - gameObject
+        - id
+        - transformTarget
+        - vectorTarget
+        - time
+        - delay
+        - speed
+        - easeType
+        - loopType
+        - axis
+        - startEvent
+        - finishEvent
+        - realTime
+        - stopOnExit
+        - loopDontFinish
+        paramDataPos: 000000000000000000000000000000000d00000012000000170000001c00000020000000240000002800000028000000280000002a0000002c000000
+        paramByteDataSize: 0000000000000000000000000d0000000500000005000000050000000400000004000000040000000000000000000000020000000200000002000000
+    - name: Destroy TriggerWalkLightBalcony
+      description: 
+      colorIndex: 0
+      position:
+        serializedVersion: 2
+        x: 2335
+        y: 742
+        width: 243
+        height: 32
+      isBreakpoint: 0
+      isSequence: 0
+      hideUnused: 0
+      transitions:
+      - fsmEvent:
+          name: FINISHED
+          isSystemEvent: 1
+          isGlobal: 0
+        toState: Destroy TriggerActOpenLighthouse
+        linkStyle: 0
+        linkConstraint: 0
+        linkTarget: 0
+        colorIndex: 0
+      actionData:
+        actionNames:
+        - HutongGames.PlayMaker.Actions.DestroyObject
+        customNames:
+        - 
+        actionEnabled: 01
+        actionIsOpen: 01
+        actionStartIndex: 00000000
+        actionHashCodes: 9ff80c02
+        unityObjectParams: []
+        fsmGameObjectParams:
+        - useVariable: 1
+          name: TriggerWalkLightBalcony
+          tooltip: 
+          showInInspector: 0
+          networkSync: 0
+          value: {fileID: 0}
+        fsmOwnerDefaultParams: []
+        animationCurveParams: []
+        functionCallParams: []
+        fsmTemplateControlParams: []
+        fsmEventTargetParams: []
+        fsmPropertyParams: []
+        layoutOptionParams: []
+        fsmStringParams: []
+        fsmObjectParams: []
+        fsmVarParams: []
+        fsmArrayParams: []
+        fsmEnumParams: []
+        fsmFloatParams: []
+        fsmIntParams: []
+        fsmBoolParams: []
+        fsmVector2Params: []
+        fsmVector3Params: []
+        fsmColorParams: []
+        fsmRectParams: []
+        fsmQuaternionParams: []
+        stringParams: []
+        byteData: 00000000000000
+        arrayParamSizes: 
+        arrayParamTypes: []
+        customTypeSizes: 
+        customTypeNames: []
+        paramDataType: 130000000f00000011000000
+        paramName:
+        - gameObject
+        - delay
+        - detachChildren
+        paramDataPos: 000000000000000005000000
+        paramByteDataSize: 000000000500000002000000
+    - name: Destroy TriggerActOpenLighthouse
+      description: 
+      colorIndex: 0
+      position:
+        serializedVersion: 2
+        x: 2334.6016
+        y: 808.7344
+        width: 252
+        height: 32
+      isBreakpoint: 0
+      isSequence: 0
+      hideUnused: 0
+      transitions:
+      - fsmEvent:
+          name: FINISHED
+          isSystemEvent: 1
+          isGlobal: 0
+        toState: Finish
+        linkStyle: 0
+        linkConstraint: 0
+        linkTarget: 0
+        colorIndex: 0
+      actionData:
+        actionNames:
+        - HutongGames.PlayMaker.Actions.DestroyObject
+        customNames:
+        - 
+        actionEnabled: 01
+        actionIsOpen: 01
+        actionStartIndex: 00000000
+        actionHashCodes: 9ff80c02
+        unityObjectParams: []
+        fsmGameObjectParams:
+        - useVariable: 1
+          name: TriggerActOpenLighthouse
+          tooltip: 
+          showInInspector: 0
+          networkSync: 0
+          value: {fileID: 0}
+        fsmOwnerDefaultParams: []
+        animationCurveParams: []
+        functionCallParams: []
+        fsmTemplateControlParams: []
+        fsmEventTargetParams: []
+        fsmPropertyParams: []
+        layoutOptionParams: []
+        fsmStringParams: []
+        fsmObjectParams: []
+        fsmVarParams: []
+        fsmArrayParams: []
+        fsmEnumParams: []
+        fsmFloatParams: []
+        fsmIntParams: []
+        fsmBoolParams: []
+        fsmVector2Params: []
+        fsmVector3Params: []
+        fsmColorParams: []
+        fsmRectParams: []
+        fsmQuaternionParams: []
+        stringParams: []
+        byteData: 00000000000000
+        arrayParamSizes: 
+        arrayParamTypes: []
+        customTypeSizes: 
+        customTypeNames: []
+        paramDataType: 130000000f00000011000000
+        paramName:
+        - gameObject
+        - delay
+        - detachChildren
+        paramDataPos: 000000000000000005000000
+        paramByteDataSize: 000000000500000002000000
+    - name: Set Waypoint Zipline01
+      description: 
+      colorIndex: 3
+      position:
+        serializedVersion: 2
+        x: 1844.3906
+        y: 551.1328
+        width: 175
+        height: 32
+      isBreakpoint: 0
+      isSequence: 0
+      hideUnused: 0
+      transitions:
+      - fsmEvent:
+          name: FINISHED
+          isSystemEvent: 1
+          isGlobal: 0
+        toState: AuntArctic PopUp 3
+        linkStyle: 0
+        linkConstraint: 0
+        linkTarget: 0
+        colorIndex: 0
+      actionData:
+        actionNames:
+        - ClubPenguin.Adventure.SetWaypointAction
+        customNames:
+        - 
+        actionEnabled: 01
+        actionIsOpen: 01
+        actionStartIndex: 00000000
+        actionHashCodes: 951d3601
+        unityObjectParams: []
+        fsmGameObjectParams:
+        - useVariable: 0
+          name: 
+          tooltip: 
+          showInInspector: 0
+          networkSync: 0
+          value: {fileID: 0}
+        fsmOwnerDefaultParams: []
+        animationCurveParams: []
+        functionCallParams: []
+        fsmTemplateControlParams: []
+        fsmEventTargetParams: []
+        fsmPropertyParams: []
+        layoutOptionParams: []
+        fsmStringParams: []
+        fsmObjectParams: []
+        fsmVarParams: []
+        fsmArrayParams: []
+        fsmEnumParams: []
+        fsmFloatParams: []
+        fsmIntParams: []
+        fsmBoolParams: []
+        fsmVector2Params: []
+        fsmVector3Params: []
+        fsmColorParams: []
+        fsmRectParams: []
+        fsmQuaternionParams: []
+        stringParams: []
+        byteData: 414143303031513030354d61726b65725a69706c696e653031426f61726477616c6b0100000000000000000000000000
+        arrayParamSizes: 
+        arrayParamTypes: []
+        customTypeSizes: 
+        customTypeNames: []
+        paramDataType: 030000001300000003000000010000001c000000
+        paramName:
+        - WaypointName
+        - WaypointObject
+        - WaypointZone
+        - ShowOnscreenIndicator
+        - OnscreenIndicatorOffset
+        paramDataPos: 0000000000000000190000002200000023000000
+        paramByteDataSize: 190000000000000009000000010000000d000000
+    - name: Impossible
+      description: 
+      colorIndex: 0
+      position:
+        serializedVersion: 2
+        x: 2673
+        y: 864
+        width: 100
+        height: 32
+      isBreakpoint: 0
+      isSequence: 0
+      hideUnused: 0
+      transitions:
+      - fsmEvent:
+          name: Impossible
+          isSystemEvent: 0
+          isGlobal: 0
+        toState: Finish
+        linkStyle: 0
+        linkConstraint: 0
+        linkTarget: 0
+        colorIndex: 0
+      actionData:
+        actionNames: []
+        customNames: []
+        actionEnabled: 
+        actionIsOpen: 
+        actionStartIndex: 
+        actionHashCodes: 
+        unityObjectParams: []
+        fsmGameObjectParams: []
+        fsmOwnerDefaultParams: []
+        animationCurveParams: []
+        functionCallParams: []
+        fsmTemplateControlParams: []
+        fsmEventTargetParams: []
+        fsmPropertyParams: []
+        layoutOptionParams: []
+        fsmStringParams: []
+        fsmObjectParams: []
+        fsmVarParams: []
+        fsmArrayParams: []
+        fsmEnumParams: []
+        fsmFloatParams: []
+        fsmIntParams: []
+        fsmBoolParams: []
+        fsmVector2Params: []
+        fsmVector3Params: []
+        fsmColorParams: []
+        fsmRectParams: []
+        fsmQuaternionParams: []
+        stringParams: []
+        byteData: 
+        arrayParamSizes: 
+        arrayParamTypes: []
+        customTypeSizes: 
+        customTypeNames: []
+        paramDataType: 
+        paramName: []
+        paramDataPos: 
+        paramByteDataSize: 
+    - name: Cam Zipline 2
+      description: 
+      colorIndex: 7
+      position:
+        serializedVersion: 2
+        x: 1846.0938
+        y: 435.1797
+        width: 110
+        height: 32
+      isBreakpoint: 0
+      isSequence: 0
+      hideUnused: 0
+      transitions:
+      - fsmEvent:
+          name: FINISHED
+          isSystemEvent: 1
+          isGlobal: 0
+        toState: Player I Tween Look To Zipline
+        linkStyle: 0
+        linkConstraint: 0
+        linkTarget: 0
+        colorIndex: 0
+      actionData:
+        actionNames:
+        - ClubPenguin.Cinematography.ChangeCameraAction
+        customNames:
+        - 
+        actionEnabled: 01
+        actionIsOpen: 01
+        actionStartIndex: 00000000
+        actionHashCodes: e4375e05
+        unityObjectParams: []
+        fsmGameObjectParams: []
+        fsmOwnerDefaultParams: []
+        animationCurveParams: []
+        functionCallParams: []
+        fsmTemplateControlParams: []
+        fsmEventTargetParams: []
+        fsmPropertyParams: []
+        layoutOptionParams: []
+        fsmStringParams: []
+        fsmObjectParams: []
+        fsmVarParams: []
+        fsmArrayParams: []
+        fsmEnumParams: []
+        fsmFloatParams: []
+        fsmIntParams: []
+        fsmBoolParams: []
+        fsmVector2Params: []
+        fsmVector3Params: []
+        fsmColorParams: []
+        fsmRectParams: []
+        fsmQuaternionParams: []
+        stringParams: []
+        byteData: 4141433030315130303543616d5a69706c696e65506f736974696f6e4141433030315130303543616d5a69706c696e65546172676574000000000000000000000000000000000000000000000000000000000000
+        arrayParamSizes: 00000000
+        arrayParamTypes:
+        - ClubPenguin.Cinematography.ChangeCameraActionSettings
+        customTypeSizes: 
+        customTypeNames: []
+        paramDataType: 03000000030000001c0000001c000000010000000100000001000000010000000c000000
+        paramName:
+        - ControllerName
+        - TargetName
+        - StoreOriginalCameraPosition
+        - CameraPosition
+        - PreserveCameraPriority
+        - WaitForCameraToComplete
+        - ResetOnExit
+        - ForceCutTransition
+        - OverrideSettings
+        paramDataPos: 000000001c00000036000000430000005000000051000000520000005300000000000000
+        paramByteDataSize: 1c0000001a0000000d0000000d0000000100000001000000010000000100000000000000
+    - name: Cam Target Player 2
+      description: 
+      colorIndex: 7
+      position:
+        serializedVersion: 2
+        x: 2341.0938
+        y: 546.75
+        width: 156
+        height: 32
+      isBreakpoint: 0
+      isSequence: 0
+      hideUnused: 0
+      transitions:
+      - fsmEvent:
+          name: FINISHED
+          isSystemEvent: 1
+          isGlobal: 0
+        toState: ReturnControls
+        linkStyle: 0
+        linkConstraint: 0
+        linkTarget: 0
+        colorIndex: 0
+      actionData:
+        actionNames:
+        - ClubPenguin.Cinematography.ChangeCameraTargetAction
+        customNames:
+        - 
+        actionEnabled: 01
+        actionIsOpen: 01
+        actionStartIndex: 00000000
+        actionHashCodes: 84d7ee04
+        unityObjectParams: []
+        fsmGameObjectParams: []
+        fsmOwnerDefaultParams:
+        - ownerOption: 0
+          gameObject:
+            useVariable: 0
+            name: 
+            tooltip: 
+            showInInspector: 0
+            networkSync: 0
+            value: {fileID: 0}
+        animationCurveParams: []
+        functionCallParams: []
+        fsmTemplateControlParams: []
+        fsmEventTargetParams: []
+        fsmPropertyParams: []
+        layoutOptionParams: []
+        fsmStringParams: []
+        fsmObjectParams: []
+        fsmVarParams: []
+        fsmArrayParams: []
+        fsmEnumParams: []
+        fsmFloatParams: []
+        fsmIntParams: []
+        fsmBoolParams: []
+        fsmVector2Params: []
+        fsmVector3Params: []
+        fsmColorParams: []
+        fsmRectParams: []
+        fsmQuaternionParams: []
+        stringParams: []
+        byteData: 50656e6775696e
+        arrayParamSizes: 00000000
+        arrayParamTypes:
+        - ClubPenguin.Cinematography.ChangeCameraTargetActionSettings
+        customTypeSizes: 
+        customTypeNames: []
+        paramDataType: 03000000140000000c000000
+        paramName:
+        - TargetName
+        - TargetGameObject
+        - OverrideSettings
+        paramDataPos: 000000000000000000000000
+        paramByteDataSize: 070000000000000000000000
+    - name: Clear Cam Zipline 2
+      description: 
+      colorIndex: 7
+      position:
+        serializedVersion: 2
+        x: 2344.1328
+        y: 260.1797
+        width: 149
+        height: 32
+      isBreakpoint: 0
+      isSequence: 0
+      hideUnused: 0
+      transitions:
+      - fsmEvent:
+          name: FINISHED
+          isSystemEvent: 1
+          isGlobal: 0
+        toState: Cin ZiplineReturn
+        linkStyle: 0
+        linkConstraint: 0
+        linkTarget: 0
+        colorIndex: 0
+      actionData:
+        actionNames:
+        - ClubPenguin.Cinematography.ChangeCameraAction
+        customNames:
+        - 
+        actionEnabled: 01
+        actionIsOpen: 01
+        actionStartIndex: 00000000
+        actionHashCodes: e4375e05
+        unityObjectParams: []
+        fsmGameObjectParams: []
+        fsmOwnerDefaultParams: []
+        animationCurveParams: []
+        functionCallParams: []
+        fsmTemplateControlParams: []
+        fsmEventTargetParams: []
+        fsmPropertyParams: []
+        layoutOptionParams: []
+        fsmStringParams: []
+        fsmObjectParams: []
+        fsmVarParams: []
+        fsmArrayParams: []
+        fsmEnumParams: []
+        fsmFloatParams: []
+        fsmIntParams: []
+        fsmBoolParams: []
+        fsmVector2Params: []
+        fsmVector3Params: []
+        fsmColorParams: []
+        fsmRectParams: []
+        fsmQuaternionParams: []
+        stringParams: []
+        byteData: 4141433030315130303543616d5a69706c696e65506f736974696f6e000000000000000000000000000000000000000000000000000000000100
+        arrayParamSizes: 00000000
+        arrayParamTypes:
+        - ClubPenguin.Cinematography.ChangeCameraActionSettings
+        customTypeSizes: 
+        customTypeNames: []
+        paramDataType: 03000000030000001c0000001c000000010000000100000001000000010000000c000000
+        paramName:
+        - ControllerName
+        - TargetName
+        - StoreOriginalCameraPosition
+        - CameraPosition
+        - PreserveCameraPriority
+        - WaitForCameraToComplete
+        - ResetOnExit
+        - ForceCutTransition
+        - OverrideSettings
+        paramDataPos: 000000001c0000001c000000290000003600000037000000380000003900000000000000
+        paramByteDataSize: 1c000000000000000d0000000d0000000100000001000000010000000100000000000000
+    - name: Cin ZiplineReturn
+      description: 
+      colorIndex: 7
+      position:
+        serializedVersion: 2
+        x: 2344.0547
+        y: 319.66406
+        width: 133
+        height: 32
+      isBreakpoint: 0
+      isSequence: 0
+      hideUnused: 0
+      transitions:
+      - fsmEvent:
+          name: FINISHED
+          isSystemEvent: 1
+          isGlobal: 0
+        toState: Animate Zipline01
+        linkStyle: 0
+        linkConstraint: 0
+        linkTarget: 0
+        colorIndex: 0
+      actionData:
+        actionNames:
+        - ClubPenguin.Cinematography.ChangeCameraAction
+        customNames:
+        - 
+        actionEnabled: 01
+        actionIsOpen: 01
+        actionStartIndex: 00000000
+        actionHashCodes: e4375e05
+        unityObjectParams: []
+        fsmGameObjectParams: []
+        fsmOwnerDefaultParams: []
+        animationCurveParams: []
+        functionCallParams: []
+        fsmTemplateControlParams: []
+        fsmEventTargetParams: []
+        fsmPropertyParams: []
+        layoutOptionParams: []
+        fsmStringParams: []
+        fsmObjectParams: []
+        fsmVarParams: []
+        fsmArrayParams: []
+        fsmEnumParams: []
+        fsmFloatParams: []
+        fsmIntParams: []
+        fsmBoolParams: []
+        fsmVector2Params: []
+        fsmVector3Params: []
+        fsmColorParams: []
+        fsmRectParams: []
+        fsmQuaternionParams: []
+        stringParams: []
+        byteData: 4141433030315130303543696e5a69706c696e6552657475726e000000000000000000000000000000000000000000000000000000000000
+        arrayParamSizes: 00000000
+        arrayParamTypes:
+        - ClubPenguin.Cinematography.ChangeCameraActionSettings
+        customTypeSizes: 
+        customTypeNames: []
+        paramDataType: 03000000030000001c0000001c000000010000000100000001000000010000000c000000
+        paramName:
+        - ControllerName
+        - TargetName
+        - StoreOriginalCameraPosition
+        - CameraPosition
+        - PreserveCameraPriority
+        - WaitForCameraToComplete
+        - ResetOnExit
+        - ForceCutTransition
+        - OverrideSettings
+        paramDataPos: 000000001a0000001a000000270000003400000035000000360000003700000000000000
+        paramByteDataSize: 1a000000000000000d0000000d0000000100000001000000010000000100000000000000
+    - name: WaitE 1.5Sec
+      description: 
+      colorIndex: 3
+      position:
+        serializedVersion: 2
+        x: 2343.0547
+        y: 440.66406
+        width: 109
+        height: 32
+      isBreakpoint: 0
+      isSequence: 0
+      hideUnused: 0
+      transitions:
+      - fsmEvent:
+          name: FINISHED
+          isSystemEvent: 1
+          isGlobal: 0
+        toState: Clear Cin ZiplineReturn
+        linkStyle: 0
+        linkConstraint: 0
+        linkTarget: 0
+        colorIndex: 0
+      actionData:
+        actionNames:
+        - HutongGames.PlayMaker.Actions.Wait
+        customNames:
+        - 
+        actionEnabled: 01
+        actionIsOpen: 01
+        actionStartIndex: 00000000
+        actionHashCodes: 48c01101
+        unityObjectParams: []
+        fsmGameObjectParams: []
+        fsmOwnerDefaultParams: []
+        animationCurveParams: []
+        functionCallParams: []
+        fsmTemplateControlParams: []
+        fsmEventTargetParams: []
+        fsmPropertyParams: []
+        layoutOptionParams: []
+        fsmStringParams: []
+        fsmObjectParams: []
+        fsmVarParams: []
+        fsmArrayParams: []
+        fsmEnumParams: []
+        fsmFloatParams: []
+        fsmIntParams: []
+        fsmBoolParams: []
+        fsmVector2Params: []
+        fsmVector3Params: []
+        fsmColorParams: []
+        fsmRectParams: []
+        fsmQuaternionParams: []
+        stringParams: []
+        byteData: 0000803e0046494e495348454400
+        arrayParamSizes: 
+        arrayParamTypes: []
+        customTypeSizes: 
+        customTypeNames: []
+        paramDataType: 0f0000001700000001000000
+        paramName:
+        - time
+        - finishEvent
+        - realTime
+        paramDataPos: 00000000050000000d000000
+        paramByteDataSize: 050000000800000001000000
+    - name: Clear Cin ZiplineReturn
+      description: 
+      colorIndex: 7
+      position:
+        serializedVersion: 2
+        x: 2342.0547
+        y: 494.66406
+        width: 172
+        height: 32
+      isBreakpoint: 0
+      isSequence: 0
+      hideUnused: 0
+      transitions:
+      - fsmEvent:
+          name: FINISHED
+          isSystemEvent: 1
+          isGlobal: 0
+        toState: Cam Target Player 2
+        linkStyle: 0
+        linkConstraint: 0
+        linkTarget: 0
+        colorIndex: 0
+      actionData:
+        actionNames:
+        - ClubPenguin.Cinematography.ChangeCameraAction
+        customNames:
+        - 
+        actionEnabled: 01
+        actionIsOpen: 01
+        actionStartIndex: 00000000
+        actionHashCodes: e4375e05
+        unityObjectParams: []
+        fsmGameObjectParams: []
+        fsmOwnerDefaultParams: []
+        animationCurveParams: []
+        functionCallParams: []
+        fsmTemplateControlParams: []
+        fsmEventTargetParams: []
+        fsmPropertyParams: []
+        layoutOptionParams: []
+        fsmStringParams: []
+        fsmObjectParams: []
+        fsmVarParams: []
+        fsmArrayParams: []
+        fsmEnumParams: []
+        fsmFloatParams: []
+        fsmIntParams: []
+        fsmBoolParams: []
+        fsmVector2Params: []
+        fsmVector3Params: []
+        fsmColorParams: []
+        fsmRectParams: []
+        fsmQuaternionParams: []
+        stringParams: []
+        byteData: 4141433030315130303543696e5a69706c696e6552657475726e000000000000000000000000000000000000000000000000000000000100
+        arrayParamSizes: 00000000
+        arrayParamTypes:
+        - ClubPenguin.Cinematography.ChangeCameraActionSettings
+        customTypeSizes: 
+        customTypeNames: []
+        paramDataType: 03000000030000001c0000001c000000010000000100000001000000010000000c000000
+        paramName:
+        - ControllerName
+        - TargetName
+        - StoreOriginalCameraPosition
+        - CameraPosition
+        - PreserveCameraPriority
+        - WaitForCameraToComplete
+        - ResetOnExit
+        - ForceCutTransition
+        - OverrideSettings
+        paramDataPos: 000000001a0000001a000000270000003400000035000000360000003700000000000000
+        paramByteDataSize: 1a000000000000000d0000000d0000000100000001000000010000000100000000000000
+    - name: Animate Zipline01
+      description: 
+      colorIndex: 0
+      position:
+        serializedVersion: 2
+        x: 2343.4844
+        y: 383.47656
+        width: 140
+        height: 32
+      isBreakpoint: 0
+      isSequence: 0
+      hideUnused: 0
+      transitions:
+      - fsmEvent:
+          name: FINISHED
+          isSystemEvent: 1
+          isGlobal: 0
+        toState: WaitE 1.5Sec
+        linkStyle: 0
+        linkConstraint: 0
+        linkTarget: 0
+        colorIndex: 0
+      actionData:
+        actionNames:
+        - HutongGames.PlayMaker.Actions.FindGameObject
+        - HutongGames.PlayMaker.Actions.iTweenMoveTo
+        customNames:
+        - 
+        - 
+        actionEnabled: 0101
+        actionIsOpen: 0101
+        actionStartIndex: 0000000003000000
+        actionHashCodes: 786b39027bce7604
+        unityObjectParams: []
+        fsmGameObjectParams:
+        - useVariable: 1
+          name: Zipline01
+          tooltip: 
+          showInInspector: 0
+          networkSync: 0
+          value: {fileID: 0}
+        - useVariable: 0
+          name: 
+          tooltip: 
+          showInInspector: 0
+          networkSync: 0
+          value: {fileID: 1292847450954869, guid: a47cd83e5b5d0734a9e566374042be7f,
+            type: 3}
+        - useVariable: 1
+          name: 
+          tooltip: 
+          showInInspector: 0
+          networkSync: 0
+          value: {fileID: 0}
+        fsmOwnerDefaultParams:
+        - ownerOption: 1
+          gameObject:
+            useVariable: 1
+            name: Zipline01
+            tooltip: 
+            showInInspector: 0
+            networkSync: 0
+            value: {fileID: 0}
+        animationCurveParams: []
+        functionCallParams: []
+        fsmTemplateControlParams: []
+        fsmEventTargetParams: []
+        fsmPropertyParams: []
+        layoutOptionParams: []
+        fsmStringParams:
+        - useVariable: 0
+          name: 
+          tooltip: 
+          showInInspector: 0
+          networkSync: 0
+          value: AAC001Q005MarkerZipline01
+        - useVariable: 0
+          name: 
+          tooltip: 
+          showInInspector: 0
+          networkSync: 0
+          value: Untagged
+        - useVariable: 1
+          name: 
+          tooltip: 
+          showInInspector: 0
+          networkSync: 0
+          value: 
+        fsmObjectParams: []
+        fsmVarParams: []
+        fsmArrayParams: []
+        fsmEnumParams: []
+        fsmFloatParams: []
+        fsmIntParams: []
+        fsmBoolParams: []
+        fsmVector2Params: []
+        fsmVector3Params: []
+        fsmColorParams: []
+        fsmRectParams: []
+        fsmQuaternionParams: []
+        stringParams: []
+        byteData: 0000ae418fc215415c8fcac0000000c03f0000000000000000000001000000000000000000000000010000000000000000000000000001000000000100000000010000000000010000000001000100
+        arrayParamSizes: 0000000000000000
+        arrayParamTypes:
+        - HutongGames.PlayMaker.FsmGameObject
+        - HutongGames.PlayMaker.FsmVector3
+        customTypeSizes: 
+        customTypeNames: []
+        paramDataType: 1200000012000000130000001400000012000000130000001c0000000f0000000f0000000f00000007000000070000000700000011000000130000001c0000000f00000007000000110000000f0000000c0000000c000000110000001700000017000000110000001100000011000000
+        paramName:
+        - objectName
+        - withTag
+        - store
+        - gameObject
+        - id
+        - transformPosition
+        - vectorPosition
+        - time
+        - delay
+        - speed
+        - space
+        - easeType
+        - loopType
+        - orientToPath
+        - lookAtObject
+        - lookAtVector
+        - lookTime
+        - axis
+        - moveToPath
+        - lookAhead
+        - transforms
+        - vectors
+        - reverse
+        - startEvent
+        - finishEvent
+        - realTime
+        - stopOnExit
+        - loopDontFinish
+        paramDataPos: 000000000100000000000000000000000200000001000000000000000d00000012000000170000001c000000200000002400000028000000020000002a000000370000003c00000040000000420000000000000001000000470000004900000049000000490000004b0000004d000000
+        paramByteDataSize: 0000000000000000000000000000000000000000000000000d00000005000000050000000500000004000000040000000400000002000000000000000d000000050000000400000002000000050000000000000000000000020000000000000000000000020000000200000002000000
+    - name: HUB 1
+      description: 
+      colorIndex: 0
+      position:
+        serializedVersion: 2
+        x: 2504.039
+        y: 173.30469
+        width: 100
+        height: 32
+      isBreakpoint: 0
+      isSequence: 0
+      hideUnused: 0
+      transitions:
+      - fsmEvent:
+          name: FINISHED
+          isSystemEvent: 1
+          isGlobal: 0
+        toState: --- BI 01 --- Set Waypoint Lighthouse Door
+        linkStyle: 0
+        linkConstraint: 0
+        linkTarget: 0
+        colorIndex: 0
+      actionData:
+        actionNames: []
+        customNames: []
+        actionEnabled: 
+        actionIsOpen: 
+        actionStartIndex: 
+        actionHashCodes: 
+        unityObjectParams: []
+        fsmGameObjectParams: []
+        fsmOwnerDefaultParams: []
+        animationCurveParams: []
+        functionCallParams: []
+        fsmTemplateControlParams: []
+        fsmEventTargetParams: []
+        fsmPropertyParams: []
+        layoutOptionParams: []
+        fsmStringParams: []
+        fsmObjectParams: []
+        fsmVarParams: []
+        fsmArrayParams: []
+        fsmEnumParams: []
+        fsmFloatParams: []
+        fsmIntParams: []
+        fsmBoolParams: []
+        fsmVector2Params: []
+        fsmVector3Params: []
+        fsmColorParams: []
+        fsmRectParams: []
+        fsmQuaternionParams: []
+        stringParams: []
+        byteData: 
+        arrayParamSizes: 
+        arrayParamTypes: []
+        customTypeSizes: 
+        customTypeNames: []
+        paramDataType: 
+        paramName: []
+        paramDataPos: 
+        paramByteDataSize: 
+    - name: DEBUG LOOP
+      description: 
+      colorIndex: 6
+      position:
+        serializedVersion: 2
+        x: 2680.6016
+        y: 676.1797
+        width: 110
+        height: 32
+      isBreakpoint: 0
+      isSequence: 0
+      hideUnused: 0
+      transitions:
+      - fsmEvent:
+          name: FINISHED
+          isSystemEvent: 1
+          isGlobal: 0
+        toState: HUB 1
+        linkStyle: 0
+        linkConstraint: 0
+        linkTarget: 0
+        colorIndex: 0
+      actionData:
+        actionNames: []
+        customNames: []
+        actionEnabled: 
+        actionIsOpen: 
+        actionStartIndex: 
+        actionHashCodes: 
+        unityObjectParams: []
+        fsmGameObjectParams: []
+        fsmOwnerDefaultParams: []
+        animationCurveParams: []
+        functionCallParams: []
+        fsmTemplateControlParams: []
+        fsmEventTargetParams: []
+        fsmPropertyParams: []
+        layoutOptionParams: []
+        fsmStringParams: []
+        fsmObjectParams: []
+        fsmVarParams: []
+        fsmArrayParams: []
+        fsmEnumParams: []
+        fsmFloatParams: []
+        fsmIntParams: []
+        fsmBoolParams: []
+        fsmVector2Params: []
+        fsmVector3Params: []
+        fsmColorParams: []
+        fsmRectParams: []
+        fsmQuaternionParams: []
+        stringParams: []
+        byteData: 
+        arrayParamSizes: 
+        arrayParamTypes: []
+        customTypeSizes: 
+        customTypeNames: []
+        paramDataType: 
+        paramName: []
+        paramDataPos: 
+        paramByteDataSize: 
+    events:
+    - name: FINISHED
+      isSystemEvent: 1
+      isGlobal: 0
+    - name: False
+      isSystemEvent: 0
+      isGlobal: 0
+    - name: Impossible
+      isSystemEvent: 0
+      isGlobal: 0
+    - name: TriggerActOpenLighthouse
+      isSystemEvent: 0
+      isGlobal: 0
+    - name: TriggerWalkLightBalconyEnter
+      isSystemEvent: 0
+      isGlobal: 0
+    - name: TriggerWalkLightBalconyExit
+      isSystemEvent: 0
+      isGlobal: 0
+    - name: True
+      isSystemEvent: 0
+      isGlobal: 0
+    globalTransitions: []
+    variables:
+      floatVariables: []
+      intVariables: []
+      boolVariables: []
+      stringVariables: []
+      vector2Variables: []
+      vector3Variables: []
+      colorVariables: []
+      rectVariables: []
+      quaternionVariables: []
+      gameObjectVariables:
+      - useVariable: 1
+        name: LighthouseDoor
+        tooltip: 
+        showInInspector: 0
+        networkSync: 0
+        value: {fileID: 0}
+      - useVariable: 1
+        name: LocalPlayer
+        tooltip: 
+        showInInspector: 0
+        networkSync: 0
+        value: {fileID: 0}
+      - useVariable: 1
+        name: TriggerActOpenLighthouse
+        tooltip: 
+        showInInspector: 0
+        networkSync: 0
+        value: {fileID: 0}
+      - useVariable: 1
+        name: TriggerWalkLightBalcony
+        tooltip: 
+        showInInspector: 0
+        networkSync: 0
+        value: {fileID: 0}
+      - useVariable: 1
+        name: Zipline01
+        tooltip: 
+        showInInspector: 0
+        networkSync: 0
+        value: {fileID: 0}
+      objectVariables: []
+      materialVariables: []
+      textureVariables: []
+      arrayVariables: []
+      enumVariables: []
+      categories:
+      - 
+      variableCategoryIDs: 0000000000000000000000000000000000000000
+    description: 
+    docUrl: 
+    showStateLabel: 1
+    maxLoopCount: 0
+    watermark: 
+    password: 
+    locked: 0
+    manualUpdate: 0
+    outVariableIndices: 
+    keepDelayedEventsOnStateExit: 0
+    preprocessed: 0
+    ExposedEvents: []
+    OutputEvents: []
+    RestartOnEnable: 1
+    ResetVariablesOnEnable: 0
+    EnableDebugFlow: 0
+    EnableBreakpoints: 1
+    editorFlags: 3
+    activeStateName: 
+    mouseEvents: 0
+    handleLevelLoaded: 0
+    handleTriggerEnter2D: 0
+    handleTriggerExit2D: 0
+    handleTriggerStay2D: 0
+    handleCollisionEnter2D: 0
+    handleCollisionExit2D: 0
+    handleCollisionStay2D: 0
+    handleTriggerEnter: 0
+    handleTriggerExit: 0
+    handleTriggerStay: 0
+    handleCollisionEnter: 0
+    handleCollisionExit: 0
+    handleCollisionStay: 0
+    handleParticleCollision: 0
+    handleControllerColliderHit: 0
+    handleJointBreak: 0
+    handleJointBreak2D: 0
+    handleOnGUI: 0
+    handleFixedUpdate: 0
+    handleLateUpdate: 0
+    handleApplicationEvents: 0
+    handleUiEvents: 0
+    handleLegacyNetworking: 0
+    handleAnimatorMove: 0
+    handleAnimatorIK: 0
