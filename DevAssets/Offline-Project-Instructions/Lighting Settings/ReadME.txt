@@ -1,0 +1,1 @@
+When placing the LightRigs prefabs or any other prefab, make sure to match the position, rotation, and scale of the prefab's transform because Unity 6 changes how prefab placement works.
