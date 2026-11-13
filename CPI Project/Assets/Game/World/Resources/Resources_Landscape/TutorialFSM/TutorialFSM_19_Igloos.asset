@@ -1,0 +1,4478 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 1219815696, guid: e743331561ef77147ae48cda9bcb8209, type: 3}
+  m_Name: TutorialFSM_19_Igloos
+  m_EditorClassIdentifier: 
+  category: Quest
+  fsm:
+    dataVersion: 1
+    usedInTemplate: {fileID: 11400000}
+    name: FSM
+    startState: WaitFor
+    states:
+    - name: Show Tutorial
+      description: Create an igloo
+      colorIndex: 5
+      position:
+        serializedVersion: 2
+        x: 218.99219
+        y: 431.96094
+        width: 110.5
+        height: 32
+      isBreakpoint: 0
+      isSequence: 0
+      hideUnused: 0
+      transitions:
+      - fsmEvent:
+          name: FINISHED
+          isSystemEvent: 1
+          isGlobal: 0
+        toState: Hide Tutorial
+        linkStyle: 0
+        linkConstraint: 0
+        linkTarget: 0
+        colorIndex: 0
+      actionData:
+        actionNames:
+        - ClubPenguin.TutorialUI.ShowTutorialOverlayAction
+        - ClubPenguin.Adventure.PressButtonAction
+        customNames:
+        - 
+        - 
+        actionEnabled: 0101
+        actionIsOpen: 0101
+        actionStartIndex: 0000000014000000
+        actionHashCodes: 08b9fa0448b35100
+        unityObjectParams: []
+        fsmGameObjectParams:
+        - useVariable: 1
+          name: CreateIglooButton
+          tooltip: 
+          showInInspector: 0
+          networkSync: 0
+          value: {fileID: 0}
+        - useVariable: 1
+          name: CreateIglooButton
+          tooltip: 
+          showInInspector: 0
+          networkSync: 0
+          value: {fileID: 0}
+        fsmOwnerDefaultParams: []
+        animationCurveParams: []
+        functionCallParams: []
+        fsmTemplateControlParams: []
+        fsmEventTargetParams: []
+        fsmPropertyParams: []
+        layoutOptionParams: []
+        fsmStringParams:
+        - useVariable: 0
+          name: 
+          tooltip: 
+          showInInspector: 0
+          networkSync: 0
+          value: 
+        fsmObjectParams: []
+        fsmVarParams: []
+        fsmArrayParams: []
+        fsmEnumParams: []
+        fsmFloatParams: []
+        fsmIntParams: []
+        fsmBoolParams: []
+        fsmVector2Params: []
+        fsmVector3Params: []
+        fsmColorParams: []
+        fsmRectParams: []
+        fsmQuaternionParams: []
+        stringParams: []
+        byteData: 0000003f6666263f00010000a0410000a0410100000003000000000000000000000000000000000070c20000003f000000000000c843005475746f7269616c2e49676c6f6f732e546578742e31009a99193f0101010046494e4953484544
+        arrayParamSizes: 
+        arrayParamTypes: []
+        customTypeSizes: 
+        customTypeNames: []
+        paramDataType: 0300000013000000250000000100000008000000070000000700000008000000080000000800000002000000010000000300000012000000010000000200000001000000010000000100000001000000030000001300000017000000
+        paramName:
+        - TargetName
+        - TargetObject
+        - HighlightPosition
+        - AutoSize
+        - Size
+        - Shape
+        - ArrowPosition
+        - ArrowOffset
+        - TextBoxOffset
+        - TextBoxPivot
+        - MaxTextBoxSize
+        - ShowHighlightOutline
+        - i18nBubbleText
+        - i18TranslatedArg0
+        - ShowArrow
+        - Opacity
+        - UseTarget
+        - DisableUI
+        - EnableTarget
+        - BlocksRaycast
+        - ButtonName
+        - ButtonObject
+        - SendEvent
+        paramDataPos: 000000000000000000000000090000000a00000012000000160000001a000000220000002a000000320000003600000037000000000000004d0000004e00000052000000530000005400000055000000560000000100000056000000
+        paramByteDataSize: 0000000000000000090000000100000008000000040000000400000008000000080000000800000004000000010000001600000000000000010000000400000001000000010000000100000001000000000000000000000008000000
+    - name: DisableButtons
+      description: 
+      colorIndex: 1
+      position:
+        serializedVersion: 2
+        x: 228.65625
+        y: 115.421875
+        width: 116
+        height: 32
+      isBreakpoint: 0
+      isSequence: 0
+      hideUnused: 0
+      transitions:
+      - fsmEvent:
+          name: FINISHED
+          isSystemEvent: 1
+          isGlobal: 0
+        toState: Member?
+        linkStyle: 0
+        linkConstraint: 0
+        linkTarget: 0
+        colorIndex: 0
+      actionData:
+        actionNames:
+        - ClubPenguin.UI.DisableUIElementAction
+        - ClubPenguin.UI.DisableUIElementAction
+        - ClubPenguin.UI.DisableUIElementAction
+        - ClubPenguin.UI.DisableUIElementAction
+        - ClubPenguin.UI.DisableAllUIElementsAction
+        customNames:
+        - 
+        - 
+        - 
+        - 
+        - 
+        actionEnabled: 0101010101
+        actionIsOpen: 0101010101
+        actionStartIndex: 0000000002000000040000000600000008000000
+        actionHashCodes: 6350530163505301635053016350530100000000
+        unityObjectParams: []
+        fsmGameObjectParams: []
+        fsmOwnerDefaultParams: []
+        animationCurveParams: []
+        functionCallParams: []
+        fsmTemplateControlParams: []
+        fsmEventTargetParams: []
+        fsmPropertyParams: []
+        layoutOptionParams: []
+        fsmStringParams: []
+        fsmObjectParams: []
+        fsmVarParams: []
+        fsmArrayParams: []
+        fsmEnumParams: []
+        fsmFloatParams: []
+        fsmIntParams: []
+        fsmBoolParams: []
+        fsmVector2Params: []
+        fsmVector3Params: []
+        fsmColorParams: []
+        fsmRectParams: []
+        fsmQuaternionParams: []
+        stringParams: []
+        byteData: 43726561746549676c6f6f427574746f6e5f300043726561746549676c6f6f427574746f6e5f3100436c6f736542746e005072697661637942746e00
+        arrayParamSizes: 
+        arrayParamTypes: []
+        customTypeSizes: 
+        customTypeNames: []
+        paramDataType: 0300000001000000030000000100000003000000010000000300000001000000
+        paramName:
+        - UIElementID
+        - HideElement
+        - UIElementID
+        - HideElement
+        - UIElementID
+        - HideElement
+        - UIElementID
+        - HideElement
+        paramDataPos: 000000001300000014000000270000002800000030000000310000003b000000
+        paramByteDataSize: 1300000001000000130000000100000008000000010000000a00000001000000
+    - name: end
+      description: 
+      colorIndex: 0
+      position:
+        serializedVersion: 2
+        x: 1484.3125
+        y: 1026.5391
+        width: 100
+        height: 16
+      isBreakpoint: 0
+      isSequence: 0
+      hideUnused: 0
+      transitions: []
+      actionData:
+        actionNames:
+        - ClubPenguin.Tutorial.EndTutorialAction
+        - HutongGames.PlayMaker.Actions.FinishFSM
+        customNames:
+        - 
+        - 
+        actionEnabled: 0101
+        actionIsOpen: 0101
+        actionStartIndex: 0000000000000000
+        actionHashCodes: 0000000000000000
+        unityObjectParams: []
+        fsmGameObjectParams: []
+        fsmOwnerDefaultParams: []
+        animationCurveParams: []
+        functionCallParams: []
+        fsmTemplateControlParams: []
+        fsmEventTargetParams: []
+        fsmPropertyParams: []
+        layoutOptionParams: []
+        fsmStringParams: []
+        fsmObjectParams: []
+        fsmVarParams: []
+        fsmArrayParams: []
+        fsmEnumParams: []
+        fsmFloatParams: []
+        fsmIntParams: []
+        fsmBoolParams: []
+        fsmVector2Params: []
+        fsmVector3Params: []
+        fsmColorParams: []
+        fsmRectParams: []
+        fsmQuaternionParams: []
+        stringParams: []
+        byteData: 
+        arrayParamSizes: 
+        arrayParamTypes: []
+        customTypeSizes: 
+        customTypeNames: []
+        paramDataType: 
+        paramName: []
+        paramDataPos: 
+        paramByteDataSize: 
+    - name: GetIglooSlotContainer
+      description: 
+      colorIndex: 0
+      position:
+        serializedVersion: 2
+        x: 84.125
+        y: 247.41406
+        width: 158
+        height: 32
+      isBreakpoint: 0
+      isSequence: 0
+      hideUnused: 0
+      transitions:
+      - fsmEvent:
+          name: FINISHED
+          isSystemEvent: 1
+          isGlobal: 0
+        toState: Wait 2
+        linkStyle: 0
+        linkConstraint: 0
+        linkTarget: 0
+        colorIndex: 0
+      actionData:
+        actionNames:
+        - ClubPenguin.Adventure.WaitForObjectToExistAction
+        customNames:
+        - 
+        actionEnabled: 01
+        actionIsOpen: 01
+        actionStartIndex: 00000000
+        actionHashCodes: e175e700
+        unityObjectParams: []
+        fsmGameObjectParams:
+        - useVariable: 1
+          name: IglooSlotContainer
+          tooltip: 
+          showInInspector: 0
+          networkSync: 0
+          value: {fileID: 0}
+        fsmOwnerDefaultParams: []
+        animationCurveParams: []
+        functionCallParams: []
+        fsmTemplateControlParams: []
+        fsmEventTargetParams: []
+        fsmPropertyParams: []
+        layoutOptionParams: []
+        fsmStringParams:
+        - useVariable: 0
+          name: 
+          tooltip: 
+          showInInspector: 0
+          networkSync: 0
+          value: IglooMemberSlotContainer
+        fsmObjectParams: []
+        fsmVarParams: []
+        fsmArrayParams: []
+        fsmEnumParams: []
+        fsmFloatParams: []
+        fsmIntParams: []
+        fsmBoolParams: []
+        fsmVector2Params: []
+        fsmVector3Params: []
+        fsmColorParams: []
+        fsmRectParams: []
+        fsmQuaternionParams: []
+        stringParams: []
+        byteData: 0000a040cdcc4c3e00
+        arrayParamSizes: 
+        arrayParamTypes: []
+        customTypeSizes: 
+        customTypeNames: []
+        paramDataType: 1200000002000000020000000100000013000000
+        paramName:
+        - ObjectName
+        - TimeoutTime
+        - CheckInterval
+        - HasTimeout
+        - OUT_Object
+        paramDataPos: 0000000000000000040000000800000000000000
+        paramByteDataSize: 0000000004000000040000000100000000000000
+    - name: GetChild
+      description: 
+      colorIndex: 0
+      position:
+        serializedVersion: 2
+        x: 221.77344
+        y: 381.5078
+        width: 100
+        height: 32
+      isBreakpoint: 0
+      isSequence: 0
+      hideUnused: 0
+      transitions:
+      - fsmEvent:
+          name: FINISHED
+          isSystemEvent: 1
+          isGlobal: 0
+        toState: Show Tutorial
+        linkStyle: 0
+        linkConstraint: 0
+        linkTarget: 0
+        colorIndex: 0
+      actionData:
+        actionNames:
+        - HutongGames.PlayMaker.Actions.GetChildNum
+        customNames:
+        - 
+        actionEnabled: 01
+        actionIsOpen: 01
+        actionStartIndex: 00000000
+        actionHashCodes: 280cdd05
+        unityObjectParams: []
+        fsmGameObjectParams:
+        - useVariable: 1
+          name: CreateIglooButton
+          tooltip: 
+          showInInspector: 0
+          networkSync: 0
+          value: {fileID: 0}
+        fsmOwnerDefaultParams:
+        - ownerOption: 1
+          gameObject:
+            useVariable: 1
+            name: IglooSlotContainer
+            tooltip: 
+            showInInspector: 0
+            networkSync: 0
+            value: {fileID: 0}
+        animationCurveParams: []
+        functionCallParams: []
+        fsmTemplateControlParams: []
+        fsmEventTargetParams: []
+        fsmPropertyParams: []
+        layoutOptionParams: []
+        fsmStringParams: []
+        fsmObjectParams: []
+        fsmVarParams: []
+        fsmArrayParams: []
+        fsmEnumParams: []
+        fsmFloatParams: []
+        fsmIntParams: []
+        fsmBoolParams: []
+        fsmVector2Params: []
+        fsmVector3Params: []
+        fsmColorParams: []
+        fsmRectParams: []
+        fsmQuaternionParams: []
+        stringParams: []
+        byteData: 0100000000
+        arrayParamSizes: 
+        arrayParamTypes: []
+        customTypeSizes: 
+        customTypeNames: []
+        paramDataType: 140000001000000013000000
+        paramName:
+        - gameObject
+        - childIndex
+        - store
+        paramDataPos: 000000000000000000000000
+        paramByteDataSize: 000000000500000000000000
+    - name: WaitForBottom/Background
+      description: '**assuming lots are loaded from cdn**'
+      colorIndex: 6
+      position:
+        serializedVersion: 2
+        x: 211.23438
+        y: 574.58594
+        width: 228
+        height: 32
+      isBreakpoint: 0
+      isSequence: 0
+      hideUnused: 0
+      transitions:
+      - fsmEvent:
+          name: FINISHED
+          isSystemEvent: 1
+          isGlobal: 0
+        toState: DisableButtons 2
+        linkStyle: 0
+        linkConstraint: 0
+        linkTarget: 0
+        colorIndex: 0
+      actionData:
+        actionNames:
+        - ClubPenguin.Adventure.WaitForObjectToExistAction
+        customNames:
+        - 
+        actionEnabled: 01
+        actionIsOpen: 01
+        actionStartIndex: 00000000
+        actionHashCodes: e175e700
+        unityObjectParams: []
+        fsmGameObjectParams:
+        - useVariable: 1
+          name: LotsBackground
+          tooltip: 
+          showInInspector: 0
+          networkSync: 0
+          value: {fileID: 0}
+        fsmOwnerDefaultParams: []
+        animationCurveParams: []
+        functionCallParams: []
+        fsmTemplateControlParams: []
+        fsmEventTargetParams: []
+        fsmPropertyParams: []
+        layoutOptionParams: []
+        fsmStringParams:
+        - useVariable: 0
+          name: 
+          tooltip: 
+          showInInspector: 0
+          networkSync: 0
+          value: DragBackdrop
+        fsmObjectParams: []
+        fsmVarParams: []
+        fsmArrayParams: []
+        fsmEnumParams: []
+        fsmFloatParams: []
+        fsmIntParams: []
+        fsmBoolParams: []
+        fsmVector2Params: []
+        fsmVector3Params: []
+        fsmColorParams: []
+        fsmRectParams: []
+        fsmQuaternionParams: []
+        stringParams: []
+        byteData: 0000a040cdcc4c3e00
+        arrayParamSizes: 
+        arrayParamTypes: []
+        customTypeSizes: 
+        customTypeNames: []
+        paramDataType: 1200000002000000020000000100000013000000
+        paramName:
+        - ObjectName
+        - TimeoutTime
+        - CheckInterval
+        - HasTimeout
+        - OUT_Object
+        paramDataPos: 0000000000000000040000000800000000000000
+        paramByteDataSize: 0000000004000000040000000100000000000000
+    - name: Show Tutorial 2
+      description: Pick a lot
+      colorIndex: 5
+      position:
+        serializedVersion: 2
+        x: 217.36719
+        y: 719.53906
+        width: 118
+        height: 32
+      isBreakpoint: 0
+      isSequence: 0
+      hideUnused: 0
+      transitions:
+      - fsmEvent:
+          name: FINISHED
+          isSystemEvent: 1
+          isGlobal: 0
+        toState: Hide Tutorial 2
+        linkStyle: 0
+        linkConstraint: 0
+        linkTarget: 0
+        colorIndex: 0
+      actionData:
+        actionNames:
+        - ClubPenguin.TutorialUI.ShowTutorialOverlayAction
+        - ClubPenguin.Adventure.InputAnyKeyUpAction
+        customNames:
+        - 
+        - 
+        actionEnabled: 0101
+        actionIsOpen: 0101
+        actionStartIndex: 0000000014000000
+        actionHashCodes: 08b9fa0488611604
+        unityObjectParams: []
+        fsmGameObjectParams:
+        - useVariable: 1
+          name: LotsBackground
+          tooltip: 
+          showInInspector: 0
+          networkSync: 0
+          value: {fileID: 0}
+        fsmOwnerDefaultParams: []
+        animationCurveParams: []
+        functionCallParams: []
+        fsmTemplateControlParams: []
+        fsmEventTargetParams: []
+        fsmPropertyParams: []
+        layoutOptionParams: []
+        fsmStringParams:
+        - useVariable: 0
+          name: 
+          tooltip: 
+          showInInspector: 0
+          networkSync: 0
+          value: 
+        fsmObjectParams: []
+        fsmVarParams: []
+        fsmArrayParams: []
+        fsmEnumParams: []
+        fsmFloatParams: []
+        fsmIntParams: []
+        fsmBoolParams: []
+        fsmVector2Params: []
+        fsmVector3Params: []
+        fsmColorParams: []
+        fsmRectParams: []
+        fsmQuaternionParams: []
+        stringParams: []
+        byteData: 0000003f6666263f00010000a0410000a04101000000020000000000000000000000000000000000b4c20000003f000000000000c843005475746f7269616c2e49676c6f6f732e546578742e32009a99193f0101010046494e4953484544
+        arrayParamSizes: 
+        arrayParamTypes: []
+        customTypeSizes: 
+        customTypeNames: []
+        paramDataType: 030000001300000025000000010000000800000007000000070000000800000008000000080000000200000001000000030000001200000001000000020000000100000001000000010000000100000017000000
+        paramName:
+        - TargetName
+        - TargetObject
+        - HighlightPosition
+        - AutoSize
+        - Size
+        - Shape
+        - ArrowPosition
+        - ArrowOffset
+        - TextBoxOffset
+        - TextBoxPivot
+        - MaxTextBoxSize
+        - ShowHighlightOutline
+        - i18nBubbleText
+        - i18TranslatedArg0
+        - ShowArrow
+        - Opacity
+        - UseTarget
+        - DisableUI
+        - EnableTarget
+        - BlocksRaycast
+        - FinishEvent
+        paramDataPos: 000000000000000000000000090000000a00000012000000160000001a000000220000002a000000320000003600000037000000000000004d0000004e0000005200000053000000540000005500000056000000
+        paramByteDataSize: 000000000000000009000000010000000800000004000000040000000800000008000000080000000400000001000000160000000000000001000000040000000100000001000000010000000100000008000000
+    - name: WaitForTimeORChoose
+      description: 
+      colorIndex: 6
+      position:
+        serializedVersion: 2
+        x: 219.77344
+        y: 907.40625
+        width: 163
+        height: 48
+      isBreakpoint: 0
+      isSequence: 0
+      hideUnused: 0
+      transitions:
+      - fsmEvent:
+          name: FINISHED
+          isSystemEvent: 1
+          isGlobal: 0
+        toState: PC/MAC?
+        linkStyle: 0
+        linkConstraint: 0
+        linkTarget: 0
+        colorIndex: 0
+      - fsmEvent:
+          name: TapDone
+          isSystemEvent: 0
+          isGlobal: 0
+        toState: Hide Tutorial 3
+        linkStyle: 0
+        linkConstraint: 0
+        linkTarget: 0
+        colorIndex: 0
+      actionData:
+        actionNames:
+        - ClubPenguin.Adventure.PressButtonAction
+        - HutongGames.PlayMaker.Actions.Wait
+        customNames:
+        - 
+        - 
+        actionEnabled: 0101
+        actionIsOpen: 0101
+        actionStartIndex: 0000000003000000
+        actionHashCodes: 48b3510048c01101
+        unityObjectParams: []
+        fsmGameObjectParams:
+        - useVariable: 0
+          name: 
+          tooltip: 
+          showInInspector: 0
+          networkSync: 0
+          value: {fileID: 0}
+        fsmOwnerDefaultParams: []
+        animationCurveParams: []
+        functionCallParams: []
+        fsmTemplateControlParams: []
+        fsmEventTargetParams: []
+        fsmPropertyParams: []
+        layoutOptionParams: []
+        fsmStringParams: []
+        fsmObjectParams: []
+        fsmVarParams: []
+        fsmArrayParams: []
+        fsmEnumParams: []
+        fsmFloatParams: []
+        fsmIntParams: []
+        fsmBoolParams: []
+        fsmVector2Params: []
+        fsmVector3Params: []
+        fsmColorParams: []
+        fsmRectParams: []
+        fsmQuaternionParams: []
+        stringParams: []
+        byteData: 456469744d6f6465427574746f6e546170446f6e650000803f0046494e495348454400
+        arrayParamSizes: 
+        arrayParamTypes: []
+        customTypeSizes: 
+        customTypeNames: []
+        paramDataType: 0300000013000000170000000f0000001700000001000000
+        paramName:
+        - ButtonName
+        - ButtonObject
+        - SendEvent
+        - time
+        - finishEvent
+        - realTime
+        paramDataPos: 00000000000000000e000000150000001a00000022000000
+        paramByteDataSize: 0e0000000000000007000000050000000800000001000000
+    - name: Show Tutorial 3
+      description: Highlight Next
+      colorIndex: 5
+      position:
+        serializedVersion: 2
+        x: 129.38281
+        y: 1049.3359
+        width: 118
+        height: 32
+      isBreakpoint: 0
+      isSequence: 0
+      hideUnused: 0
+      transitions:
+      - fsmEvent:
+          name: FINISHED
+          isSystemEvent: 1
+          isGlobal: 0
+        toState: WaitForChoose
+        linkStyle: 0
+        linkConstraint: 0
+        linkTarget: 0
+        colorIndex: 0
+      actionData:
+        actionNames:
+        - ClubPenguin.TutorialUI.ShowTutorialOverlayAction
+        customNames:
+        - 
+        actionEnabled: 01
+        actionIsOpen: 01
+        actionStartIndex: 00000000
+        actionHashCodes: 08b9fa04
+        unityObjectParams: []
+        fsmGameObjectParams:
+        - useVariable: 0
+          name: 
+          tooltip: 
+          showInInspector: 0
+          networkSync: 0
+          value: {fileID: 0}
+        fsmOwnerDefaultParams: []
+        animationCurveParams: []
+        functionCallParams: []
+        fsmTemplateControlParams: []
+        fsmEventTargetParams: []
+        fsmPropertyParams: []
+        layoutOptionParams: []
+        fsmStringParams:
+        - useVariable: 0
+          name: 
+          tooltip: 
+          showInInspector: 0
+          networkSync: 0
+          value: 
+        fsmObjectParams: []
+        fsmVarParams: []
+        fsmArrayParams: []
+        fsmEnumParams: []
+        fsmFloatParams: []
+        fsmIntParams: []
+        fsmBoolParams: []
+        fsmVector2Params: []
+        fsmVector3Params: []
+        fsmColorParams: []
+        fsmRectParams: []
+        fsmQuaternionParams: []
+        stringParams: []
+        byteData: 456469744d6f6465427574746f6e0000003f6666263f00010000a0410000a0410100000002000000000000000000000000000000000096c20000003f000000000000c843015475746f7269616c2e49676c6f6f732e546578742e33000000000001010100
+        arrayParamSizes: 
+        arrayParamTypes: []
+        customTypeSizes: 
+        customTypeNames: []
+        paramDataType: 0300000013000000250000000100000008000000070000000700000008000000080000000800000002000000010000000300000012000000010000000200000001000000010000000100000001000000
+        paramName:
+        - TargetName
+        - TargetObject
+        - HighlightPosition
+        - AutoSize
+        - Size
+        - Shape
+        - ArrowPosition
+        - ArrowOffset
+        - TextBoxOffset
+        - TextBoxPivot
+        - MaxTextBoxSize
+        - ShowHighlightOutline
+        - i18nBubbleText
+        - i18TranslatedArg0
+        - ShowArrow
+        - Opacity
+        - UseTarget
+        - DisableUI
+        - EnableTarget
+        - BlocksRaycast
+        paramDataPos: 00000000000000000e00000017000000180000002000000024000000280000003000000038000000400000004400000045000000000000005b0000005c00000060000000610000006200000063000000
+        paramByteDataSize: 0e00000000000000090000000100000008000000040000000400000008000000080000000800000004000000010000001600000000000000010000000400000001000000010000000100000001000000
+    - name: WaitForChoose
+      description: 
+      colorIndex: 6
+      position:
+        serializedVersion: 2
+        x: 193.9375
+        y: 1130.2188
+        width: 114
+        height: 32
+      isBreakpoint: 0
+      isSequence: 0
+      hideUnused: 0
+      transitions:
+      - fsmEvent:
+          name: TapDone
+          isSystemEvent: 0
+          isGlobal: 0
+        toState: Hide Tutorial 3
+        linkStyle: 0
+        linkConstraint: 0
+        linkTarget: 0
+        colorIndex: 0
+      actionData:
+        actionNames:
+        - ClubPenguin.Adventure.PressButtonAction
+        customNames:
+        - 
+        actionEnabled: 01
+        actionIsOpen: 01
+        actionStartIndex: 00000000
+        actionHashCodes: 48b35100
+        unityObjectParams: []
+        fsmGameObjectParams:
+        - useVariable: 0
+          name: 
+          tooltip: 
+          showInInspector: 0
+          networkSync: 0
+          value: {fileID: 0}
+        fsmOwnerDefaultParams: []
+        animationCurveParams: []
+        functionCallParams: []
+        fsmTemplateControlParams: []
+        fsmEventTargetParams: []
+        fsmPropertyParams: []
+        layoutOptionParams: []
+        fsmStringParams: []
+        fsmObjectParams: []
+        fsmVarParams: []
+        fsmArrayParams: []
+        fsmEnumParams: []
+        fsmFloatParams: []
+        fsmIntParams: []
+        fsmBoolParams: []
+        fsmVector2Params: []
+        fsmVector3Params: []
+        fsmColorParams: []
+        fsmRectParams: []
+        fsmQuaternionParams: []
+        stringParams: []
+        byteData: 456469744d6f6465427574746f6e546170446f6e65
+        arrayParamSizes: 
+        arrayParamTypes: []
+        customTypeSizes: 
+        customTypeNames: []
+        paramDataType: 030000001300000017000000
+        paramName:
+        - ButtonName
+        - ButtonObject
+        - SendEvent
+        paramDataPos: 00000000000000000e000000
+        paramByteDataSize: 0e0000000000000007000000
+    - name: WaitForAnimation
+      description: 
+      colorIndex: 6
+      position:
+        serializedVersion: 2
+        x: 550.3594
+        y: 416.26562
+        width: 132
+        height: 32
+      isBreakpoint: 0
+      isSequence: 0
+      hideUnused: 0
+      transitions:
+      - fsmEvent:
+          name: FINISHED
+          isSystemEvent: 1
+          isGlobal: 0
+        toState: Show Tutorial 4
+        linkStyle: 0
+        linkConstraint: 0
+        linkTarget: 0
+        colorIndex: 0
+      actionData:
+        actionNames:
+        - HutongGames.PlayMaker.Actions.Wait
+        customNames:
+        - 
+        actionEnabled: 01
+        actionIsOpen: 01
+        actionStartIndex: 00000000
+        actionHashCodes: 48c01101
+        unityObjectParams: []
+        fsmGameObjectParams: []
+        fsmOwnerDefaultParams: []
+        animationCurveParams: []
+        functionCallParams: []
+        fsmTemplateControlParams: []
+        fsmEventTargetParams: []
+        fsmPropertyParams: []
+        layoutOptionParams: []
+        fsmStringParams: []
+        fsmObjectParams: []
+        fsmVarParams: []
+        fsmArrayParams: []
+        fsmEnumParams: []
+        fsmFloatParams: []
+        fsmIntParams: []
+        fsmBoolParams: []
+        fsmVector2Params: []
+        fsmVector3Params: []
+        fsmColorParams: []
+        fsmRectParams: []
+        fsmQuaternionParams: []
+        stringParams: []
+        byteData: 0000803f0046494e495348454400
+        arrayParamSizes: 
+        arrayParamTypes: []
+        customTypeSizes: 
+        customTypeNames: []
+        paramDataType: 0f0000001700000001000000
+        paramName:
+        - time
+        - finishEvent
+        - realTime
+        paramDataPos: 00000000050000000d000000
+        paramByteDataSize: 050000000800000001000000
+    - name: Show Tutorial 4
+      description: Tray Options
+      colorIndex: 5
+      position:
+        serializedVersion: 2
+        x: 552.3672
+        y: 463.16406
+        width: 118
+        height: 32
+      isBreakpoint: 0
+      isSequence: 0
+      hideUnused: 0
+      transitions:
+      - fsmEvent:
+          name: FINISHED
+          isSystemEvent: 1
+          isGlobal: 0
+        toState: Hide Tutorial 4
+        linkStyle: 0
+        linkConstraint: 0
+        linkTarget: 0
+        colorIndex: 0
+      actionData:
+        actionNames:
+        - ClubPenguin.TutorialUI.ShowTutorialOverlayAction
+        - ClubPenguin.Adventure.InputAnyKeyUpAction
+        customNames:
+        - 
+        - 
+        actionEnabled: 0101
+        actionIsOpen: 0101
+        actionStartIndex: 0000000014000000
+        actionHashCodes: 08b9fa0488611604
+        unityObjectParams: []
+        fsmGameObjectParams:
+        - useVariable: 1
+          name: TrayBackground
+          tooltip: 
+          showInInspector: 0
+          networkSync: 0
+          value: {fileID: 0}
+        fsmOwnerDefaultParams: []
+        animationCurveParams: []
+        functionCallParams: []
+        fsmTemplateControlParams: []
+        fsmEventTargetParams: []
+        fsmPropertyParams: []
+        layoutOptionParams: []
+        fsmStringParams:
+        - useVariable: 0
+          name: 
+          tooltip: 
+          showInInspector: 0
+          networkSync: 0
+          value: 
+        fsmObjectParams: []
+        fsmVarParams: []
+        fsmArrayParams: []
+        fsmEnumParams: []
+        fsmFloatParams: []
+        fsmIntParams: []
+        fsmBoolParams: []
+        fsmVector2Params: []
+        fsmVector3Params: []
+        fsmColorParams: []
+        fsmRectParams: []
+        fsmQuaternionParams: []
+        stringParams: []
+        byteData: 0000003f6666263f00010000f041000020410100000002000000000000000000000000000000000020c30000003f000000000000c843005475746f7269616c2e49676c6f6f732e546578742e35009a99193f0101010046494e4953484544
+        arrayParamSizes: 
+        arrayParamTypes: []
+        customTypeSizes: 
+        customTypeNames: []
+        paramDataType: 030000001300000025000000010000000800000007000000070000000800000008000000080000000200000001000000030000001200000001000000020000000100000001000000010000000100000017000000
+        paramName:
+        - TargetName
+        - TargetObject
+        - HighlightPosition
+        - AutoSize
+        - Size
+        - Shape
+        - ArrowPosition
+        - ArrowOffset
+        - TextBoxOffset
+        - TextBoxPivot
+        - MaxTextBoxSize
+        - ShowHighlightOutline
+        - i18nBubbleText
+        - i18TranslatedArg0
+        - ShowArrow
+        - Opacity
+        - UseTarget
+        - DisableUI
+        - EnableTarget
+        - BlocksRaycast
+        - FinishEvent
+        paramDataPos: 000000000000000000000000090000000a00000012000000160000001a000000220000002a000000320000003600000037000000000000004d0000004e0000005200000053000000540000005500000056000000
+        paramByteDataSize: 000000000000000009000000010000000800000004000000040000000800000008000000080000000400000001000000160000000000000001000000040000000100000001000000010000000100000008000000
+    - name: Show Tutorial 5
+      description: Catalog
+      colorIndex: 5
+      position:
+        serializedVersion: 2
+        x: 904.9531
+        y: 469.35156
+        width: 118
+        height: 32
+      isBreakpoint: 0
+      isSequence: 0
+      hideUnused: 0
+      transitions:
+      - fsmEvent:
+          name: FINISHED
+          isSystemEvent: 1
+          isGlobal: 0
+        toState: Hide Tutorial 5
+        linkStyle: 0
+        linkConstraint: 0
+        linkTarget: 0
+        colorIndex: 0
+      actionData:
+        actionNames:
+        - ClubPenguin.TutorialUI.ShowTutorialOverlayAction
+        - ClubPenguin.UI.DisableUIElementAction
+        - ClubPenguin.Adventure.InputAnyKeyUpAction
+        customNames:
+        - 
+        - 
+        - 
+        actionEnabled: 010101
+        actionIsOpen: 010101
+        actionStartIndex: 000000001400000016000000
+        actionHashCodes: 08b9fa046350530188611604
+        unityObjectParams: []
+        fsmGameObjectParams:
+        - useVariable: 1
+          name: 
+          tooltip: 
+          showInInspector: 0
+          networkSync: 0
+          value: {fileID: 0}
+        fsmOwnerDefaultParams: []
+        animationCurveParams: []
+        functionCallParams: []
+        fsmTemplateControlParams: []
+        fsmEventTargetParams: []
+        fsmPropertyParams: []
+        layoutOptionParams: []
+        fsmStringParams:
+        - useVariable: 0
+          name: 
+          tooltip: 
+          showInInspector: 0
+          networkSync: 0
+          value: 
+        fsmObjectParams: []
+        fsmVarParams: []
+        fsmArrayParams: []
+        fsmEnumParams: []
+        fsmFloatParams: []
+        fsmIntParams: []
+        fsmBoolParams: []
+        fsmVector2Params: []
+        fsmVector3Params: []
+        fsmColorParams: []
+        fsmRectParams: []
+        fsmQuaternionParams: []
+        stringParams: []
+        byteData: 447261674261636b64726f700000003f6666263f00010000a0410000a0410100000002000000000000000000000000000000000070c20000003f000000000000fa43005475746f7269616c2e49676c6f6f732e546578742e3130009a99193f01010100436174616c6f67427574746f6e5f300046494e4953484544
+        arrayParamSizes: 
+        arrayParamTypes: []
+        customTypeSizes: 
+        customTypeNames: []
+        paramDataType: 0300000013000000250000000100000008000000070000000700000008000000080000000800000002000000010000000300000012000000010000000200000001000000010000000100000001000000030000000100000017000000
+        paramName:
+        - TargetName
+        - TargetObject
+        - HighlightPosition
+        - AutoSize
+        - Size
+        - Shape
+        - ArrowPosition
+        - ArrowOffset
+        - TextBoxOffset
+        - TextBoxPivot
+        - MaxTextBoxSize
+        - ShowHighlightOutline
+        - i18nBubbleText
+        - i18TranslatedArg0
+        - ShowArrow
+        - Opacity
+        - UseTarget
+        - DisableUI
+        - EnableTarget
+        - BlocksRaycast
+        - UIElementID
+        - HideElement
+        - FinishEvent
+        paramDataPos: 00000000000000000c00000015000000160000001e00000022000000260000002e000000360000003e0000004200000043000000000000005a0000005b0000005f000000600000006100000062000000630000007200000073000000
+        paramByteDataSize: 0c000000000000000900000001000000080000000400000004000000080000000800000008000000040000000100000017000000000000000100000004000000010000000100000001000000010000000f0000000100000008000000
+    - name: Hide Tutorial
+      description: 
+      colorIndex: 5
+      position:
+        serializedVersion: 2
+        x: 213.97656
+        y: 512.9531
+        width: 101
+        height: 32
+      isBreakpoint: 0
+      isSequence: 0
+      hideUnused: 0
+      transitions:
+      - fsmEvent:
+          name: FINISHED
+          isSystemEvent: 1
+          isGlobal: 0
+        toState: WaitForBottom/Background
+        linkStyle: 0
+        linkConstraint: 0
+        linkTarget: 0
+        colorIndex: 0
+      actionData:
+        actionNames:
+        - ClubPenguin.TutorialUI.HideTutorialOverlayAction
+        - HutongGames.PlayMaker.Actions.Wait
+        customNames:
+        - 
+        - 
+        actionEnabled: 0101
+        actionIsOpen: 0101
+        actionStartIndex: 0000000000000000
+        actionHashCodes: 0000000048c01101
+        unityObjectParams: []
+        fsmGameObjectParams: []
+        fsmOwnerDefaultParams: []
+        animationCurveParams: []
+        functionCallParams: []
+        fsmTemplateControlParams: []
+        fsmEventTargetParams: []
+        fsmPropertyParams: []
+        layoutOptionParams: []
+        fsmStringParams: []
+        fsmObjectParams: []
+        fsmVarParams: []
+        fsmArrayParams: []
+        fsmEnumParams: []
+        fsmFloatParams: []
+        fsmIntParams: []
+        fsmBoolParams: []
+        fsmVector2Params: []
+        fsmVector3Params: []
+        fsmColorParams: []
+        fsmRectParams: []
+        fsmQuaternionParams: []
+        stringParams: []
+        byteData: 0000803e0046494e495348454400
+        arrayParamSizes: 
+        arrayParamTypes: []
+        customTypeSizes: 
+        customTypeNames: []
+        paramDataType: 0f0000001700000001000000
+        paramName:
+        - time
+        - finishEvent
+        - realTime
+        paramDataPos: 00000000050000000d000000
+        paramByteDataSize: 050000000800000001000000
+    - name: Hide Tutorial 2
+      description: 
+      colorIndex: 5
+      position:
+        serializedVersion: 2
+        x: 222.32031
+        y: 799.4219
+        width: 113
+        height: 32
+      isBreakpoint: 0
+      isSequence: 0
+      hideUnused: 0
+      transitions:
+      - fsmEvent:
+          name: FINISHED
+          isSystemEvent: 1
+          isGlobal: 0
+        toState: DisableButtons 3
+        linkStyle: 0
+        linkConstraint: 0
+        linkTarget: 0
+        colorIndex: 0
+      actionData:
+        actionNames:
+        - ClubPenguin.TutorialUI.HideTutorialOverlayAction
+        customNames:
+        - 
+        actionEnabled: 01
+        actionIsOpen: 01
+        actionStartIndex: 00000000
+        actionHashCodes: 00000000
+        unityObjectParams: []
+        fsmGameObjectParams: []
+        fsmOwnerDefaultParams: []
+        animationCurveParams: []
+        functionCallParams: []
+        fsmTemplateControlParams: []
+        fsmEventTargetParams: []
+        fsmPropertyParams: []
+        layoutOptionParams: []
+        fsmStringParams: []
+        fsmObjectParams: []
+        fsmVarParams: []
+        fsmArrayParams: []
+        fsmEnumParams: []
+        fsmFloatParams: []
+        fsmIntParams: []
+        fsmBoolParams: []
+        fsmVector2Params: []
+        fsmVector3Params: []
+        fsmColorParams: []
+        fsmRectParams: []
+        fsmQuaternionParams: []
+        stringParams: []
+        byteData: 
+        arrayParamSizes: 
+        arrayParamTypes: []
+        customTypeSizes: 
+        customTypeNames: []
+        paramDataType: 
+        paramName: []
+        paramDataPos: 
+        paramByteDataSize: 
+    - name: Hide Tutorial 3
+      description: 
+      colorIndex: 5
+      position:
+        serializedVersion: 2
+        x: 554.71875
+        y: 196.11719
+        width: 113
+        height: 32
+      isBreakpoint: 0
+      isSequence: 0
+      hideUnused: 0
+      transitions:
+      - fsmEvent:
+          name: FINISHED
+          isSystemEvent: 1
+          isGlobal: 0
+        toState: DisableButtons 4
+        linkStyle: 0
+        linkConstraint: 0
+        linkTarget: 0
+        colorIndex: 0
+      actionData:
+        actionNames:
+        - ClubPenguin.TutorialUI.HideTutorialOverlayAction
+        customNames:
+        - 
+        actionEnabled: 01
+        actionIsOpen: 01
+        actionStartIndex: 00000000
+        actionHashCodes: 00000000
+        unityObjectParams: []
+        fsmGameObjectParams: []
+        fsmOwnerDefaultParams: []
+        animationCurveParams: []
+        functionCallParams: []
+        fsmTemplateControlParams: []
+        fsmEventTargetParams: []
+        fsmPropertyParams: []
+        layoutOptionParams: []
+        fsmStringParams: []
+        fsmObjectParams: []
+        fsmVarParams: []
+        fsmArrayParams: []
+        fsmEnumParams: []
+        fsmFloatParams: []
+        fsmIntParams: []
+        fsmBoolParams: []
+        fsmVector2Params: []
+        fsmVector3Params: []
+        fsmColorParams: []
+        fsmRectParams: []
+        fsmQuaternionParams: []
+        stringParams: []
+        byteData: 
+        arrayParamSizes: 
+        arrayParamTypes: []
+        customTypeSizes: 
+        customTypeNames: []
+        paramDataType: 
+        paramName: []
+        paramDataPos: 
+        paramByteDataSize: 
+    - name: Hide Tutorial 4
+      description: 
+      colorIndex: 5
+      position:
+        serializedVersion: 2
+        x: 552.59375
+        y: 537.6875
+        width: 113
+        height: 32
+      isBreakpoint: 0
+      isSequence: 0
+      hideUnused: 0
+      transitions:
+      - fsmEvent:
+          name: FINISHED
+          isSystemEvent: 1
+          isGlobal: 0
+        toState: DisableButtons 5
+        linkStyle: 0
+        linkConstraint: 0
+        linkTarget: 0
+        colorIndex: 0
+      actionData:
+        actionNames:
+        - ClubPenguin.TutorialUI.HideTutorialOverlayAction
+        customNames:
+        - 
+        actionEnabled: 01
+        actionIsOpen: 01
+        actionStartIndex: 00000000
+        actionHashCodes: 00000000
+        unityObjectParams: []
+        fsmGameObjectParams: []
+        fsmOwnerDefaultParams: []
+        animationCurveParams: []
+        functionCallParams: []
+        fsmTemplateControlParams: []
+        fsmEventTargetParams: []
+        fsmPropertyParams: []
+        layoutOptionParams: []
+        fsmStringParams: []
+        fsmObjectParams: []
+        fsmVarParams: []
+        fsmArrayParams: []
+        fsmEnumParams: []
+        fsmFloatParams: []
+        fsmIntParams: []
+        fsmBoolParams: []
+        fsmVector2Params: []
+        fsmVector3Params: []
+        fsmColorParams: []
+        fsmRectParams: []
+        fsmQuaternionParams: []
+        stringParams: []
+        byteData: 
+        arrayParamSizes: 
+        arrayParamTypes: []
+        customTypeSizes: 
+        customTypeNames: []
+        paramDataType: 
+        paramName: []
+        paramDataPos: 
+        paramByteDataSize: 
+    - name: Hide Tutorial 5
+      description: 
+      colorIndex: 5
+      position:
+        serializedVersion: 2
+        x: 903.89844
+        y: 543.96094
+        width: 113
+        height: 32
+      isBreakpoint: 0
+      isSequence: 0
+      hideUnused: 0
+      transitions:
+      - fsmEvent:
+          name: FINISHED
+          isSystemEvent: 1
+          isGlobal: 0
+        toState: DisableButtons 9
+        linkStyle: 0
+        linkConstraint: 0
+        linkTarget: 0
+        colorIndex: 0
+      actionData:
+        actionNames:
+        - ClubPenguin.TutorialUI.HideTutorialOverlayAction
+        customNames:
+        - 
+        actionEnabled: 01
+        actionIsOpen: 01
+        actionStartIndex: 00000000
+        actionHashCodes: 00000000
+        unityObjectParams: []
+        fsmGameObjectParams: []
+        fsmOwnerDefaultParams: []
+        animationCurveParams: []
+        functionCallParams: []
+        fsmTemplateControlParams: []
+        fsmEventTargetParams: []
+        fsmPropertyParams: []
+        layoutOptionParams: []
+        fsmStringParams: []
+        fsmObjectParams: []
+        fsmVarParams: []
+        fsmArrayParams: []
+        fsmEnumParams: []
+        fsmFloatParams: []
+        fsmIntParams: []
+        fsmBoolParams: []
+        fsmVector2Params: []
+        fsmVector3Params: []
+        fsmColorParams: []
+        fsmRectParams: []
+        fsmQuaternionParams: []
+        stringParams: []
+        byteData: 
+        arrayParamSizes: 
+        arrayParamTypes: []
+        customTypeSizes: 
+        customTypeNames: []
+        paramDataType: 
+        paramName: []
+        paramDataPos: 
+        paramByteDataSize: 
+    - name: Show Tutorial 6
+      description: Preview
+      colorIndex: 5
+      position:
+        serializedVersion: 2
+        x: 899.21875
+        y: 906.1094
+        width: 118
+        height: 32
+      isBreakpoint: 0
+      isSequence: 0
+      hideUnused: 0
+      transitions:
+      - fsmEvent:
+          name: FINISHED
+          isSystemEvent: 1
+          isGlobal: 0
+        toState: Hide Tutorial6
+        linkStyle: 0
+        linkConstraint: 0
+        linkTarget: 0
+        colorIndex: 0
+      actionData:
+        actionNames:
+        - ClubPenguin.TutorialUI.ShowTutorialOverlayAction
+        - ClubPenguin.UI.DisableUIElementAction
+        - ClubPenguin.Adventure.InputAnyKeyUpAction
+        customNames:
+        - 
+        - 
+        - 
+        actionEnabled: 010101
+        actionIsOpen: 010101
+        actionStartIndex: 000000001400000016000000
+        actionHashCodes: 08b9fa046350530188611604
+        unityObjectParams: []
+        fsmGameObjectParams:
+        - useVariable: 1
+          name: TrayBackground
+          tooltip: 
+          showInInspector: 0
+          networkSync: 0
+          value: {fileID: 0}
+        fsmOwnerDefaultParams: []
+        animationCurveParams: []
+        functionCallParams: []
+        fsmTemplateControlParams: []
+        fsmEventTargetParams: []
+        fsmPropertyParams: []
+        layoutOptionParams: []
+        fsmStringParams:
+        - useVariable: 0
+          name: 
+          tooltip: 
+          showInInspector: 0
+          networkSync: 0
+          value: 
+        fsmObjectParams: []
+        fsmVarParams: []
+        fsmArrayParams: []
+        fsmEnumParams: []
+        fsmFloatParams: []
+        fsmIntParams: []
+        fsmBoolParams: []
+        fsmVector2Params: []
+        fsmVector3Params: []
+        fsmColorParams: []
+        fsmRectParams: []
+        fsmQuaternionParams: []
+        stringParams: []
+        byteData: 507265766965774d6f6465427574746f6e0000003f6666263f00010000a0410000a04101000000030000000000000000000000000000000000c8c20000003f000000000000c843005475746f7269616c2e49676c6f6f732e546578742e3133009a99193f01010100507265766965774d6f6465427574746f6e0046494e4953484544
+        arrayParamSizes: 
+        arrayParamTypes: []
+        customTypeSizes: 
+        customTypeNames: []
+        paramDataType: 0300000013000000250000000100000008000000070000000700000008000000080000000800000002000000010000000300000012000000010000000200000001000000010000000100000001000000030000000100000017000000
+        paramName:
+        - TargetName
+        - TargetObject
+        - HighlightPosition
+        - AutoSize
+        - Size
+        - Shape
+        - ArrowPosition
+        - ArrowOffset
+        - TextBoxOffset
+        - TextBoxPivot
+        - MaxTextBoxSize
+        - ShowHighlightOutline
+        - i18nBubbleText
+        - i18TranslatedArg0
+        - ShowArrow
+        - Opacity
+        - UseTarget
+        - DisableUI
+        - EnableTarget
+        - BlocksRaycast
+        - UIElementID
+        - HideElement
+        - FinishEvent
+        paramDataPos: 0000000000000000110000001a0000001b00000023000000270000002b000000330000003b000000430000004700000048000000000000005f000000600000006400000065000000660000006700000068000000790000007a000000
+        paramByteDataSize: 1100000000000000090000000100000008000000040000000400000008000000080000000800000004000000010000001700000000000000010000000400000001000000010000000100000001000000110000000100000008000000
+    - name: Hide Tutorial6
+      description: 
+      colorIndex: 5
+      position:
+        serializedVersion: 2
+        x: 900.2656
+        y: 980.1172
+        width: 109
+        height: 32
+      isBreakpoint: 0
+      isSequence: 0
+      hideUnused: 0
+      transitions:
+      - fsmEvent:
+          name: FINISHED
+          isSystemEvent: 1
+          isGlobal: 0
+        toState: DisableButtons 11
+        linkStyle: 0
+        linkConstraint: 0
+        linkTarget: 0
+        colorIndex: 0
+      actionData:
+        actionNames:
+        - ClubPenguin.TutorialUI.HideTutorialOverlayAction
+        - HutongGames.PlayMaker.Actions.Wait
+        customNames:
+        - 
+        - 
+        actionEnabled: 0101
+        actionIsOpen: 0101
+        actionStartIndex: 0000000000000000
+        actionHashCodes: 0000000048c01101
+        unityObjectParams: []
+        fsmGameObjectParams: []
+        fsmOwnerDefaultParams: []
+        animationCurveParams: []
+        functionCallParams: []
+        fsmTemplateControlParams: []
+        fsmEventTargetParams: []
+        fsmPropertyParams: []
+        layoutOptionParams: []
+        fsmStringParams: []
+        fsmObjectParams: []
+        fsmVarParams: []
+        fsmArrayParams: []
+        fsmEnumParams: []
+        fsmFloatParams: []
+        fsmIntParams: []
+        fsmBoolParams: []
+        fsmVector2Params: []
+        fsmVector3Params: []
+        fsmColorParams: []
+        fsmRectParams: []
+        fsmQuaternionParams: []
+        stringParams: []
+        byteData: 0000803e0046494e495348454400
+        arrayParamSizes: 
+        arrayParamTypes: []
+        customTypeSizes: 
+        customTypeNames: []
+        paramDataType: 0f0000001700000001000000
+        paramName:
+        - time
+        - finishEvent
+        - realTime
+        paramDataPos: 00000000050000000d000000
+        paramByteDataSize: 050000000800000001000000
+    - name: Show Tutorial 7
+      description: Save
+      colorIndex: 5
+      position:
+        serializedVersion: 2
+        x: 1237
+        y: 933.0625
+        width: 118
+        height: 32
+      isBreakpoint: 0
+      isSequence: 0
+      hideUnused: 0
+      transitions:
+      - fsmEvent:
+          name: FINISHED
+          isSystemEvent: 1
+          isGlobal: 0
+        toState: Hide Tutorial 7
+        linkStyle: 0
+        linkConstraint: 0
+        linkTarget: 0
+        colorIndex: 0
+      actionData:
+        actionNames:
+        - ClubPenguin.TutorialUI.ShowTutorialOverlayAction
+        - ClubPenguin.UI.DisableUIElementAction
+        - ClubPenguin.Adventure.InputAnyKeyUpAction
+        customNames:
+        - 
+        - 
+        - 
+        actionEnabled: 010101
+        actionIsOpen: 010101
+        actionStartIndex: 000000001400000016000000
+        actionHashCodes: 08b9fa046350530188611604
+        unityObjectParams: []
+        fsmGameObjectParams:
+        - useVariable: 1
+          name: 
+          tooltip: 
+          showInInspector: 0
+          networkSync: 0
+          value: {fileID: 0}
+        fsmOwnerDefaultParams: []
+        animationCurveParams: []
+        functionCallParams: []
+        fsmTemplateControlParams: []
+        fsmEventTargetParams: []
+        fsmPropertyParams: []
+        layoutOptionParams: []
+        fsmStringParams:
+        - useVariable: 0
+          name: 
+          tooltip: 
+          showInInspector: 0
+          networkSync: 0
+          value: 
+        fsmObjectParams: []
+        fsmVarParams: []
+        fsmArrayParams: []
+        fsmEnumParams: []
+        fsmFloatParams: []
+        fsmIntParams: []
+        fsmBoolParams: []
+        fsmVector2Params: []
+        fsmVector3Params: []
+        fsmColorParams: []
+        fsmRectParams: []
+        fsmQuaternionParams: []
+        stringParams: []
+        byteData: 506c61794d6f6465427574746f6e0000003f6666263f00010000a0410000a041010000000300000000000000000000000000c8c2000096c20000003f0000000000009643005475746f7269616c2e49676c6f6f732e546578742e3134009a99193f01010100506c61794d6f6465427574746f6e0046494e4953484544
+        arrayParamSizes: 
+        arrayParamTypes: []
+        customTypeSizes: 
+        customTypeNames: []
+        paramDataType: 0300000013000000250000000100000008000000070000000700000008000000080000000800000002000000010000000300000012000000010000000200000001000000010000000100000001000000030000000100000017000000
+        paramName:
+        - TargetName
+        - TargetObject
+        - HighlightPosition
+        - AutoSize
+        - Size
+        - Shape
+        - ArrowPosition
+        - ArrowOffset
+        - TextBoxOffset
+        - TextBoxPivot
+        - MaxTextBoxSize
+        - ShowHighlightOutline
+        - i18nBubbleText
+        - i18TranslatedArg0
+        - ShowArrow
+        - Opacity
+        - UseTarget
+        - DisableUI
+        - EnableTarget
+        - BlocksRaycast
+        - UIElementID
+        - HideElement
+        - FinishEvent
+        paramDataPos: 00000000000000000e00000017000000180000002000000024000000280000003000000038000000400000004400000045000000000000005c0000005d00000061000000620000006300000064000000650000007300000074000000
+        paramByteDataSize: 0e000000000000000900000001000000080000000400000004000000080000000800000008000000040000000100000017000000000000000100000004000000010000000100000001000000010000000e0000000100000008000000
+    - name: Hide Tutorial 7
+      description: 
+      colorIndex: 5
+      position:
+        serializedVersion: 2
+        x: 1235.3281
+        y: 1012.3594
+        width: 113
+        height: 32
+      isBreakpoint: 0
+      isSequence: 0
+      hideUnused: 0
+      transitions:
+      - fsmEvent:
+          name: FINISHED
+          isSystemEvent: 1
+          isGlobal: 0
+        toState: end
+        linkStyle: 0
+        linkConstraint: 0
+        linkTarget: 0
+        colorIndex: 0
+      actionData:
+        actionNames:
+        - ClubPenguin.TutorialUI.HideTutorialOverlayAction
+        customNames:
+        - 
+        actionEnabled: 01
+        actionIsOpen: 01
+        actionStartIndex: 00000000
+        actionHashCodes: 00000000
+        unityObjectParams: []
+        fsmGameObjectParams: []
+        fsmOwnerDefaultParams: []
+        animationCurveParams: []
+        functionCallParams: []
+        fsmTemplateControlParams: []
+        fsmEventTargetParams: []
+        fsmPropertyParams: []
+        layoutOptionParams: []
+        fsmStringParams: []
+        fsmObjectParams: []
+        fsmVarParams: []
+        fsmArrayParams: []
+        fsmEnumParams: []
+        fsmFloatParams: []
+        fsmIntParams: []
+        fsmBoolParams: []
+        fsmVector2Params: []
+        fsmVector3Params: []
+        fsmColorParams: []
+        fsmRectParams: []
+        fsmQuaternionParams: []
+        stringParams: []
+        byteData: 
+        arrayParamSizes: 
+        arrayParamTypes: []
+        customTypeSizes: 
+        customTypeNames: []
+        paramDataType: 
+        paramName: []
+        paramDataPos: 
+        paramByteDataSize: 
+    - name: Show Tutorial 9
+      description: Furniture
+      colorIndex: 5
+      position:
+        serializedVersion: 2
+        x: 907.41406
+        y: 263.76562
+        width: 118
+        height: 32
+      isBreakpoint: 0
+      isSequence: 0
+      hideUnused: 0
+      transitions:
+      - fsmEvent:
+          name: FINISHED
+          isSystemEvent: 1
+          isGlobal: 0
+        toState: Wait4
+        linkStyle: 0
+        linkConstraint: 0
+        linkTarget: 0
+        colorIndex: 0
+      actionData:
+        actionNames:
+        - ClubPenguin.TutorialUI.ShowTutorialOverlayAction
+        - ClubPenguin.Adventure.PressButtonAction
+        - ClubPenguin.UI.DisableUIElementAction
+        customNames:
+        - 
+        - 
+        - 
+        actionEnabled: 010101
+        actionIsOpen: 010101
+        actionStartIndex: 000000001400000017000000
+        actionHashCodes: 08b9fa0448b3510063505301
+        unityObjectParams: []
+        fsmGameObjectParams:
+        - useVariable: 0
+          name: 
+          tooltip: 
+          showInInspector: 0
+          networkSync: 0
+          value: {fileID: 0}
+        - useVariable: 0
+          name: 
+          tooltip: 
+          showInInspector: 0
+          networkSync: 0
+          value: {fileID: 0}
+        fsmOwnerDefaultParams: []
+        animationCurveParams: []
+        functionCallParams: []
+        fsmTemplateControlParams: []
+        fsmEventTargetParams: []
+        fsmPropertyParams: []
+        layoutOptionParams: []
+        fsmStringParams:
+        - useVariable: 0
+          name: 
+          tooltip: 
+          showInInspector: 0
+          networkSync: 0
+          value: 
+        fsmObjectParams: []
+        fsmVarParams: []
+        fsmArrayParams: []
+        fsmEnumParams: []
+        fsmFloatParams: []
+        fsmIntParams: []
+        fsmBoolParams: []
+        fsmVector2Params: []
+        fsmVector3Params: []
+        fsmColorParams: []
+        fsmRectParams: []
+        fsmQuaternionParams: []
+        stringParams: []
+        byteData: 49676c6f6f4d656e75427574746f6e5f4675726e697475726542746e0000003f6666263f000100002041000020410000000002000000000000000000000000000000000070c20000003f000000000000c843015475746f7269616c2e49676c6f6f732e546578742e39009a99193f0101010049676c6f6f4d656e75427574746f6e5f4675726e697475726542746e46494e4953484544436174616c6f67427574746f6e00
+        arrayParamSizes: 
+        arrayParamTypes: []
+        customTypeSizes: 
+        customTypeNames: []
+        paramDataType: 03000000130000002500000001000000080000000700000007000000080000000800000008000000020000000100000003000000120000000100000002000000010000000100000001000000010000000300000013000000170000000300000001000000
+        paramName:
+        - TargetName
+        - TargetObject
+        - HighlightPosition
+        - AutoSize
+        - Size
+        - Shape
+        - ArrowPosition
+        - ArrowOffset
+        - TextBoxOffset
+        - TextBoxPivot
+        - MaxTextBoxSize
+        - ShowHighlightOutline
+        - i18nBubbleText
+        - i18TranslatedArg0
+        - ShowArrow
+        - Opacity
+        - UseTarget
+        - DisableUI
+        - EnableTarget
+        - BlocksRaycast
+        - ButtonName
+        - ButtonObject
+        - SendEvent
+        - UIElementID
+        - HideElement
+        paramDataPos: 00000000000000001c00000025000000260000002e00000032000000360000003e000000460000004e000000520000005300000000000000690000006a0000006e0000006f000000700000007100000072000000010000008e00000096000000a3000000
+        paramByteDataSize: 1c000000000000000900000001000000080000000400000004000000080000000800000008000000040000000100000016000000000000000100000004000000010000000100000001000000010000001c00000000000000080000000d00000001000000
+    - name: Wait4
+      description: 
+      colorIndex: 5
+      position:
+        serializedVersion: 2
+        x: 907.6406
+        y: 338.28906
+        width: 100
+        height: 32
+      isBreakpoint: 0
+      isSequence: 0
+      hideUnused: 0
+      transitions:
+      - fsmEvent:
+          name: FINISHED
+          isSystemEvent: 1
+          isGlobal: 0
+        toState: DisableButtons and wait
+        linkStyle: 0
+        linkConstraint: 0
+        linkTarget: 0
+        colorIndex: 0
+      actionData:
+        actionNames:
+        - ClubPenguin.TutorialUI.HideTutorialOverlayAction
+        customNames:
+        - 
+        actionEnabled: 01
+        actionIsOpen: 01
+        actionStartIndex: 00000000
+        actionHashCodes: 00000000
+        unityObjectParams: []
+        fsmGameObjectParams: []
+        fsmOwnerDefaultParams: []
+        animationCurveParams: []
+        functionCallParams: []
+        fsmTemplateControlParams: []
+        fsmEventTargetParams: []
+        fsmPropertyParams: []
+        layoutOptionParams: []
+        fsmStringParams: []
+        fsmObjectParams: []
+        fsmVarParams: []
+        fsmArrayParams: []
+        fsmEnumParams: []
+        fsmFloatParams: []
+        fsmIntParams: []
+        fsmBoolParams: []
+        fsmVector2Params: []
+        fsmVector3Params: []
+        fsmColorParams: []
+        fsmRectParams: []
+        fsmQuaternionParams: []
+        stringParams: []
+        byteData: 
+        arrayParamSizes: 
+        arrayParamTypes: []
+        customTypeSizes: 
+        customTypeNames: []
+        paramDataType: 
+        paramName: []
+        paramDataPos: 
+        paramByteDataSize: 
+    - name: Show Tutorial 11
+      description: Minimize Tray
+      colorIndex: 5
+      position:
+        serializedVersion: 2
+        x: 822.1797
+        y: 723.53125
+        width: 126
+        height: 32
+      isBreakpoint: 0
+      isSequence: 0
+      hideUnused: 0
+      transitions:
+      - fsmEvent:
+          name: FINISHED
+          isSystemEvent: 1
+          isGlobal: 0
+        toState: HideTutorial14
+        linkStyle: 0
+        linkConstraint: 0
+        linkTarget: 0
+        colorIndex: 0
+      actionData:
+        actionNames:
+        - ClubPenguin.TutorialUI.ShowTutorialOverlayAction
+        - ClubPenguin.Adventure.PressButtonAction
+        customNames:
+        - 
+        - 
+        actionEnabled: 0101
+        actionIsOpen: 0101
+        actionStartIndex: 0000000014000000
+        actionHashCodes: 08b9fa0448b35100
+        unityObjectParams: []
+        fsmGameObjectParams:
+        - useVariable: 1
+          name: 
+          tooltip: 
+          showInInspector: 0
+          networkSync: 0
+          value: {fileID: 0}
+        - useVariable: 0
+          name: 
+          tooltip: 
+          showInInspector: 0
+          networkSync: 0
+          value: {fileID: 0}
+        fsmOwnerDefaultParams: []
+        animationCurveParams: []
+        functionCallParams: []
+        fsmTemplateControlParams: []
+        fsmEventTargetParams: []
+        fsmPropertyParams: []
+        layoutOptionParams: []
+        fsmStringParams:
+        - useVariable: 0
+          name: 
+          tooltip: 
+          showInInspector: 0
+          networkSync: 0
+          value: 
+        fsmObjectParams: []
+        fsmVarParams: []
+        fsmArrayParams: []
+        fsmEnumParams: []
+        fsmFloatParams: []
+        fsmIntParams: []
+        fsmBoolParams: []
+        fsmVector2Params: []
+        fsmVector3Params: []
+        fsmColorParams: []
+        fsmRectParams: []
+        fsmQuaternionParams: []
+        stringParams: []
+        byteData: 4d696e427574746f6e2f4d61696e4e6176427574746f6e5f4d6178696d697a65000048c20000344200010000a041000000000100000002000000000000000000000000000000000070c20000003f000000000000c843015475746f7269616c2e49676c6f6f732e546578742e3131009a99193f010101004d696e427574746f6e2f4d61696e4e6176427574746f6e5f4d6178696d697a6546494e4953484544
+        arrayParamSizes: 
+        arrayParamTypes: []
+        customTypeSizes: 
+        customTypeNames: []
+        paramDataType: 0300000013000000250000000100000008000000070000000700000008000000080000000800000002000000010000000300000012000000010000000200000001000000010000000100000001000000030000001300000017000000
+        paramName:
+        - TargetName
+        - TargetObject
+        - HighlightPosition
+        - AutoSize
+        - Size
+        - Shape
+        - ArrowPosition
+        - ArrowOffset
+        - TextBoxOffset
+        - TextBoxPivot
+        - MaxTextBoxSize
+        - ShowHighlightOutline
+        - i18nBubbleText
+        - i18TranslatedArg0
+        - ShowArrow
+        - Opacity
+        - UseTarget
+        - DisableUI
+        - EnableTarget
+        - BlocksRaycast
+        - ButtonName
+        - ButtonObject
+        - SendEvent
+        paramDataPos: 000000000000000020000000290000002a00000032000000360000003a000000420000004a000000520000005600000057000000000000006e0000006f00000073000000740000007500000076000000770000000100000097000000
+        paramByteDataSize: 2000000000000000090000000100000008000000040000000400000008000000080000000800000004000000010000001700000000000000010000000400000001000000010000000100000001000000200000000000000008000000
+    - name: HideTutorial14
+      description: 
+      colorIndex: 5
+      position:
+        serializedVersion: 2
+        x: 899.10156
+        y: 804.1172
+        width: 113
+        height: 32
+      isBreakpoint: 0
+      isSequence: 0
+      hideUnused: 0
+      transitions:
+      - fsmEvent:
+          name: FINISHED
+          isSystemEvent: 1
+          isGlobal: 0
+        toState: DisableButtons And Wait
+        linkStyle: 0
+        linkConstraint: 0
+        linkTarget: 0
+        colorIndex: 0
+      actionData:
+        actionNames:
+        - ClubPenguin.TutorialUI.HideTutorialOverlayAction
+        customNames:
+        - 
+        actionEnabled: 01
+        actionIsOpen: 01
+        actionStartIndex: 00000000
+        actionHashCodes: 00000000
+        unityObjectParams: []
+        fsmGameObjectParams: []
+        fsmOwnerDefaultParams: []
+        animationCurveParams: []
+        functionCallParams: []
+        fsmTemplateControlParams: []
+        fsmEventTargetParams: []
+        fsmPropertyParams: []
+        layoutOptionParams: []
+        fsmStringParams: []
+        fsmObjectParams: []
+        fsmVarParams: []
+        fsmArrayParams: []
+        fsmEnumParams: []
+        fsmFloatParams: []
+        fsmIntParams: []
+        fsmBoolParams: []
+        fsmVector2Params: []
+        fsmVector3Params: []
+        fsmColorParams: []
+        fsmRectParams: []
+        fsmQuaternionParams: []
+        stringParams: []
+        byteData: 
+        arrayParamSizes: 
+        arrayParamTypes: []
+        customTypeSizes: 
+        customTypeNames: []
+        paramDataType: 
+        paramName: []
+        paramDataPos: 
+        paramByteDataSize: 
+    - name: Wait for Save
+      description: 
+      colorIndex: 6
+      position:
+        serializedVersion: 2
+        x: 551.09375
+        y: 285.53125
+        width: 101
+        height: 48
+      isBreakpoint: 0
+      isSequence: 0
+      hideUnused: 0
+      transitions:
+      - fsmEvent:
+          name: FINISHED
+          isSystemEvent: 1
+          isGlobal: 0
+        toState: Wait for Background
+        linkStyle: 0
+        linkConstraint: 0
+        linkTarget: 0
+        colorIndex: 0
+      - fsmEvent:
+          name: False
+          isSystemEvent: 0
+          isGlobal: 0
+        toState: EnableAllUIElements
+        linkStyle: 0
+        linkConstraint: 0
+        linkTarget: 0
+        colorIndex: 0
+      actionData:
+        actionNames:
+        - ClubPenguin.IglooCreateAction
+        customNames:
+        - 
+        actionEnabled: 01
+        actionIsOpen: 01
+        actionStartIndex: 00000000
+        actionHashCodes: d8973105
+        unityObjectParams: []
+        fsmGameObjectParams: []
+        fsmOwnerDefaultParams: []
+        animationCurveParams: []
+        functionCallParams: []
+        fsmTemplateControlParams: []
+        fsmEventTargetParams: []
+        fsmPropertyParams: []
+        layoutOptionParams: []
+        fsmStringParams: []
+        fsmObjectParams: []
+        fsmVarParams: []
+        fsmArrayParams: []
+        fsmEnumParams: []
+        fsmFloatParams: []
+        fsmIntParams: []
+        fsmBoolParams: []
+        fsmVector2Params: []
+        fsmVector3Params: []
+        fsmColorParams: []
+        fsmRectParams: []
+        fsmQuaternionParams: []
+        stringParams: []
+        byteData: 46494e495348454446616c7365
+        arrayParamSizes: 
+        arrayParamTypes: []
+        customTypeSizes: 
+        customTypeNames: []
+        paramDataType: 1700000017000000
+        paramName:
+        - OnSuccess
+        - OnFail
+        paramDataPos: 0000000008000000
+        paramByteDataSize: 0800000005000000
+    - name: Show Tutorial 10
+      description: Buildings
+      colorIndex: 5
+      position:
+        serializedVersion: 2
+        x: 473
+        y: 720.8281
+        width: 126
+        height: 32
+      isBreakpoint: 0
+      isSequence: 0
+      hideUnused: 0
+      transitions:
+      - fsmEvent:
+          name: FINISHED
+          isSystemEvent: 1
+          isGlobal: 0
+        toState: HideTutorial
+        linkStyle: 0
+        linkConstraint: 0
+        linkTarget: 0
+        colorIndex: 0
+      actionData:
+        actionNames:
+        - ClubPenguin.TutorialUI.ShowTutorialOverlayAction
+        - ClubPenguin.Adventure.PressButtonAction
+        customNames:
+        - 
+        - 
+        actionEnabled: 0101
+        actionIsOpen: 0101
+        actionStartIndex: 0000000014000000
+        actionHashCodes: 08b9fa0448b35100
+        unityObjectParams: []
+        fsmGameObjectParams:
+        - useVariable: 0
+          name: 
+          tooltip: 
+          showInInspector: 0
+          networkSync: 0
+          value: {fileID: 0}
+        - useVariable: 0
+          name: 
+          tooltip: 
+          showInInspector: 0
+          networkSync: 0
+          value: {fileID: 0}
+        fsmOwnerDefaultParams: []
+        animationCurveParams: []
+        functionCallParams: []
+        fsmTemplateControlParams: []
+        fsmEventTargetParams: []
+        fsmPropertyParams: []
+        layoutOptionParams: []
+        fsmStringParams:
+        - useVariable: 0
+          name: 
+          tooltip: 
+          showInInspector: 0
+          networkSync: 0
+          value: 
+        fsmObjectParams: []
+        fsmVarParams: []
+        fsmArrayParams: []
+        fsmEnumParams: []
+        fsmFloatParams: []
+        fsmIntParams: []
+        fsmBoolParams: []
+        fsmVector2Params: []
+        fsmVector3Params: []
+        fsmColorParams: []
+        fsmRectParams: []
+        fsmQuaternionParams: []
+        stringParams: []
+        byteData: 49676c6f6f4d656e75427574746f6e5f5374727563747572657342746e0000003f6666263f000100000000000020410000000002000000000000000000000000000000000070c20000003f000000000000c843015475746f7269616c2e49676c6f6f732e546578742e36009a99193f0101010049676c6f6f4d656e75427574746f6e5f5374727563747572657342746e46494e4953484544
+        arrayParamSizes: 
+        arrayParamTypes: []
+        customTypeSizes: 
+        customTypeNames: []
+        paramDataType: 0300000013000000250000000100000008000000070000000700000008000000080000000800000002000000010000000300000012000000010000000200000001000000010000000100000001000000030000001300000017000000
+        paramName:
+        - TargetName
+        - TargetObject
+        - HighlightPosition
+        - AutoSize
+        - Size
+        - Shape
+        - ArrowPosition
+        - ArrowOffset
+        - TextBoxOffset
+        - TextBoxPivot
+        - MaxTextBoxSize
+        - ShowHighlightOutline
+        - i18nBubbleText
+        - i18TranslatedArg0
+        - ShowArrow
+        - Opacity
+        - UseTarget
+        - DisableUI
+        - EnableTarget
+        - BlocksRaycast
+        - ButtonName
+        - ButtonObject
+        - SendEvent
+        paramDataPos: 00000000000000001d00000026000000270000002f00000033000000370000003f000000470000004f0000005300000054000000000000006a0000006b0000006f000000700000007100000072000000730000000100000090000000
+        paramByteDataSize: 1d000000000000000900000001000000080000000400000004000000080000000800000008000000040000000100000016000000000000000100000004000000010000000100000001000000010000001d0000000000000008000000
+    - name: HideTutorial
+      description: 
+      colorIndex: 5
+      position:
+        serializedVersion: 2
+        x: 546.34375
+        y: 797.39844
+        width: 100
+        height: 32
+      isBreakpoint: 0
+      isSequence: 0
+      hideUnused: 0
+      transitions:
+      - fsmEvent:
+          name: FINISHED
+          isSystemEvent: 1
+          isGlobal: 0
+        toState: DisableButtons 6 And Wait
+        linkStyle: 0
+        linkConstraint: 0
+        linkTarget: 0
+        colorIndex: 0
+      actionData:
+        actionNames:
+        - ClubPenguin.TutorialUI.HideTutorialOverlayAction
+        customNames:
+        - 
+        actionEnabled: 01
+        actionIsOpen: 01
+        actionStartIndex: 00000000
+        actionHashCodes: 00000000
+        unityObjectParams: []
+        fsmGameObjectParams: []
+        fsmOwnerDefaultParams: []
+        animationCurveParams: []
+        functionCallParams: []
+        fsmTemplateControlParams: []
+        fsmEventTargetParams: []
+        fsmPropertyParams: []
+        layoutOptionParams: []
+        fsmStringParams: []
+        fsmObjectParams: []
+        fsmVarParams: []
+        fsmArrayParams: []
+        fsmEnumParams: []
+        fsmFloatParams: []
+        fsmIntParams: []
+        fsmBoolParams: []
+        fsmVector2Params: []
+        fsmVector3Params: []
+        fsmColorParams: []
+        fsmRectParams: []
+        fsmQuaternionParams: []
+        stringParams: []
+        byteData: 
+        arrayParamSizes: 
+        arrayParamTypes: []
+        customTypeSizes: 
+        customTypeNames: []
+        paramDataType: 
+        paramName: []
+        paramDataPos: 
+        paramByteDataSize: 
+    - name: Show Tutorial 12
+      description: Buildings Description
+      colorIndex: 5
+      position:
+        serializedVersion: 2
+        x: 540.40625
+        y: 913.97656
+        width: 140.5
+        height: 32
+      isBreakpoint: 0
+      isSequence: 0
+      hideUnused: 0
+      transitions:
+      - fsmEvent:
+          name: FINISHED
+          isSystemEvent: 1
+          isGlobal: 0
+        toState: HideTutorial12
+        linkStyle: 0
+        linkConstraint: 0
+        linkTarget: 0
+        colorIndex: 0
+      actionData:
+        actionNames:
+        - ClubPenguin.TutorialUI.ShowTutorialOverlayAction
+        - ClubPenguin.UI.DisableUIElementAction
+        - ClubPenguin.Adventure.InputAnyKeyUpAction
+        customNames:
+        - 
+        - 
+        - 
+        actionEnabled: 010101
+        actionIsOpen: 010101
+        actionStartIndex: 000000001400000016000000
+        actionHashCodes: 08b9fa046350530188611604
+        unityObjectParams: []
+        fsmGameObjectParams:
+        - useVariable: 1
+          name: 
+          tooltip: 
+          showInInspector: 0
+          networkSync: 0
+          value: {fileID: 0}
+        fsmOwnerDefaultParams: []
+        animationCurveParams: []
+        functionCallParams: []
+        fsmTemplateControlParams: []
+        fsmEventTargetParams: []
+        fsmPropertyParams: []
+        layoutOptionParams: []
+        fsmStringParams:
+        - useVariable: 0
+          name: 
+          tooltip: 
+          showInInspector: 0
+          networkSync: 0
+          value: 
+        fsmObjectParams: []
+        fsmVarParams: []
+        fsmArrayParams: []
+        fsmEnumParams: []
+        fsmFloatParams: []
+        fsmIntParams: []
+        fsmBoolParams: []
+        fsmVector2Params: []
+        fsmVector3Params: []
+        fsmColorParams: []
+        fsmRectParams: []
+        fsmQuaternionParams: []
+        stringParams: []
+        byteData: 447261674261636b64726f700000003f6666263f00010000a0410000a04101000000020000000000000000000000000000000000f0c20000003f000000000000fa43005475746f7269616c2e49676c6f6f732e546578742e38000000000001010100436174616c6f67427574746f6e0046494e4953484544
+        arrayParamSizes: 
+        arrayParamTypes: []
+        customTypeSizes: 
+        customTypeNames: []
+        paramDataType: 0300000013000000250000000100000008000000070000000700000008000000080000000800000002000000010000000300000012000000010000000200000001000000010000000100000001000000030000000100000017000000
+        paramName:
+        - TargetName
+        - TargetObject
+        - HighlightPosition
+        - AutoSize
+        - Size
+        - Shape
+        - ArrowPosition
+        - ArrowOffset
+        - TextBoxOffset
+        - TextBoxPivot
+        - MaxTextBoxSize
+        - ShowHighlightOutline
+        - i18nBubbleText
+        - i18TranslatedArg0
+        - ShowArrow
+        - Opacity
+        - UseTarget
+        - DisableUI
+        - EnableTarget
+        - BlocksRaycast
+        - UIElementID
+        - HideElement
+        - FinishEvent
+        paramDataPos: 00000000000000000c00000015000000160000001e00000022000000260000002e000000360000003e000000420000004300000000000000590000005a0000005e0000005f0000006000000061000000620000006f00000070000000
+        paramByteDataSize: 0c000000000000000900000001000000080000000400000004000000080000000800000008000000040000000100000016000000000000000100000004000000010000000100000001000000010000000d0000000100000008000000
+    - name: HideTutorial12
+      description: 
+      colorIndex: 5
+      position:
+        serializedVersion: 2
+        x: 542.625
+        y: 1003.35156
+        width: 113
+        height: 32
+      isBreakpoint: 0
+      isSequence: 0
+      hideUnused: 0
+      transitions:
+      - fsmEvent:
+          name: FINISHED
+          isSystemEvent: 1
+          isGlobal: 0
+        toState: DisableButtons 7
+        linkStyle: 0
+        linkConstraint: 0
+        linkTarget: 0
+        colorIndex: 0
+      actionData:
+        actionNames:
+        - ClubPenguin.TutorialUI.HideTutorialOverlayAction
+        customNames:
+        - 
+        actionEnabled: 01
+        actionIsOpen: 01
+        actionStartIndex: 00000000
+        actionHashCodes: 00000000
+        unityObjectParams: []
+        fsmGameObjectParams: []
+        fsmOwnerDefaultParams: []
+        animationCurveParams: []
+        functionCallParams: []
+        fsmTemplateControlParams: []
+        fsmEventTargetParams: []
+        fsmPropertyParams: []
+        layoutOptionParams: []
+        fsmStringParams: []
+        fsmObjectParams: []
+        fsmVarParams: []
+        fsmArrayParams: []
+        fsmEnumParams: []
+        fsmFloatParams: []
+        fsmIntParams: []
+        fsmBoolParams: []
+        fsmVector2Params: []
+        fsmVector3Params: []
+        fsmColorParams: []
+        fsmRectParams: []
+        fsmQuaternionParams: []
+        stringParams: []
+        byteData: 
+        arrayParamSizes: 
+        arrayParamTypes: []
+        customTypeSizes: 
+        customTypeNames: []
+        paramDataType: 
+        paramName: []
+        paramDataPos: 
+        paramByteDataSize: 
+    - name: PC/MAC?
+      description: 
+      colorIndex: 3
+      position:
+        serializedVersion: 2
+        x: 217.60156
+        y: 976.7578
+        width: 100
+        height: 48
+      isBreakpoint: 0
+      isSequence: 0
+      hideUnused: 0
+      transitions:
+      - fsmEvent:
+          name: True
+          isSystemEvent: 0
+          isGlobal: 0
+        toState: Show Tutorial 3
+        linkStyle: 0
+        linkConstraint: 0
+        linkTarget: 0
+        colorIndex: 0
+      - fsmEvent:
+          name: False
+          isSystemEvent: 0
+          isGlobal: 0
+        toState: Show Tutorial 8
+        linkStyle: 0
+        linkConstraint: 0
+        linkTarget: 0
+        colorIndex: 0
+      actionData:
+        actionNames:
+        - ClubPenguin.CheckPlatformAction
+        customNames:
+        - 
+        actionEnabled: 01
+        actionIsOpen: 01
+        actionStartIndex: 00000000
+        actionHashCodes: d8973105
+        unityObjectParams: []
+        fsmGameObjectParams: []
+        fsmOwnerDefaultParams: []
+        animationCurveParams: []
+        functionCallParams: []
+        fsmTemplateControlParams: []
+        fsmEventTargetParams: []
+        fsmPropertyParams: []
+        layoutOptionParams: []
+        fsmStringParams: []
+        fsmObjectParams: []
+        fsmVarParams: []
+        fsmArrayParams: []
+        fsmEnumParams: []
+        fsmFloatParams: []
+        fsmIntParams: []
+        fsmBoolParams: []
+        fsmVector2Params: []
+        fsmVector3Params: []
+        fsmColorParams: []
+        fsmRectParams: []
+        fsmQuaternionParams: []
+        stringParams: []
+        byteData: 5472756546616c7365
+        arrayParamSizes: 
+        arrayParamTypes: []
+        customTypeSizes: 
+        customTypeNames: []
+        paramDataType: 1700000017000000
+        paramName:
+        - OnStandalone
+        - OnMobile
+        paramDataPos: 0000000004000000
+        paramByteDataSize: 0400000005000000
+    - name: Show Tutorial 8
+      description: Highlight Next
+      colorIndex: 5
+      position:
+        serializedVersion: 2
+        x: 267.65625
+        y: 1049.8438
+        width: 118
+        height: 32
+      isBreakpoint: 0
+      isSequence: 0
+      hideUnused: 0
+      transitions:
+      - fsmEvent:
+          name: FINISHED
+          isSystemEvent: 1
+          isGlobal: 0
+        toState: WaitForChoose
+        linkStyle: 0
+        linkConstraint: 0
+        linkTarget: 0
+        colorIndex: 0
+      actionData:
+        actionNames:
+        - ClubPenguin.TutorialUI.ShowTutorialOverlayAction
+        customNames:
+        - 
+        actionEnabled: 01
+        actionIsOpen: 01
+        actionStartIndex: 00000000
+        actionHashCodes: 08b9fa04
+        unityObjectParams: []
+        fsmGameObjectParams:
+        - useVariable: 0
+          name: 
+          tooltip: 
+          showInInspector: 0
+          networkSync: 0
+          value: {fileID: 0}
+        fsmOwnerDefaultParams: []
+        animationCurveParams: []
+        functionCallParams: []
+        fsmTemplateControlParams: []
+        fsmEventTargetParams: []
+        fsmPropertyParams: []
+        layoutOptionParams: []
+        fsmStringParams:
+        - useVariable: 0
+          name: 
+          tooltip: 
+          showInInspector: 0
+          networkSync: 0
+          value: 
+        fsmObjectParams: []
+        fsmVarParams: []
+        fsmArrayParams: []
+        fsmEnumParams: []
+        fsmFloatParams: []
+        fsmIntParams: []
+        fsmBoolParams: []
+        fsmVector2Params: []
+        fsmVector3Params: []
+        fsmColorParams: []
+        fsmRectParams: []
+        fsmQuaternionParams: []
+        stringParams: []
+        byteData: 456469744d6f6465427574746f6e0000003f6666263f00010000a0410000a04101000000020000000000000000000000000016c30000fac20000003f0000000000009643015475746f7269616c2e49676c6f6f732e546578742e34000000000001010100
+        arrayParamSizes: 
+        arrayParamTypes: []
+        customTypeSizes: 
+        customTypeNames: []
+        paramDataType: 0300000013000000250000000100000008000000070000000700000008000000080000000800000002000000010000000300000012000000010000000200000001000000010000000100000001000000
+        paramName:
+        - TargetName
+        - TargetObject
+        - HighlightPosition
+        - AutoSize
+        - Size
+        - Shape
+        - ArrowPosition
+        - ArrowOffset
+        - TextBoxOffset
+        - TextBoxPivot
+        - MaxTextBoxSize
+        - ShowHighlightOutline
+        - i18nBubbleText
+        - i18TranslatedArg0
+        - ShowArrow
+        - Opacity
+        - UseTarget
+        - DisableUI
+        - EnableTarget
+        - BlocksRaycast
+        paramDataPos: 00000000000000000e00000017000000180000002000000024000000280000003000000038000000400000004400000045000000000000005b0000005c00000060000000610000006200000063000000
+        paramByteDataSize: 0e00000000000000090000000100000008000000040000000400000008000000080000000800000004000000010000001600000000000000010000000400000001000000010000000100000001000000
+    - name: PC/MAC? 2
+      description: 
+      colorIndex: 3
+      position:
+        serializedVersion: 2
+        x: 553.4844
+        y: 649.5078
+        width: 100
+        height: 48
+      isBreakpoint: 0
+      isSequence: 0
+      hideUnused: 0
+      transitions:
+      - fsmEvent:
+          name: True
+          isSystemEvent: 0
+          isGlobal: 0
+        toState: Show Tutorial 10
+        linkStyle: 0
+        linkConstraint: 0
+        linkTarget: 0
+        colorIndex: 0
+      - fsmEvent:
+          name: False
+          isSystemEvent: 0
+          isGlobal: 0
+        toState: Show Tutorial 13
+        linkStyle: 0
+        linkConstraint: 0
+        linkTarget: 0
+        colorIndex: 0
+      actionData:
+        actionNames:
+        - ClubPenguin.CheckPlatformAction
+        customNames:
+        - 
+        actionEnabled: 01
+        actionIsOpen: 01
+        actionStartIndex: 00000000
+        actionHashCodes: d8973105
+        unityObjectParams: []
+        fsmGameObjectParams: []
+        fsmOwnerDefaultParams: []
+        animationCurveParams: []
+        functionCallParams: []
+        fsmTemplateControlParams: []
+        fsmEventTargetParams: []
+        fsmPropertyParams: []
+        layoutOptionParams: []
+        fsmStringParams: []
+        fsmObjectParams: []
+        fsmVarParams: []
+        fsmArrayParams: []
+        fsmEnumParams: []
+        fsmFloatParams: []
+        fsmIntParams: []
+        fsmBoolParams: []
+        fsmVector2Params: []
+        fsmVector3Params: []
+        fsmColorParams: []
+        fsmRectParams: []
+        fsmQuaternionParams: []
+        stringParams: []
+        byteData: 5472756546616c7365
+        arrayParamSizes: 
+        arrayParamTypes: []
+        customTypeSizes: 
+        customTypeNames: []
+        paramDataType: 1700000017000000
+        paramName:
+        - OnStandalone
+        - OnMobile
+        paramDataPos: 0000000004000000
+        paramByteDataSize: 0400000005000000
+    - name: Show Tutorial 13
+      description: Buildings
+      colorIndex: 5
+      position:
+        serializedVersion: 2
+        x: 625.58594
+        y: 721.5781
+        width: 126
+        height: 32
+      isBreakpoint: 0
+      isSequence: 0
+      hideUnused: 0
+      transitions:
+      - fsmEvent:
+          name: FINISHED
+          isSystemEvent: 1
+          isGlobal: 0
+        toState: HideTutorial
+        linkStyle: 0
+        linkConstraint: 0
+        linkTarget: 0
+        colorIndex: 0
+      actionData:
+        actionNames:
+        - ClubPenguin.TutorialUI.ShowTutorialOverlayAction
+        - ClubPenguin.Adventure.PressButtonAction
+        customNames:
+        - 
+        - 
+        actionEnabled: 0101
+        actionIsOpen: 0101
+        actionStartIndex: 0000000014000000
+        actionHashCodes: 08b9fa0448b35100
+        unityObjectParams: []
+        fsmGameObjectParams:
+        - useVariable: 0
+          name: 
+          tooltip: 
+          showInInspector: 0
+          networkSync: 0
+          value: {fileID: 0}
+        - useVariable: 0
+          name: 
+          tooltip: 
+          showInInspector: 0
+          networkSync: 0
+          value: {fileID: 0}
+        fsmOwnerDefaultParams: []
+        animationCurveParams: []
+        functionCallParams: []
+        fsmTemplateControlParams: []
+        fsmEventTargetParams: []
+        fsmPropertyParams: []
+        layoutOptionParams: []
+        fsmStringParams:
+        - useVariable: 0
+          name: 
+          tooltip: 
+          showInInspector: 0
+          networkSync: 0
+          value: 
+        fsmObjectParams: []
+        fsmVarParams: []
+        fsmArrayParams: []
+        fsmEnumParams: []
+        fsmFloatParams: []
+        fsmIntParams: []
+        fsmBoolParams: []
+        fsmVector2Params: []
+        fsmVector3Params: []
+        fsmColorParams: []
+        fsmRectParams: []
+        fsmQuaternionParams: []
+        stringParams: []
+        byteData: 49676c6f6f4d656e75427574746f6e5f5374727563747572657342746e0000003f6666263f00010000a0c10000204100000000020000000000000000000000000016430000c8c20000003f0000000000009643015475746f7269616c2e49676c6f6f732e546578742e37009a99193f0101010049676c6f6f4d656e75427574746f6e5f5374727563747572657342746e46494e4953484544
+        arrayParamSizes: 
+        arrayParamTypes: []
+        customTypeSizes: 
+        customTypeNames: []
+        paramDataType: 0300000013000000250000000100000008000000070000000700000008000000080000000800000002000000010000000300000012000000010000000200000001000000010000000100000001000000030000001300000017000000
+        paramName:
+        - TargetName
+        - TargetObject
+        - HighlightPosition
+        - AutoSize
+        - Size
+        - Shape
+        - ArrowPosition
+        - ArrowOffset
+        - TextBoxOffset
+        - TextBoxPivot
+        - MaxTextBoxSize
+        - ShowHighlightOutline
+        - i18nBubbleText
+        - i18TranslatedArg0
+        - ShowArrow
+        - Opacity
+        - UseTarget
+        - DisableUI
+        - EnableTarget
+        - BlocksRaycast
+        - ButtonName
+        - ButtonObject
+        - SendEvent
+        paramDataPos: 00000000000000001d00000026000000270000002f00000033000000370000003f000000470000004f0000005300000054000000000000006a0000006b0000006f000000700000007100000072000000730000000100000090000000
+        paramByteDataSize: 1d000000000000000900000001000000080000000400000004000000080000000800000008000000040000000100000016000000000000000100000004000000010000000100000001000000010000001d0000000000000008000000
+    - name: PC/MAC? 3
+      description: 
+      colorIndex: 3
+      position:
+        serializedVersion: 2
+        x: 907.1953
+        y: 649.0625
+        width: 100
+        height: 48
+      isBreakpoint: 0
+      isSequence: 0
+      hideUnused: 0
+      transitions:
+      - fsmEvent:
+          name: True
+          isSystemEvent: 0
+          isGlobal: 0
+        toState: Show Tutorial 11
+        linkStyle: 0
+        linkConstraint: 0
+        linkTarget: 0
+        colorIndex: 0
+      - fsmEvent:
+          name: False
+          isSystemEvent: 0
+          isGlobal: 0
+        toState: Show Tutorial 14
+        linkStyle: 0
+        linkConstraint: 0
+        linkTarget: 0
+        colorIndex: 0
+      actionData:
+        actionNames:
+        - ClubPenguin.CheckPlatformAction
+        customNames:
+        - 
+        actionEnabled: 01
+        actionIsOpen: 01
+        actionStartIndex: 00000000
+        actionHashCodes: d8973105
+        unityObjectParams: []
+        fsmGameObjectParams: []
+        fsmOwnerDefaultParams: []
+        animationCurveParams: []
+        functionCallParams: []
+        fsmTemplateControlParams: []
+        fsmEventTargetParams: []
+        fsmPropertyParams: []
+        layoutOptionParams: []
+        fsmStringParams: []
+        fsmObjectParams: []
+        fsmVarParams: []
+        fsmArrayParams: []
+        fsmEnumParams: []
+        fsmFloatParams: []
+        fsmIntParams: []
+        fsmBoolParams: []
+        fsmVector2Params: []
+        fsmVector3Params: []
+        fsmColorParams: []
+        fsmRectParams: []
+        fsmQuaternionParams: []
+        stringParams: []
+        byteData: 5472756546616c7365
+        arrayParamSizes: 
+        arrayParamTypes: []
+        customTypeSizes: 
+        customTypeNames: []
+        paramDataType: 1700000017000000
+        paramName:
+        - OnStandalone
+        - OnMobile
+        paramDataPos: 0000000004000000
+        paramByteDataSize: 0400000005000000
+    - name: Show Tutorial 14
+      description: Minimize Tray
+      colorIndex: 5
+      position:
+        serializedVersion: 2
+        x: 983.2578
+        y: 725.33594
+        width: 126
+        height: 32
+      isBreakpoint: 0
+      isSequence: 0
+      hideUnused: 0
+      transitions:
+      - fsmEvent:
+          name: FINISHED
+          isSystemEvent: 1
+          isGlobal: 0
+        toState: HideTutorial14
+        linkStyle: 0
+        linkConstraint: 0
+        linkTarget: 0
+        colorIndex: 0
+      actionData:
+        actionNames:
+        - ClubPenguin.TutorialUI.ShowTutorialOverlayAction
+        - ClubPenguin.Adventure.PressButtonAction
+        customNames:
+        - 
+        - 
+        actionEnabled: 0101
+        actionIsOpen: 0101
+        actionStartIndex: 0000000014000000
+        actionHashCodes: 08b9fa0448b35100
+        unityObjectParams: []
+        fsmGameObjectParams:
+        - useVariable: 1
+          name: 
+          tooltip: 
+          showInInspector: 0
+          networkSync: 0
+          value: {fileID: 0}
+        - useVariable: 0
+          name: 
+          tooltip: 
+          showInInspector: 0
+          networkSync: 0
+          value: {fileID: 0}
+        fsmOwnerDefaultParams: []
+        animationCurveParams: []
+        functionCallParams: []
+        fsmTemplateControlParams: []
+        fsmEventTargetParams: []
+        fsmPropertyParams: []
+        layoutOptionParams: []
+        fsmStringParams:
+        - useVariable: 0
+          name: 
+          tooltip: 
+          showInInspector: 0
+          networkSync: 0
+          value: 
+        fsmObjectParams: []
+        fsmVarParams: []
+        fsmArrayParams: []
+        fsmEnumParams: []
+        fsmFloatParams: []
+        fsmIntParams: []
+        fsmBoolParams: []
+        fsmVector2Params: []
+        fsmVector3Params: []
+        fsmColorParams: []
+        fsmRectParams: []
+        fsmQuaternionParams: []
+        stringParams: []
+        byteData: 4d696e427574746f6e2f4d61696e4e6176427574746f6e5f4d6178696d697a6500005cc200005c4200010000a0410000000001000000020000000000000000000000000052c3000016c30000003f0000000000009643015475746f7269616c2e49676c6f6f732e546578742e3132009a99193f010101004d696e427574746f6e2f4d61696e4e6176427574746f6e5f4d6178696d697a6546494e4953484544
+        arrayParamSizes: 
+        arrayParamTypes: []
+        customTypeSizes: 
+        customTypeNames: []
+        paramDataType: 0300000013000000250000000100000008000000070000000700000008000000080000000800000002000000010000000300000012000000010000000200000001000000010000000100000001000000030000001300000017000000
+        paramName:
+        - TargetName
+        - TargetObject
+        - HighlightPosition
+        - AutoSize
+        - Size
+        - Shape
+        - ArrowPosition
+        - ArrowOffset
+        - TextBoxOffset
+        - TextBoxPivot
+        - MaxTextBoxSize
+        - ShowHighlightOutline
+        - i18nBubbleText
+        - i18TranslatedArg0
+        - ShowArrow
+        - Opacity
+        - UseTarget
+        - DisableUI
+        - EnableTarget
+        - BlocksRaycast
+        - ButtonName
+        - ButtonObject
+        - SendEvent
+        paramDataPos: 000000000000000020000000290000002a00000032000000360000003a000000420000004a000000520000005600000057000000000000006e0000006f00000073000000740000007500000076000000770000000100000097000000
+        paramByteDataSize: 2000000000000000090000000100000008000000040000000400000008000000080000000800000004000000010000001700000000000000010000000400000001000000010000000100000001000000200000000000000008000000
+    - name: DisableButtons 2
+      description: 
+      colorIndex: 1
+      position:
+        serializedVersion: 2
+        x: 214.60938
+        y: 669.7344
+        width: 128
+        height: 32
+      isBreakpoint: 0
+      isSequence: 0
+      hideUnused: 0
+      transitions:
+      - fsmEvent:
+          name: FINISHED
+          isSystemEvent: 1
+          isGlobal: 0
+        toState: Show Tutorial 2
+        linkStyle: 0
+        linkConstraint: 0
+        linkTarget: 0
+        colorIndex: 0
+      actionData:
+        actionNames:
+        - ClubPenguin.UI.DisableUIElementAction
+        - ClubPenguin.UI.DisableUIElementAction
+        - ClubPenguin.UI.DisableAllUIElementsAction
+        customNames:
+        - 
+        - 
+        - 
+        actionEnabled: 010101
+        actionIsOpen: 010101
+        actionStartIndex: 000000000200000004000000
+        actionHashCodes: 635053016350530100000000
+        unityObjectParams: []
+        fsmGameObjectParams: []
+        fsmOwnerDefaultParams: []
+        animationCurveParams: []
+        functionCallParams: []
+        fsmTemplateControlParams: []
+        fsmEventTargetParams: []
+        fsmPropertyParams: []
+        layoutOptionParams: []
+        fsmStringParams: []
+        fsmObjectParams: []
+        fsmVarParams: []
+        fsmArrayParams: []
+        fsmEnumParams: []
+        fsmFloatParams: []
+        fsmIntParams: []
+        fsmBoolParams: []
+        fsmVector2Params: []
+        fsmVector3Params: []
+        fsmColorParams: []
+        fsmRectParams: []
+        fsmQuaternionParams: []
+        stringParams: []
+        byteData: 4261636b427574746f6e00456469744d6f6465427574746f6e00
+        arrayParamSizes: 
+        arrayParamTypes: []
+        customTypeSizes: 
+        customTypeNames: []
+        paramDataType: 03000000010000000300000001000000
+        paramName:
+        - UIElementID
+        - HideElement
+        - UIElementID
+        - HideElement
+        paramDataPos: 000000000a0000000b00000019000000
+        paramByteDataSize: 0a000000010000000e00000001000000
+    - name: DisableButtons 3
+      description: 
+      colorIndex: 1
+      position:
+        serializedVersion: 2
+        x: 226.60938
+        y: 851.7344
+        width: 128
+        height: 32
+      isBreakpoint: 0
+      isSequence: 0
+      hideUnused: 0
+      transitions:
+      - fsmEvent:
+          name: FINISHED
+          isSystemEvent: 1
+          isGlobal: 0
+        toState: WaitForTimeORChoose
+        linkStyle: 0
+        linkConstraint: 0
+        linkTarget: 0
+        colorIndex: 0
+      actionData:
+        actionNames:
+        - ClubPenguin.UI.DisableUIElementAction
+        - ClubPenguin.UI.DisableAllUIElementsAction
+        customNames:
+        - 
+        - 
+        actionEnabled: 0101
+        actionIsOpen: 0101
+        actionStartIndex: 0000000002000000
+        actionHashCodes: 6350530100000000
+        unityObjectParams: []
+        fsmGameObjectParams: []
+        fsmOwnerDefaultParams: []
+        animationCurveParams: []
+        functionCallParams: []
+        fsmTemplateControlParams: []
+        fsmEventTargetParams: []
+        fsmPropertyParams: []
+        layoutOptionParams: []
+        fsmStringParams: []
+        fsmObjectParams: []
+        fsmVarParams: []
+        fsmArrayParams: []
+        fsmEnumParams: []
+        fsmFloatParams: []
+        fsmIntParams: []
+        fsmBoolParams: []
+        fsmVector2Params: []
+        fsmVector3Params: []
+        fsmColorParams: []
+        fsmRectParams: []
+        fsmQuaternionParams: []
+        stringParams: []
+        byteData: 4261636b427574746f6e00
+        arrayParamSizes: 
+        arrayParamTypes: []
+        customTypeSizes: 
+        customTypeNames: []
+        paramDataType: 0300000001000000
+        paramName:
+        - UIElementID
+        - HideElement
+        paramDataPos: 000000000a000000
+        paramByteDataSize: 0a00000001000000
+    - name: DisableButtons 4
+      description: 
+      colorIndex: 1
+      position:
+        serializedVersion: 2
+        x: 577.27344
+        y: 240.92969
+        width: 128
+        height: 32
+      isBreakpoint: 0
+      isSequence: 0
+      hideUnused: 0
+      transitions:
+      - fsmEvent:
+          name: FINISHED
+          isSystemEvent: 1
+          isGlobal: 0
+        toState: Wait for Save
+        linkStyle: 0
+        linkConstraint: 0
+        linkTarget: 0
+        colorIndex: 0
+      actionData:
+        actionNames:
+        - ClubPenguin.UI.DisableUIElementAction
+        - ClubPenguin.UI.DisableUIElementAction
+        - ClubPenguin.UI.DisableUIElementAction
+        - ClubPenguin.UI.DisableUIElementAction
+        - ClubPenguin.UI.DisableUIElementAction
+        - ClubPenguin.UI.DisableUIElementAction
+        - ClubPenguin.UI.DisableAllUIElementsAction
+        customNames:
+        - 
+        - 
+        - 
+        - 
+        - 
+        - 
+        - 
+        actionEnabled: 01010101010101
+        actionIsOpen: 01010101010101
+        actionStartIndex: 00000000020000000400000006000000080000000a0000000c000000
+        actionHashCodes: 63505301635053016350530163505301635053016350530100000000
+        unityObjectParams: []
+        fsmGameObjectParams: []
+        fsmOwnerDefaultParams: []
+        animationCurveParams: []
+        functionCallParams: []
+        fsmTemplateControlParams: []
+        fsmEventTargetParams: []
+        fsmPropertyParams: []
+        layoutOptionParams: []
+        fsmStringParams: []
+        fsmObjectParams: []
+        fsmVarParams: []
+        fsmArrayParams: []
+        fsmEnumParams: []
+        fsmFloatParams: []
+        fsmIntParams: []
+        fsmBoolParams: []
+        fsmVector2Params: []
+        fsmVector3Params: []
+        fsmColorParams: []
+        fsmRectParams: []
+        fsmQuaternionParams: []
+        stringParams: []
+        byteData: 49676c6f6f547261795f4675726e697475726542746e5f507265737365640049676c6f6f547261795f5374727563747572657342746e5f507265737365640049676c6f6f547261795f417564696f42746e5f507265737365640049676c6f6f547261795f4c69676874696e6742746e5f5072657373656400507265766965774d6f6465427574746f6e00506c61794d6f6465427574746f6e00
+        arrayParamSizes: 
+        arrayParamTypes: []
+        customTypeSizes: 
+        customTypeNames: []
+        paramDataType: 030000000100000003000000010000000300000001000000030000000100000003000000010000000300000001000000
+        paramName:
+        - UIElementID
+        - HideElement
+        - UIElementID
+        - HideElement
+        - UIElementID
+        - HideElement
+        - UIElementID
+        - HideElement
+        - UIElementID
+        - HideElement
+        - UIElementID
+        - HideElement
+        paramDataPos: 000000001e0000001f0000003e0000003f000000590000005a0000007700000078000000890000008a00000098000000
+        paramByteDataSize: 1e000000010000001f000000010000001a000000010000001d0000000100000011000000010000000e00000001000000
+    - name: DisableButtons 5
+      description: 
+      colorIndex: 1
+      position:
+        serializedVersion: 2
+        x: 552.1406
+        y: 592.83594
+        width: 128
+        height: 32
+      isBreakpoint: 0
+      isSequence: 0
+      hideUnused: 0
+      transitions:
+      - fsmEvent:
+          name: FINISHED
+          isSystemEvent: 1
+          isGlobal: 0
+        toState: PC/MAC? 2
+        linkStyle: 0
+        linkConstraint: 0
+        linkTarget: 0
+        colorIndex: 0
+      actionData:
+        actionNames:
+        - ClubPenguin.UI.DisableUIElementAction
+        - ClubPenguin.UI.DisableUIElementAction
+        - ClubPenguin.UI.DisableUIElementAction
+        - ClubPenguin.UI.DisableUIElementAction
+        - ClubPenguin.UI.DisableUIElementAction
+        - ClubPenguin.UI.DisableUIElementAction
+        - ClubPenguin.UI.DisableAllUIElementsAction
+        customNames:
+        - 
+        - 
+        - 
+        - 
+        - 
+        - 
+        - 
+        actionEnabled: 01010101010101
+        actionIsOpen: 01010101010101
+        actionStartIndex: 00000000020000000400000006000000080000000a0000000c000000
+        actionHashCodes: 63505301635053016350530163505301635053016350530100000000
+        unityObjectParams: []
+        fsmGameObjectParams: []
+        fsmOwnerDefaultParams: []
+        animationCurveParams: []
+        functionCallParams: []
+        fsmTemplateControlParams: []
+        fsmEventTargetParams: []
+        fsmPropertyParams: []
+        layoutOptionParams: []
+        fsmStringParams: []
+        fsmObjectParams: []
+        fsmVarParams: []
+        fsmArrayParams: []
+        fsmEnumParams: []
+        fsmFloatParams: []
+        fsmIntParams: []
+        fsmBoolParams: []
+        fsmVector2Params: []
+        fsmVector3Params: []
+        fsmColorParams: []
+        fsmRectParams: []
+        fsmQuaternionParams: []
+        stringParams: []
+        byteData: 49676c6f6f547261795f4675726e697475726542746e5f507265737365640049676c6f6f547261795f417564696f42746e5f507265737365640049676c6f6f547261795f4c69676874696e6742746e5f5072657373656400507265766965774d6f6465427574746f6e00506c61794d6f6465427574746f6e004d61696e4e6176427574746f6e5f4d6178696d697a6500
+        arrayParamSizes: 
+        arrayParamTypes: []
+        customTypeSizes: 
+        customTypeNames: []
+        paramDataType: 030000000100000003000000010000000300000001000000030000000100000003000000010000000300000001000000
+        paramName:
+        - UIElementID
+        - HideElement
+        - UIElementID
+        - HideElement
+        - UIElementID
+        - HideElement
+        - UIElementID
+        - HideElement
+        - UIElementID
+        - HideElement
+        - UIElementID
+        - HideElement
+        paramDataPos: 000000001e0000001f000000390000003a0000005700000058000000690000006a00000078000000790000008f000000
+        paramByteDataSize: 1e000000010000001a000000010000001d0000000100000011000000010000000e000000010000001600000001000000
+    - name: DisableButtons 6 And Wait
+      description: 
+      colorIndex: 1
+      position:
+        serializedVersion: 2
+        x: 544.1406
+        y: 852.83594
+        width: 188
+        height: 32
+      isBreakpoint: 0
+      isSequence: 0
+      hideUnused: 0
+      transitions:
+      - fsmEvent:
+          name: FINISHED
+          isSystemEvent: 1
+          isGlobal: 0
+        toState: Show Tutorial 12
+        linkStyle: 0
+        linkConstraint: 0
+        linkTarget: 0
+        colorIndex: 0
+      actionData:
+        actionNames:
+        - ClubPenguin.UI.DisableUIElementAction
+        - ClubPenguin.UI.DisableUIElementAction
+        - ClubPenguin.UI.DisableUIElementAction
+        - ClubPenguin.UI.DisableUIElementAction
+        - ClubPenguin.UI.DisableUIElementAction
+        - ClubPenguin.UI.DisableUIElementAction
+        - ClubPenguin.UI.DisableUIElementAction
+        - ClubPenguin.UI.DisableUIElementAction
+        - ClubPenguin.UI.DisableAllUIElementsAction
+        - HutongGames.PlayMaker.Actions.Wait
+        customNames:
+        - 
+        - 
+        - 
+        - 
+        - 
+        - 
+        - 
+        - 
+        - 
+        - 
+        actionEnabled: 01010101010101010101
+        actionIsOpen: 01010101010101010101
+        actionStartIndex: 00000000020000000400000006000000080000000a0000000c0000000e0000001000000010000000
+        actionHashCodes: 63505301635053016350530163505301635053016350530163505301635053010000000048c01101
+        unityObjectParams: []
+        fsmGameObjectParams: []
+        fsmOwnerDefaultParams: []
+        animationCurveParams: []
+        functionCallParams: []
+        fsmTemplateControlParams: []
+        fsmEventTargetParams: []
+        fsmPropertyParams: []
+        layoutOptionParams: []
+        fsmStringParams: []
+        fsmObjectParams: []
+        fsmVarParams: []
+        fsmArrayParams: []
+        fsmEnumParams: []
+        fsmFloatParams: []
+        fsmIntParams: []
+        fsmBoolParams: []
+        fsmVector2Params: []
+        fsmVector3Params: []
+        fsmColorParams: []
+        fsmRectParams: []
+        fsmQuaternionParams: []
+        stringParams: []
+        byteData: 49676c6f6f547261795f4675726e697475726542746e5f507265737365640049676c6f6f547261795f417564696f42746e5f507265737365640049676c6f6f547261795f4c69676874696e6742746e5f5072657373656400507265766965774d6f6465427574746f6e00506c61794d6f6465427574746f6e004d61696e4e6176427574746f6e5f4d6178696d697a6500436174616c6f67427574746f6e00436174616c6f67427574746f6e5f30000000003f0046494e495348454400
+        arrayParamSizes: 
+        arrayParamTypes: []
+        customTypeSizes: 
+        customTypeNames: []
+        paramDataType: 030000000100000003000000010000000300000001000000030000000100000003000000010000000300000001000000030000000100000003000000010000000f0000001700000001000000
+        paramName:
+        - UIElementID
+        - HideElement
+        - UIElementID
+        - HideElement
+        - UIElementID
+        - HideElement
+        - UIElementID
+        - HideElement
+        - UIElementID
+        - HideElement
+        - UIElementID
+        - HideElement
+        - UIElementID
+        - HideElement
+        - UIElementID
+        - HideElement
+        - time
+        - finishEvent
+        - realTime
+        paramDataPos: 000000001e0000001f000000390000003a0000005700000058000000690000006a00000078000000790000008f000000900000009d0000009e000000ad000000ae000000b3000000bb000000
+        paramByteDataSize: 1e000000010000001a000000010000001d0000000100000011000000010000000e0000000100000016000000010000000d000000010000000f00000001000000050000000800000001000000
+    - name: DisableButtons 7
+      description: 
+      colorIndex: 1
+      position:
+        serializedVersion: 2
+        x: 906.5
+        y: 195.5
+        width: 128
+        height: 32
+      isBreakpoint: 0
+      isSequence: 0
+      hideUnused: 0
+      transitions:
+      - fsmEvent:
+          name: FINISHED
+          isSystemEvent: 1
+          isGlobal: 0
+        toState: Show Tutorial 9
+        linkStyle: 0
+        linkConstraint: 0
+        linkTarget: 0
+        colorIndex: 0
+      actionData:
+        actionNames:
+        - ClubPenguin.UI.DisableUIElementAction
+        - ClubPenguin.UI.DisableUIElementAction
+        - ClubPenguin.UI.DisableUIElementAction
+        - ClubPenguin.UI.DisableUIElementAction
+        - ClubPenguin.UI.DisableUIElementAction
+        - ClubPenguin.UI.DisableUIElementAction
+        - ClubPenguin.UI.DisableUIElementAction
+        - ClubPenguin.UI.DisableUIElementAction
+        - ClubPenguin.UI.DisableAllUIElementsAction
+        customNames:
+        - 
+        - 
+        - 
+        - 
+        - 
+        - 
+        - 
+        - 
+        - 
+        actionEnabled: 010101010101010101
+        actionIsOpen: 010101010101010101
+        actionStartIndex: 00000000020000000400000006000000080000000a0000000c0000000e00000010000000
+        actionHashCodes: 635053016350530163505301635053016350530163505301635053016350530100000000
+        unityObjectParams: []
+        fsmGameObjectParams: []
+        fsmOwnerDefaultParams: []
+        animationCurveParams: []
+        functionCallParams: []
+        fsmTemplateControlParams: []
+        fsmEventTargetParams: []
+        fsmPropertyParams: []
+        layoutOptionParams: []
+        fsmStringParams: []
+        fsmObjectParams: []
+        fsmVarParams: []
+        fsmArrayParams: []
+        fsmEnumParams: []
+        fsmFloatParams: []
+        fsmIntParams: []
+        fsmBoolParams: []
+        fsmVector2Params: []
+        fsmVector3Params: []
+        fsmColorParams: []
+        fsmRectParams: []
+        fsmQuaternionParams: []
+        stringParams: []
+        byteData: 49676c6f6f547261795f5374727563747572657342746e5f507265737365640049676c6f6f547261795f417564696f42746e5f507265737365640049676c6f6f547261795f4c69676874696e6742746e5f5072657373656400507265766965774d6f6465427574746f6e00506c61794d6f6465427574746f6e004d61696e4e6176427574746f6e5f4d6178696d697a6500436174616c6f67427574746f6e5f3000436174616c6f67427574746f6e00
+        arrayParamSizes: 
+        arrayParamTypes: []
+        customTypeSizes: 
+        customTypeNames: []
+        paramDataType: 03000000010000000300000001000000030000000100000003000000010000000300000001000000030000000100000003000000010000000300000001000000
+        paramName:
+        - UIElementID
+        - HideElement
+        - UIElementID
+        - HideElement
+        - UIElementID
+        - HideElement
+        - UIElementID
+        - HideElement
+        - UIElementID
+        - HideElement
+        - UIElementID
+        - HideElement
+        - UIElementID
+        - HideElement
+        - UIElementID
+        - HideElement
+        paramDataPos: 000000001f000000200000003a0000003b00000058000000590000006a0000006b000000790000007a0000009000000091000000a0000000a1000000ae000000
+        paramByteDataSize: 1f000000010000001a000000010000001d0000000100000011000000010000000e0000000100000016000000010000000f000000010000000d00000001000000
+    - name: DisableButtons and wait
+      description: 
+      colorIndex: 1
+      position:
+        serializedVersion: 2
+        x: 910.5
+        y: 399.5
+        width: 173
+        height: 32
+      isBreakpoint: 0
+      isSequence: 0
+      hideUnused: 0
+      transitions:
+      - fsmEvent:
+          name: FINISHED
+          isSystemEvent: 1
+          isGlobal: 0
+        toState: Show Tutorial 5
+        linkStyle: 0
+        linkConstraint: 0
+        linkTarget: 0
+        colorIndex: 0
+      actionData:
+        actionNames:
+        - ClubPenguin.UI.DisableUIElementAction
+        - ClubPenguin.UI.DisableUIElementAction
+        - ClubPenguin.UI.DisableUIElementAction
+        - ClubPenguin.UI.DisableUIElementAction
+        - ClubPenguin.UI.DisableUIElementAction
+        - ClubPenguin.UI.DisableUIElementAction
+        - ClubPenguin.UI.DisableUIElementAction
+        - ClubPenguin.UI.DisableUIElementAction
+        - ClubPenguin.UI.DisableUIElementAction
+        - ClubPenguin.UI.DisableAllUIElementsAction
+        - HutongGames.PlayMaker.Actions.Wait
+        customNames:
+        - 
+        - 
+        - 
+        - 
+        - 
+        - 
+        - 
+        - 
+        - 
+        - 
+        - 
+        actionEnabled: 0101010101010101010101
+        actionIsOpen: 0101010101010101010101
+        actionStartIndex: 00000000020000000400000006000000080000000a0000000c0000000e000000100000001200000012000000
+        actionHashCodes: 6350530163505301635053016350530163505301635053016350530163505301635053010000000048c01101
+        unityObjectParams: []
+        fsmGameObjectParams: []
+        fsmOwnerDefaultParams: []
+        animationCurveParams: []
+        functionCallParams: []
+        fsmTemplateControlParams: []
+        fsmEventTargetParams: []
+        fsmPropertyParams: []
+        layoutOptionParams: []
+        fsmStringParams: []
+        fsmObjectParams: []
+        fsmVarParams: []
+        fsmArrayParams: []
+        fsmEnumParams: []
+        fsmFloatParams: []
+        fsmIntParams: []
+        fsmBoolParams: []
+        fsmVector2Params: []
+        fsmVector3Params: []
+        fsmColorParams: []
+        fsmRectParams: []
+        fsmQuaternionParams: []
+        stringParams: []
+        byteData: 49676c6f6f547261795f5374727563747572657342746e5f507265737365640049676c6f6f547261795f417564696f42746e5f507265737365640049676c6f6f547261795f4c69676874696e6742746e5f5072657373656400507265766965774d6f6465427574746f6e00506c61794d6f6465427574746f6e004d61696e4e6176427574746f6e5f4d6178696d697a650049676c6f6f547261795f4675726e697475726542746e5f5072657373656400436174616c6f67427574746f6e5f3000436174616c6f67427574746f6e000000003f0046494e495348454400
+        arrayParamSizes: 
+        arrayParamTypes: []
+        customTypeSizes: 
+        customTypeNames: []
+        paramDataType: 0300000001000000030000000100000003000000010000000300000001000000030000000100000003000000010000000300000001000000030000000100000003000000010000000f0000001700000001000000
+        paramName:
+        - UIElementID
+        - HideElement
+        - UIElementID
+        - HideElement
+        - UIElementID
+        - HideElement
+        - UIElementID
+        - HideElement
+        - UIElementID
+        - HideElement
+        - UIElementID
+        - HideElement
+        - UIElementID
+        - HideElement
+        - UIElementID
+        - HideElement
+        - UIElementID
+        - HideElement
+        - time
+        - finishEvent
+        - realTime
+        paramDataPos: 000000001f000000200000003a0000003b00000058000000590000006a0000006b000000790000007a0000009000000091000000af000000b0000000bf000000c0000000cd000000ce000000d3000000db000000
+        paramByteDataSize: 1f000000010000001a000000010000001d0000000100000011000000010000000e0000000100000016000000010000001e000000010000000f000000010000000d00000001000000050000000800000001000000
+    - name: DisableButtons 9
+      description: 
+      colorIndex: 1
+      position:
+        serializedVersion: 2
+        x: 906.03125
+        y: 593.4375
+        width: 128
+        height: 32
+      isBreakpoint: 0
+      isSequence: 0
+      hideUnused: 0
+      transitions:
+      - fsmEvent:
+          name: FINISHED
+          isSystemEvent: 1
+          isGlobal: 0
+        toState: PC/MAC? 3
+        linkStyle: 0
+        linkConstraint: 0
+        linkTarget: 0
+        colorIndex: 0
+      actionData:
+        actionNames:
+        - ClubPenguin.UI.DisableUIElementAction
+        - ClubPenguin.UI.DisableUIElementAction
+        - ClubPenguin.UI.DisableUIElementAction
+        - ClubPenguin.UI.DisableUIElementAction
+        - ClubPenguin.UI.DisableUIElementAction
+        - ClubPenguin.UI.DisableUIElementAction
+        - ClubPenguin.UI.DisableUIElementAction
+        - ClubPenguin.UI.DisableUIElementAction
+        - ClubPenguin.UI.DisableAllUIElementsAction
+        customNames:
+        - 
+        - 
+        - 
+        - 
+        - 
+        - 
+        - 
+        - 
+        - 
+        actionEnabled: 010101010101010101
+        actionIsOpen: 010101010101010101
+        actionStartIndex: 00000000020000000400000006000000080000000a0000000c0000000e00000010000000
+        actionHashCodes: 635053016350530163505301635053016350530163505301635053016350530100000000
+        unityObjectParams: []
+        fsmGameObjectParams: []
+        fsmOwnerDefaultParams: []
+        animationCurveParams: []
+        functionCallParams: []
+        fsmTemplateControlParams: []
+        fsmEventTargetParams: []
+        fsmPropertyParams: []
+        layoutOptionParams: []
+        fsmStringParams: []
+        fsmObjectParams: []
+        fsmVarParams: []
+        fsmArrayParams: []
+        fsmEnumParams: []
+        fsmFloatParams: []
+        fsmIntParams: []
+        fsmBoolParams: []
+        fsmVector2Params: []
+        fsmVector3Params: []
+        fsmColorParams: []
+        fsmRectParams: []
+        fsmQuaternionParams: []
+        stringParams: []
+        byteData: 49676c6f6f547261795f5374727563747572657342746e5f507265737365640049676c6f6f547261795f417564696f42746e5f507265737365640049676c6f6f547261795f4c69676874696e6742746e5f5072657373656400507265766965774d6f6465427574746f6e00506c61794d6f6465427574746f6e0049676c6f6f547261795f4675726e697475726542746e5f5072657373656400436174616c6f67427574746f6e5f3000436174616c6f67427574746f6e00
+        arrayParamSizes: 
+        arrayParamTypes: []
+        customTypeSizes: 
+        customTypeNames: []
+        paramDataType: 03000000010000000300000001000000030000000100000003000000010000000300000001000000030000000100000003000000010000000300000001000000
+        paramName:
+        - UIElementID
+        - HideElement
+        - UIElementID
+        - HideElement
+        - UIElementID
+        - HideElement
+        - UIElementID
+        - HideElement
+        - UIElementID
+        - HideElement
+        - UIElementID
+        - HideElement
+        - UIElementID
+        - HideElement
+        - UIElementID
+        - HideElement
+        paramDataPos: 000000001f000000200000003a0000003b00000058000000590000006a0000006b000000790000007a0000009800000099000000a8000000a9000000b6000000
+        paramByteDataSize: 1f000000010000001a000000010000001d0000000100000011000000010000000e000000010000001e000000010000000f000000010000000d00000001000000
+    - name: DisableButtons And Wait
+      description: 
+      colorIndex: 1
+      position:
+        serializedVersion: 2
+        x: 901.0781
+        y: 851.7422
+        width: 176
+        height: 32
+      isBreakpoint: 0
+      isSequence: 0
+      hideUnused: 0
+      transitions:
+      - fsmEvent:
+          name: FINISHED
+          isSystemEvent: 1
+          isGlobal: 0
+        toState: Show Tutorial 6
+        linkStyle: 0
+        linkConstraint: 0
+        linkTarget: 0
+        colorIndex: 0
+      actionData:
+        actionNames:
+        - ClubPenguin.UI.DisableUIElementAction
+        - ClubPenguin.UI.DisableUIElementAction
+        - ClubPenguin.UI.DisableUIElementAction
+        - ClubPenguin.UI.DisableUIElementAction
+        - ClubPenguin.UI.DisableUIElementAction
+        - ClubPenguin.UI.DisableUIElementAction
+        - ClubPenguin.UI.DisableAllUIElementsAction
+        - HutongGames.PlayMaker.Actions.Wait
+        customNames:
+        - 
+        - 
+        - 
+        - 
+        - 
+        - 
+        - 
+        - 
+        actionEnabled: 0101010101010101
+        actionIsOpen: 0101010101010101
+        actionStartIndex: 00000000020000000400000006000000080000000a0000000c0000000c000000
+        actionHashCodes: 6350530163505301635053016350530163505301635053010000000048c01101
+        unityObjectParams: []
+        fsmGameObjectParams: []
+        fsmOwnerDefaultParams: []
+        animationCurveParams: []
+        functionCallParams: []
+        fsmTemplateControlParams: []
+        fsmEventTargetParams: []
+        fsmPropertyParams: []
+        layoutOptionParams: []
+        fsmStringParams: []
+        fsmObjectParams: []
+        fsmVarParams: []
+        fsmArrayParams: []
+        fsmEnumParams: []
+        fsmFloatParams: []
+        fsmIntParams: []
+        fsmBoolParams: []
+        fsmVector2Params: []
+        fsmVector3Params: []
+        fsmColorParams: []
+        fsmRectParams: []
+        fsmQuaternionParams: []
+        stringParams: []
+        byteData: 49676c6f6f547261795f5374727563747572657342746e5f507265737365640049676c6f6f547261795f417564696f42746e5f507265737365640049676c6f6f547261795f4c69676874696e6742746e5f5072657373656400507265766965774d6f6465427574746f6e00506c61794d6f6465427574746f6e0049676c6f6f547261795f4675726e697475726542746e5f50726573736564000000003f0046494e495348454400
+        arrayParamSizes: 
+        arrayParamTypes: []
+        customTypeSizes: 
+        customTypeNames: []
+        paramDataType: 0300000001000000030000000100000003000000010000000300000001000000030000000100000003000000010000000f0000001700000001000000
+        paramName:
+        - UIElementID
+        - HideElement
+        - UIElementID
+        - HideElement
+        - UIElementID
+        - HideElement
+        - UIElementID
+        - HideElement
+        - UIElementID
+        - HideElement
+        - UIElementID
+        - HideElement
+        - time
+        - finishEvent
+        - realTime
+        paramDataPos: 000000001f000000200000003a0000003b00000058000000590000006a0000006b000000790000007a00000098000000990000009e000000a6000000
+        paramByteDataSize: 1f000000010000001a000000010000001d0000000100000011000000010000000e000000010000001e00000001000000050000000800000001000000
+    - name: DisableButtons 11
+      description: 
+      colorIndex: 1
+      position:
+        serializedVersion: 2
+        x: 898.10156
+        y: 1033.9453
+        width: 136
+        height: 32
+      isBreakpoint: 0
+      isSequence: 0
+      hideUnused: 0
+      transitions:
+      - fsmEvent:
+          name: FINISHED
+          isSystemEvent: 1
+          isGlobal: 0
+        toState: Show Tutorial 7
+        linkStyle: 0
+        linkConstraint: 0
+        linkTarget: 0
+        colorIndex: 0
+      actionData:
+        actionNames:
+        - ClubPenguin.UI.DisableUIElementAction
+        - ClubPenguin.UI.DisableUIElementAction
+        - ClubPenguin.UI.DisableUIElementAction
+        - ClubPenguin.UI.DisableUIElementAction
+        - ClubPenguin.UI.DisableUIElementAction
+        - ClubPenguin.UI.DisableUIElementAction
+        - ClubPenguin.UI.DisableAllUIElementsAction
+        customNames:
+        - 
+        - 
+        - 
+        - 
+        - 
+        - 
+        - 
+        actionEnabled: 01010101010101
+        actionIsOpen: 01010101010101
+        actionStartIndex: 00000000020000000400000006000000080000000a0000000c000000
+        actionHashCodes: 63505301635053016350530163505301635053016350530100000000
+        unityObjectParams: []
+        fsmGameObjectParams: []
+        fsmOwnerDefaultParams: []
+        animationCurveParams: []
+        functionCallParams: []
+        fsmTemplateControlParams: []
+        fsmEventTargetParams: []
+        fsmPropertyParams: []
+        layoutOptionParams: []
+        fsmStringParams: []
+        fsmObjectParams: []
+        fsmVarParams: []
+        fsmArrayParams: []
+        fsmEnumParams: []
+        fsmFloatParams: []
+        fsmIntParams: []
+        fsmBoolParams: []
+        fsmVector2Params: []
+        fsmVector3Params: []
+        fsmColorParams: []
+        fsmRectParams: []
+        fsmQuaternionParams: []
+        stringParams: []
+        byteData: 49676c6f6f547261795f5374727563747572657342746e5f507265737365640049676c6f6f547261795f417564696f42746e5f507265737365647265737365640049676c6f6f547261795f4c69676874696e6742746e5f5072657373656400507265766965774d6f6465427574746f6e00506c61794d6f6465427574746f6e0049676c6f6f547261795f4675726e697475726542746e5f5072657373656400
+        arrayParamSizes: 
+        arrayParamTypes: []
+        customTypeSizes: 
+        customTypeNames: []
+        paramDataType: 030000000100000003000000010000000300000001000000030000000100000003000000010000000300000001000000
+        paramName:
+        - UIElementID
+        - HideElement
+        - UIElementID
+        - HideElement
+        - UIElementID
+        - HideElement
+        - UIElementID
+        - HideElement
+        - UIElementID
+        - HideElement
+        - UIElementID
+        - HideElement
+        paramDataPos: 000000001f0000002000000040000000410000005e0000005f00000070000000710000007f000000800000009e000000
+        paramByteDataSize: 1f0000000100000020000000010000001d0000000100000011000000010000000e000000010000001e00000001000000
+    - name: Wait for Background
+      description: 
+      colorIndex: 6
+      position:
+        serializedVersion: 2
+        x: 553.5078
+        y: 359.1875
+        width: 147
+        height: 32
+      isBreakpoint: 0
+      isSequence: 0
+      hideUnused: 0
+      transitions:
+      - fsmEvent:
+          name: FINISHED
+          isSystemEvent: 1
+          isGlobal: 0
+        toState: WaitForAnimation
+        linkStyle: 0
+        linkConstraint: 0
+        linkTarget: 0
+        colorIndex: 0
+      actionData:
+        actionNames:
+        - ClubPenguin.Adventure.WaitForObjectToExistAction
+        customNames:
+        - 
+        actionEnabled: 01
+        actionIsOpen: 01
+        actionStartIndex: 00000000
+        actionHashCodes: e175e700
+        unityObjectParams: []
+        fsmGameObjectParams:
+        - useVariable: 1
+          name: TrayBackground
+          tooltip: 
+          showInInspector: 0
+          networkSync: 0
+          value: {fileID: 0}
+        fsmOwnerDefaultParams: []
+        animationCurveParams: []
+        functionCallParams: []
+        fsmTemplateControlParams: []
+        fsmEventTargetParams: []
+        fsmPropertyParams: []
+        layoutOptionParams: []
+        fsmStringParams:
+        - useVariable: 0
+          name: 
+          tooltip: 
+          showInInspector: 0
+          networkSync: 0
+          value: IglooMenu/BGImage
+        fsmObjectParams: []
+        fsmVarParams: []
+        fsmArrayParams: []
+        fsmEnumParams: []
+        fsmFloatParams: []
+        fsmIntParams: []
+        fsmBoolParams: []
+        fsmVector2Params: []
+        fsmVector3Params: []
+        fsmColorParams: []
+        fsmRectParams: []
+        fsmQuaternionParams: []
+        stringParams: []
+        byteData: 0000a040cdcc4c3e00
+        arrayParamSizes: 
+        arrayParamTypes: []
+        customTypeSizes: 
+        customTypeNames: []
+        paramDataType: 1200000002000000020000000100000013000000
+        paramName:
+        - ObjectName
+        - TimeoutTime
+        - CheckInterval
+        - HasTimeout
+        - OUT_Object
+        paramDataPos: 0000000000000000040000000800000000000000
+        paramByteDataSize: 0000000004000000040000000100000000000000
+    - name: WaitFor
+      description: 
+      colorIndex: 6
+      position:
+        serializedVersion: 2
+        x: 62.0625
+        y: 101.88281
+        width: 100
+        height: 32
+      isBreakpoint: 0
+      isSequence: 0
+      hideUnused: 0
+      transitions:
+      - fsmEvent:
+          name: FINISHED
+          isSystemEvent: 1
+          isGlobal: 0
+        toState: DisableButtons
+        linkStyle: 0
+        linkConstraint: 0
+        linkTarget: 0
+        colorIndex: 0
+      actionData:
+        actionNames:
+        - HutongGames.PlayMaker.Actions.Wait
+        customNames:
+        - 
+        actionEnabled: 01
+        actionIsOpen: 01
+        actionStartIndex: 00000000
+        actionHashCodes: 48c01101
+        unityObjectParams: []
+        fsmGameObjectParams: []
+        fsmOwnerDefaultParams: []
+        animationCurveParams: []
+        functionCallParams: []
+        fsmTemplateControlParams: []
+        fsmEventTargetParams: []
+        fsmPropertyParams: []
+        layoutOptionParams: []
+        fsmStringParams: []
+        fsmObjectParams: []
+        fsmVarParams: []
+        fsmArrayParams: []
+        fsmEnumParams: []
+        fsmFloatParams: []
+        fsmIntParams: []
+        fsmBoolParams: []
+        fsmVector2Params: []
+        fsmVector3Params: []
+        fsmColorParams: []
+        fsmRectParams: []
+        fsmQuaternionParams: []
+        stringParams: []
+        byteData: cdcccc3d0046494e495348454400
+        arrayParamSizes: 
+        arrayParamTypes: []
+        customTypeSizes: 
+        customTypeNames: []
+        paramDataType: 0f0000001700000001000000
+        paramName:
+        - time
+        - finishEvent
+        - realTime
+        paramDataPos: 00000000050000000d000000
+        paramByteDataSize: 050000000800000001000000
+    - name: Member?
+      description: 
+      colorIndex: 3
+      position:
+        serializedVersion: 2
+        x: 226.16406
+        y: 168.78906
+        width: 100
+        height: 48
+      isBreakpoint: 0
+      isSequence: 0
+      hideUnused: 0
+      transitions:
+      - fsmEvent:
+          name: True
+          isSystemEvent: 0
+          isGlobal: 0
+        toState: GetIglooSlotContainer
+        linkStyle: 0
+        linkConstraint: 0
+        linkTarget: 0
+        colorIndex: 0
+      - fsmEvent:
+          name: False
+          isSystemEvent: 0
+          isGlobal: 0
+        toState: IglooNonMemberSlotContainer
+        linkStyle: 0
+        linkConstraint: 0
+        linkTarget: 0
+        colorIndex: 0
+      actionData:
+        actionNames:
+        - ClubPenguin.Adventure.CheckMemberStatusAction
+        customNames:
+        - 
+        actionEnabled: 01
+        actionIsOpen: 01
+        actionStartIndex: 00000000
+        actionHashCodes: d8973105
+        unityObjectParams: []
+        fsmGameObjectParams: []
+        fsmOwnerDefaultParams: []
+        animationCurveParams: []
+        functionCallParams: []
+        fsmTemplateControlParams: []
+        fsmEventTargetParams: []
+        fsmPropertyParams: []
+        layoutOptionParams: []
+        fsmStringParams: []
+        fsmObjectParams: []
+        fsmVarParams: []
+        fsmArrayParams: []
+        fsmEnumParams: []
+        fsmFloatParams: []
+        fsmIntParams: []
+        fsmBoolParams: []
+        fsmVector2Params: []
+        fsmVector3Params: []
+        fsmColorParams: []
+        fsmRectParams: []
+        fsmQuaternionParams: []
+        stringParams: []
+        byteData: 5472756546616c7365
+        arrayParamSizes: 
+        arrayParamTypes: []
+        customTypeSizes: 
+        customTypeNames: []
+        paramDataType: 1700000017000000
+        paramName:
+        - IsMemberEvent
+        - NotMemberEvent
+        paramDataPos: 0000000004000000
+        paramByteDataSize: 0400000005000000
+    - name: IglooNonMemberSlotContainer
+      description: 
+      colorIndex: 0
+      position:
+        serializedVersion: 2
+        x: 311.4297
+        y: 248.64062
+        width: 212
+        height: 32
+      isBreakpoint: 0
+      isSequence: 0
+      hideUnused: 0
+      transitions:
+      - fsmEvent:
+          name: FINISHED
+          isSystemEvent: 1
+          isGlobal: 0
+        toState: Wait 2
+        linkStyle: 0
+        linkConstraint: 0
+        linkTarget: 0
+        colorIndex: 0
+      actionData:
+        actionNames:
+        - ClubPenguin.Adventure.WaitForObjectToExistAction
+        customNames:
+        - 
+        actionEnabled: 01
+        actionIsOpen: 01
+        actionStartIndex: 00000000
+        actionHashCodes: e175e700
+        unityObjectParams: []
+        fsmGameObjectParams:
+        - useVariable: 1
+          name: IglooSlotContainer
+          tooltip: 
+          showInInspector: 0
+          networkSync: 0
+          value: {fileID: 0}
+        fsmOwnerDefaultParams: []
+        animationCurveParams: []
+        functionCallParams: []
+        fsmTemplateControlParams: []
+        fsmEventTargetParams: []
+        fsmPropertyParams: []
+        layoutOptionParams: []
+        fsmStringParams:
+        - useVariable: 0
+          name: 
+          tooltip: 
+          showInInspector: 0
+          networkSync: 0
+          value: IglooNonMemberSlotContainer
+        fsmObjectParams: []
+        fsmVarParams: []
+        fsmArrayParams: []
+        fsmEnumParams: []
+        fsmFloatParams: []
+        fsmIntParams: []
+        fsmBoolParams: []
+        fsmVector2Params: []
+        fsmVector3Params: []
+        fsmColorParams: []
+        fsmRectParams: []
+        fsmQuaternionParams: []
+        stringParams: []
+        byteData: 0000a040cdcc4c3e00
+        arrayParamSizes: 
+        arrayParamTypes: []
+        customTypeSizes: 
+        customTypeNames: []
+        paramDataType: 1200000002000000020000000100000013000000
+        paramName:
+        - ObjectName
+        - TimeoutTime
+        - CheckInterval
+        - HasTimeout
+        - OUT_Object
+        paramDataPos: 0000000000000000040000000800000000000000
+        paramByteDataSize: 0000000004000000040000000100000000000000
+    - name: Wait 2
+      description: 
+      colorIndex: 5
+      position:
+        serializedVersion: 2
+        x: 222.96094
+        y: 323
+        width: 100
+        height: 32
+      isBreakpoint: 0
+      isSequence: 0
+      hideUnused: 0
+      transitions:
+      - fsmEvent:
+          name: FINISHED
+          isSystemEvent: 1
+          isGlobal: 0
+        toState: GetChild
+        linkStyle: 0
+        linkConstraint: 0
+        linkTarget: 0
+        colorIndex: 0
+      actionData:
+        actionNames:
+        - HutongGames.PlayMaker.Actions.Wait
+        customNames:
+        - 
+        actionEnabled: 01
+        actionIsOpen: 01
+        actionStartIndex: 00000000
+        actionHashCodes: 48c01101
+        unityObjectParams: []
+        fsmGameObjectParams: []
+        fsmOwnerDefaultParams: []
+        animationCurveParams: []
+        functionCallParams: []
+        fsmTemplateControlParams: []
+        fsmEventTargetParams: []
+        fsmPropertyParams: []
+        layoutOptionParams: []
+        fsmStringParams: []
+        fsmObjectParams: []
+        fsmVarParams: []
+        fsmArrayParams: []
+        fsmEnumParams: []
+        fsmFloatParams: []
+        fsmIntParams: []
+        fsmBoolParams: []
+        fsmVector2Params: []
+        fsmVector3Params: []
+        fsmColorParams: []
+        fsmRectParams: []
+        fsmQuaternionParams: []
+        stringParams: []
+        byteData: 0000003f0046494e495348454400
+        arrayParamSizes: 
+        arrayParamTypes: []
+        customTypeSizes: 
+        customTypeNames: []
+        paramDataType: 0f0000001700000001000000
+        paramName:
+        - time
+        - finishEvent
+        - realTime
+        paramDataPos: 00000000050000000d000000
+        paramByteDataSize: 050000000800000001000000
+    - name: EnableAllUIElements
+      description: 
+      colorIndex: 1
+      position:
+        serializedVersion: 2
+        x: 1451.8203
+        y: 869.4922
+        width: 148
+        height: 32
+      isBreakpoint: 0
+      isSequence: 0
+      hideUnused: 0
+      transitions:
+      - fsmEvent:
+          name: FINISHED
+          isSystemEvent: 1
+          isGlobal: 0
+        toState: end
+        linkStyle: 0
+        linkConstraint: 0
+        linkTarget: 0
+        colorIndex: 0
+      actionData:
+        actionNames:
+        - ClubPenguin.UI.EnableAllUIElementsAction
+        customNames:
+        - 
+        actionEnabled: 01
+        actionIsOpen: 01
+        actionStartIndex: 00000000
+        actionHashCodes: 00000000
+        unityObjectParams: []
+        fsmGameObjectParams: []
+        fsmOwnerDefaultParams: []
+        animationCurveParams: []
+        functionCallParams: []
+        fsmTemplateControlParams: []
+        fsmEventTargetParams: []
+        fsmPropertyParams: []
+        layoutOptionParams: []
+        fsmStringParams: []
+        fsmObjectParams: []
+        fsmVarParams: []
+        fsmArrayParams: []
+        fsmEnumParams: []
+        fsmFloatParams: []
+        fsmIntParams: []
+        fsmBoolParams: []
+        fsmVector2Params: []
+        fsmVector3Params: []
+        fsmColorParams: []
+        fsmRectParams: []
+        fsmQuaternionParams: []
+        stringParams: []
+        byteData: 
+        arrayParamSizes: 
+        arrayParamTypes: []
+        customTypeSizes: 
+        customTypeNames: []
+        paramDataType: 
+        paramName: []
+        paramDataPos: 
+        paramByteDataSize: 
+    events:
+    - name: FINISHED
+      isSystemEvent: 1
+      isGlobal: 0
+    - name: TapDone
+      isSystemEvent: 0
+      isGlobal: 0
+    - name: TapSave
+      isSystemEvent: 0
+      isGlobal: 0
+    - name: True
+      isSystemEvent: 0
+      isGlobal: 0
+    - name: False
+      isSystemEvent: 0
+      isGlobal: 0
+    globalTransitions: []
+    variables:
+      floatVariables: []
+      intVariables: []
+      boolVariables: []
+      stringVariables: []
+      vector2Variables: []
+      vector3Variables: []
+      colorVariables: []
+      rectVariables: []
+      quaternionVariables: []
+      gameObjectVariables:
+      - useVariable: 1
+        name: CameraTarget
+        tooltip: 
+        showInInspector: 0
+        networkSync: 0
+        value: {fileID: 0}
+      - useVariable: 1
+        name: CreateIglooButton
+        tooltip: 
+        showInInspector: 0
+        networkSync: 0
+        value: {fileID: 0}
+      - useVariable: 1
+        name: IglooSlotContainer
+        tooltip: 
+        showInInspector: 0
+        networkSync: 0
+        value: {fileID: 0}
+      - useVariable: 1
+        name: LotsBackground
+        tooltip: 
+        showInInspector: 0
+        networkSync: 0
+        value: {fileID: 0}
+      - useVariable: 1
+        name: TrayBackground
+        tooltip: 
+        showInInspector: 0
+        networkSync: 0
+        value: {fileID: 0}
+      objectVariables: []
+      materialVariables: []
+      textureVariables: []
+      arrayVariables: []
+      enumVariables: []
+      categories:
+      - 
+      variableCategoryIDs: 0000000000000000000000000000000000000000
+    description: 
+    docUrl: 
+    showStateLabel: 1
+    maxLoopCount: 0
+    watermark: 
+    password: 
+    locked: 0
+    manualUpdate: 0
+    outVariableIndices: 
+    keepDelayedEventsOnStateExit: 0
+    preprocessed: 0
+    ExposedEvents: []
+    OutputEvents: []
+    RestartOnEnable: 1
+    ResetVariablesOnEnable: 0
+    EnableDebugFlow: 0
+    EnableBreakpoints: 1
+    editorFlags: 3
+    activeStateName: 
+    mouseEvents: 0
+    handleLevelLoaded: 0
+    handleTriggerEnter2D: 0
+    handleTriggerExit2D: 0
+    handleTriggerStay2D: 0
+    handleCollisionEnter2D: 0
+    handleCollisionExit2D: 0
+    handleCollisionStay2D: 0
+    handleTriggerEnter: 0
+    handleTriggerExit: 0
+    handleTriggerStay: 0
+    handleCollisionEnter: 0
+    handleCollisionExit: 0
+    handleCollisionStay: 0
+    handleParticleCollision: 0
+    handleControllerColliderHit: 0
+    handleJointBreak: 0
+    handleJointBreak2D: 0
+    handleOnGUI: 0
+    handleFixedUpdate: 0
+    handleLateUpdate: 0
+    handleApplicationEvents: 0
+    handleUiEvents: 0
+    handleLegacyNetworking: 0
+    handleAnimatorMove: 0
+    handleAnimatorIK: 0
