@@ -1,0 +1,23 @@
+namespace DisneyMobile.CoreUnitySystems
+{
+	public enum Language
+	{
+		INVALID = -1,
+		ENGLISH_NTSC,
+		FRENCH_NTSC,
+		ITALIAN,
+		GERMAN,
+		SPANISH_NTSC,
+		CASTILIANSPANISH,
+		JAPANESE,
+		KOREAN,
+		CHINESE_SIMPLIFIED,
+		CHINESE_TRADITIONAL,
+		RUSSIAN,
+		DUTCH,
+		CZECH,
+		POLISH,
+		PORTUGUESE_BRAZILIAN,
+		MAX
+	}
+}

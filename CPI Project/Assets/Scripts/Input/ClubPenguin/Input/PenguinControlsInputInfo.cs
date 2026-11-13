@@ -1,0 +1,34 @@
+namespace ClubPenguin.Input
+{
+	public class PenguinControlsInputInfo : InputInfo
+	{
+		public string Jump = string.Empty;
+
+		public string Action1 = string.Empty;
+
+		public string Action2 = string.Empty;
+
+		public string Action3 = string.Empty;
+
+		public string Cancel = string.Empty;
+
+		public override void Populate(ControlScheme controlScheme)
+		{
+			if (ActiveInputDevice.CurrentKind == ActiveInputDevice.Kind.Gamepad)
+			{
+				Jump = ActiveInputDevice.GetLabel(ActiveInputDevice.GamepadControl.ButtonSouth);
+				Action1 = ActiveInputDevice.GetLabel(ActiveInputDevice.GamepadControl.ButtonWest);
+				Action2 = ActiveInputDevice.GetLabel(ActiveInputDevice.GamepadControl.ButtonNorth);
+				Action3 = ActiveInputDevice.GetLabel(ActiveInputDevice.GamepadControl.ButtonEast);
+				Cancel = ActiveInputDevice.GetLabel(ActiveInputDevice.GamepadControl.Select);
+				return;
+			}
+
+			Jump = getKeyCodeTranslation(controlScheme.Jump.PrimaryKey);
+			Action1 = getKeyCodeTranslation(controlScheme.Action1.PrimaryKey);
+			Action2 = getKeyCodeTranslation(controlScheme.Action2.PrimaryKey);
+			Action3 = getKeyCodeTranslation(controlScheme.Action3.PrimaryKey);
+			Cancel = getKeyCodeTranslation(controlScheme.Cancel.PrimaryKey);
+		}
+	}
+}

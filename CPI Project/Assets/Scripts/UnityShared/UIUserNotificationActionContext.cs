@@ -1,0 +1,5 @@
+public enum UIUserNotificationActionContext
+{
+	UIUserNotificationActionContextDefault,
+	UIUserNotificationActionContextMinimal
+}

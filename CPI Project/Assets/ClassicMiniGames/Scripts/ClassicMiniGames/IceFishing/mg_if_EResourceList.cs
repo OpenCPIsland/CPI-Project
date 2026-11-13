@@ -1,0 +1,19 @@
+namespace IceFishing
+{
+	public enum mg_if_EResourceList
+	{
+		TITLE_LOGIC,
+		GAME_LOGIC,
+		GAME_PUFFLE,
+		GAME_YELLOWFISH,
+		GAME_BARREL,
+		GAME_BOOT,
+		GAME_JELLYFISH,
+		GAME_SHARK_NEAR,
+		GAME_SHARK_FAR,
+		GAME_CRAB,
+		GAME_FREE_LIFE,
+		GAME_SOUNDS,
+		GAME_SOUNDS_SINGLE
+	}
+}

@@ -1,0 +1,6 @@
+public enum UNUserNotificationAction
+{
+	UNNotificationActionOptionAuthenticationRequired,
+	UNNotificationActionOptionDestructive,
+	UNNotificationActionOptionForeground
+}
