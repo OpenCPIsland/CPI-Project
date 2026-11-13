@@ -33,7 +33,7 @@ public static class StartupWarning
             "Anyone that claims that they have the original source code, claims to be us, apart of us, or claims to have internal testing or private builds of puffles are scammers.\n\n" +
             "If you have paid for this source code/project in some fashion, PLEASE dispute said charge with your card issuing provider IMMEDIATELY.\n\n" +
             "This project is free and open sourced at:\n" +
-            "https://github.com/wednesday2024/CPI-Project\n\n" +
+            "https://github.com/OpenCPIsland/CPI-Project\n\n" +
             "We will never ask you or charge you money for this project.",
             "Next"
         );
@@ -45,7 +45,7 @@ public static class StartupWarning
             "Skip"
         ))
         {
-            Application.OpenURL("https://github.com/wednesday2024/CPI-Project");
+            Application.OpenURL("https://github.com/OpenCPIsland/CPI-Project");
         }
 
         EditorUtility.DisplayDialog(
