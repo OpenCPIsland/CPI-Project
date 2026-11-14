@@ -3,7 +3,7 @@
 ; Non-commercial use only
 
 #define MyAppName "Club Penguin Island"
-#define MyAppVersion "1.17.1"
+#define MyAppVersion "1.17.2"
 #define MyAppPublisher "OpenCPI Interactive"
 #define MyAppURL "https://opencpisland.com/"
 #define MyAppExeName "CP Island.exe"
@@ -40,15 +40,15 @@ InfoAfterFile=G:\Programs\Games\Club Penguin Island\Annual Events Calendar.txt
 ;PrivilegesRequired=lowest
 PrivilegesRequiredOverridesAllowed=dialog
 OutputDir=G:\Programs\Games\Club Penguin Island
-OutputBaseFilename=ClubPenguinIsland-1.17.1-Windows-x64
+OutputBaseFilename=ClubPenguinIsland-1.17.2-Windows-x64
 SetupIconFile=G:\Unity Projects\Disney\Kelowna\SharedAssets\icon.ico
 SolidCompression=yes
 WizardStyle=modern dynamic
-VersionInfoVersion=1.17.1
-VersionInfoProductVersion=1.17.1
+VersionInfoVersion=1.17.2
+VersionInfoProductVersion=1.17.2
 VersionInfoCompany={#MyAppPublisher}
 VersionInfoDescription={#MyAppName} Setup
-VersionInfoTextVersion=1.17.1
+VersionInfoTextVersion=1.17.2
 
 [Languages]
 Name: "english"; MessagesFile: "compiler:Default.isl"
