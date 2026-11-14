@@ -76,7 +76,7 @@ public class mg_ResultScreen : MinigameScreen
 			m_coinsEarnedLabel.text = manager.LastCoinsWereDoubled
 				? manager.LastCoinsEarned + " x 2 = " + manager.LastCoinsAwarded
 				: string.Format(Service.Get<Localizer>().GetTokenTranslation("Activity.MiniGames.Coins"), coinsEarned);
-			m_currentCoinsLabel.text = Service.Get<Localizer>().GetTokenTranslation("Activity.MiniGames.TotalCoins") + playerCoins;
+			m_currentCoinsLabel.text = Service.Get<Localizer>().GetTokenTranslation("Activity.MiniGames.TotalCoins") + " " + playerCoins;
 		}
 		else
 		{
