@@ -70,14 +70,18 @@ public class mg_ResultScreen : MinigameScreen
 		Minigame active = MinigameManager.GetActive();
 		int coinsEarned = active.CoinsEarned;
 		int playerCoins = MinigameManager.Instance.PlayerCoins;
+		MinigameManager manager = MinigameManager.Instance;
 		if (Service.IsSet<Localizer>())
 		{
-			m_coinsEarnedLabel.text = string.Format(Service.Get<Localizer>().GetTokenTranslation("Activity.MiniGames.Coins"), coinsEarned);
+			string coinsText = string.Format(Service.Get<Localizer>().GetTokenTranslation("Activity.MiniGames.Coins"), manager.LastCoinsWereDoubled ? manager.LastCoinsEarned : coinsEarned);
+			m_coinsEarnedLabel.text = manager.LastCoinsWereDoubled ? coinsText + " x2 = " + manager.LastCoinsAwarded : coinsText;
 			m_currentCoinsLabel.text = Service.Get<Localizer>().GetTokenTranslation("Activity.MiniGames.TotalCoins") + playerCoins;
 		}
 		else
 		{
-			m_coinsEarnedLabel.text = coinsEarned + " coins!";
+			m_coinsEarnedLabel.text = manager.LastCoinsWereDoubled
+				? manager.LastCoinsEarned + " x2 = " + manager.LastCoinsAwarded
+				: coinsEarned.ToString();
 			m_currentCoinsLabel.text = "Your total coins: " + playerCoins;
 		}
 		m_gameNameLabel.text = active.GetMinigameName();

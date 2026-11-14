@@ -27,6 +27,24 @@ namespace MinigameFramework
             private set;
         }
 
+        public int LastCoinsEarned
+        {
+            get;
+            private set;
+        }
+
+        public int LastCoinsAwarded
+        {
+            get;
+            private set;
+        }
+
+        public bool LastCoinsWereDoubled
+        {
+            get;
+            private set;
+        }
+
         public static MinigameManager Instance
         {
             get
@@ -335,9 +353,12 @@ namespace MinigameFramework
 
         public void OnMinigameEnded()
         {
+            LastCoinsEarned = m_activeMinigame.CoinsEarned;
+            LastCoinsWereDoubled = ClassicMinigameDoubleCoins.IsActive(m_activeMinigame);
+            LastCoinsAwarded = LastCoinsEarned * (LastCoinsWereDoubled ? 2 : 1);
             if (m_activeMinigame.CoinsEarned > 0)
             {
-                PlayerCoins += m_activeMinigame.CoinsEarned;
+                PlayerCoins += LastCoinsAwarded;
                 UIManager.Instance.OpenScreen("mg_ResultScreen", false, OnResultsClosed, null);
                 m_activeMinigame.PauseGame();
             }
