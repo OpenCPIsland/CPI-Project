@@ -146,6 +146,7 @@ namespace JetpackReboot
 		{
 			CoinsCollected += _numberOfCoins;
 			CoinsCollectedSession += _numberOfCoins;
+			m_miniGame.CoinsEarned += _numberOfCoins;
 		}
 
 		private void Awake()
