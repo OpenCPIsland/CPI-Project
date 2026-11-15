@@ -33,7 +33,7 @@ using UnityEngine.SceneManagement;
 [assembly: AssemblyCompany("TazMan-Audio")]
 [assembly: AssemblyProduct("Fabric.Core.Editor")]
 [assembly: AssemblyCopyright("Copyright © TazMan-Audio 2026")]
-[assembly: AssemblyVersion("4.0.0.0")]
+[assembly: AssemblyVersion("4.0.1.0")]
 namespace Fabric
 {
 	public static class StringExtensions
@@ -57,7 +57,7 @@ namespace Fabric
 		{
 			string text = "2.4";
 			string text2 = "";
-			text2 = " (>Unity 5.6+)";
+			text2 = " (>Unity 6.0+)";
 			GUILayout.BeginHorizontal();
 			GUILayout.FlexibleSpace();
 			GUILayout.Label(" Fabric " + text + text2);
