@@ -52,7 +52,7 @@ namespace ClubPenguin.Net.Domain
 			ICommonGameSettings commonGameSettings = Service.Get<ICommonGameSettings>();
 			if (commonGameSettings.OfflineMode && !string.IsNullOrEmpty(commonGameSettings.GameServerHost))
 			{
-				writer.WriteRaw(JsonMapper.ToJson(obj.Data));
+				JsonMapper.ToJson(obj.Data, writer);
 			}
 			else if (obj._rawJson != null)
 			{
