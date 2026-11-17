@@ -261,9 +261,9 @@ namespace ClubPenguin.IslandTargets
 
 		private void LateUpdate()
 		{
-			if (ObjectToDisableWhenNoGameServer != null)
+			if (shouldDisableObjectWhenNoGameServer && ObjectToDisableWhenNoGameServer != null)
 			{
-				ObjectToDisableWhenNoGameServer.SetActive(!shouldDisableObjectWhenNoGameServer);
+				ObjectToDisableWhenNoGameServer.SetActive(false);
 			}
 		}
 
