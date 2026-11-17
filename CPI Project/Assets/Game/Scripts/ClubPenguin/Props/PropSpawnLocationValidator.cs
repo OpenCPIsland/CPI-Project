@@ -4,7 +4,6 @@ using UnityEngine;
 namespace ClubPenguin.Props
 {
 	[DisallowMultipleComponent]
-	[RequireComponent(typeof(Prop))]
 	public abstract class PropSpawnLocationValidator : MonoBehaviour
 	{
 		protected bool isValidPosition = false;
