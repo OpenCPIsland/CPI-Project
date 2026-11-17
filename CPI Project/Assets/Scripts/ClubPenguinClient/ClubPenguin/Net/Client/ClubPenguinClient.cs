@@ -365,7 +365,7 @@ namespace ClubPenguin.Net.Client
 			});
 			Configuration.SetSetting("destroy-operation-on-completion", false);
 			Configuration.SetSetting("persistent-game-object-name", "com.clubpenguin/WebApiKit");
-            Configuration.SetSetting("default-http-client", typeof(hg.ApiWebKit.providers.HttpWWWClient));
+            Configuration.SetSetting("default-http-client", typeof(hg.ApiWebKit.providers.UnityWebRequestClient));
             Configuration.SetSetting("request-timeout", 35f);
 			Configuration.SetSetting("yield-time", 0f);
 			Configuration.SetSetting("default-json-serializer", typeof(SerializeLitJson));
@@ -853,7 +853,7 @@ namespace ClubPenguin.Net.Client
 			});
 			Configuration.SetSetting("destroy-operation-on-completion", false);
 			Configuration.SetSetting("persistent-game-object-name", "com.clubpenguin/WebApiKit");
-            Configuration.SetSetting("default-http-client", typeof(hg.ApiWebKit.providers.HttpWWWClient));
+            Configuration.SetSetting("default-http-client", typeof(hg.ApiWebKit.providers.UnityWebRequestClient));
             Configuration.SetSetting("request-timeout", 35f);
 			Configuration.SetSetting("yield-time", 0f);
 			Configuration.SetSetting("default-json-serializer", typeof(SerializeLitJson));

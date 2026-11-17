@@ -13,7 +13,7 @@ namespace hg.ApiWebKit
         {
             {
                 "default-http-client",
-                typeof(hg.ApiWebKit.providers.HttpWWWClient)
+                typeof(hg.ApiWebKit.providers.UnityWebRequestClient)
             },
             {
                 "request-timeout",

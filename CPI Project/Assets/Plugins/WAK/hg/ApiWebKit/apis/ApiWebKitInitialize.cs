@@ -26,7 +26,7 @@ namespace hg.ApiWebKit.apis
             });
 
             Configuration.SetSetting("destroy-operation-on-completion", DestroyOperationOnCompletion);
-            Configuration.SetSetting("default-http-client", typeof(hg.ApiWebKit.providers.HttpWWWClient));
+            Configuration.SetSetting("default-http-client", typeof(hg.ApiWebKit.providers.UnityWebRequestClient));
             Configuration.SetSetting("request-timeout", 10f);
             Configuration.SetSetting("yield-time", YieldTime);
         }
