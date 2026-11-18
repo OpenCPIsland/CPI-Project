@@ -97,7 +97,7 @@ namespace ClubPenguin.Net.Client
 				room = roomIdentifier.ToString(),
 				selectedTubeId = equippedTubeId,
 				sessionId = Math.Abs(BitConverter.ToInt64(array, 0)),
-				host = Service.Get<ICommonGameSettings>().GameServerHost,
+				host = LanGameServerHost.Address ?? Service.Get<ICommonGameSettings>().GameServerHost,
 				tcpPort = 9933,
 				httpsPort = 8443,
 				userName = offlineDatabase.Read<RegistrationProfile>().userName,

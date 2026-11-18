@@ -757,7 +757,7 @@ namespace ClubPenguin.Net.Client
 			ICommonGameSettings commonGameSettings = Service.Get<ICommonGameSettings>();
 			if (offlineMode && string.IsNullOrEmpty(commonGameSettings.GameServerHost) && string.IsNullOrEmpty(commonGameSettings.CPAPIServicehost))
 			{
-				GameServer = new OfflineGameServerClient(this);
+				GameServer = new LanGameServerClient(this, gameZone, gameEncryption, gameDebugging, lagMonitoring);
 			}
 			else
 			{
