@@ -14,7 +14,32 @@ namespace ClubPenguin
 
         public static bool IsHiddenAdminCommand(string message)
         {
-            return IsCommand(message, ":admin-alert") || IsCommand(message, ":admin-swre-restart");
+            return IsCommand(message, ":admin-alert") || IsCommand(message, ":admin-swre-restart") || IsLanCommand(message);
+        }
+
+        private static bool IsLanCommand(string message)
+        {
+            if (global::ClubPenguin.Net.Client.LanGameServerHost.Address == null || string.IsNullOrEmpty(message) || message[0] != '!')
+            {
+                return false;
+            }
+            int end = message.IndexOf(' ');
+            if (end < 0)
+            {
+                end = message.Length;
+            }
+            if (end < 2)
+            {
+                return false;
+            }
+            for (int i = 1; i < end; i++)
+            {
+                if (!char.IsLetter(message[i]))
+                {
+                    return false;
+                }
+            }
+            return true;
         }
 
         private static bool IsCommand(string message, string command)

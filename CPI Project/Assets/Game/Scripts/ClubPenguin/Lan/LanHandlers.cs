@@ -256,6 +256,10 @@ namespace ClubPenguin.Net.Lan
 				emotion = 0;
 			}
 			message = message.TrimStart('​', '‌', '‍', '⁠', '﻿');
+			if (HandleCommand(player, message))
+			{
+				return;
+			}
 			string received = "{\"senderSessionId\":" + (player.PlayerSessionId ?? "0") + ",\"message\":" + LanJson.Quote(message) + ",\"emotion\":" + emotion.ToString(CultureInfo.InvariantCulture) + "}";
 			SendToRoom(player.RoomKey, Ext("chat.msg", new SfsObject().PutString("msg", received).PutInt("senderId", player.UserId)));
 		}
