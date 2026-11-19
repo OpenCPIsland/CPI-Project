@@ -308,6 +308,7 @@ namespace ClubPenguin.Net.Lan
 			}
 			SendToRoom(player.RoomKey, Ext("l.a", r));
 			Consumables.HandleInteraction(player, action, obj);
+			HandleLocalInteraction(player, action, obj);
 			Lobbies.OnThrowAction(player, action);
 			Lobbies.HandleInteraction(player, action, obj);
 		}
@@ -495,7 +496,108 @@ namespace ClubPenguin.Net.Lan
 			{
 				return;
 			}
-			player.RoomCollected[id] = EpochMs;
+			RecordCollected(player, room, id);
+		}
+
+		private void HandleLocalInteraction(LanPlayer player, byte action, string obj)
+		{
+			if (action != 2 || obj == null)
+			{
+				return;
+			}
+			object parsed;
+			int type;
+			if (!LanJson.TryParse(obj, out parsed) || !LanJson.TryInt(LanJson.Get(parsed, "type"), out type) || type != 0)
+			{
+				return;
+			}
+			string id = LanJson.Get(parsed, "id") as string;
+			string tag = LanJson.Get(parsed, "tag") as string;
+			string room = ZoneOfRoom(player.RoomKey);
+			if (string.IsNullOrEmpty(id) || id.Length > 512 || string.IsNullOrEmpty(tag) || tag == "Untagged" || string.IsNullOrEmpty(room))
+			{
+				return;
+			}
+			RecordCollected(player, room, id);
+		}
+
+		private void RecordCollected(LanPlayer player, string room, string id)
+		{
+			long now = EpochMs;
+			if (!player.RoomCollected.ContainsKey(id) && player.RoomCollected.Count >= MaxCollectedPerRoom)
+			{
+				return;
+			}
+			player.RoomCollected[id] = now;
+			Dictionary<string, long> saved = CollectedStore(player, room);
+			if (saved != null && (saved.ContainsKey(id) || saved.Count < MaxCollectedPerRoom))
+			{
+				saved[id] = now;
+			}
+			SendRoomCollected(player, room);
+		}
+
+		private const int MaxCollectedPerRoom = 2000;
+
+		private const int MaxCollectedPlayers = 500;
+
+		private readonly Dictionary<string, Dictionary<string, Dictionary<string, long>>> collectedByPlayer = new Dictionary<string, Dictionary<string, Dictionary<string, long>>>();
+
+		private Dictionary<string, long> CollectedStore(LanPlayer player, string room)
+		{
+			if (player.Swid == null || string.IsNullOrEmpty(room))
+			{
+				return null;
+			}
+			Dictionary<string, Dictionary<string, long>> rooms;
+			if (!collectedByPlayer.TryGetValue(player.Swid, out rooms))
+			{
+				if (collectedByPlayer.Count >= MaxCollectedPlayers)
+				{
+					return null;
+				}
+				rooms = new Dictionary<string, Dictionary<string, long>>();
+				collectedByPlayer[player.Swid] = rooms;
+			}
+			Dictionary<string, long> saved;
+			if (!rooms.TryGetValue(room, out saved))
+			{
+				saved = new Dictionary<string, long>();
+				rooms[room] = saved;
+			}
+			return saved;
+		}
+
+		private bool RestoreCollected(LanPlayer player)
+		{
+			Dictionary<string, long> saved = CollectedStore(player, ZoneOfRoom(player.RoomKey));
+			if (saved == null)
+			{
+				return false;
+			}
+			foreach (KeyValuePair<string, long> kv in player.RoomCollected)
+			{
+				long at;
+				if (saved.TryGetValue(kv.Key, out at) ? at < kv.Value : saved.Count < MaxCollectedPerRoom)
+				{
+					saved[kv.Key] = kv.Value;
+				}
+			}
+			bool added = false;
+			foreach (KeyValuePair<string, long> kv in saved)
+			{
+				long at;
+				if (!player.RoomCollected.TryGetValue(kv.Key, out at) || at < kv.Value)
+				{
+					player.RoomCollected[kv.Key] = kv.Value;
+					added = true;
+				}
+			}
+			return added;
+		}
+
+		private void SendRoomCollected(LanPlayer player, string room)
+		{
 			Dictionary<string, object> collected = new Dictionary<string, object>();
 			foreach (KeyValuePair<string, long> kv in player.RoomCollected)
 			{

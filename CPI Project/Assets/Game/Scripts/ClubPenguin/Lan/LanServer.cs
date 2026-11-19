@@ -614,8 +614,13 @@ namespace ClubPenguin.Net.Lan
 			player.RoomName = roomName;
 			player.RoomKey = RoomKeyOf(roomName);
 			Transient.Restore(player);
+			bool restored = RestoreCollected(player);
 			player.Send(LoginResponse(player));
 			SendJoin(player);
+			if (restored)
+			{
+				SendRoomCollected(player, ZoneOfRoom(player.RoomKey));
+			}
 			return true;
 		}
 
