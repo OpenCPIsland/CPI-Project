@@ -25,7 +25,7 @@ namespace ClubPenguin.Net.Client.Operations
 
 		protected override void PerformOfflineAction(OfflineDatabase offlineDatabase, IOfflineDefinitionLoader offlineDefinitions)
 		{
-			ResponseBody = new List<string>();
+			ResponseBody = LanDirectory.Active ? LanDirectory.OnlineSwids(RequestBody) : new List<string>();
 		}
 	}
 }

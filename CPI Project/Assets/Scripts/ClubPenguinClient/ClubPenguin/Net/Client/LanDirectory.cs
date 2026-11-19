@@ -173,6 +173,26 @@ namespace ClubPenguin.Net.Client
 			return (e != null) ? ToPlayerData(e) : null;
 		}
 
+		public static List<string> OnlineSwids(IEnumerable<string> swids)
+		{
+			List<string> result = new List<string>();
+			if (swids == null)
+			{
+				return result;
+			}
+			HashSet<string> online = new HashSet<string>(from x in Snapshot()
+				where !string.IsNullOrEmpty(x.Room) && x.Room.Split(':').Length >= 5
+				select x.Swid);
+			foreach (string swid in swids)
+			{
+				if (swid != null && online.Contains(swid))
+				{
+					result.Add(swid);
+				}
+			}
+			return result;
+		}
+
 		public static List<OtherPlayerData> BySwids(IEnumerable<string> swids)
 		{
 			List<OtherPlayerData> result = new List<OtherPlayerData>();
