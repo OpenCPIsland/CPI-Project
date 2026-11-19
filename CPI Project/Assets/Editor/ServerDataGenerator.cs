@@ -19,7 +19,7 @@ public static class ServerDataGenerator
 {
     private const string OutputDirectory = "Assets/Generated/Export/ServerData/";
     private const string LanWorldObjectsPath = "Assets/Game/Resources/Lan/world-objects.json";
-    private const string HalloweenTownDecorationsScenePath = "Assets/Game/World/Scenes/Events/Halloween/AdditiveScenes/Town_Halloween2017_Decorations.unity";
+    private const string GhostBattleScenePath = "Assets/Game/World/Scenes/Town.unity";
     private static readonly string[] ReserializeAssetPaths =
     {
         "Assets/Game/Resources/Definitions/ScheduledEventDates",
@@ -234,11 +234,11 @@ public static class ServerDataGenerator
             throw new InvalidDataException("The LAN world-objects file does not contain islandTargets.");
         }
 
-        Scene scene = SceneManager.GetSceneByPath(HalloweenTownDecorationsScenePath);
+        Scene scene = SceneManager.GetSceneByPath(GhostBattleScenePath);
         bool closeScene = false;
         if (!scene.IsValid() || !scene.isLoaded)
         {
-            scene = EditorSceneManager.OpenScene(HalloweenTownDecorationsScenePath, OpenSceneMode.Additive);
+            scene = EditorSceneManager.OpenScene(GhostBattleScenePath, OpenSceneMode.Additive);
             closeScene = true;
         }
 
@@ -250,33 +250,10 @@ public static class ServerDataGenerator
                 .ToArray();
             if (playgrounds.Length != 1)
             {
-                throw new InvalidDataException("Expected one Halloween Ghost Battle TargetsPlayground in " + HalloweenTownDecorationsScenePath + ", found " + playgrounds.Length + ".");
+                throw new InvalidDataException("Expected one Halloween Ghost Battle TargetsPlayground in " + GhostBattleScenePath + ", found " + playgrounds.Length + ".");
             }
 
-            JArray townPlaygrounds = islandTargets["Town"] as JArray;
-            if (townPlaygrounds == null)
-            {
-                townPlaygrounds = new JArray();
-                islandTargets["Town"] = townPlaygrounds;
-            }
-
-            Transform sceneRoot = playgrounds[0].transform;
-            while (sceneRoot.parent != null)
-            {
-                sceneRoot = sceneRoot.parent;
-            }
-            string ghostBattlePath = playgrounds[0].transform.GetPath();
-            string relativeGhostBattlePath = GetRelativePath(sceneRoot, playgrounds[0].transform);
-            for (int i = townPlaygrounds.Count - 1; i >= 0; i--)
-            {
-                string existingPath = (string)townPlaygrounds[i]["path"];
-                if (string.Equals(existingPath, ghostBattlePath, StringComparison.Ordinal) ||
-                    string.Equals(existingPath, relativeGhostBattlePath, StringComparison.Ordinal))
-                {
-                    townPlaygrounds.RemoveAt(i);
-                }
-            }
-            townPlaygrounds.Add(SerializeIslandTargetsPlayground(playgrounds[0]));
+            islandTargets["Town"] = new JArray(SerializeIslandTargetsPlayground(playgrounds[0]));
         }
         finally
         {
@@ -438,23 +415,6 @@ public static class ServerDataGenerator
     {
         Vector3 scale = collider.transform.lossyScale;
         return collider.radius * Mathf.Max(Mathf.Abs(scale.x), Mathf.Abs(scale.y), Mathf.Abs(scale.z));
-    }
-
-    private static string GetRelativePath(Transform root, Transform target)
-    {
-        List<string> pathParts = new List<string>();
-        Transform current = target;
-        while (current != root && current != null)
-        {
-            pathParts.Add(current.name);
-            current = current.parent;
-        }
-        if (current == null)
-        {
-            throw new InvalidDataException(target.gameObject.GetPath() + " is not a child of the prefab root.");
-        }
-        pathParts.Reverse();
-        return "/" + string.Join("/", pathParts);
     }
 
     private static bool IsEditableProjectScene(string scenePath)
