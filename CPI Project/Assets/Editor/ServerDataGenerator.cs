@@ -172,7 +172,7 @@ public static class ServerDataGenerator
                             Debug.LogWarning("Skipped collectible " + collectible.gameObject.GetPath() + " in " + scenePath + ": " + exception.Message);
                             continue;
                         }
-                        string path = collectible.gameObject.GetPath();
+                        string path = (string)record["path"];
                         scenePickupables[path] = record;
                         pickupableCount++;
 
@@ -433,11 +433,27 @@ public static class ServerDataGenerator
         {
             ["maxBounds"] = SerializeVector3(bounds.max),
             ["minBounds"] = SerializeVector3(bounds.min),
-            ["path"] = collectible.gameObject.GetPath(),
+            ["path"] = GetCollectiblePath(collectible),
             ["reward"] = collectible.RewardDef == null ? JValue.CreateNull() : JToken.FromObject(collectible.RewardDef.ToReward(), serializer),
             ["tag"] = collectible.gameObject.tag,
             ["type"] = 0
         };
+    }
+
+    private static string GetCollectiblePath(Collectible collectible)
+    {
+        GameObject interactionObj = null;
+        SceneryCollectible scenery = collectible as SceneryCollectible;
+        if (scenery != null)
+        {
+            interactionObj = scenery.InteractionObj;
+        }
+        RewardCollectible reward = collectible as RewardCollectible;
+        if (reward != null)
+        {
+            interactionObj = reward.InteractionObj;
+        }
+        return interactionObj != null ? interactionObj.GetPath() : collectible.gameObject.GetPath();
     }
 
     private static JObject SerializeVector3(Vector3 value)
