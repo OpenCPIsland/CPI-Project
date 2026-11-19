@@ -149,6 +149,7 @@ namespace ClubPenguin.Net.Lan
 			data.PartyGames = LoadText("Lan/party-games");
 			data.TubeRaces = LoadText("Lan/tube-races");
 			data.WorldObjects = LoadText("Lan/world-objects");
+			data.CatalogPath = System.IO.Path.Combine(Application.persistentDataPath, "LanCatalog.json");
 			LanServer created = new LanServer(data);
 			if (!created.Start())
 			{

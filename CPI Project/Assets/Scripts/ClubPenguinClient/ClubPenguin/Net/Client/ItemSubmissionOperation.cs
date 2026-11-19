@@ -38,7 +38,8 @@ namespace ClubPenguin.Net.Client
             if (data.NextCatalogItemId <= 0L)
                 data.NextCatalogItemId = 1000L;
 
-            long catalogItemId = data.NextCatalogItemId++;
+            bool lan = LanCatalog.Active;
+            long catalogItemId = lan ? LanCatalog.NewItemId() : data.NextCatalogItemId++;
             long nowMs = DateTimeOffset.UtcNow.ToUnixTimeMilliseconds();
 
             RegistrationProfile rp = offlineDatabase.Read<RegistrationProfile>();
@@ -59,18 +60,25 @@ namespace ClubPenguin.Net.Client
             item.numberSold = 0L;
             item.equipment = eq;
 
-            data.MarketplaceItems.Add(item);
-
-            if (!data.SubmittedItemByChallenge.ContainsKey(SubmissionRequest.scheduledThemeChallengeId))
+            if (lan)
             {
-                data.SubmittedItemByChallenge[SubmissionRequest.scheduledThemeChallengeId] = new List<long>();
+                LanCatalog.Submit(SubmissionRequest.scheduledThemeChallengeId, offlineDatabase.AccessToken, item);
             }
-            data.SubmittedItemByChallenge[SubmissionRequest.scheduledThemeChallengeId].Add(catalogItemId);
+            else
+            {
+                data.MarketplaceItems.Add(item);
 
-            string userChallengeKey = rp.userName + ":" + SubmissionRequest.scheduledThemeChallengeId;
-            data.UserCurrentSubmissionByChallenge[userChallengeKey] = catalogItemId;
+                if (!data.SubmittedItemByChallenge.ContainsKey(SubmissionRequest.scheduledThemeChallengeId))
+                {
+                    data.SubmittedItemByChallenge[SubmissionRequest.scheduledThemeChallengeId] = new List<long>();
+                }
+                data.SubmittedItemByChallenge[SubmissionRequest.scheduledThemeChallengeId].Add(catalogItemId);
 
-            data.ScheduledThemeChallengeIdByCatalogItemId[catalogItemId] = SubmissionRequest.scheduledThemeChallengeId;
+                string userChallengeKey = rp.userName + ":" + SubmissionRequest.scheduledThemeChallengeId;
+                data.UserCurrentSubmissionByChallenge[userChallengeKey] = catalogItemId;
+
+                data.ScheduledThemeChallengeIdByCatalogItemId[catalogItemId] = SubmissionRequest.scheduledThemeChallengeId;
+            }
 
             ClubPenguin.Net.Offline.PlayerAssets pa = offlineDatabase.Read<ClubPenguin.Net.Offline.PlayerAssets>();
             pa.Assets.coins += (int)data.SubmissionRewardCoins;

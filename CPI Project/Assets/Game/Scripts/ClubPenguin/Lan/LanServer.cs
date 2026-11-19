@@ -16,6 +16,8 @@ namespace ClubPenguin.Net.Lan
 		public string TubeRaces;
 
 		public string WorldObjects;
+
+		public string CatalogPath;
 	}
 
 	public sealed partial class LanServer
@@ -127,7 +129,7 @@ namespace ClubPenguin.Net.Lan
 			PartyGames = new LanPartyGames(this, new LanPartyGameDefinitions(data.PartyGames, data.TubeRaces));
 			Lobbies = new LanLobbies(this);
 			Transient = new LanTransientData(this);
-			Services = new LanServices(this);
+			Services = new LanServices(this, data.CatalogPath);
 		}
 
 		public bool Start()
@@ -663,7 +665,6 @@ namespace ClubPenguin.Net.Lan
 			Targets.EnsureRoom(player.RoomKey, player.RoomName);
 			RoomItems.SendSnapshot(player);
 			Lobbies.EnsureRoom(player.RoomKey);
-			SendExistingOccupants(player);
 			AnnounceWhenPlaced(player);
 		}
 
@@ -786,7 +787,8 @@ namespace ClubPenguin.Net.Lan
 				return;
 			}
 			joined.Announced = true;
-			List<LanPlayer> others = InRoomExcept(joined.RoomKey, joined);
+			SendExistingOccupants(joined);
+			List<LanPlayer> others = InRoomExcept(joined.RoomKey, joined).Where((LanPlayer o) => o.Announced).ToList();
 			if (others.Count == 0)
 			{
 				return;

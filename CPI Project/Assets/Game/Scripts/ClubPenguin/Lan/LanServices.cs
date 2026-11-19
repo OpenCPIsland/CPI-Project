@@ -129,9 +129,12 @@ namespace ClubPenguin.Net.Lan
 
 		private long sequence;
 
-		public LanServices(LanServer server)
+		private readonly LanCatalogStore catalog;
+
+		public LanServices(LanServer server, string catalogPath)
 		{
 			this.server = server;
+			catalog = new LanCatalogStore(server, catalogPath);
 		}
 
 		public bool Start()
@@ -198,6 +201,7 @@ namespace ClubPenguin.Net.Lan
 				c.Close();
 			}
 			clients.Clear();
+			catalog.Save();
 		}
 
 		private void AcceptLoop()
@@ -353,6 +357,14 @@ namespace ClubPenguin.Net.Lan
 			case "unfriend":
 				HandleUnfriend(conn, rid, msg);
 				break;
+			case "cat_theme":
+			case "cat_submit":
+			case "cat_buy":
+				catalog.Handle(conn, cmd, msg, delegate(string line)
+				{
+					Broadcast(line, null);
+				});
+				break;
 			}
 		}
 
@@ -394,6 +406,7 @@ namespace ClubPenguin.Net.Lan
 					conn.Send(Message("layout", "swid", other.Swid, "json", other.Layout));
 				}
 			}
+			catalog.SendState(conn);
 		}
 
 		private void HandleLayout(LanServiceConnection conn, object msg)
@@ -471,7 +484,7 @@ namespace ClubPenguin.Net.Lan
 			return Message("dir", "players", list);
 		}
 
-		private static string Message(string cmd, params object[] pairs)
+		internal static string Message(string cmd, params object[] pairs)
 		{
 			Dictionary<string, object> m = new Dictionary<string, object>();
 			m["cmd"] = cmd;

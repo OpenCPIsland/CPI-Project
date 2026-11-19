@@ -142,6 +142,7 @@ namespace ClubPenguin.Mix
 		{
 			LanFriendsData data = default(LanFriendsData);
 			data.Init();
+			data.Profiles = LanFriends.Load(lanToken).Profiles;
 			foreach (OfflineLanFriend friend in lanFriends)
 			{
 				data.Friends.Add(new LanFriendsData.Entry

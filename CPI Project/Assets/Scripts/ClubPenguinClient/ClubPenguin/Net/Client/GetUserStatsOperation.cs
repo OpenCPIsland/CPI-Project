@@ -27,6 +27,22 @@ namespace ClubPenguin.Net.Client
             RegistrationProfile rp = offlineDatabase.Read<RegistrationProfile>();
             string currentUsername = rp.userName ?? "";
 
+            if (LanCatalog.Active)
+            {
+                long lanCutoffMs = new DateTimeOffset(DateTime.UtcNow.Date.AddDays(-6), TimeSpan.Zero).ToUnixTimeMilliseconds();
+                CatalogItemData? lanPopular = LanCatalog.MostPopular(0L);
+                Response = default(UserStatsResponse);
+                Response.totalItemsSold = LanCatalog.SoldBy(offlineDatabase.AccessToken);
+                Response.totalItemsPurchased = data.TotalItemsPurchased;
+                Response.mostPopularItem = lanPopular.HasValue ? lanPopular.Value : new CatalogItemData
+                {
+                    creatorName = "",
+                    equipment = default(CustomEquipment)
+                };
+                Response.currentItems = LanCatalog.ItemsBy(offlineDatabase.AccessToken, lanCutoffMs);
+                return;
+            }
+
             List<CatalogItemData> currentItems = new List<CatalogItemData>();
             if (data.MarketplaceItems != null && data.MarketplaceItems.Count > 0)
             {

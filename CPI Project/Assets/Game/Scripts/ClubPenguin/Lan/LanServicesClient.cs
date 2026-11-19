@@ -257,6 +257,7 @@ namespace ClubPenguin.Net.Lan
 			{
 				link.Synced = true;
 				LanFriends.Transport = transport;
+				LanCatalog.Send = SendCatalog;
 				Write(SyncMessage(LanFriends.Load(link.Swid)));
 			}
 			if (heldNotes.Count > 0)
@@ -280,6 +281,7 @@ namespace ClubPenguin.Net.Lan
 					swids.Add(friend.Swid);
 				}
 				LanDirectory.SetFriends(swids);
+				CacheFriendProfiles(LanDirectory.KnownEntries());
 			}
 			if (Time.realtimeSinceStartup >= nextLayoutCheck)
 			{
@@ -387,6 +389,7 @@ namespace ClubPenguin.Net.Lan
 			}
 			heldNotes.Clear();
 			LanFriends.Transport = null;
+			LanCatalog.Reset();
 			LanDirectory.SetConnected(false, null);
 			List<Pending> failed = new List<Pending>(pending.Values);
 			pending.Clear();
@@ -435,7 +438,71 @@ namespace ClubPenguin.Net.Lan
 			case "res":
 				HandleResult(msg);
 				break;
+			case "cat_schedule":
+				HandleCatalogSchedule(msg);
+				break;
+			case "cat_item":
+				HandleCatalogItem(msg);
+				break;
+			case "cat_sold":
+			{
+				long id;
+				long sold;
+				if (LanJson.TryLong(LanJson.Get(msg, "id"), out id) && LanJson.TryLong(LanJson.Get(msg, "sold"), out sold))
+				{
+					LanCatalog.SetSold(id, sold);
+				}
+				break;
 			}
+			case "cat_ready":
+				LanCatalog.SetReady();
+				break;
+			}
+		}
+
+		private static void SendCatalog(string command, Dictionary<string, object> args)
+		{
+			if (!IsWelcomed())
+			{
+				return;
+			}
+			Dictionary<string, object> m = new Dictionary<string, object>(args);
+			m["cmd"] = command;
+			Write(LanJson.Serialize(m));
+		}
+
+		private static void HandleCatalogSchedule(object msg)
+		{
+			Dictionary<string, object> days = LanJson.Get(msg, "days") as Dictionary<string, object>;
+			if (days == null)
+			{
+				return;
+			}
+			foreach (KeyValuePair<string, object> kv in days)
+			{
+				int day;
+				long id;
+				if (int.TryParse(kv.Key, NumberStyles.Integer, CultureInfo.InvariantCulture, out day) && LanJson.TryLong(kv.Value, out id))
+				{
+					LanCatalog.SetScheduleDay(day, id);
+				}
+			}
+		}
+
+		private static void HandleCatalogItem(object msg)
+		{
+			long id;
+			long challenge;
+			long sold;
+			long created;
+			string json = LanJson.Get(msg, "json") as string;
+			if (json == null || !LanJson.TryLong(LanJson.Get(msg, "id"), out id) || !LanJson.TryLong(LanJson.Get(msg, "challenge"), out challenge))
+			{
+				return;
+			}
+			LanJson.TryLong(LanJson.Get(msg, "sold"), out sold);
+			LanJson.TryLong(LanJson.Get(msg, "created"), out created);
+			LanCatalog.AddItem(id, challenge, LanJson.Get(msg, "swid") as string, sold, created, json);
 		}
 
 		private static void HandleDirectory(object msg)
@@ -490,7 +557,101 @@ namespace ClubPenguin.Net.Lan
 				}
 			}
 			LanDirectory.Replace(entries);
+			CacheFriendProfiles(entries);
 			RefreshFriends();
+		}
+
+		private static void CacheFriendProfiles(List<LanDirectory.Entry> entries)
+		{
+			if (link == null)
+			{
+				return;
+			}
+			LanFriendsData data = LanFriends.Load(link.Swid);
+			HashSet<string> friends = new HashSet<string>();
+			foreach (LanFriendsData.Entry friend in data.Friends)
+			{
+				friends.Add(friend.Swid);
+			}
+			bool changed = data.Profiles.RemoveAll((LanFriendsData.CachedProfile p) => !friends.Contains(p.Swid)) > 0;
+			foreach (LanDirectory.Entry e in entries)
+			{
+				if (!friends.Contains(e.Swid))
+				{
+					continue;
+				}
+				int index = data.Profiles.FindIndex((LanFriendsData.CachedProfile p) => p.Swid == e.Swid);
+				LanFriendsData.CachedProfile cached = (index >= 0) ? data.Profiles[index] : new LanFriendsData.CachedProfile
+				{
+					Swid = e.Swid
+				};
+				LanFriendsData.CachedProfile next = cached;
+				next.Name = e.Name;
+				if (e.OutfitJson != null)
+				{
+					next.OutfitJson = e.OutfitJson;
+				}
+				if (e.Colour.HasValue)
+				{
+					next.Colour = e.Colour;
+				}
+				if (e.DaysOld.HasValue)
+				{
+					next.DaysOld = e.DaysOld;
+				}
+				if (e.MascotXP != null)
+				{
+					next.MascotXP = e.MascotXP;
+				}
+				if (e.IglooInstance != null)
+				{
+					next.IglooName = e.IglooName;
+					next.IglooInstance = e.IglooInstance;
+					next.Visibility = e.Visibility;
+				}
+				if (index >= 0 && SameProfile(cached, next))
+				{
+					continue;
+				}
+				if (index >= 0)
+				{
+					data.Profiles[index] = next;
+				}
+				else
+				{
+					data.Profiles.Add(next);
+				}
+				changed = true;
+			}
+			if (changed)
+			{
+				LanFriends.Save(data, link.Swid);
+			}
+		}
+
+		private static bool SameProfile(LanFriendsData.CachedProfile a, LanFriendsData.CachedProfile b)
+		{
+			if (a.Name != b.Name || a.OutfitJson != b.OutfitJson || a.Colour != b.Colour || a.DaysOld != b.DaysOld || a.IglooName != b.IglooName || a.IglooInstance != b.IglooInstance || a.Visibility != b.Visibility)
+			{
+				return false;
+			}
+			if (a.MascotXP == null || b.MascotXP == null)
+			{
+				return a.MascotXP == b.MascotXP;
+			}
+			if (a.MascotXP.Count != b.MascotXP.Count)
+			{
+				return false;
+			}
+			foreach (KeyValuePair<string, long> kv in a.MascotXP)
+			{
+				long value;
+				if (!b.MascotXP.TryGetValue(kv.Key, out value) || value != kv.Value)
+				{
+					return false;
+				}
+			}
+			return true;
 		}
 
 		private static void RefreshFriends()

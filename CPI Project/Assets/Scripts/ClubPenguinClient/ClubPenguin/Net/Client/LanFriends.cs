@@ -43,7 +43,7 @@ namespace ClubPenguin.Net.Client
 		public static LanFriendsData Load(string token)
 		{
 			LanFriendsData data = OfflineDatabase.Read<LanFriendsData>(token);
-			if (data.Friends == null || data.Incoming == null || data.Outgoing == null)
+			if (data.Friends == null || data.Incoming == null || data.Outgoing == null || data.Profiles == null)
 			{
 				LanFriendsData fixedData = default(LanFriendsData);
 				fixedData.Init();
@@ -58,6 +58,10 @@ namespace ClubPenguin.Net.Client
 				if (data.Outgoing != null)
 				{
 					fixedData.Outgoing = data.Outgoing;
+				}
+				if (data.Profiles != null)
+				{
+					fixedData.Profiles = data.Profiles;
 				}
 				data = fixedData;
 			}

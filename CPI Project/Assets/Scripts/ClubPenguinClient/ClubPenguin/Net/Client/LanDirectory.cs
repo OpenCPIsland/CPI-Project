@@ -84,6 +84,11 @@ namespace ClubPenguin.Net.Client
 				entries = list ?? new List<Entry>();
 				foreach (Entry e in entries)
 				{
+					Entry old;
+					if (known.TryGetValue(e.Swid, out old))
+					{
+						Fill(e, old);
+					}
 					known[e.Swid] = e;
 				}
 			}
@@ -108,6 +113,14 @@ namespace ClubPenguin.Net.Client
 			}
 		}
 
+		public static bool IsFriend(string swid)
+		{
+			lock (sync)
+			{
+				return swid != null && friendSwids.Contains(swid);
+			}
+		}
+
 		public static void SetFriends(IEnumerable<string> swids)
 		{
 			lock (sync)
@@ -127,6 +140,44 @@ namespace ClubPenguin.Net.Client
 		private static Entry Find(Func<Entry, bool> match)
 		{
 			return Snapshot().FirstOrDefault(match);
+		}
+
+		private static void Fill(Entry e, Entry from)
+		{
+			if (from == null)
+			{
+				return;
+			}
+			if (e.OutfitJson == null)
+			{
+				e.OutfitJson = from.OutfitJson;
+			}
+			if (!e.Colour.HasValue)
+			{
+				e.Colour = from.Colour;
+			}
+			if (!e.DaysOld.HasValue)
+			{
+				e.DaysOld = from.DaysOld;
+			}
+			if (e.MascotXP == null)
+			{
+				e.MascotXP = from.MascotXP;
+			}
+			if (e.IglooInstance == null)
+			{
+				e.IglooName = from.IglooName;
+				e.IglooInstance = from.IglooInstance;
+				e.Visibility = from.Visibility;
+			}
+		}
+
+		public static List<Entry> KnownEntries()
+		{
+			lock (sync)
+			{
+				return known.Values.ToList();
+			}
 		}
 
 		private static Entry Departed(Func<Entry, bool> match)
@@ -155,15 +206,80 @@ namespace ClubPenguin.Net.Client
 			return null;
 		}
 
-		public static OtherPlayerData BySwid(string swid)
+		private static Entry Copy(Entry e)
+		{
+			return new Entry
+			{
+				Swid = e.Swid,
+				Name = e.Name,
+				Room = e.Room,
+				SessionId = e.SessionId,
+				OutfitJson = e.OutfitJson,
+				Colour = e.Colour,
+				IglooName = e.IglooName,
+				IglooInstance = e.IglooInstance,
+				Visibility = e.Visibility,
+				DaysOld = e.DaysOld,
+				MascotXP = e.MascotXP
+			};
+		}
+
+		private static Entry Cached(string token, Func<ClubPenguin.Net.Offline.LanFriendsData.CachedProfile, bool> match)
+		{
+			if (string.IsNullOrEmpty(token))
+			{
+				return null;
+			}
+			foreach (ClubPenguin.Net.Offline.LanFriendsData.CachedProfile p in LanFriends.Load(token).Profiles)
+			{
+				if (match(p))
+				{
+					return new Entry
+					{
+						Swid = p.Swid,
+						Name = p.Name,
+						OutfitJson = p.OutfitJson,
+						Colour = p.Colour,
+						IglooName = p.IglooName,
+						IglooInstance = p.IglooInstance,
+						Visibility = p.Visibility,
+						DaysOld = p.DaysOld,
+						MascotXP = p.MascotXP
+					};
+				}
+			}
+			return null;
+		}
+
+		public static OtherPlayerData BySwid(string swid, string token = null)
 		{
 			Entry e = Find((Entry x) => x.Swid == swid) ?? Departed((Entry x) => x.Swid == swid);
+			Entry cached = Cached(token, (ClubPenguin.Net.Offline.LanFriendsData.CachedProfile x) => x.Swid == swid);
+			if (e == null)
+			{
+				e = cached;
+			}
+			else if (cached != null)
+			{
+				e = Copy(e);
+				Fill(e, cached);
+			}
 			return (e != null) ? ToPlayerData(e) : null;
 		}
 
-		public static OtherPlayerData ByName(string name)
+		public static OtherPlayerData ByName(string name, string token = null)
 		{
 			Entry e = Find((Entry x) => string.Equals(x.Name, name, StringComparison.OrdinalIgnoreCase)) ?? Departed((Entry x) => string.Equals(x.Name, name, StringComparison.OrdinalIgnoreCase));
+			Entry cached = Cached(token, (ClubPenguin.Net.Offline.LanFriendsData.CachedProfile x) => string.Equals(x.Name, name, StringComparison.OrdinalIgnoreCase));
+			if (e == null)
+			{
+				e = cached;
+			}
+			else if (cached != null)
+			{
+				e = Copy(e);
+				Fill(e, cached);
+			}
 			return (e != null) ? ToPlayerData(e) : null;
 		}
 
@@ -193,7 +309,7 @@ namespace ClubPenguin.Net.Client
 			return result;
 		}
 
-		public static List<OtherPlayerData> BySwids(IEnumerable<string> swids)
+		public static List<OtherPlayerData> BySwids(IEnumerable<string> swids, string token = null)
 		{
 			List<OtherPlayerData> result = new List<OtherPlayerData>();
 			if (swids == null)
@@ -202,7 +318,7 @@ namespace ClubPenguin.Net.Client
 			}
 			foreach (string swid in swids)
 			{
-				OtherPlayerData d = BySwid(swid);
+				OtherPlayerData d = BySwid(swid, token);
 				if (d != null)
 				{
 					result.Add(d);
@@ -211,7 +327,7 @@ namespace ClubPenguin.Net.Client
 			return result;
 		}
 
-		public static List<OtherPlayerData> ByNames(IEnumerable<string> names)
+		public static List<OtherPlayerData> ByNames(IEnumerable<string> names, string token = null)
 		{
 			List<OtherPlayerData> result = new List<OtherPlayerData>();
 			if (names == null)
@@ -220,7 +336,7 @@ namespace ClubPenguin.Net.Client
 			}
 			foreach (string name in names)
 			{
-				OtherPlayerData d = ByName(name);
+				OtherPlayerData d = ByName(name, token);
 				if (d != null)
 				{
 					result.Add(d);
