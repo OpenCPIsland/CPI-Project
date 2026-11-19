@@ -248,12 +248,15 @@ public static class ServerDataGenerator
                 .SelectMany(root => root.GetComponentsInChildren<IslandTargetsPlayground>(true))
                 .Where(playground => playground.gameObject.name == "TargetsPlayground")
                 .ToArray();
-            if (playgrounds.Length != 1)
+            if (playgrounds.Length > 1)
             {
-                throw new InvalidDataException("Expected one Halloween Ghost Battle TargetsPlayground in " + GhostBattleScenePath + ", found " + playgrounds.Length + ".");
+                throw new InvalidDataException("Expected at most one Halloween Ghost Battle TargetsPlayground in " + GhostBattleScenePath + ", found " + playgrounds.Length + ".");
             }
 
-            islandTargets["Town"] = new JArray(SerializeIslandTargetsPlayground(playgrounds[0]));
+            if (playgrounds.Length == 1)
+            {
+                islandTargets["Town"] = new JArray(SerializeIslandTargetsPlayground(playgrounds[0]));
+            }
         }
         finally
         {
