@@ -20,6 +20,8 @@ namespace ClubPenguin.Net.Lan
 
 		private const string JoinPref = "LAN.Join";
 
+		private const string RememberPref = "LAN.Remember";
+
 		private static readonly object owner = new object();
 
 		private static LanServer server;
@@ -84,6 +86,30 @@ namespace ClubPenguin.Net.Lan
 			}
 		}
 
+		[Tweakable("LAN.Remember", Description = "Saves LAN.Host and LAN.Join so they turn back on the next time the game starts. Turn off to start in Offline Mode every time.")]
+		[PublicTweak]
+		public static bool Remember
+		{
+			get
+			{
+				return PlayerPrefs.GetInt(RememberPref, 1) == 1;
+			}
+			set
+			{
+				PlayerPrefs.SetInt(RememberPref, value ? 1 : 0);
+				if (value)
+				{
+					SavePrefs();
+				}
+				else
+				{
+					PlayerPrefs.DeleteKey(HostPref);
+					PlayerPrefs.DeleteKey(JoinPref);
+					PlayerPrefs.Save();
+				}
+			}
+		}
+
 		[Tweakable("LAN.Status", Description = "Current LAN state.")]
 		[PublicTweak]
 		public static string Status
@@ -115,6 +141,10 @@ namespace ClubPenguin.Net.Lan
 
 		private static void SavePrefs()
 		{
+			if (!Remember)
+			{
+				return;
+			}
 			PlayerPrefs.SetInt(HostPref, (server != null) ? 1 : 0);
 			PlayerPrefs.SetInt(JoinPref, joinEnabled ? 1 : 0);
 			PlayerPrefs.Save();
@@ -125,6 +155,10 @@ namespace ClubPenguin.Net.Lan
 			if (LanGameServerClient.Instance == null)
 			{
 				return false;
+			}
+			if (!Remember)
+			{
+				return true;
 			}
 			if (PlayerPrefs.GetInt(HostPref, 0) == 1)
 			{
