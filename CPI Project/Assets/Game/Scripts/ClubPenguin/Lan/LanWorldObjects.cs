@@ -132,6 +132,11 @@ namespace ClubPenguin.Net.Lan
 
 		public static float[] Vec3(object o)
 		{
+			Dictionary<string, object> m = o as Dictionary<string, object>;
+			if (m != null)
+			{
+				o = new List<object> { LanJson.Get(m, "x"), LanJson.Get(m, "y"), LanJson.Get(m, "z") };
+			}
 			List<object> l = o as List<object>;
 			if (l == null || l.Count != 3)
 			{
