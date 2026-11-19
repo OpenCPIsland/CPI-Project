@@ -143,6 +143,7 @@ namespace ClubPenguin.Net.Lan
 				return;
 			}
 			HookQuit();
+			LanServicesClient.Ensure();
 			StopJoining();
 			LanServerData data = new LanServerData();
 			data.PartyGames = LoadText("Lan/party-games");
@@ -177,6 +178,7 @@ namespace ClubPenguin.Net.Lan
 				beacon.Stop();
 				beacon = null;
 			}
+			server.DisconnectRemote();
 			CoroutineRunner.StartPersistent(stopServerLater(server), owner, "LanStopServer");
 			server = null;
 		}
@@ -188,6 +190,7 @@ namespace ClubPenguin.Net.Lan
 				return;
 			}
 			HookQuit();
+			LanServicesClient.Ensure();
 			joinEnabled = true;
 			finder = new LanFinder();
 			finder.Start();

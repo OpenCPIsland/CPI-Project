@@ -64,6 +64,16 @@ namespace ClubPenguin.Net.Client
 				SignedJoinRoomData.Data.roomOwnerName = registrationProfile.userName;
 			}
 			SignedJoinRoomData.Data.roomOwner = true;
+			if (LanDirectory.Active && !offlineDefinitions.IsOwnIgloo(IglooId))
+			{
+				SceneLayout layout = LanDirectory.Layout(IglooId);
+				SignedJoinRoomData.Data.extraLayoutData = layout ?? new SceneLayout
+				{
+					zoneId = IglooId.name
+				};
+				SignedJoinRoomData.Data.roomOwnerName = LanDirectory.OwnerName(IglooId) ?? SignedJoinRoomData.Data.roomOwnerName;
+				SignedJoinRoomData.Data.roomOwner = false;
+			}
 		}
 
 		protected override void SetOfflineData(OfflineDatabase offlineDatabase, IOfflineDefinitionLoader offlineDefinitions)

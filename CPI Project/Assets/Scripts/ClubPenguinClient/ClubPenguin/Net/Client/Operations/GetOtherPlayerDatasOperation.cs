@@ -20,6 +20,19 @@ namespace ClubPenguin.Net.Client.Operations
 
 		protected override void PerformOfflineAction(OfflineDatabase offlineDatabase, IOfflineDefinitionLoader offlineDefinitions)
 		{
+			if (LanDirectory.Active)
+			{
+				if (this is GetOtherPlayerDataBySwidsOperation)
+				{
+					ResponseBody = LanDirectory.BySwids(((GetOtherPlayerDataBySwidsOperation)this).RequestBody);
+					return;
+				}
+				if (this is GetOtherPlayerDataByDisplayNamesOperation)
+				{
+					ResponseBody = LanDirectory.ByNames(((GetOtherPlayerDataByDisplayNamesOperation)this).RequestBody);
+					return;
+				}
+			}
 			ResponseBody = new List<OtherPlayerData>();
 		}
 	}

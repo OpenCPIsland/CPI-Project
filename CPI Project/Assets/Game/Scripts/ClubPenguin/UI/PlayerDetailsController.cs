@@ -179,7 +179,7 @@ namespace ClubPenguin.UI
                 {
                     CPDataEntityCollection cPDataEntityCollection = Service.Get<CPDataEntityCollection>();
                     PresenceData component;
-                    if (cPDataEntityCollection.TryGetComponent(cPDataEntityCollection.LocalPlayerHandle, out component) && component.ContentIdentifier == remotePresenceData.ContentIdentifier)
+                    if (cPDataEntityCollection.TryGetComponent(cPDataEntityCollection.LocalPlayerHandle, out component) && (component.ContentIdentifier == remotePresenceData.ContentIdentifier || global::ClubPenguin.Net.Client.LanGameServerHost.Address != null))
                     {
                         return !zone.IsQuestOnly && (zone.Type != ZoneDefinition.ZoneType.Igloo || remotePresenceData.IsInInstancedRoom);
                     }

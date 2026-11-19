@@ -271,7 +271,7 @@ namespace ClubPenguin.UI
                 PresenceData component;
                 if (dataEntityCollection.TryGetComponent(dataEntityCollection.LocalPlayerHandle, out component))
                 {
-                    flag2 = (component.ContentIdentifier == presenceData.ContentIdentifier);
+                    flag2 = (component.ContentIdentifier == presenceData.ContentIdentifier || global::ClubPenguin.Net.Client.LanGameServerHost.Address != null);
                 }
                 if (flag2)
                 {

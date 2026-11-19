@@ -43,6 +43,8 @@ namespace ClubPenguin.Net.Lan
 
 		public readonly LanLoop Loop = new LanLoop();
 
+		public readonly LanServices Services;
+
 		public readonly System.Random Random = new System.Random();
 
 		private readonly List<TcpListener> listeners = new List<TcpListener>();
@@ -125,6 +127,7 @@ namespace ClubPenguin.Net.Lan
 			PartyGames = new LanPartyGames(this, new LanPartyGameDefinitions(data.PartyGames, data.TubeRaces));
 			Lobbies = new LanLobbies(this);
 			Transient = new LanTransientData(this);
+			Services = new LanServices(this);
 		}
 
 		public bool Start()
@@ -153,6 +156,10 @@ namespace ClubPenguin.Net.Lan
 				}
 			}
 			Loop.Start();
+			Loop.Post(delegate
+			{
+				Services.Start();
+			});
 			Loop.After(10000, IdleSweep);
 			return true;
 		}
@@ -173,11 +180,36 @@ namespace ClubPenguin.Net.Lan
 			listeners.Clear();
 			Loop.Post(delegate
 			{
+				Services.Stop();
 				foreach (LanConnection c in connections.ToList())
 				{
 					c.Close();
 				}
 				Loop.Stop();
+			});
+		}
+
+		private volatile bool remoteClosed;
+
+		internal static bool IsLoopback(string address)
+		{
+			IPAddress parsed;
+			return IPAddress.TryParse(address ?? "", out parsed) && IPAddress.IsLoopback(parsed);
+		}
+
+		public void DisconnectRemote()
+		{
+			remoteClosed = true;
+			Loop.Post(delegate
+			{
+				foreach (LanConnection c in connections.ToList())
+				{
+					if (!IsLoopback(c.Address))
+					{
+						c.Close();
+					}
+				}
+				Services.DisconnectRemote();
 			});
 		}
 
@@ -209,6 +241,17 @@ namespace ClubPenguin.Net.Lan
 						return;
 					}
 					LanConnection conn = new LanConnection(this, socket);
+					if (remoteClosed && !IsLoopback(conn.Address))
+					{
+						try
+						{
+							socket.Close();
+						}
+						catch (Exception)
+						{
+						}
+						return;
+					}
 					connections.Add(conn);
 					conn.Start();
 					LanConnection captured = conn;
@@ -516,6 +559,25 @@ namespace ClubPenguin.Net.Lan
 			{
 				player.Colour = colour;
 			}
+			int daysOld;
+			if (LanJson.TryInt(LanJson.Path(data, "playerRoomData", "profile", "daysOld"), out daysOld))
+			{
+				player.DaysOld = daysOld;
+			}
+			Dictionary<string, object> mascotXP = LanJson.Path(data, "playerRoomData", "assets", "mascotXP") as Dictionary<string, object>;
+			if (mascotXP != null && mascotXP.Count <= 32)
+			{
+				Dictionary<string, long> xp = new Dictionary<string, long>();
+				foreach (KeyValuePair<string, object> kv in mascotXP)
+				{
+					long value;
+					if (kv.Key.Length <= 64 && LanJson.TryLong(kv.Value, out value))
+					{
+						xp[kv.Key] = value;
+					}
+				}
+				player.MascotXP = xp;
+			}
 			int tube;
 			if (LanJson.TryInt(LanJson.Get(data, "selectedTubeId"), out tube))
 			{
@@ -595,7 +657,7 @@ namespace ClubPenguin.Net.Lan
 				ul.AddArray(BuildProximityUserEntry(o, null));
 			}
 			player.Send(Sys(4, new SfsObject().PutArray("r", BuildRoomArray(player, 1)).PutArray("ul", ul)));
-			player.Send(Sys(12, new SfsObject().PutInt("u", player.UserId).PutArray("vl", BuildUserVariables(player))));
+			player.Send(Sys(12, new SfsObject().PutInt("u", player.UserId).PutArray("vl", BuildUserVariables(player, true))));
 			WorldObjects.SendSnapshot(player);
 			Consumables.SendSnapshot(player);
 			Targets.EnsureRoom(player.RoomKey, player.RoomName);
@@ -637,13 +699,26 @@ namespace ClubPenguin.Net.Lan
 
 		public SfsArray BuildUserVariables(LanPlayer player)
 		{
+			return BuildUserVariables(player, false);
+		}
+
+		private static bool IsSignedVariable(string name)
+		{
+			return name == "colour" || name == "tube";
+		}
+
+		public SfsArray BuildUserVariables(LanPlayer player, bool forOwner)
+		{
 			SfsArray vl = new SfsArray().AddArray(StringVar("sess", player.PlayerSessionId ?? "0"));
 			if (player.OutfitJson != null)
 			{
 				vl.AddArray(StringVar("outfit", player.OutfitJson));
 			}
-			vl.AddArray(IntVar("colour", player.Colour.GetValueOrDefault()));
-			vl.AddArray(IntVar("tube", player.SelectedTubeId.GetValueOrDefault()));
+			if (!forOwner)
+			{
+				vl.AddArray(IntVar("colour", player.Colour.GetValueOrDefault()));
+				vl.AddArray(IntVar("tube", player.SelectedTubeId.GetValueOrDefault()));
+			}
 			vl.AddArray(IntVar("loc", 0));
 			vl.AddArray(IntVar("awayfromkeyboard", 0));
 			vl.AddArray(IntVar("tempheadstatus", 0));
@@ -945,11 +1020,20 @@ namespace ClubPenguin.Net.Lan
 			if (echoed.Count > 0)
 			{
 				SfsArray vl = new SfsArray();
+				SfsArray own = new SfsArray();
 				foreach (SfsValue v in echoed)
 				{
 					vl.Add(v);
+					if (!IsSignedVariable(VariableName(v)))
+					{
+						own.Add(v);
+					}
 				}
-				SendToRoom(player.RoomKey, Sys(12, new SfsObject().PutInt("u", player.UserId).PutArray("vl", vl)));
+				SendToRoomExcept(player.RoomKey, player, Sys(12, new SfsObject().PutInt("u", player.UserId).PutArray("vl", vl)));
+				if (own.Count > 0)
+				{
+					player.Send(Sys(12, new SfsObject().PutInt("u", player.UserId).PutArray("vl", own)));
+				}
 			}
 			foreach (SfsValue v in accepted)
 			{

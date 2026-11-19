@@ -27,6 +27,10 @@ namespace ClubPenguin.Net.Lan
 
 		public int? SelectedTubeId;
 
+		public int? DaysOld;
+
+		public Dictionary<string, long> MascotXP;
+
 		public string Swid;
 
 		public bool LoggedIn;

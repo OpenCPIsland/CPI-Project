@@ -200,6 +200,13 @@ namespace ClubPenguin.Net.Lan
 			}
 			try
 			{
+				socket.Shutdown(SocketShutdown.Both);
+			}
+			catch (Exception)
+			{
+			}
+			try
+			{
 				socket.Close();
 			}
 			catch (Exception)
@@ -233,15 +240,34 @@ namespace ClubPenguin.Net.Lan
 			{
 				return;
 			}
+			if (mode == 2)
+			{
+				try
+				{
+					sendQueue.Add(EncodeFrame(new byte[2]
+					{
+						3,
+						233
+					}, 0x88));
+				}
+				catch (InvalidOperationException)
+				{
+				}
+			}
+			sendQueue.CompleteAdding();
+			server.Loop.After(1000.0, ForceClose);
+			server.OnConnectionClosed(this);
+		}
+
+		private void ForceClose()
+		{
 			try
 			{
-				socket.Shutdown(SocketShutdown.Both);
+				socket.Close();
 			}
 			catch (Exception)
 			{
 			}
-			sendQueue.CompleteAdding();
-			server.OnConnectionClosed(this);
 		}
 
 		public void CloseAfter(double ms)
