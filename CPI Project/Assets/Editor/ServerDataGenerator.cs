@@ -19,7 +19,7 @@ public static class ServerDataGenerator
 {
     private const string OutputDirectory = "Assets/Generated/Export/ServerData/";
     private const string LanWorldObjectsPath = "Assets/Game/Resources/Lan/world-objects.json";
-    private const string HalloweenTownDecorationsPrefabPath = "Assets/Game/World/Scenes/Events/Halloween/Resources/Halloween_Town_Decorations.prefab";
+    private const string HalloweenTownDecorationsScenePath = "Assets/Game/World/Scenes/Events/Halloween/AdditiveScenes/Town_Halloween2017_Decorations.unity";
     private static readonly string[] ReserializeAssetPaths =
     {
         "Assets/Game/Resources/Definitions/ScheduledEventDates",
@@ -234,15 +234,23 @@ public static class ServerDataGenerator
             throw new InvalidDataException("The LAN world-objects file does not contain islandTargets.");
         }
 
-        GameObject prefabRoot = PrefabUtility.LoadPrefabContents(HalloweenTownDecorationsPrefabPath);
+        Scene scene = SceneManager.GetSceneByPath(HalloweenTownDecorationsScenePath);
+        bool closeScene = false;
+        if (!scene.IsValid() || !scene.isLoaded)
+        {
+            scene = EditorSceneManager.OpenScene(HalloweenTownDecorationsScenePath, OpenSceneMode.Additive);
+            closeScene = true;
+        }
+
         try
         {
-            IslandTargetsPlayground[] playgrounds = prefabRoot.GetComponentsInChildren<IslandTargetsPlayground>(true)
+            IslandTargetsPlayground[] playgrounds = scene.GetRootGameObjects()
+                .SelectMany(root => root.GetComponentsInChildren<IslandTargetsPlayground>(true))
                 .Where(playground => playground.gameObject.name == "TargetsPlayground")
                 .ToArray();
             if (playgrounds.Length != 1)
             {
-                throw new InvalidDataException("Expected one Halloween Ghost Battle TargetsPlayground in " + HalloweenTownDecorationsPrefabPath + ", found " + playgrounds.Length + ".");
+                throw new InvalidDataException("Expected one Halloween Ghost Battle TargetsPlayground in " + HalloweenTownDecorationsScenePath + ", found " + playgrounds.Length + ".");
             }
 
             JArray townPlaygrounds = islandTargets["Town"] as JArray;
@@ -252,25 +260,36 @@ public static class ServerDataGenerator
                 islandTargets["Town"] = townPlaygrounds;
             }
 
-            string ghostBattlePath = GetRelativePath(prefabRoot.transform, playgrounds[0].transform);
+            Transform sceneRoot = playgrounds[0].transform;
+            while (sceneRoot.parent != null)
+            {
+                sceneRoot = sceneRoot.parent;
+            }
+            string ghostBattlePath = playgrounds[0].transform.GetPath();
+            string relativeGhostBattlePath = GetRelativePath(sceneRoot, playgrounds[0].transform);
             for (int i = townPlaygrounds.Count - 1; i >= 0; i--)
             {
-                if (string.Equals((string)townPlaygrounds[i]["path"], ghostBattlePath, StringComparison.Ordinal))
+                string existingPath = (string)townPlaygrounds[i]["path"];
+                if (string.Equals(existingPath, ghostBattlePath, StringComparison.Ordinal) ||
+                    string.Equals(existingPath, relativeGhostBattlePath, StringComparison.Ordinal))
                 {
                     townPlaygrounds.RemoveAt(i);
                 }
             }
-            townPlaygrounds.Add(SerializeIslandTargetsPlayground(prefabRoot.transform, playgrounds[0]));
+            townPlaygrounds.Add(SerializeIslandTargetsPlayground(playgrounds[0]));
         }
         finally
         {
-            PrefabUtility.UnloadPrefabContents(prefabRoot);
+            if (closeScene)
+            {
+                EditorSceneManager.CloseScene(scene, true);
+            }
         }
 
         return worldObjects;
     }
 
-    private static JObject SerializeIslandTargetsPlayground(Transform prefabRoot, IslandTargetsPlayground playground)
+    private static JObject SerializeIslandTargetsPlayground(IslandTargetsPlayground playground)
     {
         IslandTargetPlaygroundController controller = playground.GetComponent<IslandTargetPlaygroundController>();
         IslandTargetRewardZone rewardZone = playground.GetComponentInChildren<IslandTargetRewardZone>(true);
@@ -293,7 +312,7 @@ public static class ServerDataGenerator
         foreach (IslandTargetsSuperset superset in playground.GetComponentsInChildren<IslandTargetsSuperset>(true)
             .Where(superset => superset.transform.parent == playground.transform))
         {
-            supersets.Add(SerializeIslandTargetsSuperset(prefabRoot, superset));
+            supersets.Add(SerializeIslandTargetsSuperset(superset));
         }
 
         if (supersets.Count == 0)
@@ -320,7 +339,7 @@ public static class ServerDataGenerator
         Vector3 rewardsCenter = rewardsCollider.transform.TransformPoint(rewardsCollider.center);
         return new JObject
         {
-            ["path"] = GetRelativePath(prefabRoot, playground.transform),
+            ["path"] = playground.transform.GetPath(),
             ["position"] = SerializeVector3(playground.transform.position),
             ["everyXMinutes"] = playground.EveryXMinutesAfterTheHour,
             ["behaviour"] = behaviour,
@@ -334,18 +353,18 @@ public static class ServerDataGenerator
         };
     }
 
-    private static JObject SerializeIslandTargetsSuperset(Transform prefabRoot, IslandTargetsSuperset superset)
+    private static JObject SerializeIslandTargetsSuperset(IslandTargetsSuperset superset)
     {
         JArray phases = new JArray();
         foreach (IslandTargetGroup phase in superset.GetComponentsInChildren<IslandTargetGroup>(true)
             .Where(phase => phase.transform.parent == superset.transform))
         {
-            phases.Add(SerializeIslandTargetPhase(prefabRoot, phase));
+            phases.Add(SerializeIslandTargetPhase(phase));
         }
 
         JObject serializedSuperset = new JObject
         {
-            ["path"] = GetRelativePath(prefabRoot, superset.transform),
+            ["path"] = superset.transform.GetPath(),
             ["position"] = SerializeVector3(superset.transform.position),
             ["totalReward"] = superset.TotalRewards == null ? JValue.CreateNull() : JToken.FromObject(superset.TotalRewards.ToReward()),
             ["minPerPlayerReward"] = superset.MinPerPlayerRewards == null ? JValue.CreateNull() : JToken.FromObject(superset.MinPerPlayerRewards.ToReward()),
@@ -358,12 +377,12 @@ public static class ServerDataGenerator
         return serializedSuperset;
     }
 
-    private static JObject SerializeIslandTargetPhase(Transform prefabRoot, IslandTargetGroup phase)
+    private static JObject SerializeIslandTargetPhase(IslandTargetGroup phase)
     {
         JArray targets = new JArray();
         foreach (IslandTargetConfiguration target in phase.GetComponentsInChildren<IslandTargetConfiguration>(true))
         {
-            targets.Add(SerializeIslandTarget(prefabRoot, target));
+            targets.Add(SerializeIslandTarget(target));
         }
         if (targets.Count == 0)
         {
@@ -372,14 +391,14 @@ public static class ServerDataGenerator
 
         return new JObject
         {
-            ["path"] = GetRelativePath(prefabRoot, phase.transform),
+            ["path"] = phase.transform.GetPath(),
             ["position"] = SerializeVector3(phase.transform.position),
             ["sessionSeconds"] = phase.SessionTimeInSeconds,
             ["targets"] = targets
         };
     }
 
-    private static JObject SerializeIslandTarget(Transform prefabRoot, IslandTargetConfiguration target)
+    private static JObject SerializeIslandTarget(IslandTargetConfiguration target)
     {
         IslandTarget islandTarget = target.GetComponent<IslandTarget>();
         if (islandTarget == null || islandTarget.HitBoxObject == null)
@@ -396,7 +415,7 @@ public static class ServerDataGenerator
         Vector3 hitCenter = hitCollider.transform.TransformPoint(hitCollider.center);
         return new JObject
         {
-            ["path"] = GetRelativePath(prefabRoot, target.transform),
+            ["path"] = target.transform.GetPath(),
             ["position"] = SerializeVector3(target.transform.position),
             ["minHits"] = target.MinHitCount,
             ["populationMultiplier"] = target.PopulationHitCountMultiplier,
