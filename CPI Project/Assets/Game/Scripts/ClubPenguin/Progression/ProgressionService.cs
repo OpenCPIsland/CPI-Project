@@ -749,6 +749,7 @@ namespace ClubPenguin.Progression
 				Service.Get<EventDispatcher>().DispatchEvent(new ProgressionEvents.LevelUp(mascotName, i, totalLevel));
 				grantEquipmentInstancesForLevel(totalLevel);
 			}
+			Service.Get<INetworkServicesManager>().RewardService.SendLevelUp(Level);
 		}
 
 		private void grantEquipmentInstancesForLevel(int level)

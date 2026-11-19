@@ -592,6 +592,17 @@ namespace ClubPenguin.Net.Client
 			mt.send(SmartfoxCommand.GET_SIGNED_STATE);
 		}
 
+		public void SendLevelUp(int level)
+		{
+			mt.send(SmartfoxCommand.PROGRESSION_LEVELUP, new Dictionary<string, SFSDataWrapper>
+			{
+				{
+					"level",
+					new SFSDataWrapper(SFSDataType.INT, level)
+				}
+			});
+		}
+
 		public void SendRewardNotification(SignedResponse<RewardedUserCollectionJsonHelper> rewardCollection)
 		{
 			mt.send(SmartfoxCommand.SEND_EARNED_REWARDS, new Dictionary<string, SFSDataWrapper>

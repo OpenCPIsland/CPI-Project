@@ -140,6 +140,9 @@ namespace ClubPenguin.Net.Lan
 			case "room.igloo_updated":
 				HandleIglooUpdated(player, p);
 				break;
+			case "reward.levelup":
+				HandleLevelUp(player, p);
+				break;
 			}
 		}
 
@@ -651,6 +654,16 @@ namespace ClubPenguin.Net.Lan
 				return;
 			}
 			SendToRoomExcept(player.RoomKey, player, Ext("room.igloo_updated", new SfsObject().PutString("igloo_id", player.Swid)));
+		}
+
+		private void HandleLevelUp(LanPlayer player, SfsObject p)
+		{
+			long level;
+			if (!p.TryGetInteger("level", out level) || level < 1 || level > int.MaxValue)
+			{
+				return;
+			}
+			SendToRoomExcept(player.RoomKey, player, Ext("reward.levelup", new SfsObject().PutInt("level", (int)level).PutInt("senderId", player.UserId)));
 		}
 
 		public void SendRewardAdd(LanPlayer player, string command, int source, string sourceId, string rewardJson)

@@ -270,6 +270,11 @@ namespace ClubPenguin.Net.Client
 			active.SendRewardNotification(response);
 		}
 
+		public void SendLevelUp(int level)
+		{
+			active.SendLevelUp(level);
+		}
+
 		public void SendWebServiceEvent(SignedResponse<WebServiceEvent> wsEvent)
 		{
 			active.SendWebServiceEvent(wsEvent);
