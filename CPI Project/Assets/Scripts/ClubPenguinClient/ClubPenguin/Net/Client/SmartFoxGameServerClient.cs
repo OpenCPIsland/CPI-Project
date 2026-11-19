@@ -43,6 +43,8 @@ namespace ClubPenguin.Net.Client
 
 		private LocomotionActionEvent? pendingLocomotion;
 
+		private string pendingPlayerLocation;
+
 		private readonly SmartFoxGameServerClientShared mt;
 
 		public long ServerTime
@@ -174,7 +176,7 @@ namespace ClubPenguin.Net.Client
 			GameServerEventListener value;
 			if (gameServerEvent == GameServerEvent.ROOM_JOIN && !waitForRoomJoinEvent)
 			{
-				sendPendingLocomotion();
+				sendPendingRequests();
 			}
 			if (waitForRoomJoinEvent)
 			{
@@ -267,17 +269,25 @@ namespace ClubPenguin.Net.Client
 			}
 		}
 
-		private void sendPendingLocomotion()
+		private void sendPendingRequests()
 		{
-			if (!pendingLocomotion.HasValue)
+			if (pendingLocomotion.HasValue)
 			{
-				return;
+				LocomotionActionEvent action = pendingLocomotion.Value;
+				pendingLocomotion = null;
+				if (mt.ClientRoomName != null)
+				{
+					TriggerLocomotionAction(action, false);
+				}
 			}
-			LocomotionActionEvent action = pendingLocomotion.Value;
-			pendingLocomotion = null;
-			if (mt.ClientRoomName != null)
+			if (pendingPlayerLocation != null)
 			{
-				TriggerLocomotionAction(action, false);
+				string swid = pendingPlayerLocation;
+				pendingPlayerLocation = null;
+				if (mt.ClientRoomName != null)
+				{
+					GetPlayerLocation(swid);
+				}
 			}
 		}
 
@@ -609,6 +619,11 @@ namespace ClubPenguin.Net.Client
 
 		public void GetPlayerLocation(string swid)
 		{
+			if (mt.ClientRoomName == null)
+			{
+				pendingPlayerLocation = swid;
+				return;
+			}
 			mt.send(SmartfoxCommand.GET_PLAYER_LOCATION, new Dictionary<string, SFSDataWrapper>
 			{
 				{

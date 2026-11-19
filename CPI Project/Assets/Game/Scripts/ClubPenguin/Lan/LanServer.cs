@@ -658,7 +658,8 @@ namespace ClubPenguin.Net.Lan
 		private void SendJoin(LanPlayer player)
 		{
 			List<LanPlayer> others = InRoomExcept(player.RoomKey, player);
-			SfsArray ul = new SfsArray();
+			SfsArray ul = new SfsArray().AddArray(new SfsArray().AddInt(player.UserId).AddString(player.UserName).AddShort(0).AddShort(0)
+				.AddArray(BuildUserVariables(player, true)));
 			foreach (LanPlayer o in others)
 			{
 				ul.AddArray(BuildProximityUserEntry(o, null));
