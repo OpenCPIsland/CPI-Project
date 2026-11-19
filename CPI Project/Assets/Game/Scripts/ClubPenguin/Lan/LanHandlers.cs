@@ -286,6 +286,7 @@ namespace ClubPenguin.Net.Lan
 			}
 			float[] previous = player.LastPosition;
 			player.LastPosition = position;
+			MarkPlaced(player);
 			BroadcastNewJoiner(player);
 			Targets.OnThrow(player, action, previous, position, velocity);
 			PartyGames.OnAction(player, action, position);

@@ -38,6 +38,8 @@ namespace ClubPenguin.Net.Lan
 
 		private static bool quitHooked;
 
+		private static AndroidJavaObject multicastLock;
+
 		[Tweakable("LAN.Host", Description = "Hosts a LAN game on this device. Devices on the same network with LAN.Join on connect by themselves.")]
 		[PublicTweak]
 		public static bool Host
@@ -193,6 +195,7 @@ namespace ClubPenguin.Net.Lan
 			HookQuit();
 			LanServicesClient.Ensure();
 			joinEnabled = true;
+			AcquireMulticast();
 			finder = new LanFinder();
 			finder.Start();
 			if (!watching)
@@ -214,6 +217,7 @@ namespace ClubPenguin.Net.Lan
 				finder.Stop();
 				finder = null;
 			}
+			ReleaseMulticast();
 			Disconnect();
 		}
 
@@ -298,6 +302,54 @@ namespace ClubPenguin.Net.Lan
 					server.Stop();
 				}
 			};
+		}
+
+		private static void AcquireMulticast()
+		{
+#if UNITY_ANDROID && !UNITY_EDITOR
+			if (multicastLock != null)
+			{
+				return;
+			}
+			try
+			{
+				using (AndroidJavaClass player = new AndroidJavaClass("com.unity3d.player.UnityPlayer"))
+				using (AndroidJavaObject activity = player.GetStatic<AndroidJavaObject>("currentActivity"))
+				using (AndroidJavaObject context = activity.Call<AndroidJavaObject>("getApplicationContext"))
+				using (AndroidJavaObject wifi = context.Call<AndroidJavaObject>("getSystemService", "wifi"))
+				{
+					if (wifi == null)
+					{
+						return;
+					}
+					AndroidJavaObject created = wifi.Call<AndroidJavaObject>("createMulticastLock", "CPI LAN");
+					created.Call("setReferenceCounted", false);
+					created.Call("acquire");
+					multicastLock = created;
+				}
+			}
+			catch (System.Exception)
+			{
+				multicastLock = null;
+			}
+#endif
+		}
+
+		private static void ReleaseMulticast()
+		{
+			if (multicastLock == null)
+			{
+				return;
+			}
+			try
+			{
+				multicastLock.Call("release");
+			}
+			catch (System.Exception)
+			{
+			}
+			multicastLock.Dispose();
+			multicastLock = null;
 		}
 
 		private static bool CanTransition()

@@ -41,6 +41,8 @@ namespace ClubPenguin.Net.Lan
 
 		public bool Announced;
 
+		public bool Placed;
+
 		public byte[] AesKey;
 
 		public string EquippedItemName;

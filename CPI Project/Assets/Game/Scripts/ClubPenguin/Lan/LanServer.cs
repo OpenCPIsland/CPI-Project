@@ -665,6 +665,7 @@ namespace ClubPenguin.Net.Lan
 			Targets.EnsureRoom(player.RoomKey, player.RoomName);
 			RoomItems.SendSnapshot(player);
 			Lobbies.EnsureRoom(player.RoomKey);
+			MarkPlaced(player);
 			AnnounceWhenPlaced(player);
 		}
 
@@ -780,6 +781,16 @@ namespace ClubPenguin.Net.Lan
 			joiner.Send(Sys(30, new SfsObject().PutInt("r", RoomId).PutArray("p", p)));
 		}
 
+		public void MarkPlaced(LanPlayer player)
+		{
+			if (player.Placed)
+			{
+				return;
+			}
+			player.Placed = true;
+			SendExistingOccupants(player);
+		}
+
 		public void BroadcastNewJoiner(LanPlayer joined)
 		{
 			if (joined.Announced)
@@ -787,8 +798,7 @@ namespace ClubPenguin.Net.Lan
 				return;
 			}
 			joined.Announced = true;
-			SendExistingOccupants(joined);
-			List<LanPlayer> others = InRoomExcept(joined.RoomKey, joined).Where((LanPlayer o) => o.Announced).ToList();
+			List<LanPlayer> others = InRoomExcept(joined.RoomKey, joined).Where((LanPlayer o) => o.Placed).ToList();
 			if (others.Count == 0)
 			{
 				return;

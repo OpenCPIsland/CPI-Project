@@ -41,6 +41,8 @@ namespace ClubPenguin.Net.Client
 
 		private long lastServerTime = 0L;
 
+		private LocomotionActionEvent? pendingLocomotion;
+
 		private readonly SmartFoxGameServerClientShared mt;
 
 		public long ServerTime
@@ -170,6 +172,10 @@ namespace ClubPenguin.Net.Client
 		private void processEvent(GameServerEvent gameServerEvent, object data)
 		{
 			GameServerEventListener value;
+			if (gameServerEvent == GameServerEvent.ROOM_JOIN && !waitForRoomJoinEvent)
+			{
+				sendPendingLocomotion();
+			}
 			if (waitForRoomJoinEvent)
 			{
 				if (gameServerEvent == GameServerEvent.ROOM_JOIN || gameServerEvent == GameServerEvent.ROOM_FULL || gameServerEvent == GameServerEvent.ROOM_JOIN_ERROR || gameServerEvent == GameServerEvent.CONNECTION_LOST)
@@ -261,8 +267,26 @@ namespace ClubPenguin.Net.Client
 			}
 		}
 
+		private void sendPendingLocomotion()
+		{
+			if (!pendingLocomotion.HasValue)
+			{
+				return;
+			}
+			LocomotionActionEvent action = pendingLocomotion.Value;
+			pendingLocomotion = null;
+			if (mt.ClientRoomName != null)
+			{
+				TriggerLocomotionAction(action, false);
+			}
+		}
+
 		public void TriggerLocomotionAction(LocomotionActionEvent action, bool droppable)
 		{
+			if (mt.ClientRoomName == null)
+			{
+				pendingLocomotion = action;
+			}
 			Dictionary<string, SFSDataWrapper> dictionary = new Dictionary<string, SFSDataWrapper>();
 			dictionary.Add("a", SmartFoxGameServerClientShared.serialize((byte)action.Type));
 			dictionary.Add("p", SmartFoxGameServerClientShared.serialize(action.Position));
