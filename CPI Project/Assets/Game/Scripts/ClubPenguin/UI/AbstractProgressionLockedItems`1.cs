@@ -355,6 +355,7 @@ namespace ClubPenguin.UI
 			}
 			parseDisneyShopRewards();
 			parseClaimableRewards();
+			parseDailySpinRewards();
 			if (progressionUnlockedRewards.Count > 0)
 			{
 				if (flag)
@@ -487,6 +488,69 @@ namespace ClubPenguin.UI
 					CPRewardDefinition cPRewardDefinition = value.Reward as CPRewardDefinition;
 					parseRewardDefinition(getRewards(value.Reward), isMember, new SpriteContentKey("Images/ProgressionIcons/Quests_ProgressionLock_Membership"), cPRewardDefinition.ThemeDefinition);
 				}
+			}
+		}
+
+		protected void parseDailySpinRewards()
+		{
+			Manifest manifest = Content.LoadImmediate<Manifest>(StaticGameDataUtils.GetManifestContentKey(typeof(ClubPenguin.CellPhone.CellPhoneDailySpinActivityDefinition)));
+			if (manifest == null || manifest.Assets == null)
+			{
+				return;
+			}
+			bool isMember = isLocalPlayerMember();
+			for (int i = 0; i < manifest.Assets.Length; i++)
+			{
+				ClubPenguin.CellPhone.CellPhoneDailySpinActivityDefinition dailySpinDefinition = manifest.Assets[i] as ClubPenguin.CellPhone.CellPhoneDailySpinActivityDefinition;
+				if (dailySpinDefinition == null || dailySpinDefinition.ChestDefinitions == null)
+				{
+					continue;
+				}
+				for (int j = 0; j < dailySpinDefinition.ChestDefinitions.Count; j++)
+				{
+					ClubPenguin.CellPhone.CellPhoneDailySpinActivityDefinition.ChestDefinition chestDefinition = dailySpinDefinition.ChestDefinitions[j];
+					parseOwnedThemedReward(chestDefinition.FirstTimeClaimedReward, isMember);
+					if (chestDefinition.RepeatableChestRewards != null)
+					{
+						for (int k = 0; k < chestDefinition.RepeatableChestRewards.Count; k++)
+						{
+							parseOwnedThemedReward(chestDefinition.RepeatableChestRewards[k].Reward, isMember);
+						}
+					}
+					if (chestDefinition.NonRepeatableChestRewards != null)
+					{
+						for (int k = 0; k < chestDefinition.NonRepeatableChestRewards.Count; k++)
+						{
+							parseOwnedThemedReward(chestDefinition.NonRepeatableChestRewards[k].Reward, isMember);
+						}
+					}
+				}
+			}
+		}
+
+		private void parseOwnedThemedReward(RewardDefinition rewardDefinition, bool isMember)
+		{
+			CPRewardDefinition cPRewardDefinition = rewardDefinition as CPRewardDefinition;
+			if (cPRewardDefinition == null || cPRewardDefinition.ThemeDefinition == null)
+			{
+				return;
+			}
+			T[] rewards = getRewards(rewardDefinition);
+			if (rewards == null)
+			{
+				return;
+			}
+			List<T> ownedRewards = new List<T>();
+			for (int i = 0; i < rewards.Length; i++)
+			{
+				if (rewards[i] != null && progressionUnlockedRewards.Contains(rewards[i]))
+				{
+					ownedRewards.Add(rewards[i]);
+				}
+			}
+			if (ownedRewards.Count > 0)
+			{
+				parseRewardDefinition(ownedRewards.ToArray(), isMember, new SpriteContentKey("Images/ProgressionIcons/Quests_ProgressionLock_Membership"), cPRewardDefinition.ThemeDefinition);
 			}
 		}
 
