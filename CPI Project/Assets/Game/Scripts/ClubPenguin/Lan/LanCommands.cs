@@ -12,6 +12,14 @@ namespace ClubPenguin.Net.Lan
 
 		private const string SystemErrorPrefix = "​‌";
 
+		public static readonly string[] CommandHelp = new string[]
+		{
+			"!ac {amount} - Adds that many coins to your account.",
+			"!ae {template ID} - Adds the equipment template with that ID to your inventory.",
+			"!announce {message} - Shows the message as a server alert to everyone connected.",
+			"!at {tube ID} - Adds the tube with that ID to your inventory."
+		};
+
 		private bool HandleCommand(LanPlayer player, string message)
 		{
 			if (!message.StartsWith("!", StringComparison.Ordinal))

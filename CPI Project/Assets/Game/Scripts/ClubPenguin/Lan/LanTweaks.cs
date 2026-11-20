@@ -1,5 +1,6 @@
 #if !UNITY_WEBGL
 using ClubPenguin.Net.Client;
+using ClubPenguin.UI;
 using Disney.Kelowna.Common;
 using Disney.LaunchPadFramework;
 using Disney.MobileNetwork;
@@ -137,6 +138,17 @@ namespace ClubPenguin.Net.Lan
 			set
 			{
 			}
+		}
+
+		[Invokable("LAN.Help", Description = "Lists the chat commands that start with ! that are in the game.")]
+		[PublicTweak]
+		public static void Help()
+		{
+			DPrompt prompt = new DPrompt("LAN Commands", string.Join("\n", LanServer.CommandHelp), DPrompt.ButtonFlags.OK, null, true, true, true);
+			PromptManager promptManager = Service.Get<PromptManager>();
+			promptManager.ShowPrompt(prompt, delegate
+			{
+			}, promptManager.ErrorPrefab);
 		}
 
 		private static void SavePrefs()
