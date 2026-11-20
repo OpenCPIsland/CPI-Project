@@ -78,8 +78,19 @@ public class GenerateManifest
         { "assetbundles/generated/PLATFORM/quest/rookie/c02q05.sa.unity3d", "assetbundles/generated/PLATFORM/quest/rockhopper/c01q01.sa.unity3d,assetbundles/generated/PLATFORM/quest/rookie/c02q03.sa.unity3d" }
     };
 
-    [MenuItem("Project/Generate Client Content Manifest")]
-    public static void GenerateManifestFile()
+    [MenuItem("Project/Generate Client Content Manifest/Generate With New SHA-1 Hash")]
+    public static void GenerateManifestFileWithNewHash()
+    {
+        GenerateManifestFile(true);
+    }
+
+    [MenuItem("Project/Generate Client Content Manifest/Generate Without New SHA-1 Hash")]
+    public static void GenerateManifestFileWithoutNewHash()
+    {
+        GenerateManifestFile(false);
+    }
+
+    private static void GenerateManifestFile(bool newHash)
     {
         string EmbeddedManifest = Application.dataPath + "/Generated/Resources/Configuration/";
         string manifestFilePath = Path.Combine(EmbeddedManifest, "embedded_content_manifest.txt");
@@ -112,10 +123,23 @@ public class GenerateManifest
                 bundleDependencies[k] = v;
         }
 
-        string timestamp = DateTimeOffset.UtcNow.ToUnixTimeSeconds().ToString();
-        using var sha1 = SHA1.Create();
-        byte[] hashBytes = sha1.ComputeHash(Encoding.UTF8.GetBytes(timestamp));
-        string hash = BitConverter.ToString(hashBytes).Replace("-", "").ToLower();
+        string hash;
+        if (newHash)
+        {
+            string timestamp = DateTimeOffset.UtcNow.ToUnixTimeSeconds().ToString();
+            using var sha1 = SHA1.Create();
+            byte[] hashBytes = sha1.ComputeHash(Encoding.UTF8.GetBytes(timestamp));
+            hash = BitConverter.ToString(hashBytes).Replace("-", "").ToLower();
+        }
+        else
+        {
+            hash = File.Exists(ContentVersionPath) ? File.ReadAllText(ContentVersionPath).Trim() : "";
+            if (string.IsNullOrEmpty(hash))
+            {
+                Debug.LogError("No existing SHA-1 hash in " + ContentVersionPath + ", aborting manifest generation.");
+                return;
+            }
+        }
 
         try
         {
@@ -289,9 +313,16 @@ public class GenerateManifest
 
             Debug.Log("Manifest Json generated: " + manifestFileJsonPath);
 
-            File.WriteAllText(ContentVersionPath, hash);
+            if (newHash)
+            {
+                File.WriteAllText(ContentVersionPath, hash);
 
-            Debug.Log($"ContentVersion got updated with new sha-1: {hash} and at path: {ContentVersionPath}");
+                Debug.Log($"ContentVersion got updated with new sha-1: {hash} and at path: {ContentVersionPath}");
+            }
+            else
+            {
+                Debug.Log($"ContentVersion kept existing sha-1: {hash} at path: {ContentVersionPath}");
+            }
 
             AssetDatabase.Refresh();
         }
