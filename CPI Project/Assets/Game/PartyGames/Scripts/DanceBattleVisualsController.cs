@@ -352,7 +352,10 @@ namespace ClubPenguin.Game.PartyGames
 				RemoveTopHud();
 			}
 			numPlayersInLobby = 0;
-			LobbyCamera.gameObject.SetActive(false);
+			if (LobbyCamera != null)
+			{
+				LobbyCamera.gameObject.SetActive(false);
+			}
 		}
 
 		private string formatTimer(TimeSpan countdownTime)
@@ -409,7 +412,10 @@ namespace ClubPenguin.Game.PartyGames
 			}
 			numPlayersInLobby = players.Players.Count;
 			localPlayerIsInGame = flag;
-			LobbyCamera.gameObject.SetActive(localPlayerIsInGame);
+			if (LobbyCamera != null)
+			{
+				LobbyCamera.gameObject.SetActive(localPlayerIsInGame);
+			}
 		}
 
 		private void moveLocalPlayerToPosition(Transform position)
