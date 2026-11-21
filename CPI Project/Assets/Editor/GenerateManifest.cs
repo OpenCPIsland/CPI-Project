@@ -162,7 +162,7 @@ public class GenerateManifest
                         continue;
 
                     bool isOrientationResource = TryGetOrientationResourceFolder(assetPath, out string resourceOrientation, out string orientationFolder);
-                    if (!lowerPath.Contains("/resources/"))
+                    if (!lowerPath.Contains("/resources/") && !isOrientationResource)
                         continue;
 
                     if (isOrientationResource && !string.Equals(resourceOrientation, GetOrientationForPlatform(platformFolder), StringComparison.OrdinalIgnoreCase))
@@ -277,26 +277,6 @@ public class GenerateManifest
                         if (writtenLines.Add(assetLine))
                         {
                             writer.WriteLine(assetLine);
-                        }
-
-                        if (TryGetOrientationResourceFolder(assetPath, out string entryOrientation, out string entryOrientationFolder) &&
-                            string.Equals(entryOrientation, GetOrientationForPlatform(platformFolder), StringComparison.OrdinalIgnoreCase))
-                        {
-                            string orientationRelative = GetRelativePathInOrientationResourceFolder(assetPath, entryOrientationFolder);
-                            if (!string.IsNullOrEmpty(orientationRelative))
-                            {
-                                string orientationDir = Path.GetDirectoryName(orientationRelative)?.Replace("\\", "/");
-                                string orientationFile = Path.GetFileNameWithoutExtension(orientationRelative);
-                                string orientationKey = (string.IsNullOrEmpty(orientationDir) ? orientationFile : orientationDir + "/" + orientationFile).ToLowerInvariant();
-                                string orientationKeyPrefix = "asset:" + orientationKey + "?";
-                                if (!writtenLines.Any(line => line.StartsWith(orientationKeyPrefix, StringComparison.Ordinal)))
-                                {
-                                    string orientationPrefix = pFolder + "/" + entryOrientationFolder.ToLowerInvariant();
-                                    string orientationAssetLine = $"asset:{orientationKey}?dl=bundle:sa-bundle&x={extForX}&b={bundlePathForManifest}&p={orientationPrefix}";
-                                    writtenLines.Add(orientationAssetLine);
-                                    writer.WriteLine(orientationAssetLine);
-                                }
-                            }
                         }
                     }
 
