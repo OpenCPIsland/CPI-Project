@@ -94,7 +94,7 @@ namespace ClubPenguin.Net.Lan
 
 	public sealed class LanBotGrid
 	{
-		private const uint Magic = 0x3247424Cu;
+		private const uint Magic = 0x3447424Cu;
 
 		public string Zone;
 
@@ -112,6 +112,27 @@ namespace ClubPenguin.Net.Lan
 
 		public short[] Heights;
 
+		public bool Dive;
+
+		public float Surface;
+
+		public List<float[]> AirZones = new List<float[]>();
+
+		public float[] AirZoneAt(float[] p)
+		{
+			foreach (float[] z in AirZones)
+			{
+				double dx = p[0] - z[0];
+				double dy = p[1] - z[1];
+				double dz = p[2] - z[2];
+				if (dx * dx + dy * dy + dz * dz <= z[3] * z[3])
+				{
+					return z;
+				}
+			}
+			return null;
+		}
+
 		private bool Index(float x, float z, out int i)
 		{
 			int cx = (int)Math.Floor((x - MinX) / Cell);
@@ -128,13 +149,19 @@ namespace ClubPenguin.Net.Lan
 		public bool Walkable(float[] p)
 		{
 			int i;
-			return Index(p[0], p[2], out i) && Flags[i] == 1;
+			return Index(p[0], p[2], out i) && (Flags[i] == 1 || Flags[i] == 3);
+		}
+
+		public bool IsWater(float[] p)
+		{
+			int i;
+			return Index(p[0], p[2], out i) && Flags[i] == 3;
 		}
 
 		public bool Ground(float[] p, out float y)
 		{
 			int i;
-			if (Index(p[0], p[2], out i) && Flags[i] == 1)
+			if (Index(p[0], p[2], out i) && (Flags[i] == 1 || Flags[i] == 3))
 			{
 				y = Heights[i] / 20f;
 				return true;
@@ -153,7 +180,7 @@ namespace ClubPenguin.Net.Lan
 			{
 				double t = (double)k / steps;
 				int i;
-				if (!Index((float)(a[0] + dx * t), (float)(a[2] + dz * t), out i) || Flags[i] != 1)
+				if (!Index((float)(a[0] + dx * t), (float)(a[2] + dz * t), out i) || (Flags[i] != 1 && Flags[i] != 3))
 				{
 					return false;
 				}
@@ -178,6 +205,16 @@ namespace ClubPenguin.Net.Lan
 					foreach (short h in Heights)
 					{
 						w.Write(h);
+					}
+					w.Write(Dive);
+					w.Write(Surface);
+					w.Write(AirZones.Count);
+					foreach (float[] z in AirZones)
+					{
+						w.Write(z[0]);
+						w.Write(z[1]);
+						w.Write(z[2]);
+						w.Write(z[3]);
 					}
 				}
 				return ms.ToArray();
@@ -210,6 +247,17 @@ namespace ClubPenguin.Net.Lan
 					for (int i = 0; i < g.Heights.Length; i++)
 					{
 						g.Heights[i] = r.ReadInt16();
+					}
+					g.Dive = r.ReadBoolean();
+					g.Surface = r.ReadSingle();
+					int zones = r.ReadInt32();
+					if (zones < 0 || zones > 4096)
+					{
+						return null;
+					}
+					for (int k = 0; k < zones; k++)
+					{
+						g.AirZones.Add(new float[4] { r.ReadSingle(), r.ReadSingle(), r.ReadSingle(), r.ReadSingle() });
 					}
 					return (g.Flags.Length == g.W * g.H) ? g : null;
 				}
@@ -566,6 +614,10 @@ namespace ClubPenguin.Net.Lan
 
 	public sealed class LanBots
 	{
+		private double swimSpeed = 2.0;
+
+		public double SwimSpeed => Math.Max(0.8, Math.Min(swimSpeed, 3.25));
+
 		private sealed class LastSample
 		{
 			public string Zone;
@@ -1483,7 +1535,17 @@ namespace ClubPenguin.Net.Lan
 				double dz = position[2] - last.P[2];
 				double vy = Math.Abs(position[1] - last.P[1]) / dt;
 				double vh = Math.Sqrt(dx * dx + dz * dz) / dt;
-				if (vy > 3.0 || vh > 8.5)
+				LanBotGrid zoneGrid = GridOf(zone);
+				bool dive = zoneGrid != null && zoneGrid.Dive;
+				if (dive && position[1] <= zoneGrid.Surface + 0.3f && last.P[1] <= zoneGrid.Surface + 0.3f)
+				{
+					double v3 = Math.Sqrt(vh * vh + vy * vy);
+					if (v3 > 0.6 && v3 < 6.0)
+					{
+						swimSpeed = swimSpeed * 0.97 + v3 * 0.03;
+					}
+				}
+				if ((!dive && vy > 3.0) || (dive && vy > 7.0) || vh > 8.5)
 				{
 					airborneUntil[player.UserId] = now + 1200;
 					lastSamples.Remove(player.UserId);
@@ -1761,7 +1823,7 @@ namespace ClubPenguin.Net.Lan
 			new float[4] { 17.60f, -10.86f, 0.591f, 0.806f }
 		};
 
-		private const double WalkSpeed = 3.25;
+		private static double WalkSpeed => LanBotRunParams.JogSpeed;
 
 		private const double Gravity = -9.81;
 
@@ -1889,6 +1951,30 @@ namespace ClubPenguin.Net.Lan
 		private bool tubing;
 
 		private long tubeUntil;
+
+		private long tubeRetryAt;
+
+		private bool surfacing;
+
+		private bool refilling;
+
+		private double air = 10.0;
+
+		private double seekAirAt = 6.5;
+
+		private int breathState;
+
+		private long bubbleSentAt;
+
+		private bool bubbleShown;
+
+		private double tubeVel;
+
+		private static double TubeSpeed => LanBotRunParams.SlideManualSpeed;
+
+		private bool runStyle;
+
+		private double runMult = 1.0;
 
 		private readonly LanBots bots;
 
@@ -2402,17 +2488,78 @@ namespace ClubPenguin.Net.Lan
 			}
 			tubing = true;
 			sliding = true;
-			tubeUntil = now + 20000;
+			tubeUntil = now + 60000 + R.Next(60001);
+			tubeRetryAt = 0;
+			tubeVel = 0.0;
 			Server.PartyGames.SetLocomotion(Player, 1);
 			SetMode("wander", now);
-			GoTo(target, 4.5, delegate
+			float[] first = NextTubeTarget();
+			TubeLeg(first ?? target);
+			return true;
+		}
+
+		private void TubeLeg(float[] target)
+		{
+			float[] start = LanMotion.Copy(pos);
+			LanBotGrid grid = Grid();
+			bool path = grid == null || !grid.Clear(pos, target);
+			GoTo(target, TubeSpeed, delegate
 			{
 				long t = bots.Now;
-				EndTube(t);
-				SetMode("idle", t);
-				busyUntil = t + 1500 + R.Next(4000);
-			}, true);
-			return true;
+				if (!tubing)
+				{
+					return;
+				}
+				if (t >= tubeUntil)
+				{
+					EndTube(t);
+					SetMode("idle", t);
+					busyUntil = t + 1500 + R.Next(4000);
+					return;
+				}
+				if (HDist(start, pos) < 1.5)
+				{
+					tubeRetryAt = t + 1000 + R.Next(2000);
+					return;
+				}
+				float[] next = NextTubeTarget();
+				if (next != null)
+				{
+					TubeLeg(next);
+					return;
+				}
+				tubeRetryAt = t + 1500;
+			}, path);
+		}
+
+		private float[] NextTubeTarget()
+		{
+			LanBotGrid grid = Grid();
+			if (grid == null)
+			{
+				return Map.RandomReachable(pos, 6.0, 25.0, R);
+			}
+			double heading = Math.Atan2(facing[2], facing[0]);
+			double[] cones = { Math.PI / 4.0, Math.PI / 2.0, Math.PI * 0.85 };
+			foreach (double cone in cones)
+			{
+				for (int tries = 0; tries < 14; tries++)
+				{
+					double a = heading + (R.NextDouble() * 2.0 - 1.0) * cone;
+					double d = 8.0 + R.NextDouble() * 14.0;
+					float[] p = new float[3]
+					{
+						pos[0] + (float)(Math.Cos(a) * d),
+						pos[1],
+						pos[2] + (float)(Math.Sin(a) * d)
+					};
+					if (grid.Walkable(p) && grid.Clear(pos, p))
+					{
+						return p;
+					}
+				}
+			}
+			return null;
 		}
 
 		private void EndTube(long now)
@@ -2656,7 +2803,37 @@ namespace ClubPenguin.Net.Lan
 			{
 				return null;
 			}
-			return bots.GridOf(LanServer.ZoneOfRoom(Player.RoomKey));
+			LanBotGrid grid = bots.GridOf(LanServer.ZoneOfRoom(Player.RoomKey));
+			return (grid != null && grid.Dive) ? null : grid;
+		}
+
+		private LanBotGrid ZoneGrid()
+		{
+			return Player.Registered ? bots.GridOf(LanServer.ZoneOfRoom(Player.RoomKey)) : null;
+		}
+
+		private bool InWater()
+		{
+			if (!Player.Registered || LanBots.IsIgloo(Player.RoomName))
+			{
+				return false;
+			}
+			LanBotGrid grid = ZoneGrid();
+			if (grid == null)
+			{
+				return false;
+			}
+			if (grid.Dive)
+			{
+				return pos[1] <= grid.Surface + 0.3f;
+			}
+			return grid.IsWater(pos);
+		}
+
+		private bool Underwater()
+		{
+			LanBotGrid grid = ZoneGrid();
+			return grid != null && grid.Dive && pos[1] < grid.Surface - 1.0f;
 		}
 
 		private float[] Near(float[] center, double radius)
@@ -2698,6 +2875,12 @@ namespace ClubPenguin.Net.Lan
 		private void GoTo(float[] target, double spd, Action then, bool usePath)
 		{
 			route.Clear();
+			bool wasRunning = moving && runStyle;
+			runStyle = spd >= WalkSpeed * 0.99 && spd <= WalkSpeed * 1.41;
+			if (runStyle && !wasRunning)
+			{
+				runMult = LanBotRunParams.JogIntoSpeedMult;
+			}
 			speed = spd;
 			arrived = then;
 			moving = true;
@@ -2715,7 +2898,7 @@ namespace ClubPenguin.Net.Lan
 
 		private void MaybeSprint()
 		{
-			if (sliding || tubing || speed <= 0.0 || (Player.LocomotionState != 0 && Player.LocomotionState != 8))
+			if (!runStyle || sliding || tubing || speed <= 0.0 || (Player.LocomotionState != 0 && Player.LocomotionState != 8) || InWater())
 			{
 				return;
 			}
@@ -2740,14 +2923,44 @@ namespace ClubPenguin.Net.Lan
 				}
 				return;
 			}
+			if (mode == "wander")
+			{
+				ExtendSprintRoute(length, 25.0 + R.NextDouble() * 25.0);
+			}
 			sprintBase = speed;
-			speed = Math.Min(speed * 1.8, 6.4);
+			runMult = LanBotRunParams.SprintIntoSpeedMult;
 			sprintSkid = R.NextDouble() < 0.6;
 			sprintOffAt = 0;
 			if (!sprinting)
 			{
 				sprinting = true;
 				Server.PartyGames.SetLocomotion(Player, 8);
+			}
+		}
+
+		private void ExtendSprintRoute(double length, double wanted)
+		{
+			for (int legs = 0; legs < 4 && length < wanted && route.Count > 0; legs++)
+			{
+				float[] end = route[route.Count - 1];
+				float[] next = Map.RandomReachable(end, 8.0, 20.0, R);
+				if (next == null)
+				{
+					return;
+				}
+				List<float[]> path = Map.Path(end, next);
+				float[] from = end;
+				if (path != null)
+				{
+					foreach (float[] p in path)
+					{
+						length += HDist(from, p);
+						from = p;
+					}
+					route.AddRange(path);
+				}
+				length += HDist(from, next);
+				route.Add(LanMotion.Copy(next));
 			}
 		}
 
@@ -2759,6 +2972,7 @@ namespace ClubPenguin.Net.Lan
 				return;
 			}
 			sprinting = false;
+			speed = sprintBase;
 			if (Player.Registered && Player.LocomotionState == 8)
 			{
 				Server.PartyGames.SetLocomotion(Player, 0);
@@ -2804,7 +3018,13 @@ namespace ClubPenguin.Net.Lan
 				EndSprint();
 				speed = sprintBase;
 			}
-			double left = speed * dt;
+			if (tubing && sliding)
+			{
+				TubeMove(dt);
+				return;
+			}
+			float[] facingBefore = LanMotion.Copy(facing);
+			double left = RunSpeed(dt) * dt;
 			LanBotGrid grid = Grid();
 			if (grid != null && !grid.Walkable(pos))
 			{
@@ -2857,7 +3077,93 @@ namespace ClubPenguin.Net.Lan
 				}
 			}
 			moving = true;
-			Send(ActMove, Flat(facing), sliding ? Unit(facing) : null, null);
+			ApplyTurnMomentum(facingBefore, dt);
+			Send(ActMove, (!sliding && InWater()) ? Unit(facing) : Flat(facing), sliding ? Unit(facing) : null, null);
+		}
+
+		private void TubeMove(double dt)
+		{
+			double top = LanBotRunParams.SlideManualSpeed;
+			tubeVel = Math.Min(top, tubeVel + top / Math.Max(0.05, LanBotRunParams.SlideBuildMomentumTime) * dt);
+			while (route.Count > 0 && HDist(pos, route[0]) < Math.Max(1.2, tubeVel * dt))
+			{
+				route.RemoveAt(0);
+			}
+			if (route.Count == 0)
+			{
+				return;
+			}
+			float[] want = Flat(Sub(route[0], pos));
+			float[] cur = Flat(facing);
+			if (cur[0] == 0f && cur[2] == 0f)
+			{
+				cur = want;
+			}
+			double k = Math.Min(1.0, dt * LanBotRunParams.SlideRotationSmoothing);
+			float[] next = new float[3]
+			{
+				(float)(cur[0] + (want[0] - cur[0]) * k),
+				0f,
+				(float)(cur[2] + (want[2] - cur[2]) * k)
+			};
+			next = Flat(next);
+			if (next[0] == 0f && next[2] == 0f)
+			{
+				next = new float[3] { -cur[2], 0f, cur[0] };
+			}
+			float[] step = new float[3]
+			{
+				pos[0] + (float)(next[0] * tubeVel * dt),
+				pos[1],
+				pos[2] + (float)(next[2] * tubeVel * dt)
+			};
+			LanBotGrid grid = Grid();
+			if (grid != null && grid.Walkable(pos) && !grid.Clear(pos, step))
+			{
+				route.Clear();
+				tubeVel = 0.0;
+				return;
+			}
+			pos = step;
+			facing = next;
+			moving = true;
+			Send(ActMove, next, Unit(next), null);
+		}
+
+		private double RunSpeed(double dt)
+		{
+			if (!sliding && Player.LocomotionState == 0 && InWater())
+			{
+				return Math.Min(speed, bots.SwimSpeed);
+			}
+			if (!runStyle || sliding || (Player.LocomotionState != 0 && Player.LocomotionState != 8))
+			{
+				return speed;
+			}
+			double accel = sprinting ? LanBotRunParams.SprintAcceleration : LanBotRunParams.JogAcceleration;
+			runMult = Math.Min(1.0, runMult + accel * dt);
+			double top = sprinting ? LanBotRunParams.SprintSpeed : Math.Min(speed, LanBotRunParams.JogSpeed);
+			return top * runMult;
+		}
+
+		private void ApplyTurnMomentum(float[] before, double dt)
+		{
+			if (!runStyle || sliding || dt <= 0.0)
+			{
+				return;
+			}
+			double a = Math.Atan2(before[2], before[0]);
+			double b = Math.Atan2(facing[2], facing[0]);
+			double turn = Math.Abs(b - a) * 180.0 / Math.PI;
+			if (turn > 180.0)
+			{
+				turn = 360.0 - turn;
+			}
+			if (turn >= LanBotRunParams.MinFacingAngleToResetMomentum * dt)
+			{
+				double cap = sprinting ? LanBotRunParams.SprintTurnSpeedMult : LanBotRunParams.JogTurnSpeedMult;
+				runMult = Math.Min(runMult, cap);
+			}
 		}
 
 		public void Tick(long now, double dt)
@@ -2872,6 +3178,7 @@ namespace ClubPenguin.Net.Lan
 				return;
 			}
 			ChatTick(now);
+			AirTick(now, dt);
 			if (sprintOffAt > 0 && now >= sprintOffAt)
 			{
 				EndSprint();
@@ -2975,11 +3282,125 @@ namespace ClubPenguin.Net.Lan
 					return;
 				}
 			}
+			if (tubing)
+			{
+				if (!moving && now >= tubeRetryAt)
+				{
+					float[] next = NextTubeTarget() ?? Map.RandomReachable(pos, 4.0, 20.0, R);
+					if (next != null)
+					{
+						TubeLeg(next);
+					}
+					else
+					{
+						tubeRetryAt = now + 1500;
+					}
+				}
+				return;
+			}
+			if (refilling)
+			{
+				if (air < 9.7 && breathState == 2)
+				{
+					return;
+				}
+				refilling = false;
+				busyUntil = now + 1000 + R.Next(3000);
+			}
+			if (!surfacing && Underwater() && air < seekAirAt && Resurface(now))
+			{
+				return;
+			}
 			if (moving || now < busyUntil)
 			{
 				return;
 			}
 			Think(now);
+		}
+
+		private void AirTick(long now, double dt)
+		{
+			LanBotGrid grid = ZoneGrid();
+			if (grid == null || !grid.Dive || LanBots.IsIgloo(Player.RoomName))
+			{
+				if (bubbleShown)
+				{
+					bubbleShown = false;
+					Server.BroadcastUserVars(Player, LanServer.NullVar("bubble"));
+				}
+				air = 10.0;
+				breathState = 0;
+				refilling = false;
+				return;
+			}
+			bool under = pos[1] < grid.Surface - 1.0f;
+			int state = (under && grid.AirZoneAt(pos) == null) ? 1 : 2;
+			if (state == 1)
+			{
+				air *= Math.Exp(-0.04 * dt);
+			}
+			else
+			{
+				air = 10.0 - (10.0 - air) * Math.Exp(-dt);
+			}
+			if (state != breathState || now - bubbleSentAt >= 1000 || !bubbleShown)
+			{
+				breathState = state;
+				bubbleSentAt = now;
+				bubbleShown = true;
+				SfsObject bubble = new SfsObject().PutLong("t", DateTimeOffset.UtcNow.ToUnixTimeMilliseconds()).Put("v", new SfsValue(SfsType.Float, (float)air)).PutInt("s", state);
+				Server.BroadcastUserVars(Player, LanServer.Var("bubble", SfsVar.Object, new SfsValue(SfsType.SfsObject, bubble)));
+			}
+		}
+
+		private bool Resurface(long now)
+		{
+			LanBotGrid grid = ZoneGrid();
+			if (grid == null)
+			{
+				return false;
+			}
+			LanBotMap map = Map;
+			float[] best = null;
+			double bestD = double.MaxValue;
+			foreach (float[] z in grid.AirZones)
+			{
+				double d = LanMotion.Dist(pos, z) * 0.8;
+				if (d < bestD)
+				{
+					bestD = d;
+					best = new float[3] { z[0], z[1], z[2] };
+				}
+			}
+			foreach (LanBotMap.Node n in map.Nodes)
+			{
+				if (n.Links.Count == 0 || n.P[1] < grid.Surface - 0.4f)
+				{
+					continue;
+				}
+				double d = LanMotion.Dist(pos, n.P);
+				if (d < bestD)
+				{
+					bestD = d;
+					best = n.P;
+				}
+			}
+			if (best == null)
+			{
+				return false;
+			}
+			surfacing = true;
+			SetMode("wander", now);
+			GoTo(LanMotion.Copy(best), WalkSpeed, delegate
+			{
+				long t = bots.Now;
+				surfacing = false;
+				refilling = true;
+				seekAirAt = 6.0 + R.NextDouble() * 1.5;
+				SetMode("idle", t);
+				busyUntil = t + 1000;
+			}, true);
+			return true;
 		}
 
 		private void Think(long now)
@@ -3001,7 +3422,7 @@ namespace ClubPenguin.Net.Lan
 			{
 				noHumansSince = -1;
 			}
-			if (TryLobby(now) || TryInvitation(now) || TryTargets(now) || TryTilt(now) || TryTray(now, here) || TryTube(now) || TryRide(now) || TrySeat(now))
+			if (TryLobby(now) || TryInvitation(now) || TryTargets(now) || TryTilt(now) || TryTray(now, here) || (!InWater() && (TryTube(now) || TryRide(now) || TrySeat(now))))
 			{
 				return;
 			}
@@ -4164,6 +4585,61 @@ namespace ClubPenguin.Net.Lan
 				float[] spot = Map.RandomReachable(huntHome, 3.0, 14.0, R) ?? Near(huntHome, 8.0);
 				GoTo(spot, WalkSpeed, null, true);
 			}
+		}
+	}
+
+	internal static class LanBotRunParams
+	{
+		public static volatile float JogSpeedF = 3.25f;
+
+		public static double JogSpeed => JogSpeedF;
+
+		public static double JogAcceleration = 3.0;
+
+		public static double JogIntoSpeedMult = 0.3;
+
+		public static double JogTurnSpeedMult = 1.0;
+
+		public static double SprintSpeed = 4.5;
+
+		public static double SprintAcceleration = 2.0;
+
+		public static double SprintIntoSpeedMult = 0.5;
+
+		public static double SprintTurnSpeedMult = 0.9;
+
+		public static double MinFacingAngleToResetMomentum = 600.0;
+
+		public static double SlideManualSpeed = 2.0;
+
+		public static double SlideBuildMomentumTime = 1.0;
+
+		public static double SlideRotationSmoothing = 2.0;
+
+		public static bool Loaded;
+
+		public static bool SlideLoaded;
+
+		public static void SetSlide(float manualSpeed, float buildMomentumTime, float rotationSmoothing)
+		{
+			SlideManualSpeed = manualSpeed;
+			SlideBuildMomentumTime = buildMomentumTime;
+			SlideRotationSmoothing = rotationSmoothing;
+			SlideLoaded = true;
+		}
+
+		public static void Set(float jogSpeed, float jogAccel, float jogInto, float jogTurn, float sprintSpeed, float sprintAccel, float sprintInto, float sprintTurn, float resetAngle)
+		{
+			JogAcceleration = jogAccel;
+			JogIntoSpeedMult = jogInto;
+			JogTurnSpeedMult = jogTurn;
+			SprintSpeed = sprintSpeed;
+			SprintAcceleration = sprintAccel;
+			SprintIntoSpeedMult = sprintInto;
+			SprintTurnSpeedMult = sprintTurn;
+			MinFacingAngleToResetMomentum = resetAngle;
+			JogSpeedF = jogSpeed;
+			Loaded = true;
 		}
 	}
 }

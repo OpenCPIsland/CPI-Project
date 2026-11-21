@@ -40,9 +40,44 @@ namespace ClubPenguin.Net.Lan
 				instance = go.AddComponent<LanBotGridBaker>();
 				LoadAll();
 			}
+			LoadRunParams();
 			foreach (KeyValuePair<string, LanBotGrid> kv in loaded)
 			{
 				host.Bots.SetGrid(kv.Key, kv.Value);
+			}
+		}
+
+		private static void LoadRunParams()
+		{
+			try
+			{
+				ClubPenguin.Locomotion.RunControllerData data = null;
+				foreach (ClubPenguin.Locomotion.RunControllerData d in Resources.FindObjectsOfTypeAll<ClubPenguin.Locomotion.RunControllerData>())
+				{
+					if (d != null && d.JogParams != null && d.SprintParams != null && (data == null || d.name == "RunControllerData"))
+					{
+						data = d;
+					}
+				}
+				if (data != null)
+				{
+					LanBotRunParams.Set(data.JogParams.Speed, data.JogParams.Acceleration, data.JogParams.IntoSpeedMult, data.JogParams.TurnSpeedMult, data.SprintParams.Speed, data.SprintParams.Acceleration, data.SprintParams.IntoSpeedMult, data.SprintParams.TurnSpeedMult, data.MinFacingAngleToResetMomentum);
+				}
+				ClubPenguin.Locomotion.SlideControllerData slide = null;
+				foreach (ClubPenguin.Locomotion.SlideControllerData d in Resources.FindObjectsOfTypeAll<ClubPenguin.Locomotion.SlideControllerData>())
+				{
+					if (d != null && (slide == null || d.name == "SlideControllerData"))
+					{
+						slide = d;
+					}
+				}
+				if (slide != null)
+				{
+					LanBotRunParams.SetSlide(slide.MaxManualSpeedBeforeMomentumTakeover, slide.BuildMomentumTime, slide.RotationSmoothing);
+				}
+			}
+			catch (Exception)
+			{
 			}
 		}
 
@@ -104,6 +139,10 @@ namespace ClubPenguin.Net.Lan
 				{
 					LanTweaks.RefreshBotLooks();
 				}
+				if (!LanBotRunParams.Loaded || !LanBotRunParams.SlideLoaded)
+				{
+					LoadRunParams();
+				}
 			}
 			if (baking)
 			{
@@ -137,6 +176,36 @@ namespace ClubPenguin.Net.Lan
 				return;
 			}
 			StartCoroutine(Bake(name));
+		}
+
+		private static readonly Collider[] overlap = new Collider[16];
+
+		private static float SurfaceOf(ClubPenguin.Locomotion.SurfaceSwimProperties sp)
+		{
+			return (sp.SpecifyValuesInLocalSpace && sp.ObjectOrigin != null) ? (sp.VisibleSurfaceHeight + sp.ObjectOrigin.position.y) : sp.VisibleSurfaceHeight;
+		}
+
+		private static ClubPenguin.Locomotion.SurfaceSwimProperties SwimVolumeAt(Vector3 point)
+		{
+			for (int pass = 0; pass < 2; pass++)
+			{
+				Vector3 at = point + Vector3.up * (pass == 0 ? 0.3f : -0.3f);
+				int count = Physics.OverlapSphereNonAlloc(at, 0.25f, overlap, ~0, QueryTriggerInteraction.Collide);
+				for (int k = 0; k < count; k++)
+				{
+					Collider c = overlap[k];
+					if (c == null || !c.isTrigger)
+					{
+						continue;
+					}
+					ClubPenguin.Locomotion.SurfaceSwimProperties sp = c.GetComponentInParent<ClubPenguin.Locomotion.SurfaceSwimProperties>();
+					if (sp != null)
+					{
+						return sp;
+					}
+				}
+			}
+			return null;
 		}
 
 		private static int Layer(string name)
@@ -204,6 +273,29 @@ namespace ClubPenguin.Net.Lan
 			grid.H = Mathf.Max(1, Mathf.CeilToInt(sizeZ / CellSize));
 			grid.Flags = new byte[grid.W * grid.H];
 			grid.Heights = new short[grid.W * grid.H];
+			foreach (ClubPenguin.Locomotion.SurfaceSwimProperties sp in UnityEngine.Object.FindObjectsOfType<ClubPenguin.Locomotion.SurfaceSwimProperties>())
+			{
+				if (sp != null && sp.Type == ClubPenguin.Locomotion.SurfaceSwimProperties.VolumeType.Diving)
+				{
+					float h = SurfaceOf(sp);
+					grid.Surface = grid.Dive ? Mathf.Max(grid.Surface, h) : h;
+					grid.Dive = true;
+				}
+			}
+			if (grid.Dive)
+			{
+				foreach (ClubPenguin.Diving.FreeAirZone fz in UnityEngine.Object.FindObjectsOfType<ClubPenguin.Diving.FreeAirZone>())
+				{
+					Collider zc = (fz != null) ? fz.GetComponent<Collider>() : null;
+					if (zc == null)
+					{
+						continue;
+					}
+					Bounds zb = zc.bounds;
+					float r = Mathf.Max(0.6f, Mathf.Min(zb.extents.x, zb.extents.y));
+					grid.AirZones.Add(new float[4] { zb.center.x, zb.center.y, zb.center.z, r });
+				}
+			}
 			float top = bounds.max.y + 5f;
 			float depth = bounds.size.y + 10f;
 			int done = 0;
@@ -218,17 +310,32 @@ namespace ClubPenguin.Net.Lan
 					{
 						int bit = 1 << hit.collider.gameObject.layer;
 						grid.Heights[i] = (short)Mathf.Clamp(Mathf.RoundToInt(hit.point.y * 20f), short.MinValue, short.MaxValue);
-						if ((bit & (barrierMask | waterMask)) != 0 || hit.normal.y < 0.45f)
+						bool swimCell = false;
+						ClubPenguin.Locomotion.SurfaceSwimProperties swim = SwimVolumeAt(hit.point);
+						if (swim != null && (bit & barrierMask) == 0)
 						{
-							grid.Flags[i] = 2;
+							float surface = SurfaceOf(swim);
+							if (surface - hit.point.y > 0.5f || (bit & waterMask) != 0)
+							{
+								grid.Heights[i] = (short)Mathf.Clamp(Mathf.RoundToInt(surface * 20f), short.MinValue, short.MaxValue);
+								grid.Flags[i] = Physics.CheckCapsule(new Vector3(hit.point.x, surface + 0.45f, hit.point.z), new Vector3(hit.point.x, surface + 1.4f, hit.point.z), 0.3f, barrierMask, QueryTriggerInteraction.Ignore) ? (byte)2 : (byte)3;
+								swimCell = true;
+							}
 						}
-						else if (Physics.CheckCapsule(hit.point + Vector3.up * 0.45f, hit.point + Vector3.up * 1.4f, 0.3f, barrierMask, QueryTriggerInteraction.Ignore))
+						if (!swimCell)
 						{
-							grid.Flags[i] = 2;
-						}
-						else
-						{
-							grid.Flags[i] = 1;
+							if ((bit & (barrierMask | waterMask)) != 0 || hit.normal.y < 0.45f)
+							{
+								grid.Flags[i] = 2;
+							}
+							else if (Physics.CheckCapsule(hit.point + Vector3.up * 0.45f, hit.point + Vector3.up * 1.4f, 0.3f, barrierMask, QueryTriggerInteraction.Ignore))
+							{
+								grid.Flags[i] = 2;
+							}
+							else
+							{
+								grid.Flags[i] = 1;
+							}
 						}
 					}
 					done++;
