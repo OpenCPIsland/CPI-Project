@@ -172,6 +172,7 @@ namespace ClubPenguin.Net.Lan
 		private List<int> OutcomeFor(List<int> played, int failureMoveId, int successMoveId)
 		{
 			List<int> result = new List<int>();
+			bool perfect = true;
 			for (int i = 0; i < expected.Count; i++)
 			{
 				int e = expected[i];
@@ -202,6 +203,7 @@ namespace ClubPenguin.Net.Lan
 		{
 			phase = "perform";
 			int failure = (int)Seconds("FailureMoveId", 0.0);
+			int success = (int)Seconds("SuccessMoveId", 0.0);
 			StringBuilder sb = new StringBuilder();
 			bool first = true;
 			foreach (LanPartyGamePlayer p in Players.Where((LanPartyGamePlayer x) => !x.Left))
@@ -212,7 +214,7 @@ namespace ClubPenguin.Net.Lan
 				}
 				first = false;
 				sb.Append("{\"PlayerSessionId\":").Append(Sid(p)).Append(",\"DanceMoveIds\":")
-					.Append(IntList(OutcomeFor(MovesOf(p), failure)))
+					.Append(IntList(OutcomeFor(MovesOf(p), failure, success)))
 					.Append('}');
 			}
 			SetVar("dancemoves", "{\"PlayerMoveDatas\":[" + sb + "],\"StartTimeInSeconds\":" + Stamp("dancemoves") + "}");
