@@ -94,7 +94,7 @@ namespace ClubPenguin.Net.Lan
 
 	public sealed class LanBotGrid
 	{
-		private const uint Magic = 0x3447424Cu;
+		private const uint Magic = 0x3247424Cu;
 
 		public string Zone;
 
@@ -112,27 +112,6 @@ namespace ClubPenguin.Net.Lan
 
 		public short[] Heights;
 
-		public bool Dive;
-
-		public float Surface;
-
-		public List<float[]> AirZones = new List<float[]>();
-
-		public float[] AirZoneAt(float[] p)
-		{
-			foreach (float[] z in AirZones)
-			{
-				double dx = p[0] - z[0];
-				double dy = p[1] - z[1];
-				double dz = p[2] - z[2];
-				if (dx * dx + dy * dy + dz * dz <= z[3] * z[3])
-				{
-					return z;
-				}
-			}
-			return null;
-		}
-
 		private bool Index(float x, float z, out int i)
 		{
 			int cx = (int)Math.Floor((x - MinX) / Cell);
@@ -149,19 +128,13 @@ namespace ClubPenguin.Net.Lan
 		public bool Walkable(float[] p)
 		{
 			int i;
-			return Index(p[0], p[2], out i) && (Flags[i] == 1 || Flags[i] == 3);
-		}
-
-		public bool IsWater(float[] p)
-		{
-			int i;
-			return Index(p[0], p[2], out i) && Flags[i] == 3;
+			return Index(p[0], p[2], out i) && Flags[i] == 1;
 		}
 
 		public bool Ground(float[] p, out float y)
 		{
 			int i;
-			if (Index(p[0], p[2], out i) && (Flags[i] == 1 || Flags[i] == 3))
+			if (Index(p[0], p[2], out i) && Flags[i] == 1)
 			{
 				y = Heights[i] / 20f;
 				return true;
@@ -180,7 +153,7 @@ namespace ClubPenguin.Net.Lan
 			{
 				double t = (double)k / steps;
 				int i;
-				if (!Index((float)(a[0] + dx * t), (float)(a[2] + dz * t), out i) || (Flags[i] != 1 && Flags[i] != 3))
+				if (!Index((float)(a[0] + dx * t), (float)(a[2] + dz * t), out i) || Flags[i] != 1)
 				{
 					return false;
 				}
@@ -205,16 +178,6 @@ namespace ClubPenguin.Net.Lan
 					foreach (short h in Heights)
 					{
 						w.Write(h);
-					}
-					w.Write(Dive);
-					w.Write(Surface);
-					w.Write(AirZones.Count);
-					foreach (float[] z in AirZones)
-					{
-						w.Write(z[0]);
-						w.Write(z[1]);
-						w.Write(z[2]);
-						w.Write(z[3]);
 					}
 				}
 				return ms.ToArray();
@@ -247,17 +210,6 @@ namespace ClubPenguin.Net.Lan
 					for (int i = 0; i < g.Heights.Length; i++)
 					{
 						g.Heights[i] = r.ReadInt16();
-					}
-					g.Dive = r.ReadBoolean();
-					g.Surface = r.ReadSingle();
-					int zones = r.ReadInt32();
-					if (zones < 0 || zones > 4096)
-					{
-						return null;
-					}
-					for (int k = 0; k < zones; k++)
-					{
-						g.AirZones.Add(new float[4] { r.ReadSingle(), r.ReadSingle(), r.ReadSingle(), r.ReadSingle() });
 					}
 					return (g.Flags.Length == g.W * g.H) ? g : null;
 				}
@@ -614,10 +566,6 @@ namespace ClubPenguin.Net.Lan
 
 	public sealed class LanBots
 	{
-		private double swimSpeed = 2.0;
-
-		public double SwimSpeed => Math.Max(0.8, Math.Min(swimSpeed, 3.25));
-
 		private sealed class LastSample
 		{
 			public string Zone;
@@ -936,6 +884,11 @@ namespace ClubPenguin.Net.Lan
 			return roomName != null && roomName.StartsWith("Igloo", StringComparison.Ordinal);
 		}
 
+		public static bool IsBotBlocked(string roomName)
+		{
+			return roomName != null && string.Equals(LanServer.ZoneOfRoom(LanServer.RoomKeyOf(roomName)), "Diving", StringComparison.OrdinalIgnoreCase);
+		}
+
 		private void Tick()
 		{
 			if (!running)
@@ -1084,7 +1037,7 @@ namespace ClubPenguin.Net.Lan
 
 		private List<LanPlayer> Humans()
 		{
-			return Server.All().Where((LanPlayer p) => !p.IsBot && InPlace(p) && !IsIgloo(p.RoomName)).ToList();
+			return Server.All().Where((LanPlayer p) => !p.IsBot && InPlace(p) && !IsIgloo(p.RoomName) && !IsBotBlocked(p.RoomName)).ToList();
 		}
 
 		public LanPlayer HopTarget(LanPlayer bot, bool otherRoom)
@@ -1535,17 +1488,7 @@ namespace ClubPenguin.Net.Lan
 				double dz = position[2] - last.P[2];
 				double vy = Math.Abs(position[1] - last.P[1]) / dt;
 				double vh = Math.Sqrt(dx * dx + dz * dz) / dt;
-				LanBotGrid zoneGrid = GridOf(zone);
-				bool dive = zoneGrid != null && zoneGrid.Dive;
-				if (dive && position[1] <= zoneGrid.Surface + 0.3f && last.P[1] <= zoneGrid.Surface + 0.3f)
-				{
-					double v3 = Math.Sqrt(vh * vh + vy * vy);
-					if (v3 > 0.6 && v3 < 6.0)
-					{
-						swimSpeed = swimSpeed * 0.97 + v3 * 0.03;
-					}
-				}
-				if ((!dive && vy > 3.0) || (dive && vy > 7.0) || vh > 8.5)
+				if (vy > 3.0 || vh > 8.5)
 				{
 					airborneUntil[player.UserId] = now + 1200;
 					lastSamples.Remove(player.UserId);
@@ -1953,20 +1896,6 @@ namespace ClubPenguin.Net.Lan
 		private long tubeUntil;
 
 		private long tubeRetryAt;
-
-		private bool surfacing;
-
-		private bool refilling;
-
-		private double air = 10.0;
-
-		private double seekAirAt = 6.5;
-
-		private int breathState;
-
-		private long bubbleSentAt;
-
-		private bool bubbleShown;
 
 		private double tubeVel;
 
@@ -2382,7 +2311,7 @@ namespace ClubPenguin.Net.Lan
 				return false;
 			}
 			danceTrip = false;
-			if (Leader == null || Leader.RoomKey == null || Leader.RoomKey == Player.RoomKey)
+			if (Leader == null || Leader.RoomKey == null || Leader.RoomKey == Player.RoomKey || LanBots.IsBotBlocked(Leader.RoomName))
 			{
 				followAt = 0;
 				return false;
@@ -2442,7 +2371,7 @@ namespace ClubPenguin.Net.Lan
 				return;
 			}
 			leaveExit = null;
-			if (target == null || !bots.InPlace(target) || target.RoomKey == Player.RoomKey)
+			if (target == null || !bots.InPlace(target) || target.RoomKey == Player.RoomKey || LanBots.IsBotBlocked(target.RoomName))
 			{
 				SetMode("idle", now);
 				busyUntil = now + 1000;
@@ -2803,37 +2732,7 @@ namespace ClubPenguin.Net.Lan
 			{
 				return null;
 			}
-			LanBotGrid grid = bots.GridOf(LanServer.ZoneOfRoom(Player.RoomKey));
-			return (grid != null && grid.Dive) ? null : grid;
-		}
-
-		private LanBotGrid ZoneGrid()
-		{
-			return Player.Registered ? bots.GridOf(LanServer.ZoneOfRoom(Player.RoomKey)) : null;
-		}
-
-		private bool InWater()
-		{
-			if (!Player.Registered || LanBots.IsIgloo(Player.RoomName))
-			{
-				return false;
-			}
-			LanBotGrid grid = ZoneGrid();
-			if (grid == null)
-			{
-				return false;
-			}
-			if (grid.Dive)
-			{
-				return pos[1] <= grid.Surface + 0.3f;
-			}
-			return grid.IsWater(pos);
-		}
-
-		private bool Underwater()
-		{
-			LanBotGrid grid = ZoneGrid();
-			return grid != null && grid.Dive && pos[1] < grid.Surface - 1.0f;
+			return bots.GridOf(LanServer.ZoneOfRoom(Player.RoomKey));
 		}
 
 		private float[] Near(float[] center, double radius)
@@ -2898,7 +2797,7 @@ namespace ClubPenguin.Net.Lan
 
 		private void MaybeSprint()
 		{
-			if (!runStyle || sliding || tubing || speed <= 0.0 || (Player.LocomotionState != 0 && Player.LocomotionState != 8) || InWater())
+			if (!runStyle || sliding || tubing || speed <= 0.0 || (Player.LocomotionState != 0 && Player.LocomotionState != 8))
 			{
 				return;
 			}
@@ -3078,7 +2977,7 @@ namespace ClubPenguin.Net.Lan
 			}
 			moving = true;
 			ApplyTurnMomentum(facingBefore, dt);
-			Send(ActMove, (!sliding && InWater()) ? Unit(facing) : Flat(facing), sliding ? Unit(facing) : null, null);
+			Send(ActMove, Flat(facing), sliding ? Unit(facing) : null, null);
 		}
 
 		private void TubeMove(double dt)
@@ -3132,10 +3031,6 @@ namespace ClubPenguin.Net.Lan
 
 		private double RunSpeed(double dt)
 		{
-			if (!sliding && Player.LocomotionState == 0 && InWater())
-			{
-				return Math.Min(speed, bots.SwimSpeed);
-			}
 			if (!runStyle || sliding || (Player.LocomotionState != 0 && Player.LocomotionState != 8))
 			{
 				return speed;
@@ -3178,7 +3073,6 @@ namespace ClubPenguin.Net.Lan
 				return;
 			}
 			ChatTick(now);
-			AirTick(now, dt);
 			if (sprintOffAt > 0 && now >= sprintOffAt)
 			{
 				EndSprint();
@@ -3298,19 +3192,6 @@ namespace ClubPenguin.Net.Lan
 				}
 				return;
 			}
-			if (refilling)
-			{
-				if (air < 9.7 && breathState == 2)
-				{
-					return;
-				}
-				refilling = false;
-				busyUntil = now + 1000 + R.Next(3000);
-			}
-			if (!surfacing && Underwater() && air < seekAirAt && Resurface(now))
-			{
-				return;
-			}
 			if (moving || now < busyUntil)
 			{
 				return;
@@ -3318,93 +3199,12 @@ namespace ClubPenguin.Net.Lan
 			Think(now);
 		}
 
-		private void AirTick(long now, double dt)
-		{
-			LanBotGrid grid = ZoneGrid();
-			if (grid == null || !grid.Dive || LanBots.IsIgloo(Player.RoomName))
-			{
-				if (bubbleShown)
-				{
-					bubbleShown = false;
-					Server.BroadcastUserVars(Player, LanServer.NullVar("bubble"));
-				}
-				air = 10.0;
-				breathState = 0;
-				refilling = false;
-				return;
-			}
-			bool under = pos[1] < grid.Surface - 1.0f;
-			int state = (under && grid.AirZoneAt(pos) == null) ? 1 : 2;
-			if (state == 1)
-			{
-				air *= Math.Exp(-0.04 * dt);
-			}
-			else
-			{
-				air = 10.0 - (10.0 - air) * Math.Exp(-dt);
-			}
-			if (state != breathState || now - bubbleSentAt >= 1000 || !bubbleShown)
-			{
-				breathState = state;
-				bubbleSentAt = now;
-				bubbleShown = true;
-				SfsObject bubble = new SfsObject().PutLong("t", DateTimeOffset.UtcNow.ToUnixTimeMilliseconds()).Put("v", new SfsValue(SfsType.Float, (float)air)).PutInt("s", state);
-				Server.BroadcastUserVars(Player, LanServer.Var("bubble", SfsVar.Object, new SfsValue(SfsType.SfsObject, bubble)));
-			}
-		}
-
-		private bool Resurface(long now)
-		{
-			LanBotGrid grid = ZoneGrid();
-			if (grid == null)
-			{
-				return false;
-			}
-			LanBotMap map = Map;
-			float[] best = null;
-			double bestD = double.MaxValue;
-			foreach (float[] z in grid.AirZones)
-			{
-				double d = LanMotion.Dist(pos, z) * 0.8;
-				if (d < bestD)
-				{
-					bestD = d;
-					best = new float[3] { z[0], z[1], z[2] };
-				}
-			}
-			foreach (LanBotMap.Node n in map.Nodes)
-			{
-				if (n.Links.Count == 0 || n.P[1] < grid.Surface - 0.4f)
-				{
-					continue;
-				}
-				double d = LanMotion.Dist(pos, n.P);
-				if (d < bestD)
-				{
-					bestD = d;
-					best = n.P;
-				}
-			}
-			if (best == null)
-			{
-				return false;
-			}
-			surfacing = true;
-			SetMode("wander", now);
-			GoTo(LanMotion.Copy(best), WalkSpeed, delegate
-			{
-				long t = bots.Now;
-				surfacing = false;
-				refilling = true;
-				seekAirAt = 6.0 + R.NextDouble() * 1.5;
-				SetMode("idle", t);
-				busyUntil = t + 1000;
-			}, true);
-			return true;
-		}
-
 		private void Think(long now)
 		{
+			if (LanBots.IsBotBlocked(Player.RoomName) && Hop(now, false))
+			{
+				return;
+			}
 			List<LanPlayer> here = Server.InRoom(Player.RoomKey);
 			List<LanPlayer> humans = here.Where((LanPlayer p) => !p.IsBot).ToList();
 			if (humans.Count == 0)
@@ -3422,7 +3222,7 @@ namespace ClubPenguin.Net.Lan
 			{
 				noHumansSince = -1;
 			}
-			if (TryLobby(now) || TryInvitation(now) || TryTargets(now) || TryTilt(now) || TryTray(now, here) || (!InWater() && (TryTube(now) || TryRide(now) || TrySeat(now))))
+			if (TryLobby(now) || TryInvitation(now) || TryTargets(now) || TryTilt(now) || TryTray(now, here) || TryTube(now) || TryRide(now) || TrySeat(now))
 			{
 				return;
 			}
@@ -3478,6 +3278,11 @@ namespace ClubPenguin.Net.Lan
 			{
 				return;
 			}
+			if (hopRoom != null && LanBots.IsBotBlocked(hopRoom))
+			{
+				hopRoom = null;
+				hopAt3 = null;
+			}
 			if (hopRoom != null)
 			{
 				string room = hopRoom;
@@ -3491,11 +3296,11 @@ namespace ClubPenguin.Net.Lan
 			}
 			LanPlayer target = hopTarget;
 			hopTarget = null;
-			if (Leader != null && bots.InPlace(Leader) && now >= stayUntil)
+			if (Leader != null && bots.InPlace(Leader) && now >= stayUntil && !LanBots.IsBotBlocked(Leader.RoomName))
 			{
 				target = Leader;
 			}
-			if (target == null || !bots.InPlace(target) || (LanBots.IsIgloo(target.RoomName) && target != Leader))
+			if (target == null || !bots.InPlace(target) || (LanBots.IsIgloo(target.RoomName) && target != Leader) || LanBots.IsBotBlocked(target.RoomName))
 			{
 				target = bots.HopTarget(Player, false);
 			}

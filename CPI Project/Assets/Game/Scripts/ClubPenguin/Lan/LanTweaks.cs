@@ -280,7 +280,6 @@ namespace ClubPenguin.Net.Lan
 				return;
 			}
 			ApplyBotTalk();
-			LanBotGridBaker.Attach(server);
 			server.Bots.SetTarget(Mathf.Clamp(PlayerPrefs.GetInt(BotsPref, 0), 0, MaxBots), BotColours(), BotTubes(), BotOutfits(), BotEmoteCodes(), BotSizzleClips());
 		}
 
@@ -439,7 +438,6 @@ namespace ClubPenguin.Net.Lan
 			}
 			server.DisconnectRemote();
 			CoroutineRunner.StartPersistent(stopServerLater(server), owner, "LanStopServer");
-			LanBotGridBaker.Detach(server);
 			server = null;
 		}
 
