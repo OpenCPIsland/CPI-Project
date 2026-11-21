@@ -1,4 +1,6 @@
+using ClubPenguin.Net;
 using ClubPenguin.Net.Client.Event;
+using Disney.MobileNetwork;
 using UnityEngine;
 
 namespace ClubPenguin.Locomotion
@@ -62,6 +64,22 @@ namespace ClubPenguin.Locomotion
 			mover.OnComplete -= onWalkFinalComplete;
 			Object.Destroy(movementTransform.gameObject);
 			Object.Destroy(mover);
+			broadcastFacing();
+		}
+
+		private void broadcastFacing()
+		{
+			Vector3 facing = faceDirection;
+			facing.y = 0f;
+			if (facing == Vector3.zero || !Service.IsSet<INetworkServicesManager>() || SceneRefs.ZoneLocalPlayerManager == null || SceneRefs.ZoneLocalPlayerManager.LocalPlayerGameObject == null)
+			{
+				return;
+			}
+			LocomotionActionEvent action = default(LocomotionActionEvent);
+			action.Type = global::ClubPenguin.Net.Domain.LocomotionAction.Rotate;
+			action.Position = SceneRefs.ZoneLocalPlayerManager.LocalPlayerGameObject.transform.position;
+			action.Direction = facing.normalized;
+			Service.Get<INetworkServicesManager>().PlayerActionService.LocomotionAction(action);
 		}
 
 		private Vector3 getInitialDestination()
