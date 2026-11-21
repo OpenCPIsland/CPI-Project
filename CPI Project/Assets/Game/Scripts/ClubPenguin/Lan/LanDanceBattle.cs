@@ -169,7 +169,7 @@ namespace ClubPenguin.Net.Lan
 			});
 		}
 
-		private List<int> OutcomeFor(List<int> played, int failureMoveId)
+		private List<int> OutcomeFor(List<int> played, int failureMoveId, int successMoveId)
 		{
 			List<int> result = new List<int>();
 			for (int i = 0; i < expected.Count; i++)
@@ -182,7 +182,12 @@ namespace ClubPenguin.Net.Lan
 				else
 				{
 					result.Add(failureMoveId);
+					perfect = false;
 				}
+			}
+			if (perfect && successMoveId > 0)
+			{
+				result.Add(successMoveId);
 			}
 			return result;
 		}
