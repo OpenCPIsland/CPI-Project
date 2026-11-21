@@ -577,30 +577,13 @@ namespace ClubPenguin.Net.Lan
 			public long Ms;
 		}
 
-		private sealed class Recording
-		{
-			public LanPlayer Player;
-
-			public int SessionId;
-
-			public int Template;
-
-			public long Start;
-
-			public long RaceStartMs;
-
-			public readonly List<float[]> Points = new List<float[]>();
-		}
-
 		private const double TickMs = 200.0;
 
 		private const int MaxBots = 30;
 
 		private const double SaveEveryMs = 30000.0;
 
-		private const int MaxRacePaths = 3;
 
-		private const int MaxRecordPoints = 3000;
 
 		private static readonly string[] NameStart = new string[16]
 		{
@@ -642,9 +625,7 @@ namespace ClubPenguin.Net.Lan
 
 		private readonly Dictionary<string, LanBotMap> maps = new Dictionary<string, LanBotMap>();
 
-		private readonly Dictionary<int, List<List<float[]>>> races = new Dictionary<int, List<List<float[]>>>();
 
-		private readonly Dictionary<int, Recording> recordings = new Dictionary<int, Recording>();
 
 		private readonly Dictionary<int, LastSample> lastSamples = new Dictionary<int, LastSample>();
 
@@ -670,7 +651,6 @@ namespace ClubPenguin.Net.Lan
 
 		private readonly Dictionary<string, LanBotGrid> grids = new Dictionary<string, LanBotGrid>();
 
-		private readonly Dictionary<int, double> raceDelays = new Dictionary<int, double>();
 
 		private readonly List<Seat> seats = new List<Seat>();
 
@@ -754,7 +734,6 @@ namespace ClubPenguin.Net.Lan
 
 		private bool running;
 
-		private bool racesDirty;
 
 		private long nextSave;
 
@@ -917,7 +896,6 @@ namespace ClubPenguin.Net.Lan
 			try
 			{
 				Reconcile(now);
-				FinishRecordings();
 				PlanDanceTrips(now);
 				foreach (LanBot b in bots.ToList())
 				{
@@ -933,7 +911,7 @@ namespace ClubPenguin.Net.Lan
 				if (now >= nextSave)
 				{
 					nextSave = now + (long)SaveEveryMs;
-					if (racesDirty || usesDirty || maps.Values.Any((LanBotMap m) => m.Dirty))
+					if (usesDirty || maps.Values.Any((LanBotMap m) => m.Dirty))
 					{
 						Save();
 					}
@@ -1421,12 +1399,6 @@ namespace ClubPenguin.Net.Lan
 			return (zone != null && grids.TryGetValue(zone, out g)) ? g : null;
 		}
 
-		public long RaceDelay(int template)
-		{
-			double d;
-			return raceDelays.TryGetValue(template, out d) ? (long)d : 4000L;
-		}
-
 		public Portal PortalFor(string fromZone, string toZone)
 		{
 			Portal portal;
@@ -1490,11 +1462,6 @@ namespace ClubPenguin.Net.Lan
 				knownRooms[zone] = player.RoomName;
 			}
 			LanPartyGameSession session = Server.PartyGames.SessionOf(player);
-			LanTubeRace race = session as LanTubeRace;
-			if (race != null)
-			{
-				Record(player, race, position);
-			}
 			ObserveUse(player, action, position, obj, now);
 			if (action != 0 && action != 13 && action != 12)
 			{
@@ -1592,208 +1559,6 @@ namespace ClubPenguin.Net.Lan
 			});
 		}
 
-		private void Record(LanPlayer player, LanTubeRace race, float[] position)
-		{
-			Recording rec;
-			if (recordings.TryGetValue(player.UserId, out rec) && rec.SessionId != race.Id)
-			{
-				Finish(rec);
-				recordings.Remove(player.UserId);
-				rec = null;
-			}
-			if (rec == null)
-			{
-				rec = new Recording();
-				rec.Player = player;
-				rec.SessionId = race.Id;
-				rec.Template = race.TemplateId;
-				rec.Start = Now;
-				rec.RaceStartMs = race.StartedMs;
-				recordings[player.UserId] = rec;
-			}
-			if (rec.Points.Count < MaxRecordPoints)
-			{
-				rec.Points.Add(new float[4]
-				{
-					position[0],
-					position[1],
-					position[2],
-					Now - rec.Start
-				});
-			}
-		}
-
-		private void FinishRecordings()
-		{
-			foreach (KeyValuePair<int, Recording> kv in recordings.ToList())
-			{
-				LanPartyGameSession s = kv.Value.Player.Registered ? Server.PartyGames.SessionOf(kv.Value.Player) : null;
-				if (s == null || s.Id != kv.Value.SessionId)
-				{
-					Finish(kv.Value);
-					recordings.Remove(kv.Key);
-				}
-			}
-		}
-
-		public static float[] RaceEnd(LanPartyGameDef def)
-		{
-			object e = LanJson.Get(def.GameData, "RaceEndPosition");
-			return new float[3]
-			{
-				(float)LanJson.Number(LanJson.Get(e, "x"), 0.0),
-				(float)LanJson.Number(LanJson.Get(e, "y"), 0.0),
-				(float)LanJson.Number(LanJson.Get(e, "z"), 0.0)
-			};
-		}
-
-		private void Finish(Recording rec)
-		{
-			LanPartyGameDef def = Server.PartyGames.Definitions.Get(rec.Template);
-			if (def == null || rec.Points.Count < 20)
-			{
-				return;
-			}
-			float[] end = RaceEnd(def);
-			int best = -1;
-			double bestD = 25.0;
-			for (int i = 0; i < rec.Points.Count; i++)
-			{
-				double d = LanMotion.Dist(rec.Points[i], end);
-				if (d < bestD)
-				{
-					bestD = d;
-					best = i;
-				}
-			}
-			if (best < 20)
-			{
-				return;
-			}
-			List<float[]> pts = rec.Points.Take(best + 1).ToList();
-			int firstMove = 0;
-			for (int k = 1; k < pts.Count; k++)
-			{
-				if (LanMotion.Dist(pts[k], pts[0]) > 0.8)
-				{
-					firstMove = Math.Max(0, k - 1);
-					break;
-				}
-			}
-			if (firstMove > 0)
-			{
-				pts = pts.Skip(firstMove).ToList();
-			}
-			if (pts.Count < 20)
-			{
-				return;
-			}
-			float t0 = pts[0][3];
-			double delay = rec.Start + t0 - rec.RaceStartMs;
-			if (rec.RaceStartMs > 0 && delay >= 0.0 && delay <= 15000.0)
-			{
-				double old;
-				raceDelays[rec.Template] = raceDelays.TryGetValue(rec.Template, out old) ? (old * 0.6 + delay * 0.4) : delay;
-				racesDirty = true;
-			}
-			double duration = pts[pts.Count - 1][3] - t0;
-			double max = def.Data("MaximumCompletionTimeInSeconds", 120.0) * 1000.0;
-			if (duration < 4000.0 || duration > max)
-			{
-				return;
-			}
-			for (int j = 1; j < pts.Count; j++)
-			{
-				if (LanMotion.Dist(pts[j - 1], pts[j]) > 15.0)
-				{
-					return;
-				}
-			}
-			List<float[]> shifted = pts.Select((float[] p) => new float[4]
-			{
-				p[0],
-				p[1],
-				p[2],
-				p[3] - t0
-			}).ToList();
-			List<List<float[]>> list;
-			if (!races.TryGetValue(rec.Template, out list))
-			{
-				list = new List<List<float[]>>();
-				races[rec.Template] = list;
-			}
-			list.Add(shifted);
-			while (list.Count > MaxRacePaths)
-			{
-				list.RemoveAt(0);
-			}
-			racesDirty = true;
-		}
-
-		public List<float[]> RacePlan(LanTubeRace race, float[] start)
-		{
-			LanPartyGameDef def = race.Def;
-			double min = def.Data("MinimumCompletionTimeInSeconds", 0.0) * 1000.0;
-			double max = def.Data("MaximumCompletionTimeInSeconds", 120.0) * 1000.0;
-			List<List<float[]>> known;
-			if (races.TryGetValue(race.TemplateId, out known) && known.Count > 0)
-			{
-				List<float[]> chosen = known[Server.Random.Next(known.Count)];
-				double duration = chosen[chosen.Count - 1][3];
-				double factor = 1.0 + Server.Random.NextDouble() * 0.15;
-				if (duration * factor > max - 3000.0)
-				{
-					factor = Math.Max(1.0, (max - 3000.0) / Math.Max(1.0, duration));
-				}
-				if (LanMotion.Dist(chosen[0], start) <= 15.0)
-				{
-					return chosen.Select((float[] p) => new float[4]
-					{
-						p[0],
-						p[1],
-						p[2],
-						(float)(p[3] * factor)
-					}).ToList();
-				}
-			}
-			List<float[]> points = new List<float[]>
-			{
-				LanMotion.Copy(start)
-			};
-			foreach (LanTubeModifier m in race.Layout.Where((LanTubeModifier x) => x.Delta > 0.0).OrderBy((LanTubeModifier x) => x.Id))
-			{
-				points.Add(LanMotion.Copy(m.Pos));
-			}
-			points.Add(RaceEnd(def));
-			double length = 0.0;
-			for (int i = 1; i < points.Count; i++)
-			{
-				length += LanMotion.Dist(points[i - 1], points[i]);
-			}
-			double total = Math.Max(min + 3000.0, Math.Min(max * 0.75, length / 16.0 * 1000.0));
-			if (length / (total / 1000.0) > 26.0)
-			{
-				total = Math.Min(max - 3000.0, length / 26.0 * 1000.0);
-			}
-			List<float[]> plan = new List<float[]>();
-			double along = 0.0;
-			for (int j = 0; j < points.Count; j++)
-			{
-				if (j > 0)
-				{
-					along += LanMotion.Dist(points[j - 1], points[j]);
-				}
-				plan.Add(new float[4]
-				{
-					points[j][0],
-					points[j][1],
-					points[j][2],
-					(float)((length > 0.0) ? (along / length * total) : 0.0)
-				});
-			}
-			return plan;
-		}
-
 		private void Load()
 		{
 			if (string.IsNullOrEmpty(path) || !File.Exists(path))
@@ -1817,63 +1582,6 @@ namespace ClubPenguin.Net.Lan
 					}
 				}
 				LoadUses(root);
-				Dictionary<string, object> delays = LanJson.Get(root, "raceDelays") as Dictionary<string, object>;
-				if (delays != null)
-				{
-					foreach (KeyValuePair<string, object> kv in delays)
-					{
-						int t;
-						double v;
-						if (int.TryParse(kv.Key, NumberStyles.Integer, CultureInfo.InvariantCulture, out t) && LanJson.TryNumber(kv.Value, out v))
-						{
-							raceDelays[t] = v;
-						}
-					}
-				}
-				Dictionary<string, object> r = LanJson.Get(root, "races") as Dictionary<string, object>;
-				if (r == null)
-				{
-					return;
-				}
-				foreach (KeyValuePair<string, object> kv in r)
-				{
-					int template;
-					if (!int.TryParse(kv.Key, NumberStyles.Integer, CultureInfo.InvariantCulture, out template))
-					{
-						continue;
-					}
-					List<List<float[]>> list = new List<List<float[]>>();
-					foreach (object pathObj in (kv.Value as List<object>) ?? new List<object>())
-					{
-						List<float[]> pts = new List<float[]>();
-						foreach (object p in (pathObj as List<object>) ?? new List<object>())
-						{
-							List<object> v = p as List<object>;
-							double x;
-							double y;
-							double z;
-							double t;
-							if (v != null && v.Count == 4 && LanJson.TryNumber(v[0], out x) && LanJson.TryNumber(v[1], out y) && LanJson.TryNumber(v[2], out z) && LanJson.TryNumber(v[3], out t))
-							{
-								pts.Add(new float[4]
-								{
-									(float)x,
-									(float)y,
-									(float)z,
-									(float)t
-								});
-							}
-						}
-						if (pts.Count >= 20)
-						{
-							list.Add(pts);
-						}
-					}
-					if (list.Count > 0)
-					{
-						races[template] = list;
-					}
-				}
 			}
 			catch (Exception)
 			{
@@ -1954,23 +1662,6 @@ namespace ClubPenguin.Net.Lan
 					}
 					kv.Value.Dirty = false;
 				}
-				Dictionary<string, object> r = new Dictionary<string, object>();
-				foreach (KeyValuePair<int, List<List<float[]>>> kv in races)
-				{
-					List<object> list = new List<object>();
-					foreach (List<float[]> pts in kv.Value)
-					{
-						list.Add(pts.Select((float[] p) => (object)new List<object>
-						{
-							Math.Round(p[0], 2),
-							Math.Round(p[1], 2),
-							Math.Round(p[2], 2),
-							(long)p[3]
-						}).ToList());
-					}
-					r[kv.Key.ToString(CultureInfo.InvariantCulture)] = list;
-				}
-				racesDirty = false;
 				usesDirty = false;
 				List<object> rideList = rides.Select((Ride x) => (object)new Dictionary<string, object>
 				{
@@ -1994,10 +1685,6 @@ namespace ClubPenguin.Net.Lan
 						rideList
 					},
 					{
-						"raceDelays",
-						raceDelays.ToDictionary((KeyValuePair<int, double> kv) => kv.Key.ToString(CultureInfo.InvariantCulture), (KeyValuePair<int, double> kv) => (object)Math.Round(kv.Value))
-					},
-					{
 						"seats",
 						seatList
 					},
@@ -2008,10 +1695,6 @@ namespace ClubPenguin.Net.Lan
 					{
 						"zones",
 						zones
-					},
-					{
-						"races",
-						r
 					}
 				});
 				string tmp = path + ".tmp";
@@ -2296,13 +1979,9 @@ namespace ClubPenguin.Net.Lan
 
 		private int gameId;
 
-		private List<float[]> racePlan;
 
-		private long raceStart;
 
-		private bool raceDone;
 
-		private readonly HashSet<int> claimed = new HashSet<int>();
 
 		private int danceRound = -1;
 
@@ -4081,9 +3760,6 @@ namespace ClubPenguin.Net.Lan
 			Stop();
 			gameId = session.Id;
 			SetMode("game", now);
-			racePlan = null;
-			raceDone = false;
-			claimed.Clear();
 			danceRound = -1;
 			danceMoves.Clear();
 			fourSeq = -1;
@@ -4120,11 +3796,7 @@ namespace ClubPenguin.Net.Lan
 
 		private void GameTick(LanPartyGameSession session, long now)
 		{
-			if (session is LanTubeRace)
-			{
-				RaceTick((LanTubeRace)session, now);
-			}
-			else if (session is LanDanceBattle)
+			if (session is LanDanceBattle)
 			{
 				DanceTick((LanDanceBattle)session, now);
 			}
@@ -4139,79 +3811,6 @@ namespace ClubPenguin.Net.Lan
 			else if (session is LanScavengerHunt)
 			{
 				HuntTick((LanScavengerHunt)session, now);
-			}
-		}
-
-		private static float[] SampleAt(List<float[]> plan, double t)
-		{
-			if (t <= plan[0][3])
-			{
-				return new float[3]
-				{
-					plan[0][0],
-					plan[0][1],
-					plan[0][2]
-				};
-			}
-			for (int i = 1; i < plan.Count; i++)
-			{
-				if (plan[i][3] >= t)
-				{
-					float[] a = plan[i - 1];
-					float[] b = plan[i];
-					double span = b[3] - a[3];
-					double k = (span <= 0.0) ? 1.0 : ((t - a[3]) / span);
-					return new float[3]
-					{
-						(float)(a[0] + (b[0] - a[0]) * k),
-						(float)(a[1] + (b[1] - a[1]) * k),
-						(float)(a[2] + (b[2] - a[2]) * k)
-					};
-				}
-			}
-			float[] last = plan[plan.Count - 1];
-			return new float[3]
-			{
-				last[0],
-				last[1],
-				last[2]
-			};
-		}
-
-		private void RaceTick(LanTubeRace race, long now)
-		{
-			if (racePlan == null)
-			{
-				racePlan = bots.RacePlan(race, pos);
-				raceStart = Math.Max(now, race.StartedMs + bots.RaceDelay(race.TemplateId)) + 150 + R.Next(700);
-				sliding = true;
-				return;
-			}
-			if (raceDone || now < raceStart || racePlan.Count == 0)
-			{
-				return;
-			}
-			double elapsed = now - raceStart;
-			float[] next = SampleAt(racePlan, elapsed);
-			float[] delta = Sub(next, pos);
-			if (Math.Abs(delta[0]) + Math.Abs(delta[1]) + Math.Abs(delta[2]) > 0.001f)
-			{
-				facing = delta;
-			}
-			pos = next;
-			Send(ActMove, Flat(facing), Unit(facing), null);
-			foreach (LanTubeModifier m in race.Layout)
-			{
-				if (m.Delta > 0.0 && !claimed.Contains(m.Id) && LanMotion.Dist(pos, m.Pos) <= 2.5)
-				{
-					claimed.Add(m.Id);
-					Server.BotGameMessage(Player, race.Id, 11, "{\"ModifierId\":" + m.Id.ToString(CultureInfo.InvariantCulture) + "}");
-				}
-			}
-			if (elapsed >= racePlan[racePlan.Count - 1][3])
-			{
-				raceDone = true;
-				Server.BotGameMessage(Player, race.Id, 12, "{}");
 			}
 		}
 
