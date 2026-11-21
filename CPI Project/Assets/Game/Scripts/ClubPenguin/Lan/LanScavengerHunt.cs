@@ -107,6 +107,62 @@ namespace ClubPenguin.Net.Lan
 		{
 		}
 
+		public LanPartyGamePlayer Hider
+		{
+			get
+			{
+				return hider;
+			}
+		}
+
+		public LanPartyGamePlayer Finder
+		{
+			get
+			{
+				return finder;
+			}
+		}
+
+		public bool Hiding
+		{
+			get
+			{
+				return state == StateHiding;
+			}
+		}
+
+		public bool Finding
+		{
+			get
+			{
+				return state == StateFinding;
+			}
+		}
+
+		public Dictionary<int, float[]> Marbles
+		{
+			get
+			{
+				return new Dictionary<int, float[]>(marbles);
+			}
+		}
+
+		public int MaxHidden
+		{
+			get
+			{
+				return (int)Seconds("MaxHiddenItems", 3.0);
+			}
+		}
+
+		public double FindSeconds
+		{
+			get
+			{
+				return Seconds("FindTimeInSeconds", 55.0);
+			}
+		}
+
 		public override string GamePropFor(LanPartyGamePlayer player)
 		{
 			if (player == hider)

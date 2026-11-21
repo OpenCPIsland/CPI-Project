@@ -730,6 +730,21 @@ namespace ClubPenguin.Net.Lan
 		}
 	}
 
+	public sealed class LanLobbyView
+	{
+		public int ItemId;
+
+		public int TemplateId;
+
+		public float[] Position;
+
+		public int Members;
+
+		public int MaxPlayers;
+
+		public long EndsAtMs;
+	}
+
 	public sealed class LanLobbies
 	{
 		private sealed class Member
@@ -752,6 +767,8 @@ namespace ClubPenguin.Net.Lan
 			public readonly List<Member> Members = new List<Member>();
 
 			public LanTimer Timer;
+
+			public long EndsAtMs;
 		}
 
 		private const int LocomotionInteract = 2;
@@ -787,6 +804,39 @@ namespace ClubPenguin.Net.Lan
 		private List<Lobby> In(string roomKey)
 		{
 			return lobbies.Values.Where((Lobby l) => l.RoomKey == roomKey).ToList();
+		}
+
+		public List<LanLobbyView> Open(string roomKey)
+		{
+			return In(roomKey).Select(delegate(Lobby l)
+			{
+				LanLobbyView v = new LanLobbyView();
+				v.ItemId = l.Item.ItemId;
+				v.TemplateId = l.Def.Id;
+				v.Position = l.Item.Position;
+				v.Members = l.Members.Count;
+				v.MaxPlayers = l.Def.MaxPlayers;
+				v.EndsAtMs = l.EndsAtMs;
+				return v;
+			}).ToList();
+		}
+
+		public LanSlot SlotOf(LanPlayer player)
+		{
+			foreach (Lobby l in lobbies.Values)
+			{
+				Member m = l.Members.FirstOrDefault((Member x) => x.Player == player);
+				if (m != null)
+				{
+					return new LanSlot(m.TeamId, m.RoleId);
+				}
+			}
+			return null;
+		}
+
+		public bool IsMember(LanPlayer player)
+		{
+			return lobbies.Values.Any((Lobby l) => l.Members.Any((Member m) => m.Player == player));
 		}
 
 		private static string RosterJson(List<Member> members)
@@ -853,6 +903,7 @@ namespace ClubPenguin.Net.Lan
 			lobby.RoomKey = roomKey;
 			lobby.Def = def;
 			lobby.Item = server.RoomItems.Add(roomKey, LobbyLocation(def), LanRoomItems.V("category", LanRoomItems.Int(ItemCategoryPartyGameLobby)), LanRoomItems.V("creator", LanRoomItems.Int(0)), LanRoomItems.V("int_a", LanRoomItems.Int(templateId)), LanRoomItems.V("statetimestamp", LanRoomItems.Str((LanServer.EpochMs / 1000).ToString(CultureInfo.InvariantCulture))), LanRoomItems.V("ttl", LanRoomItems.Int(Math.Max(1, (int)Math.Round(ttlSeconds)))), LanRoomItems.V("score", LanRoomItems.Str(RosterJson(lobby.Members))));
+			lobby.EndsAtMs = server.Loop.NowMs + (long)(ttlSeconds * 1000.0);
 			lobby.Timer = server.Loop.After(ttlSeconds * 1000.0, delegate
 			{
 				Finish(lobby);

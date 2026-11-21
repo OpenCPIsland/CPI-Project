@@ -556,6 +556,20 @@ namespace ClubPenguin.Net.Lan
 					entries.Add(e);
 				}
 			}
+			List<string> botRooms = new List<string>();
+			List<object> bots = LanJson.Get(msg, "bots") as List<object>;
+			if (bots != null)
+			{
+				foreach (object b in bots)
+				{
+					string room = b as string;
+					if (!string.IsNullOrEmpty(room))
+					{
+						botRooms.Add(room);
+					}
+				}
+			}
+			LanDirectory.SetBotRooms(botRooms);
 			LanDirectory.Replace(entries);
 			CacheFriendProfiles(entries);
 			RefreshFriends();

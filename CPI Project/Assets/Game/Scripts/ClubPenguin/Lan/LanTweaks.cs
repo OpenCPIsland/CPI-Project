@@ -1,11 +1,16 @@
 #if !UNITY_WEBGL
+using ClubPenguin.Chat;
 using ClubPenguin.Net.Client;
+using ClubPenguin.Tubes;
 using ClubPenguin.UI;
 using Disney.Kelowna.Common;
 using Disney.LaunchPadFramework;
 using Disney.MobileNetwork;
 using System.Collections;
+using System.Collections.Generic;
+using System.Linq;
 using System.Net;
+using System.Text;
 using Tweaker.Core;
 using UnityEngine;
 
@@ -22,6 +27,14 @@ namespace ClubPenguin.Net.Lan
 		private const string JoinPref = "LAN.Join";
 
 		private const string RememberPref = "LAN.Remember";
+
+		private const string BotsPref = "LAN.Bots";
+
+		private const string BotChatPref = "LAN.BotChat";
+
+		private const string BotEmotesPref = "LAN.BotEmotes";
+
+		private const int MaxBots = 30;
 
 		private static readonly object owner = new object();
 
@@ -111,6 +124,54 @@ namespace ClubPenguin.Net.Lan
 			}
 		}
 
+		[Tweakable("LAN.Experimental.Bots", Description = "EXPERIMENTAL (more bots there are, the buggier they are): Number of bot penguins the LAN host adds (0-30). Bots walk around, follow players between rooms and play Crate Co, Tilt-o-Tubes, dance battles and party games. Only the device with LAN.Host on runs them. It's not recommended to use this experimental feature.")]
+		[PublicTweak]
+		public static int Bots
+		{
+			get
+			{
+				return PlayerPrefs.GetInt(BotsPref, 0);
+			}
+			set
+			{
+				PlayerPrefs.SetInt(BotsPref, Mathf.Clamp(value, 0, MaxBots));
+				PlayerPrefs.Save();
+				ApplyBots();
+			}
+		}
+
+		[Tweakable("LAN.Experimental.BotChat", Description = "Lets LAN bots use the chat service.")]
+		[PublicTweak]
+		public static bool BotChat
+		{
+			get
+			{
+				return PlayerPrefs.GetInt(BotChatPref, 1) != 0;
+			}
+			set
+			{
+				PlayerPrefs.SetInt(BotChatPref, value ? 1 : 0);
+				PlayerPrefs.Save();
+				ApplyBotTalk();
+			}
+		}
+
+		[Tweakable("LAN.Experimental.BotEmotes", Description = "Lets LAN bots send emotes and sizzle clips.")]
+		[PublicTweak]
+		public static bool BotEmotes
+		{
+			get
+			{
+				return PlayerPrefs.GetInt(BotEmotesPref, 1) != 0;
+			}
+			set
+			{
+				PlayerPrefs.SetInt(BotEmotesPref, value ? 1 : 0);
+				PlayerPrefs.Save();
+				ApplyBotTalk();
+			}
+		}
+
 		[Tweakable("LAN.Status", Description = "Current LAN state.")]
 		[PublicTweak]
 		public static string Status
@@ -123,7 +184,7 @@ namespace ClubPenguin.Net.Lan
 				}
 				if (server != null)
 				{
-					return "Hosting on " + LanBeacon.LocalAddress() + " (" + server.PlayerCount + " connected)";
+					return "Hosting on " + LanBeacon.LocalAddress() + " (" + (server.PlayerCount - server.Bots.Count) + " connected, " + server.Bots.Count + " bots)";
 				}
 				if (joinedAddress != null)
 				{
@@ -198,6 +259,7 @@ namespace ClubPenguin.Net.Lan
 			data.TubeRaces = LoadText("Lan/tube-races");
 			data.WorldObjects = LoadText("Lan/world-objects");
 			data.CatalogPath = System.IO.Path.Combine(Application.persistentDataPath, "LanCatalog.json");
+			data.BotsPath = System.IO.Path.Combine(Application.persistentDataPath, "LanBots.json");
 			LanServer created = new LanServer(data);
 			if (!created.Start())
 			{
@@ -208,6 +270,154 @@ namespace ClubPenguin.Net.Lan
 			beacon.Start();
 			client.SetHost(IPAddress.Loopback.ToString());
 			ReloadZone();
+			ApplyBots();
+		}
+
+		private static void ApplyBots()
+		{
+			if (server == null)
+			{
+				return;
+			}
+			ApplyBotTalk();
+			LanBotGridBaker.Attach(server);
+			server.Bots.SetTarget(Mathf.Clamp(PlayerPrefs.GetInt(BotsPref, 0), 0, MaxBots), BotColours(), BotTubes(), BotOutfits(), BotEmoteCodes(), BotSizzleClips());
+		}
+
+		private static void ApplyBotTalk()
+		{
+			if (server == null)
+			{
+				return;
+			}
+			server.Bots.ChatEnabled = PlayerPrefs.GetInt(BotChatPref, 1) != 0;
+			server.Bots.EmotesEnabled = PlayerPrefs.GetInt(BotEmotesPref, 1) != 0;
+		}
+
+		private static int[] BotColours()
+		{
+			try
+			{
+				return Service.Get<GameData>().Get<Dictionary<int, AvatarColorDefinition>>().Keys.ToArray();
+			}
+			catch (System.Exception)
+			{
+				return new int[0];
+			}
+		}
+
+		private static string CategoryOf(TemplateDefinition template)
+		{
+			return (template.CategoryKey != null && template.CategoryKey.Key != null) ? template.CategoryKey.Key.ToLowerInvariant() : "";
+		}
+
+		private static string[] BotOutfits()
+		{
+			try
+			{
+				List<TemplateDefinition> all = Service.Get<GameData>().Get<Dictionary<int, TemplateDefinition>>().Values.Where((TemplateDefinition t) => t != null && !t.WorkInProgress && CategoryOf(t).Length > 0).ToList();
+				List<TemplateDefinition> designed = all.Where((TemplateDefinition t) => !t.IsEditable).ToList();
+				List<TemplateDefinition> pool = (designed.Count >= 8) ? designed : all;
+				Dictionary<string, List<TemplateDefinition>> byCategory = pool.GroupBy(CategoryOf).ToDictionary((IGrouping<string, TemplateDefinition> g) => g.Key, (IGrouping<string, TemplateDefinition> g) => g.ToList());
+				List<string> categories = byCategory.Keys.ToList();
+				System.Random random = new System.Random();
+				List<string> outfits = new List<string>();
+				for (int i = 0; i < 80 && categories.Count > 0; i++)
+				{
+					List<string> picked = categories.OrderBy((string c) => random.Next()).Take(random.Next(2, 5)).ToList();
+					if (picked.Any((string c) => c.EndsWith("fulllength")))
+					{
+						picked.RemoveAll((string c) => c.EndsWith("/tops") || c.EndsWith("/bottoms"));
+					}
+					StringBuilder sb = new StringBuilder("{\"parts\":[");
+					for (int j = 0; j < picked.Count; j++)
+					{
+						List<TemplateDefinition> choices = byCategory[picked[j]];
+						TemplateDefinition template = choices[random.Next(choices.Count)];
+						if (j > 0)
+						{
+							sb.Append(',');
+						}
+						sb.Append("{\"equipmentId\":").Append(random.Next(1, int.MaxValue)).Append(",\"dateTimeCreated\":0,\"definitionId\":").Append(template.Id).Append(",\"parts\":[]}");
+					}
+					sb.Append("]}");
+					outfits.Add(sb.ToString());
+				}
+				return outfits.ToArray();
+			}
+			catch (System.Exception)
+			{
+				return new string[0];
+			}
+		}
+
+		private static int[] BotEmoteCodes()
+		{
+			try
+			{
+				return Service.Get<GameData>().Get<Dictionary<string, EmoteDefinition>>().Values.Where((EmoteDefinition e) => e != null && e.CharacterCode > 0 && e.CharacterCode <= char.MaxValue).Select((EmoteDefinition e) => e.CharacterCode).ToArray();
+			}
+			catch (System.Exception)
+			{
+				return new int[0];
+			}
+		}
+
+		private static int[] BotSizzleClips()
+		{
+			try
+			{
+				return Service.Get<GameData>().Get<Dictionary<int, SizzleClipDefinition>>().Keys.Where((int id) => id > 0).ToArray();
+			}
+			catch (System.Exception)
+			{
+				return new int[0];
+			}
+		}
+
+		private static int[] BotTubes()
+		{
+			HashSet<int> ids = new HashSet<int>();
+			try
+			{
+				foreach (int id in Service.Get<GameData>().Get<Dictionary<int, TubeDefinition>>().Keys)
+				{
+					ids.Add(id);
+				}
+			}
+			catch (System.Exception)
+			{
+			}
+			if (ids.Count == 0)
+			{
+				try
+				{
+					foreach (TubeDefinition def in Resources.FindObjectsOfTypeAll<TubeDefinition>())
+					{
+						if (def != null)
+						{
+							ids.Add(def.Id);
+						}
+					}
+				}
+				catch (System.Exception)
+				{
+				}
+			}
+			return ids.ToArray();
+		}
+
+		public static void RefreshBotLooks()
+		{
+			if (server == null)
+			{
+				return;
+			}
+			int[] tubes = BotTubes();
+			if (tubes.Length > 0)
+			{
+				server.Bots.SetTarget(Mathf.Clamp(PlayerPrefs.GetInt(BotsPref, 0), 0, MaxBots), BotColours(), tubes, BotOutfits(), BotEmoteCodes(), BotSizzleClips());
+			}
 		}
 
 		private static void StopHosting()
@@ -229,6 +439,7 @@ namespace ClubPenguin.Net.Lan
 			}
 			server.DisconnectRemote();
 			CoroutineRunner.StartPersistent(stopServerLater(server), owner, "LanStopServer");
+			LanBotGridBaker.Detach(server);
 			server = null;
 		}
 

@@ -65,9 +65,17 @@ namespace ClubPenguin.Net.Lan
 
 		public readonly Dictionary<string, long> RoomCollected = new Dictionary<string, long>();
 
+		public readonly bool IsBot;
+
 		public LanPlayer(LanConnection connection)
 		{
 			Connection = connection;
+			UserId = System.Threading.Interlocked.Increment(ref nextUserId);
+		}
+
+		public LanPlayer()
+		{
+			IsBot = true;
 			UserId = System.Threading.Interlocked.Increment(ref nextUserId);
 		}
 
@@ -81,7 +89,10 @@ namespace ClubPenguin.Net.Lan
 
 		public void Send(byte[] packet)
 		{
-			Connection.Send(packet);
+			if (Connection != null)
+			{
+				Connection.Send(packet);
+			}
 		}
 	}
 }

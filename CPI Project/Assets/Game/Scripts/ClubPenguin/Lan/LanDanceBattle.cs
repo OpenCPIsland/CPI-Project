@@ -99,6 +99,38 @@ namespace ClubPenguin.Net.Lan
 			}
 		}
 
+		public string Phase
+		{
+			get
+			{
+				return phase;
+			}
+		}
+
+		public int Round
+		{
+			get
+			{
+				return round;
+			}
+		}
+
+		public List<int> Expected
+		{
+			get
+			{
+				return new List<int>(expected);
+			}
+		}
+
+		public double TurnSeconds
+		{
+			get
+			{
+				return (set != null) ? set.TurnTimeInSeconds : 5.0;
+			}
+		}
+
 		private long Stamp(string name)
 		{
 			long prev;

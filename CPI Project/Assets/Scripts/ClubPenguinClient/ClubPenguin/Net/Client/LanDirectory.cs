@@ -41,6 +41,8 @@ namespace ClubPenguin.Net.Client
 
 		private static List<Entry> entries = new List<Entry>();
 
+		private static List<string> botRooms = new List<string>();
+
 		private static readonly Dictionary<string, string> layouts = new Dictionary<string, string>();
 
 		private static HashSet<string> friendSwids = new HashSet<string>();
@@ -70,11 +72,45 @@ namespace ClubPenguin.Net.Client
 				if (!value)
 				{
 					entries = new List<Entry>();
+					botRooms = new List<string>();
 					layouts.Clear();
 					known.Clear();
 					friendSwids = new HashSet<string>();
 				}
 			}
+		}
+
+		public static void SetBotRooms(List<string> rooms)
+		{
+			lock (sync)
+			{
+				botRooms = rooms ?? new List<string>();
+			}
+		}
+
+		private static List<string> BotRooms()
+		{
+			lock (sync)
+			{
+				return botRooms.ToList();
+			}
+		}
+
+		private static bool RoomIs(string room, string zoneName, string instanceId)
+		{
+			if (string.IsNullOrEmpty(room))
+			{
+				return false;
+			}
+			string[] parts = room.Split(':');
+			return parts.Length >= 5 && parts[2] == zoneName && (instanceId == null || parts[3] == instanceId);
+		}
+
+		private static List<string> AllRooms(List<Entry> all)
+		{
+			List<string> rooms = all.Where((Entry x) => !string.IsNullOrEmpty(x.Room)).Select((Entry x) => x.Room).ToList();
+			rooms.AddRange(BotRooms());
+			return rooms;
 		}
 
 		public static void Replace(List<Entry> list)
@@ -498,6 +534,7 @@ namespace ClubPenguin.Net.Client
 		public static List<IglooListItem> Igloos(bool friendsOnly)
 		{
 			List<Entry> all = Snapshot();
+			List<string> bots = BotRooms();
 			List<IglooListItem> result = new List<IglooListItem>();
 			foreach (Entry e in all)
 			{
@@ -506,7 +543,7 @@ namespace ClubPenguin.Net.Client
 					continue;
 				}
 				string zoneName = string.IsNullOrEmpty(e.IglooName) ? "DefaultIgloo" : e.IglooName;
-				int count = all.Count((Entry x) => InRoom(x, zoneName, e.IglooInstance));
+				int count = all.Count((Entry x) => InRoom(x, zoneName, e.IglooInstance)) + bots.Count((string r) => RoomIs(r, zoneName, e.IglooInstance));
 				result.Add(new IglooListItem
 				{
 					ownerData = ToPlayerData(e),
@@ -519,6 +556,7 @@ namespace ClubPenguin.Net.Client
 		public static List<RoomPopulation> IglooPopulations(IList<ZoneId> zoneIds)
 		{
 			List<Entry> all = Snapshot();
+			List<string> bots = BotRooms();
 			List<RoomPopulation> result = new List<RoomPopulation>();
 			if (zoneIds == null)
 			{
@@ -531,8 +569,9 @@ namespace ClubPenguin.Net.Client
 					continue;
 				}
 				Entry sample = all.FirstOrDefault((Entry x) => InRoom(x, zoneId.name, zoneId.instanceId));
-				int count = all.Count((Entry x) => InRoom(x, zoneId.name, zoneId.instanceId));
-				RoomIdentifier identifier = (sample != null) ? new RoomIdentifier(sample.Room) : new RoomIdentifier("", Language.none, zoneId, "");
+				string botSample = bots.FirstOrDefault((string r) => RoomIs(r, zoneId.name, zoneId.instanceId));
+				int count = all.Count((Entry x) => InRoom(x, zoneId.name, zoneId.instanceId)) + bots.Count((string r) => RoomIs(r, zoneId.name, zoneId.instanceId));
+				RoomIdentifier identifier = (sample != null) ? new RoomIdentifier(sample.Room) : ((botSample != null) ? new RoomIdentifier(botSample) : new RoomIdentifier("", Language.none, zoneId, ""));
 				identifier.zoneId = zoneId;
 				result.Add(new RoomPopulation(identifier, Scale(count)));
 			}
@@ -543,11 +582,11 @@ namespace ClubPenguin.Net.Client
 		{
 			List<Entry> all = Snapshot();
 			List<RoomPopulation> result = new List<RoomPopulation>();
-			foreach (IGrouping<string, Entry> group in from x in all
-				where !string.IsNullOrEmpty(x.Room) && x.Room.Split(':').Length >= 5 && string.IsNullOrEmpty(x.Room.Split(':')[3])
-				group x by x.Room.Split(':')[2])
+			foreach (IGrouping<string, string> group in from x in AllRooms(all)
+				where x.Split(':').Length >= 5 && string.IsNullOrEmpty(x.Split(':')[3])
+				group x by x.Split(':')[2])
 			{
-				RoomIdentifier identifier = new RoomIdentifier(group.First().Room);
+				RoomIdentifier identifier = new RoomIdentifier(group.First());
 				if (!string.IsNullOrEmpty(world))
 				{
 					identifier.world = world;
@@ -561,11 +600,11 @@ namespace ClubPenguin.Net.Client
 		{
 			List<Entry> all = Snapshot();
 			List<WorldRoomPopulation> result = new List<WorldRoomPopulation>();
-			foreach (IGrouping<string, Entry> group in from x in all
-				where !string.IsNullOrEmpty(x.Room) && x.Room.Split(':').Length >= 5
-				group x by x.Room.Split(':')[0])
+			foreach (IGrouping<string, string> group in from x in AllRooms(all)
+				where x.Split(':').Length >= 5
+				group x by x.Split(':')[0])
 			{
-				int count = group.Count((Entry x) => string.IsNullOrEmpty(room) || x.Room.Split(':')[2] == room);
+				int count = group.Count((string x) => string.IsNullOrEmpty(room) || x.Split(':')[2] == room);
 				result.Add(new WorldRoomPopulation(group.Key, Scale(count)));
 			}
 			return result;

@@ -90,6 +90,54 @@ namespace ClubPenguin.Net.Lan
 			scores = new int[players.Count];
 		}
 
+		public string Phase
+		{
+			get
+			{
+				return phase;
+			}
+		}
+
+		public int Current
+		{
+			get
+			{
+				return cur;
+			}
+		}
+
+		public bool Drew
+		{
+			get
+			{
+				return drew;
+			}
+		}
+
+		public int Step
+		{
+			get
+			{
+				return step;
+			}
+		}
+
+		public List<int> Remaining
+		{
+			get
+			{
+				return deck.Skip(deckPos).ToList();
+			}
+		}
+
+		public int[] Scores
+		{
+			get
+			{
+				return (int[])scores.Clone();
+			}
+		}
+
 		private List<int> BuildDeck(int playerCount)
 		{
 			List<object> decks = (LanJson.Get(Def.GameData, "CardDecks") as List<object>) ?? new List<object>();

@@ -411,6 +411,11 @@ namespace ClubPenguin.Net.Lan
 			}
 		}
 
+		public void UseAsBot(LanPlayer player, string type)
+		{
+			Use(player, type, 0, null);
+		}
+
 		public void HandleUse(LanPlayer player, SfsObject p)
 		{
 			string json = p.GetString("type");

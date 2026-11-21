@@ -18,6 +18,8 @@ namespace ClubPenguin.Net.Lan
 		public string WorldObjects;
 
 		public string CatalogPath;
+
+		public string BotsPath;
 	}
 
 	public sealed partial class LanServer
@@ -103,6 +105,12 @@ namespace ClubPenguin.Net.Lan
 			private set;
 		}
 
+		public LanBots Bots
+		{
+			get;
+			private set;
+		}
+
 		public bool IsRunning
 		{
 			get
@@ -130,6 +138,7 @@ namespace ClubPenguin.Net.Lan
 			Lobbies = new LanLobbies(this);
 			Transient = new LanTransientData(this);
 			Services = new LanServices(this, data.CatalogPath);
+			Bots = new LanBots(this, data.BotsPath);
 		}
 
 		public bool Start()
@@ -161,6 +170,7 @@ namespace ClubPenguin.Net.Lan
 			Loop.Post(delegate
 			{
 				Services.Start();
+				Bots.Start();
 			});
 			Loop.After(10000, IdleSweep);
 			return true;
@@ -183,6 +193,7 @@ namespace ClubPenguin.Net.Lan
 			Loop.Post(delegate
 			{
 				Services.Stop();
+				Bots.Stop();
 				foreach (LanConnection c in connections.ToList())
 				{
 					c.Close();
@@ -441,6 +452,11 @@ namespace ClubPenguin.Net.Lan
 			{
 				return;
 			}
+			RemovePlayer(player);
+		}
+
+		private void RemovePlayer(LanPlayer player)
+		{
 			bool wasRegistered = player.Registered;
 			Unregister(player);
 			Lobbies.OnPlayerLeft(player);
@@ -1075,6 +1091,7 @@ namespace ClubPenguin.Net.Lan
 				else if (name == "loc")
 				{
 					player.LocomotionState = (a[2].Type == SfsType.Int) ? ((int)a[2].Value) : 0;
+					Bots.OnLocomotionState(player);
 				}
 			}
 		}

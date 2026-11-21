@@ -53,6 +53,62 @@ namespace ClubPenguin.Net.Lan
 			}
 		}
 
+		public int WaitingFor
+		{
+			get
+			{
+				return waitingFor;
+			}
+		}
+
+		public int TurnSeq
+		{
+			get
+			{
+				return turnSeq;
+			}
+		}
+
+		public int Width
+		{
+			get
+			{
+				return width;
+			}
+		}
+
+		public int Height
+		{
+			get
+			{
+				return height;
+			}
+		}
+
+		public int ToWin
+		{
+			get
+			{
+				return toWin;
+			}
+		}
+
+		public int DefaultColumn
+		{
+			get
+			{
+				return defaultColumn;
+			}
+		}
+
+		public List<int>[] Board
+		{
+			get
+			{
+				return board;
+			}
+		}
+
 		public static int NormaliseColumn(List<int>[] board, object wanted, int defaultColumn, int height)
 		{
 			int w = board.Length;

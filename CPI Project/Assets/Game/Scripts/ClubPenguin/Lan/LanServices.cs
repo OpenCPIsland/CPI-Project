@@ -481,7 +481,8 @@ namespace ClubPenguin.Net.Lan
 				e["mascotXP"] = (p != null && p.MascotXP != null) ? p.MascotXP.ToDictionary((KeyValuePair<string, long> kv) => kv.Key, (KeyValuePair<string, long> kv) => (object)kv.Value) : null;
 				list.Add(e);
 			}
-			return Message("dir", "players", list);
+			List<object> bots = server.All().Where((LanPlayer b) => b.IsBot && b.Registered && b.RoomName != null && b.RoomName.Split(':').Length >= 5).Select((LanPlayer b) => (object)b.RoomName).ToList();
+			return Message("dir", "players", list, "bots", bots);
 		}
 
 		internal static string Message(string cmd, params object[] pairs)

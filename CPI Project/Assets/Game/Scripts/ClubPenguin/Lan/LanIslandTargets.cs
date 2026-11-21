@@ -6,6 +6,21 @@ using System.Linq;
 
 namespace ClubPenguin.Net.Lan
 {
+	public sealed class LanTargetsView
+	{
+		public string Key;
+
+		public string Path;
+
+		public float[] Center;
+
+		public double Radius;
+
+		public readonly List<float[]> Targets = new List<float[]>();
+
+		public readonly List<double> Radii = new List<double>();
+	}
+
 	public sealed class LanIslandTargets
 	{
 		private sealed class LiveTarget
@@ -34,6 +49,8 @@ namespace ClubPenguin.Net.Lan
 			public long StartsMs;
 
 			public bool RoundOver;
+
+			public long CreatedMs;
 
 			public readonly Dictionary<int, int> HitsByUser = new Dictionary<int, int>();
 		}
@@ -222,13 +239,14 @@ namespace ClubPenguin.Net.Lan
 			RollDay(pg);
 			Game game = new Game();
 			game.Superset = pg.Data.Supersets[pg.Pick()];
+			game.CreatedMs = LanServer.EpochMs;
 			pg.Game = game;
 			StartPhase(pg, game);
 		}
 
 		private List<LanPlayer> PlayersInZone(Playground pg)
 		{
-			return server.InRoom(pg.RoomKey).Where((LanPlayer p) => p.LastPosition != null && LanMotion.Dist(p.LastPosition, pg.Data.RewardsCenter) <= pg.Data.RewardsRadius).ToList();
+			return server.InRoom(pg.RoomKey).Where((LanPlayer p) => !p.IsBot && p.LastPosition != null && LanMotion.Dist(p.LastPosition, pg.Data.RewardsCenter) <= pg.Data.RewardsRadius).ToList();
 		}
 
 		private void StartPhase(Playground pg, Game game)
@@ -372,6 +390,35 @@ namespace ClubPenguin.Net.Lan
 				paidAt[p.AccountKey] = now;
 				server.SendRewardAdd(p, "reward.add_delayed", RewardSourceMiniGame, RewardSourceId, json);
 			}
+		}
+
+		public LanTargetsView View(string roomKey, bool throwable)
+		{
+			List<Playground> list;
+			if (!rooms.TryGetValue(roomKey, out list))
+			{
+				return null;
+			}
+			long epoch = LanServer.EpochMs;
+			Playground pg = list.FirstOrDefault((Playground x) => x.Game != null && (!throwable || (x.Game.Group != null && !x.Game.RoundOver && epoch >= x.Game.StartsMs)));
+			if (pg == null)
+			{
+				return null;
+			}
+			LanTargetsView v = new LanTargetsView();
+			v.Key = pg.Data.Path + ":" + pg.Game.CreatedMs.ToString(CultureInfo.InvariantCulture);
+			v.Path = pg.Data.Path;
+			v.Center = pg.Data.RewardsCenter;
+			v.Radius = pg.Data.RewardsRadius;
+			foreach (LiveTarget t in pg.Game.Targets)
+			{
+				if (t.Hits < t.Capacity)
+				{
+					v.Targets.Add(t.Data.HitCenter);
+					v.Radii.Add(t.Data.HitRadius);
+				}
+			}
+			return v;
 		}
 
 		public void ForgetThrower(LanPlayer p)

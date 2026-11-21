@@ -263,6 +263,7 @@ namespace ClubPenguin.Net.Lan
 			{
 				return;
 			}
+			Bots.OnChat(player, message);
 			string received = "{\"senderSessionId\":" + (player.PlayerSessionId ?? "0") + ",\"message\":" + LanJson.Quote(message) + ",\"emotion\":" + emotion.ToString(CultureInfo.InvariantCulture) + "}";
 			SendToRoom(player.RoomKey, Ext("chat.msg", new SfsObject().PutString("msg", received).PutInt("senderId", player.UserId)));
 		}
@@ -293,6 +294,7 @@ namespace ClubPenguin.Net.Lan
 			}
 			float[] previous = player.LastPosition;
 			player.LastPosition = position;
+			Bots.Observe(player, action, position, obj);
 			MarkPlaced(player);
 			BroadcastNewJoiner(player);
 			Targets.OnThrow(player, action, previous, position, velocity);
