@@ -509,10 +509,23 @@ namespace ClubPenguin.Net.Lan
 		{
 			List<object> players = LanJson.Get(msg, "players") as List<object>;
 			List<LanDirectory.Entry> entries = new List<LanDirectory.Entry>();
+			List<LanDirectory.Entry> botEntries = new List<LanDirectory.Entry>();
+			List<object> botProfiles = LanJson.Get(msg, "botProfiles") as List<object>;
+			int playerCount = (players != null) ? players.Count : 0;
+			List<object> profiles = new List<object>();
 			if (players != null)
 			{
-				foreach (object p in players)
+				profiles.AddRange(players);
+			}
+			if (botProfiles != null)
+			{
+				profiles.AddRange(botProfiles);
+			}
+			int index = 0;
+			{
+				foreach (object p in profiles)
 				{
+					bool isBot = index++ >= playerCount;
 					LanDirectory.Entry e = new LanDirectory.Entry();
 					e.Swid = LanJson.Get(p, "swid") as string;
 					e.Name = LanJson.Get(p, "name") as string;
@@ -553,9 +566,17 @@ namespace ClubPenguin.Net.Lan
 							}
 						}
 					}
-					entries.Add(e);
+					if (isBot)
+					{
+						botEntries.Add(e);
+					}
+					else
+					{
+						entries.Add(e);
+					}
 				}
 			}
+			LanDirectory.SetBotEntries(botEntries);
 			List<string> botRooms = new List<string>();
 			List<object> bots = LanJson.Get(msg, "bots") as List<object>;
 			if (bots != null)

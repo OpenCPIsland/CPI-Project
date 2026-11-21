@@ -43,6 +43,8 @@ namespace ClubPenguin.Net.Client
 
 		private static List<string> botRooms = new List<string>();
 
+		private static List<Entry> botEntries = new List<Entry>();
+
 		private static readonly Dictionary<string, string> layouts = new Dictionary<string, string>();
 
 		private static HashSet<string> friendSwids = new HashSet<string>();
@@ -73,6 +75,7 @@ namespace ClubPenguin.Net.Client
 				{
 					entries = new List<Entry>();
 					botRooms = new List<string>();
+					botEntries = new List<Entry>();
 					layouts.Clear();
 					known.Clear();
 					friendSwids = new HashSet<string>();
@@ -85,6 +88,14 @@ namespace ClubPenguin.Net.Client
 			lock (sync)
 			{
 				botRooms = rooms ?? new List<string>();
+			}
+		}
+
+		public static void SetBotEntries(List<Entry> list)
+		{
+			lock (sync)
+			{
+				botEntries = list ?? new List<Entry>();
 			}
 		}
 
@@ -175,7 +186,15 @@ namespace ClubPenguin.Net.Client
 
 		private static Entry Find(Func<Entry, bool> match)
 		{
-			return Snapshot().FirstOrDefault(match);
+			Entry found = Snapshot().FirstOrDefault(match);
+			if (found != null)
+			{
+				return found;
+			}
+			lock (sync)
+			{
+				return botEntries.FirstOrDefault(match);
+			}
 		}
 
 		private static void Fill(Entry e, Entry from)

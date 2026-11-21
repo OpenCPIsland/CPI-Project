@@ -34,6 +34,8 @@ namespace ClubPenguin.Net.Lan
 
 		private const string BotEmotesPref = "LAN.BotEmotes";
 
+		private const string BotTubesPref = "LAN.BotTubes";
+
 		private const int MaxBots = 30;
 
 		private static readonly object owner = new object();
@@ -172,6 +174,22 @@ namespace ClubPenguin.Net.Lan
 			}
 		}
 
+		[Tweakable("LAN.Experimental.BotTubes", Description = "Lets LAN bots ride tubes.")]
+		[PublicTweak]
+		public static bool BotTubesEnabled
+		{
+			get
+			{
+				return PlayerPrefs.GetInt(BotTubesPref, 1) != 0;
+			}
+			set
+			{
+				PlayerPrefs.SetInt(BotTubesPref, value ? 1 : 0);
+				PlayerPrefs.Save();
+				ApplyBotTalk();
+			}
+		}
+
 		[Tweakable("LAN.Status", Description = "Current LAN state.")]
 		[PublicTweak]
 		public static string Status
@@ -281,6 +299,23 @@ namespace ClubPenguin.Net.Lan
 			}
 			ApplyBotTalk();
 			server.Bots.SetTarget(Mathf.Clamp(PlayerPrefs.GetInt(BotsPref, 0), 0, MaxBots), BotColours(), BotTubes(), BotOutfits(), BotEmoteCodes(), BotSizzleClips());
+			if (!server.Bots.HasTubes && !waitingForTubes)
+			{
+				waitingForTubes = true;
+				CoroutineRunner.StartPersistent(waitForTubes(), owner, "LanBotTubes");
+			}
+		}
+
+		private static bool waitingForTubes;
+
+		private static IEnumerator waitForTubes()
+		{
+			while (server != null && !server.Bots.HasTubes)
+			{
+				yield return new WaitForSeconds(5f);
+				RefreshBotLooks();
+			}
+			waitingForTubes = false;
 		}
 
 		private static void ApplyBotTalk()
@@ -291,6 +326,7 @@ namespace ClubPenguin.Net.Lan
 			}
 			server.Bots.ChatEnabled = PlayerPrefs.GetInt(BotChatPref, 1) != 0;
 			server.Bots.EmotesEnabled = PlayerPrefs.GetInt(BotEmotesPref, 1) != 0;
+			server.Bots.TubesEnabled = PlayerPrefs.GetInt(BotTubesPref, 1) != 0;
 		}
 
 		private static int[] BotColours()

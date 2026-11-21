@@ -635,6 +635,8 @@ namespace ClubPenguin.Net.Lan
 
 		public volatile bool EmotesEnabled = true;
 
+		public volatile bool TubesEnabled = true;
+
 		private readonly Dictionary<int, long> airborneUntil = new Dictionary<int, long>();
 
 		private readonly Dictionary<string, string> knownRooms = new Dictionary<string, string>();
@@ -808,6 +810,8 @@ namespace ClubPenguin.Net.Lan
 			}
 		}
 
+		private const string EmptyOutfit = "{\"parts\":[]}";
+
 		public void SetTarget(int wanted, int[] colourIds, int[] tubeIds, string[] outfitJsons, int[] emoteCodes, int[] sizzleIds)
 		{
 			int clamped = Math.Max(0, Math.Min(MaxBots, wanted));
@@ -821,7 +825,22 @@ namespace ClubPenguin.Net.Lan
 				target = clamped;
 				if (o.Length > 0)
 				{
+					bool firstOutfits = botOutfits.Length == 0;
 					botOutfits = o;
+					if (firstOutfits)
+					{
+						foreach (LanBot b in bots)
+						{
+							if (b.Player.OutfitJson == EmptyOutfit && Server.Random.NextDouble() < 0.92)
+							{
+								b.Player.OutfitJson = botOutfits[Server.Random.Next(botOutfits.Length)];
+								if (b.Player.Registered)
+								{
+									Server.BroadcastUserVars(b.Player, LanServer.StringVar("outfit", b.Player.OutfitJson));
+								}
+							}
+						}
+					}
 				}
 				if (e.Length > 0)
 				{
@@ -882,6 +901,38 @@ namespace ClubPenguin.Net.Lan
 		public static bool IsIgloo(string roomName)
 		{
 			return roomName != null && roomName.StartsWith("Igloo", StringComparison.Ordinal);
+		}
+
+		private static readonly string[] MascotNames = new string[4] { "Rookie", "AuntArctic", "DJCadence", "Rockhopper" };
+
+		private static readonly int[] MascotMaxLevels = new int[4] { 6, 9, 3, 9 };
+
+		public static Dictionary<string, long> RandomMascotXP(int level, Random random)
+		{
+			int[] levels = new int[MascotNames.Length];
+			for (int n = 0; n < level; n++)
+			{
+				List<int> open = new List<int>();
+				for (int i = 0; i < levels.Length; i++)
+				{
+					if (levels[i] < MascotMaxLevels[i])
+					{
+						open.Add(i);
+					}
+				}
+				if (open.Count == 0)
+				{
+					break;
+				}
+				levels[open[random.Next(open.Count)]]++;
+			}
+			Dictionary<string, long> xp = new Dictionary<string, long>();
+			for (int i = 0; i < levels.Length; i++)
+			{
+				long partial = (levels[i] < MascotMaxLevels[i]) ? random.Next(1000000) : 0;
+				xp[MascotNames[i]] = levels[i] * 1000000L + partial;
+			}
+			return xp;
 		}
 
 		public static bool IsBotBlocked(string roomName)
@@ -1147,7 +1198,13 @@ namespace ClubPenguin.Net.Lan
 			{
 				p.OutfitJson = botOutfits[Server.Random.Next(botOutfits.Length)];
 			}
+			else
+			{
+				p.OutfitJson = EmptyOutfit;
+			}
 			p.LoggedIn = true;
+			p.DaysOld = Server.Random.Next(3601);
+			p.MascotXP = RandomMascotXP(Server.Random.Next(1, 28), Server.Random);
 			float[] at = ArrivalPoint(anchor);
 			LanBot bot = new LanBot(this, p);
 			bots.Add(bot);
@@ -1359,13 +1416,13 @@ namespace ClubPenguin.Net.Lan
 
 		public Ride PickRide(string zone, float[] from, Random r)
 		{
-			List<Ride> near = rides.Where((Ride x) => x.Zone == zone && LanMotion.Dist(x.Start, from) <= 50.0).ToList();
+			List<Ride> near = rides.Where((Ride x) => x.Zone == zone).ToList();
 			return (near.Count > 0) ? near[r.Next(near.Count)] : null;
 		}
 
 		public Seat PickSeat(string zone, float[] from, Random r, LanBot bot)
 		{
-			List<Seat> near = seats.Where((Seat x) => x.Zone == zone && x.Taken == null && LanMotion.Dist(x.P, from) <= 35.0).ToList();
+			List<Seat> near = seats.Where((Seat x) => x.Zone == zone && x.Taken == null).ToList();
 			if (near.Count == 0)
 			{
 				return null;
@@ -1770,24 +1827,6 @@ namespace ClubPenguin.Net.Lan
 
 		private const double Gravity = -9.81;
 
-		private const int TiltPeriod = 180;
-
-		private const string TiltZone = "Boardwalk";
-
-		private static readonly float[] TiltCenter = new float[3]
-		{
-			4.98f,
-			0.35f,
-			23.08f
-		};
-
-		private static readonly float[] TiltPad = new float[3]
-		{
-			4.55f,
-			-1.467f,
-			28.28f
-		};
-
 		private static readonly string[] Greetings = new string[8]
 		{
 			"Hi!",
@@ -1963,14 +2002,6 @@ namespace ClubPenguin.Net.Lan
 		private float[] launchVelocity;
 
 		private long targetsSeen;
-
-		private string tiltStage;
-
-		private long tiltAt;
-
-		private double tiltFallAt;
-
-		private long nextWobble;
 
 		private long trayAt;
 
@@ -2385,6 +2416,7 @@ namespace ClubPenguin.Net.Lan
 			chatAt = 0;
 			sprinting = false;
 			sprintOffAt = 0;
+			EndTube(now);
 			Server.BotLeave(Player);
 			hopTarget = null;
 			hopRoom = target.RoomName;
@@ -2396,7 +2428,7 @@ namespace ClubPenguin.Net.Lan
 
 		private bool TryTube(long now)
 		{
-			if (tubing || R.NextDouble() > 0.06)
+			if (tubing || !bots.TubesEnabled || R.NextDouble() > 0.06)
 			{
 				return false;
 			}
@@ -2420,6 +2452,7 @@ namespace ClubPenguin.Net.Lan
 			tubeUntil = now + 60000 + R.Next(60001);
 			tubeRetryAt = 0;
 			tubeVel = 0.0;
+			EnsureTube();
 			Server.PartyGames.SetLocomotion(Player, 1);
 			SetMode("wander", now);
 			float[] first = NextTubeTarget();
@@ -2499,7 +2532,7 @@ namespace ClubPenguin.Net.Lan
 			}
 			tubing = false;
 			sliding = false;
-			if (Player.Registered && Player.LocomotionState == 1)
+			if (Player.Registered)
 			{
 				Server.PartyGames.SetLocomotion(Player, 0);
 			}
@@ -2507,7 +2540,7 @@ namespace ClubPenguin.Net.Lan
 
 		private bool TryRide(long now)
 		{
-			if (tubing || R.NextDouble() > 0.05)
+			if (tubing || R.NextDouble() > 0.2)
 			{
 				return false;
 			}
@@ -2563,7 +2596,7 @@ namespace ClubPenguin.Net.Lan
 
 		private bool TrySeat(long now)
 		{
-			if (tubing || seat != null || R.NextDouble() > 0.05)
+			if (tubing || seat != null || R.NextDouble() > 0.2)
 			{
 				return false;
 			}
@@ -3073,6 +3106,16 @@ namespace ClubPenguin.Net.Lan
 				return;
 			}
 			ChatTick(now);
+			if (tubing && (now > tubeUntil || !bots.TubesEnabled))
+			{
+				Stop();
+				EndTube(now);
+				if (mode == "wander")
+				{
+					SetMode("idle", now);
+					busyUntil = now + 1500 + R.Next(4000);
+				}
+			}
 			if (sprintOffAt > 0 && now >= sprintOffAt)
 			{
 				EndSprint();
@@ -3143,9 +3186,6 @@ namespace ClubPenguin.Net.Lan
 			case "throwing":
 				TargetsTick(now);
 				break;
-			case "tilt":
-				TiltTick(now);
-				break;
 			case "tray":
 				TrayTick(now);
 				break;
@@ -3171,7 +3211,7 @@ namespace ClubPenguin.Net.Lan
 			if (mode == "wander" && now >= nextScan)
 			{
 				nextScan = now + 1500;
-				if (!tubing && (TryLobby(now) || TryInvitation(now) || TryTargets(now) || TryTilt(now)))
+				if (!tubing && (TryLobby(now) || TryInvitation(now) || TryTargets(now)))
 				{
 					return;
 				}
@@ -3222,7 +3262,7 @@ namespace ClubPenguin.Net.Lan
 			{
 				noHumansSince = -1;
 			}
-			if (TryLobby(now) || TryInvitation(now) || TryTargets(now) || TryTilt(now) || TryTray(now, here) || TryTube(now) || TryRide(now) || TrySeat(now))
+			if (TryLobby(now) || TryInvitation(now) || TryTargets(now) || TryTray(now, here) || TryTube(now) || TryRide(now) || TrySeat(now))
 			{
 				return;
 			}
@@ -3317,8 +3357,17 @@ namespace ClubPenguin.Net.Lan
 
 		private void Wander(long now, List<LanPlayer> humans)
 		{
-			float[] target = Map.RandomReachable(pos, 5.0, 28.0, R);
+			float[] target = Map.RandomReachable(pos, 6.0, 1000.0, R);
 			bool usePath = true;
+			if (target == null)
+			{
+				int home = Map.Nearest(pos, 1000.0);
+				if (home >= 0)
+				{
+					target = LanMotion.Copy(Map.Nodes[home].P);
+					usePath = false;
+				}
+			}
 			if (target == null)
 			{
 				List<LanPlayer> others = humans.Where((LanPlayer h) => h.LastPosition != null).ToList();
@@ -3328,12 +3377,12 @@ namespace ClubPenguin.Net.Lan
 					return;
 				}
 				LanPlayer h2 = others[R.Next(others.Count)];
-				if (HDist(h2.LastPosition, pos) < 3.0)
+				if (HDist(h2.LastPosition, pos) < 6.0 && R.NextDouble() < 0.5)
 				{
 					busyUntil = now + 2000 + R.Next(4000);
 					return;
 				}
-				target = Near(h2.LastPosition, 2.0);
+				target = Near(h2.LastPosition, 4.0 + R.NextDouble() * 8.0);
 				usePath = false;
 			}
 			SetMode("wander", now);
@@ -3839,139 +3888,14 @@ namespace ClubPenguin.Net.Lan
 			aimAt = now + 450 + R.Next(250);
 		}
 
-		private static int TiltSecond()
+		private void EnsureTube()
 		{
-			return (int)(LanServer.EpochMs / 1000 % TiltPeriod);
-		}
-
-		private bool TryTilt(long now)
-		{
-			if (Zone != TiltZone)
+			int[] ids = bots.Tubes;
+			if (ids.Length > 0 && Array.IndexOf(ids, Player.SelectedTubeId.GetValueOrDefault()) < 0)
 			{
-				return false;
-			}
-			int t = TiltSecond();
-			if (t < 115 || t > 168)
-			{
-				return false;
-			}
-			if (Decide("W" + LanServer.EpochMs / 1000 / TiltPeriod, now, 600000) || R.NextDouble() > 0.6)
-			{
-				return false;
-			}
-			bots.Unhead(this);
-			SetMode("tilt", now);
-			tiltStage = "go";
-			GoTo(Near(TiltPad, 0.8), WalkSpeed * 1.3, delegate
-			{
-				tiltStage = "pad";
-			}, true);
-			return true;
-		}
-
-		private float[] PlatformPoint(double radius)
-		{
-			float[] p = Near(TiltCenter, radius);
-			p[1] = TiltCenter[1];
-			return p;
-		}
-
-		private int OthersOnPlatform()
-		{
-			return Server.InRoomExcept(Player.RoomKey, Player).Count((LanPlayer p) => p.LastPosition != null && HDist(p.LastPosition, TiltCenter) <= 3.2 && p.LastPosition[1] > -0.8f && p.LastPosition[1] < 2.5f);
-		}
-
-		private void LeavePlatform(long now)
-		{
-			tiltStage = "fall";
-			double a = R.NextDouble() * Math.PI * 2.0;
-			float[] water = new float[3]
-			{
-				TiltCenter[0] + (float)(Math.Cos(a) * 5.2),
-				-1.6f,
-				TiltCenter[2] + (float)(Math.Sin(a) * 5.2)
-			};
-			GoTo(water, 4.0, delegate
-			{
-				Server.PartyGames.SetLocomotion(Player, 0);
-				sliding = false;
-				tiltStage = "shore";
-				GoTo(Near(TiltPad, 1.5), WalkSpeed, delegate
-				{
-					Reset(bots.Now);
-				}, false);
-			}, false);
-		}
-
-		private void TiltTick(long now)
-		{
-			int t = TiltSecond();
-			switch (tiltStage)
-			{
-			case "go":
-				if (now - modeSince > 45000)
-				{
-					Stop();
-					Reset(now);
-				}
-				break;
-			case "pad":
-				if (t >= 142 && t <= 173)
-				{
-					facing = Sub(TiltCenter, pos);
-					Send(ActJump, Flat(facing), null, null);
-					tiltStage = "launch";
-					tiltAt = now + 600;
-				}
-				else if (t > 173 || t < 100)
-				{
-					Reset(now);
-				}
-				break;
-			case "launch":
-				if (now >= tiltAt)
-				{
-					Server.PartyGames.SetLocomotion(Player, 1);
-					sliding = true;
-					tiltFallAt = 10.0 + R.NextDouble() * 78.0;
-					tiltStage = "on";
-					nextWobble = now + 1500;
-					GoTo(PlatformPoint(1.2), 7.0, null, false);
-				}
-				break;
-			case "on":
-			{
-				bool pregame = t >= 142 || t < 4;
-				bool playing = t >= 4 && t < 95;
-				if (!pregame && !playing)
-				{
-					LeavePlatform(now);
-					break;
-				}
-				if (playing && t - 4 >= tiltFallAt && OthersOnPlatform() > 0)
-				{
-					LeavePlatform(now);
-					break;
-				}
-				if (now >= nextWobble && !moving)
-				{
-					double scale = playing ? (1.0 - 0.6 * Math.Min(1.0, (t - 4) / 90.0)) : 1.0;
-					nextWobble = now + 700 + R.Next(700);
-					GoTo(PlatformPoint(2.4 * scale * 0.6), 1.6, null, false);
-				}
-				break;
-			}
-			case "fall":
-			case "shore":
-				if (now - modeSince > 240000)
-				{
-					Stop();
-					Reset(now);
-				}
-				break;
-			default:
-				Reset(now);
-				break;
+				int id = ids[R.Next(ids.Length)];
+				Player.SelectedTubeId = id;
+				Server.BroadcastUserVars(Player, LanServer.IntVar("tube", id));
 			}
 		}
 

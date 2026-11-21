@@ -482,7 +482,21 @@ namespace ClubPenguin.Net.Lan
 				list.Add(e);
 			}
 			List<object> bots = server.All().Where((LanPlayer b) => b.IsBot && b.Registered && b.RoomName != null && b.RoomName.Split(':').Length >= 5).Select((LanPlayer b) => (object)b.RoomName).ToList();
-			return Message("dir", "players", list, "bots", bots);
+			List<object> botProfiles = new List<object>();
+			foreach (LanPlayer b in server.All().Where((LanPlayer x) => x.IsBot && x.Registered && x.Swid != null))
+			{
+				Dictionary<string, object> e = new Dictionary<string, object>();
+				e["swid"] = b.Swid;
+				e["name"] = b.UserName;
+				e["room"] = (b.RoomName != null && b.RoomName.Split(':').Length >= 5) ? b.RoomName : null;
+				e["session"] = b.PlayerSessionId;
+				e["outfit"] = b.OutfitJson;
+				e["colour"] = b.Colour.HasValue ? (object)b.Colour.Value : null;
+				e["daysOld"] = b.DaysOld.HasValue ? (object)b.DaysOld.Value : null;
+				e["mascotXP"] = (b.MascotXP != null) ? b.MascotXP.ToDictionary((KeyValuePair<string, long> kv) => kv.Key, (KeyValuePair<string, long> kv) => (object)kv.Value) : null;
+				botProfiles.Add(e);
+			}
+			return Message("dir", "players", list, "bots", bots, "botProfiles", botProfiles);
 		}
 
 		internal static string Message(string cmd, params object[] pairs)
