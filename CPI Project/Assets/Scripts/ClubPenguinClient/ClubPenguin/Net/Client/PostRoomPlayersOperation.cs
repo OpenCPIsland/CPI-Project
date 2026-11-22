@@ -80,7 +80,7 @@ namespace ClubPenguin.Net.Client
 			};
 			playerRoomData.quests = SetProgressOperation.GetQuestStateCollection(offlineDatabase.Read<QuestStates>(), offlineDefinitions, true);
 			PlayerRoomData playerRoomData2 = playerRoomData;
-			RoomIdentifier roomIdentifier = new RoomIdentifier(world, LocalizationLanguage.GetLanguageFromLanguageString(language), zoneId, new ContentIdentifier("1.17.2", "offline", DateTime.UtcNow.ToString("yyyy-MM-dd"), "NONE").ToString());
+			RoomIdentifier roomIdentifier = new RoomIdentifier(world, LocalizationLanguage.GetLanguageFromLanguageString(language), zoneId, new ContentIdentifier("1.18.0", "offline", DateTime.UtcNow.ToString("yyyy-MM-dd"), "NONE").ToString());
 			if (string.IsNullOrEmpty(zoneId.instanceId))
 			{
 				LanDirectory.LocalContentIdentifier = roomIdentifier.contentIdentifier;
