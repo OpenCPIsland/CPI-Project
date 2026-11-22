@@ -1,4 +1,5 @@
 using ClubPenguin.Chat;
+using ClubPenguin.ClothingDesigner;
 using ClubPenguin.Adventure;
 using ClubPenguin.Core;
 using ClubPenguin.Core.StaticGameData;
@@ -16,6 +17,7 @@ using ClubPenguin.Net;
 using ClubPenguin.Net.Domain;
 using ClubPenguin.NPC;
 using ClubPenguin.Props;
+using ClubPenguin.Rewards;
 
 namespace ClubPenguin
 {
@@ -26,6 +28,12 @@ namespace ClubPenguin
 		private const int ALL_TUBE_DEFINITIONS = -1;
 
 		private const string ALL_EMOTE_DEFINITIONS = "__ALL_EMOTES__";
+
+		private const int ALL_DECAL_DEFINITIONS = -1;
+
+		private const int ALL_FABRIC_DEFINITIONS = -1;
+
+		private const int ALL_MUSIC_TRACK_DEFINITIONS = -1;
 
 		public class TemplateDefinitionGenerator : NamedToggleValueAttribute.NamedToggleValueGenerator
 		{
@@ -76,6 +84,51 @@ namespace ClubPenguin
 						emote.Id))
 					.ToList();
 				options.Insert(0, new NamedToggleValueAttribute.NamedToggleValue("All Emotes", ALL_EMOTE_DEFINITIONS));
+				return options;
+			}
+		}
+
+		public class DecalDefinitionGenerator : NamedToggleValueAttribute.NamedToggleValueGenerator
+		{
+			public IEnumerable<NamedToggleValueAttribute.NamedToggleValue> GetNameToggleValues()
+			{
+				List<NamedToggleValueAttribute.NamedToggleValue> options = LoadDefinitions<DecalDefinition>()
+					.Where(decal => decal != null)
+					.OrderBy(decal => decal.Id)
+					.Select(decal => new NamedToggleValueAttribute.NamedToggleValue(decal.name, decal.Id))
+					.ToList();
+				options.Insert(0, new NamedToggleValueAttribute.NamedToggleValue("All Decals", ALL_DECAL_DEFINITIONS));
+				return options;
+			}
+		}
+
+		public class FabricDefinitionGenerator : NamedToggleValueAttribute.NamedToggleValueGenerator
+		{
+			public IEnumerable<NamedToggleValueAttribute.NamedToggleValue> GetNameToggleValues()
+			{
+				List<NamedToggleValueAttribute.NamedToggleValue> options = LoadDefinitions<FabricDefinition>()
+					.Where(fabric => fabric != null)
+					.OrderBy(fabric => fabric.Id)
+					.Select(fabric => new NamedToggleValueAttribute.NamedToggleValue(fabric.name, fabric.Id))
+					.ToList();
+				options.Insert(0, new NamedToggleValueAttribute.NamedToggleValue("All Fabrics", ALL_FABRIC_DEFINITIONS));
+				return options;
+			}
+		}
+
+		public class MusicTrackDefinitionGenerator : NamedToggleValueAttribute.NamedToggleValueGenerator
+		{
+			public IEnumerable<NamedToggleValueAttribute.NamedToggleValue> GetNameToggleValues()
+			{
+				DevonLocalization.Core.Localizer localizer = Service.Get<DevonLocalization.Core.Localizer>();
+				List<NamedToggleValueAttribute.NamedToggleValue> options = LoadDefinitions<MusicTrackDefinition>()
+					.Where(track => track != null)
+					.OrderBy(track => localizer.GetTokenTranslation(track.Name))
+					.Select(track => new NamedToggleValueAttribute.NamedToggleValue(
+						localizer.GetTokenTranslation(track.Name),
+						track.Id))
+					.ToList();
+				options.Insert(0, new NamedToggleValueAttribute.NamedToggleValue("All Music Tracks", ALL_MUSIC_TRACK_DEFINITIONS));
 				return options;
 			}
 		}
@@ -167,6 +220,120 @@ namespace ClubPenguin
 			if (reward.isEmpty())
 			{
 				throw new InvalidOperationException("No emotes are available to add.");
+			}
+			Service.Get<INetworkServicesManager>().RewardService.QA_SetReward(reward);
+		}
+
+		[Invokable("Inventory.AddDecal", Description = "Add a decal to your inventory, or choose All Decals")]
+		[PublicTweak]
+		public static void AddDecalToInventory([NamedToggleValue(typeof(DecalDefinitionGenerator), 0u)] int decalId)
+		{
+			Dictionary<int, DecalDefinition> decalDefinitions = Service.Get<GameData>().Get<Dictionary<int, DecalDefinition>>();
+			if (decalDefinitions == null)
+			{
+				throw new InvalidOperationException("Decal definitions are unavailable.");
+			}
+
+			Reward reward = new Reward();
+			if (decalId == ALL_DECAL_DEFINITIONS)
+			{
+				foreach (DecalDefinition decal in decalDefinitions.Values)
+				{
+					if (decal != null)
+					{
+						reward.Add(new DecalReward(decal.Id));
+					}
+				}
+			}
+			else
+			{
+				DecalDefinition decal;
+				if (!decalDefinitions.TryGetValue(decalId, out decal) || decal == null)
+				{
+					throw new InvalidOperationException("The requested decal is unavailable: " + decalId);
+				}
+				reward.Add(new DecalReward(decal.Id));
+			}
+
+			if (reward.isEmpty())
+			{
+				throw new InvalidOperationException("No decals are available to add.");
+			}
+			Service.Get<INetworkServicesManager>().RewardService.QA_SetReward(reward);
+		}
+
+		[Invokable("Inventory.AddFabric", Description = "Add a fabric to your inventory, or choose All Fabrics")]
+		[PublicTweak]
+		public static void AddFabricToInventory([NamedToggleValue(typeof(FabricDefinitionGenerator), 0u)] int fabricId)
+		{
+			Dictionary<int, FabricDefinition> fabricDefinitions = Service.Get<GameData>().Get<Dictionary<int, FabricDefinition>>();
+			if (fabricDefinitions == null)
+			{
+				throw new InvalidOperationException("Fabric definitions are unavailable.");
+			}
+
+			Reward reward = new Reward();
+			if (fabricId == ALL_FABRIC_DEFINITIONS)
+			{
+				foreach (FabricDefinition fabric in fabricDefinitions.Values)
+				{
+					if (fabric != null)
+					{
+						reward.Add(new FabricReward(fabric.Id));
+					}
+				}
+			}
+			else
+			{
+				FabricDefinition fabric;
+				if (!fabricDefinitions.TryGetValue(fabricId, out fabric) || fabric == null)
+				{
+					throw new InvalidOperationException("The requested fabric is unavailable: " + fabricId);
+				}
+				reward.Add(new FabricReward(fabric.Id));
+			}
+
+			if (reward.isEmpty())
+			{
+				throw new InvalidOperationException("No fabrics are available to add.");
+			}
+			Service.Get<INetworkServicesManager>().RewardService.QA_SetReward(reward);
+		}
+
+		[Invokable("Inventory.AddMusicTrack", Description = "Add an igloo music track to your inventory, or choose All Music Tracks")]
+		[PublicTweak]
+		public static void AddMusicTrackToInventory([NamedToggleValue(typeof(MusicTrackDefinitionGenerator), 0u)] int musicTrackId)
+		{
+			Dictionary<int, MusicTrackDefinition> musicTrackDefinitions = Service.Get<GameData>().Get<Dictionary<int, MusicTrackDefinition>>();
+			if (musicTrackDefinitions == null)
+			{
+				throw new InvalidOperationException("Music track definitions are unavailable.");
+			}
+
+			Reward reward = new Reward();
+			if (musicTrackId == ALL_MUSIC_TRACK_DEFINITIONS)
+			{
+				foreach (MusicTrackDefinition track in musicTrackDefinitions.Values)
+				{
+					if (track != null)
+					{
+						reward.Add(new MusicTrackReward(track.Id));
+					}
+				}
+			}
+			else
+			{
+				MusicTrackDefinition track;
+				if (!musicTrackDefinitions.TryGetValue(musicTrackId, out track) || track == null)
+				{
+					throw new InvalidOperationException("The requested music track is unavailable: " + musicTrackId);
+				}
+				reward.Add(new MusicTrackReward(track.Id));
+			}
+
+			if (reward.isEmpty())
+			{
+				throw new InvalidOperationException("No music tracks are available to add.");
 			}
 			Service.Get<INetworkServicesManager>().RewardService.QA_SetReward(reward);
 		}

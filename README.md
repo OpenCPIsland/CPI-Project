@@ -2,7 +2,7 @@
 
 > [!IMPORTANT]
 > ### Unity Version
-> - **Unity 6000.3.28f1 LTS**
+> - **Unity 6000.3.29f1 LTS**
 
 ## **The backstory to OpenCPI:**
 - Malcolm (wednesday2024) started working on decompiling Club Penguin Island sometime in 2019, then took a massive break until either 2022 or 2023, when he began exploring the idea of bringing Club Penguin Island to Linux so that it could run natively without the help of Wine or Steam's Proton. On May 5th, 2024, OpenCPI was born to preserve and open source the game's recreated source code, bringing parties, bug fixes, improvements, and expanded features (though we weren't called OpenCPI when it first opened. We initially named it "CP Island Localhost Server," but shortly after launching, we changed the name to the OpenCPI branding that we know today). In August of 2024, we put what we had on the Internet Archive, but we later moved it to GitHub in the fall of 2024. In April of 2025, we brought builds to Itch (which later got routed to the builds that you would find on our website). Fast forward to late September 2026, we rebranded OpenCPI to OpenCPI Interactive when we brought the game from the Built in Render Pipeline (BIRP) to the Universal Render Pipeline (URP). We have support for the following platforms: Windows (Vulkan Graphics API), Android (Vulkan Graphics API), Linux (Vulkan Graphics API), macOS (Intel + Apple's Arm Silicon), and an experimental but no longer maintained WebGL. The Android code should theoretically be ready for iOS as well but it is largely untested.
@@ -15,10 +15,10 @@
 > - I do NOT recommend using GitHub's built in ZIP download feature. Because it tends to forget to download files which breaks the project. I only recommend using the older HTTPS git clone or the new Git CLI gh repo clone options to download the repo on Linux. If you are on Windows or macOS, I recommend using git clone or using the official GitHub Desktop app. 
 
 > HTTPS method:
-> ```git clone https://github.com/wednesday2024/CPI-Project.git```
+> ```git clone https://github.com/OpenCPIsland/CPI-Project.git```
 
 > Git CLI method:
-> ```gh repo clone wednesday2024/CPI-Project```
+> ```gh repo clone OpenCPIsland/CPI-Project```
 
 > [The Github Desktop app method](https://github.com/apps/desktop)
 

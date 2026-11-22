@@ -1,15 +1,26 @@
+using ClubPenguin.Net.Client;
+using ClubPenguin.Net.Offline;
 using Disney.Kelowna.Common;
 using Disney.Mix.SDK;
 using Disney.Mix.SDK.Internal;
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace ClubPenguin.Mix
 {
 	internal class OfflineLocalUser : ILocalUser
 	{
 		private OfflineRegistrationProfile registrationProfile;
+
+		private readonly string lanToken;
+
+		private readonly List<OfflineLanFriend> lanFriends = new List<OfflineLanFriend>();
+
+		private readonly List<OfflineLanIncomingInvitation> lanIncoming = new List<OfflineLanIncomingInvitation>();
+
+		private readonly List<OfflineLanOutgoingInvitation> lanOutgoing = new List<OfflineLanOutgoingInvitation>();
 
 		public AgeBandType AgeBandType
 		{
@@ -47,7 +58,7 @@ namespace ClubPenguin.Mix
 		{
 			get
 			{
-				return new List<IFriend>();
+				return lanFriends.Cast<IFriend>().ToList();
 			}
 		}
 
@@ -71,7 +82,7 @@ namespace ClubPenguin.Mix
 		{
 			get
 			{
-				return new List<IIncomingFriendInvitation>();
+				return lanIncoming.Cast<IIncomingFriendInvitation>().ToList();
 			}
 		}
 
@@ -79,7 +90,7 @@ namespace ClubPenguin.Mix
 		{
 			get
 			{
-				return new List<IOutgoingFriendInvitation>();
+				return lanOutgoing.Cast<IOutgoingFriendInvitation>().ToList();
 			}
 		}
 
@@ -110,11 +121,180 @@ namespace ClubPenguin.Mix
 		public OfflineLocalUser(string userName)
 		{
 			registrationProfile = OfflineRegistrationProfile.Load(userName);
+			lanToken = registrationProfile.Id;
+			LanFriendsData data = LanFriends.Load(lanToken);
+			foreach (LanFriendsData.Entry entry in data.Friends)
+			{
+				lanFriends.Add(new OfflineLanFriend(entry.Swid, entry.Name));
+			}
+			foreach (LanFriendsData.Entry entry in data.Incoming)
+			{
+				lanIncoming.Add(new OfflineLanIncomingInvitation(entry.Id, entry.Swid, entry.Name, this));
+			}
+			foreach (LanFriendsData.Entry entry in data.Outgoing)
+			{
+				lanOutgoing.Add(new OfflineLanOutgoingInvitation(entry.Id, entry.Swid, entry.Name, this));
+			}
+			LanFriends.Listen(lanToken, onLanFriends);
+		}
+
+		private void saveLanFriends()
+		{
+			LanFriendsData data = default(LanFriendsData);
+			data.Init();
+			data.Profiles = LanFriends.Load(lanToken).Profiles;
+			foreach (OfflineLanFriend friend in lanFriends)
+			{
+				data.Friends.Add(new LanFriendsData.Entry
+				{
+					Swid = friend.Id,
+					Name = friend.DisplayName.Text
+				});
+			}
+			foreach (OfflineLanIncomingInvitation invitation in lanIncoming)
+			{
+				data.Incoming.Add(new LanFriendsData.Entry
+				{
+					Swid = invitation.Swid,
+					Name = invitation.Inviter.DisplayName.Text,
+					Id = invitation.InvitationId
+				});
+			}
+			foreach (OfflineLanOutgoingInvitation invitation in lanOutgoing)
+			{
+				data.Outgoing.Add(new LanFriendsData.Entry
+				{
+					Swid = invitation.Swid,
+					Name = invitation.Invitee.DisplayName.Text,
+					Id = invitation.InvitationId
+				});
+			}
+			LanFriends.Save(data, lanToken);
+		}
+
+		private OfflineLanFriend addLanFriend(string swid, string name)
+		{
+			OfflineLanFriend friend = lanFriends.FirstOrDefault((OfflineLanFriend f) => f.Id == swid);
+			if (friend == null)
+			{
+				friend = new OfflineLanFriend(swid, name);
+				lanFriends.Add(friend);
+			}
+			return friend;
+		}
+
+		private void onLanFriends(string kind, LanFriendsData.Entry entry)
+		{
+			switch (kind)
+			{
+			case "invitation":
+				if (!lanIncoming.Any((OfflineLanIncomingInvitation i) => i.InvitationId == entry.Id) && !lanFriends.Any((OfflineLanFriend f) => f.Id == entry.Swid))
+				{
+					OfflineLanIncomingInvitation incoming = new OfflineLanIncomingInvitation(entry.Id, entry.Swid, entry.Name, this);
+					lanIncoming.Add(incoming);
+					saveLanFriends();
+					if (this.OnReceivedIncomingFriendInvitation != null)
+					{
+						this.OnReceivedIncomingFriendInvitation(this, new OfflineLanReceivedIncomingEventArgs(incoming));
+					}
+				}
+				break;
+			case "outgoing":
+				if (!lanOutgoing.Any((OfflineLanOutgoingInvitation i) => i.InvitationId == entry.Id) && !lanFriends.Any((OfflineLanFriend f) => f.Id == entry.Swid))
+				{
+					OfflineLanOutgoingInvitation outgoing = new OfflineLanOutgoingInvitation(entry.Id, entry.Swid, entry.Name, this);
+					lanOutgoing.Add(outgoing);
+					saveLanFriends();
+					if (this.OnReceivedOutgoingFriendInvitation != null)
+					{
+						this.OnReceivedOutgoingFriendInvitation(this, new OfflineLanReceivedOutgoingEventArgs(outgoing));
+					}
+				}
+				break;
+			case "friend":
+			{
+				if (lanFriends.Any((OfflineLanFriend f) => f.Id == entry.Swid))
+				{
+					break;
+				}
+				OfflineLanOutgoingInvitation accepted = lanOutgoing.FirstOrDefault((OfflineLanOutgoingInvitation i) => i.InvitationId == entry.Id || i.Swid == entry.Swid);
+				if (accepted == null)
+				{
+					accepted = new OfflineLanOutgoingInvitation(entry.Id, entry.Swid, entry.Name, this);
+					if (this.OnReceivedOutgoingFriendInvitation != null)
+					{
+						this.OnReceivedOutgoingFriendInvitation(this, new OfflineLanReceivedOutgoingEventArgs(accepted));
+					}
+				}
+				lanOutgoing.Remove(accepted);
+				OfflineLanIncomingInvitation stale = lanIncoming.FirstOrDefault((OfflineLanIncomingInvitation i) => i.Swid == entry.Swid);
+				if (stale != null)
+				{
+					lanIncoming.Remove(stale);
+					stale.Rejected();
+				}
+				OfflineLanFriend friend = addLanFriend(entry.Swid, entry.Name);
+				saveLanFriends();
+				accepted.Accepted(friend);
+				break;
+			}
+			case "uninvitation":
+			{
+				OfflineLanIncomingInvitation incoming = lanIncoming.FirstOrDefault((OfflineLanIncomingInvitation i) => i.InvitationId == entry.Id);
+				if (incoming != null)
+				{
+					lanIncoming.Remove(incoming);
+					saveLanFriends();
+					incoming.Rejected();
+				}
+				OfflineLanOutgoingInvitation outgoing = lanOutgoing.FirstOrDefault((OfflineLanOutgoingInvitation i) => i.InvitationId == entry.Id);
+				if (outgoing != null)
+				{
+					lanOutgoing.Remove(outgoing);
+					saveLanFriends();
+					outgoing.Rejected();
+				}
+				break;
+			}
+			case "unfriend":
+			{
+				OfflineLanFriend friend = lanFriends.FirstOrDefault((OfflineLanFriend f) => f.Id == entry.Swid);
+				if (friend != null)
+				{
+					lanFriends.Remove(friend);
+					saveLanFriends();
+					if (this.OnUnfriended != null)
+					{
+						this.OnUnfriended(this, new OfflineLanUnfriendedEventArgs(friend));
+					}
+				}
+				break;
+			}
+			}
 		}
 
 		public void AcceptFriendInvitation(IIncomingFriendInvitation invitation, bool acceptTrust, Action<IAcceptFriendInvitationResult> callback)
 		{
-			CoroutineRunner.StartPersistent(delayAcceptFriendInvitation(callback), this, "AcceptFriendInvitation");
+			OfflineLanIncomingInvitation incoming = invitation as OfflineLanIncomingInvitation;
+			ILanFriendsTransport transport = LanFriends.Transport;
+			if (incoming == null || transport == null)
+			{
+				CoroutineRunner.StartPersistent(delayAcceptFriendInvitation(callback), this, "AcceptFriendInvitation");
+				return;
+			}
+			transport.Accept(incoming.InvitationId, delegate(bool success)
+			{
+				if (!success)
+				{
+					callback(new AcceptFriendInvitationResult(false, null));
+					return;
+				}
+				lanIncoming.Remove(incoming);
+				OfflineLanFriend friend = addLanFriend(incoming.Swid, incoming.Inviter.DisplayName.Text);
+				saveLanFriends();
+				incoming.Accepted(friend);
+				callback(new AcceptFriendInvitationResult(true, friend));
+			});
 		}
 
 		private IEnumerator delayAcceptFriendInvitation(Action<IAcceptFriendInvitationResult> callback)
@@ -169,13 +349,22 @@ namespace ClubPenguin.Mix
 
 		public void FindUser(string displayName, Action<IFindUserResult> callback)
 		{
-			CoroutineRunner.StartPersistent(delayFindUser(callback), this, "FindUser");
+			ILanFriendsTransport transport = LanFriends.Transport;
+			if (transport == null)
+			{
+				CoroutineRunner.StartPersistent(delayFindUser(callback), this, "FindUser");
+				return;
+			}
+			transport.Find(displayName, delegate(string name)
+			{
+				callback((name != null) ? new FindUserResult(true, new UnidentifiedUser(new DisplayName(name), "", null)) : new FindUserResult(false, null));
+			});
 		}
 
 		private IEnumerator delayFindUser(Action<IFindUserResult> callback)
 		{
 			yield return null;
-			callback(new FindUserResult(true, null));
+			callback(new FindUserResult(false, null));
 		}
 
 		public void GetAdultVerificationRequirements(Action<IGetAdultVerificationRequirementsResult> callback)
@@ -256,7 +445,23 @@ namespace ClubPenguin.Mix
 
 		public void RejectFriendInvitation(IIncomingFriendInvitation invitation, Action<IRejectFriendInvitationResult> callback)
 		{
-			CoroutineRunner.StartPersistent(delayRejectFriendInvitation(callback), this, "RejectFriendInvitation");
+			OfflineLanIncomingInvitation incoming = invitation as OfflineLanIncomingInvitation;
+			ILanFriendsTransport transport = LanFriends.Transport;
+			if (incoming == null || transport == null)
+			{
+				CoroutineRunner.StartPersistent(delayRejectFriendInvitation(callback), this, "RejectFriendInvitation");
+				return;
+			}
+			transport.Reject(incoming.InvitationId, delegate(bool success)
+			{
+				if (success)
+				{
+					lanIncoming.Remove(incoming);
+					saveLanFriends();
+					incoming.Rejected();
+				}
+				callback(new RejectFriendInvitationResult(success));
+			});
 		}
 
 		private IEnumerator delayRejectFriendInvitation(Action<IRejectFriendInvitationResult> callback)
@@ -292,7 +497,39 @@ namespace ClubPenguin.Mix
 
 		public IOutgoingFriendInvitation SendFriendInvitation(IUnidentifiedUser user, bool requestTrust, Action<ISendFriendInvitationResult> callback)
 		{
-			CoroutineRunner.StartPersistent(delaySendFriendInvitation(callback), this, "SendFriendInvitation");
+			ILanFriendsTransport transport = LanFriends.Transport;
+			if (user == null || user.DisplayName == null || transport == null)
+			{
+				CoroutineRunner.StartPersistent(delaySendFriendInvitation(callback), this, "SendFriendInvitation");
+				return null;
+			}
+			transport.Invite(user.DisplayName.Text, delegate(LanFriendsData.Entry? entry, string status)
+			{
+				if (!entry.HasValue)
+				{
+					if (status == "ALREADY_FRIENDS")
+					{
+						callback(new SendFriendInvitationAlreadyFriendsResult(false, null));
+					}
+					else if (status == "INVITATION_ALREADY_EXISTS")
+					{
+						callback(new SendFriendInvitationAlreadyExistsResult(false, null));
+					}
+					else
+					{
+						callback(new SendFriendInvitationResult(false, null));
+					}
+					return;
+				}
+				OfflineLanOutgoingInvitation outgoing = new OfflineLanOutgoingInvitation(entry.Value.Id, entry.Value.Swid, entry.Value.Name, this);
+				lanOutgoing.Add(outgoing);
+				saveLanFriends();
+				if (this.OnReceivedOutgoingFriendInvitation != null)
+				{
+					this.OnReceivedOutgoingFriendInvitation(this, new OfflineLanReceivedOutgoingEventArgs(outgoing));
+				}
+				callback(new SendFriendInvitationResult(true, outgoing));
+			});
 			return null;
 		}
 
@@ -328,7 +565,26 @@ namespace ClubPenguin.Mix
 
 		public void Unfriend(IFriend friend, Action<IUnfriendResult> callback)
 		{
-			CoroutineRunner.StartPersistent(delayUnfriend(callback), this, "Unfriend");
+			OfflineLanFriend lanFriend = friend as OfflineLanFriend;
+			ILanFriendsTransport transport = LanFriends.Transport;
+			if (lanFriend == null || transport == null)
+			{
+				CoroutineRunner.StartPersistent(delayUnfriend(callback), this, "Unfriend");
+				return;
+			}
+			transport.Unfriend(lanFriend.Id, delegate(bool success)
+			{
+				if (success)
+				{
+					lanFriends.Remove(lanFriend);
+					saveLanFriends();
+					if (this.OnUnfriended != null)
+					{
+						this.OnUnfriended(this, new OfflineLanUnfriendedEventArgs(lanFriend));
+					}
+				}
+				callback(new UnfriendResult(success));
+			});
 		}
 
 		private IEnumerator delayUnfriend(Action<IUnfriendResult> callback)

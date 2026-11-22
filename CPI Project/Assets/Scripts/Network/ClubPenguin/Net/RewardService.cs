@@ -211,6 +211,11 @@ namespace ClubPenguin.Net
 			handleCPResponseError(operation, httpResponse);
 		}
 
+		public void SendLevelUp(int level)
+		{
+			clubPenguinClient.GameServer.SendLevelUp(level);
+		}
+
 		public void QA_SetReward(Reward reward)
 		{
 			APICall<QASetRewardOperation> aPICall = clubPenguinClient.RewardApi.QA_SetReward(reward);

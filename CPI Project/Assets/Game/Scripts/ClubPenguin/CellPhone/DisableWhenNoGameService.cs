@@ -8,7 +8,7 @@ namespace ClubPenguin.CellPhone
 		private void Start()
 		{
 			GameSettings gameSettings = Service.Get<GameSettings>();
-			if (gameSettings.OfflineMode && string.IsNullOrEmpty(gameSettings.CPAPIServicehost))
+			if (gameSettings.OfflineMode && string.IsNullOrEmpty(gameSettings.CPAPIServicehost) && ClubPenguin.Net.Client.LanGameServerHost.Address == null)
 			{
 				base.gameObject.SetActive(false);
 			}

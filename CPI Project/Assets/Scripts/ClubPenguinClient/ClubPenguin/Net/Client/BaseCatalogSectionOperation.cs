@@ -58,6 +58,8 @@ namespace ClubPenguin.Net.Client
             }
 
             string section = CatalogSection ?? "";
+            if (LanCatalog.Active)
+                items = LanCatalog.ItemsFor(requestedChallengeId, section.Equals("friends", StringComparison.OrdinalIgnoreCase));
             if (section.Equals("popular", StringComparison.OrdinalIgnoreCase))
             {
                 items.Sort((a, b) => b.numberSold.CompareTo(a.numberSold));

@@ -681,6 +681,10 @@ namespace ClubPenguin.Net.Client
 		{
 		}
 
+		public void SendLevelUp(int level)
+		{
+		}
+
 		public void SendWebServiceEvent(SignedResponse<WebServiceEvent> wsEvent)
 		{
 		}

@@ -1019,8 +1019,8 @@ namespace ClubPenguin.Net.Client
 		internal SmartFoxGameServerClientShared(ClubPenguinClient clubPenguinClient, string gameZone, bool gameEncryption, bool gameDebugging, bool lagMonitoring)
 		{
 			zone = gameZone;
-			string gameServerHost = Service.Get<ICommonGameSettings>().GameServerHost;
-			UseEncryption = !IsLocalGameServerHost(gameServerHost);
+			string gameServerHost = LanGameServerHost.Address ?? Service.Get<ICommonGameSettings>().GameServerHost;
+			UseEncryption = LanGameServerHost.Address == null && !IsLocalGameServerHost(gameServerHost);
 			sfsDebugLogging = gameDebugging;
 			enableLagMonitor = lagMonitoring;
 			ClubPenguinClient = clubPenguinClient;

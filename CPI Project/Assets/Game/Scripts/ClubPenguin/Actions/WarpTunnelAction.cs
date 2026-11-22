@@ -164,7 +164,7 @@ namespace ClubPenguin.Actions
 			vehicleTransform = vehicleInstance.transform;
 			vehicleStartPos = vehicleTransform.position;
 			vehicleStartRot = vehicleTransform.rotation;
-			if (FakeVehicle != null)
+			if (FakeVehicle != null && base.gameObject.CompareTag("Player"))
 			{
 				FakeVehicle.SetActive(false);
 			}
@@ -323,7 +323,7 @@ namespace ClubPenguin.Actions
 			{
 				Object.Destroy(vehicleInstance);
 			}
-			if (FakeVehicle != null)
+			if (FakeVehicle != null && base.gameObject.CompareTag("Player"))
 			{
 				FakeVehicle.SetActive(true);
 			}

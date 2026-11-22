@@ -16,7 +16,7 @@ namespace ClubPenguin
 		public static bool IsGameServerAvailable()
 		{
 			GameSettings gameSettings = Service.Get<GameSettings>();
-			return !gameSettings.OfflineMode || !string.IsNullOrEmpty(gameSettings.GameServerHost);
+			return !gameSettings.OfflineMode || !string.IsNullOrEmpty(gameSettings.GameServerHost) || ClubPenguin.Net.Client.LanGameServerHost.Address != null;
 		}
 	}
 }

@@ -911,7 +911,7 @@ namespace ClubPenguin
         {
             List<CellPhoneDailySpinActivityDefinition.ChestReward> nonRepeatableChestRewards = chestDefinition.NonRepeatableChestRewards;
             List<CellPhoneDailySpinActivityDefinition.ChestReward> list = filterRewardsAlreadyReceived(nonRepeatableChestRewards, dailySpinData.EarnedNonRepeatableRewardIds);
-            if (list.Count > 0)
+            if (list.Count == 0)
             {
                 return getRepeatableChestReward(dailySpinData, chestDefinition);
             }
@@ -924,7 +924,7 @@ namespace ClubPenguin
         {
             List<CellPhoneDailySpinActivityDefinition.ChestReward> list = new List<CellPhoneDailySpinActivityDefinition.ChestReward>(chestDefinition.RepeatableChestRewards);
             List<CellPhoneDailySpinActivityDefinition.ChestReward> list2 = filterRewardsAlreadyReceived(list, dailySpinData.EarnedRepeatableRewardIds);
-            if (list2.Count > 0)
+            if (list2.Count == 0)
             {
                 dailySpinData.EarnedRepeatableRewardIds.Clear();
             }

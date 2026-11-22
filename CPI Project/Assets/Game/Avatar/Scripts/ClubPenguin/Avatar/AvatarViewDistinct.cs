@@ -33,7 +33,7 @@ namespace ClubPenguin.Avatar
 					for (int j = 0; j < children.GetLength(1); j++)
 					{
 						AvatarViewDistinctChild avatarViewDistinctChild = children[i, j];
-						if (avatarViewDistinctChild != null)
+						if (avatarViewDistinctChild != null && avatarViewDistinctChild.Renderer != null)
 						{
 							cachedBounds.Encapsulate(avatarViewDistinctChild.Renderer.bounds);
 						}

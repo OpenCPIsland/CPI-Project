@@ -26,6 +26,11 @@ namespace ClubPenguin.Net.Client
 
 		protected override void PerformOfflineAction(OfflineDatabase offlineDatabase, IOfflineDefinitionLoader offlineDefinitions)
 		{
+			if (LanDirectory.Active)
+			{
+				IglooListItems = LanDirectory.Igloos(true);
+				return;
+			}
 			IglooListItems = new List<IglooListItem>();
 		}
 	}

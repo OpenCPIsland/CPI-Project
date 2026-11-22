@@ -75,6 +75,8 @@ namespace ClubPenguin.Net.Client
 
 		void SendRewardNotification(SignedResponse<RewardedUserCollectionJsonHelper> response);
 
+		void SendLevelUp(int level);
+
 		void SendWebServiceEvent(SignedResponse<WebServiceEvent> wsEvent);
 
 		void GetPlayerLocation(string swid);

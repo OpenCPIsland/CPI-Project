@@ -3,7 +3,7 @@ using Disney.Kelowna.Common.SEDFSM;
 using Disney.LaunchPadFramework;
 using Disney.MobileNetwork;
 using UnityEngine;
-using UnityEngine.UI;
+using TMPro;
 
 namespace ClubPenguin.UI
 {
@@ -15,7 +15,7 @@ namespace ClubPenguin.UI
 
 		private const string SEARCH_FRIENDS_TOKEN = "Friends.Search.HeaderText";
 
-		public Text HeaderText;
+		public TMP_Text HeaderText;
 
 		public GameObject BackButton;
 

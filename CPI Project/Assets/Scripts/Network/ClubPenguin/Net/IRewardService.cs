@@ -19,5 +19,7 @@ namespace ClubPenguin.Net
 		void ClaimDailySpinReward();
 
 		void QA_SetReward(Reward reward);
+
+		void SendLevelUp(int level);
 	}
 }

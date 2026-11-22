@@ -29,6 +29,14 @@ namespace ClubPenguin.Net.Client
 
 		protected override void PerformOfflineAction(OfflineDatabase offlineDatabase, IOfflineDefinitionLoader offlineDefinitions)
 		{
+			if (LanDirectory.Active)
+			{
+				Response = new GetRoomPopulationResponse
+				{
+					roomPopulations = LanDirectory.RoomPopulations(World)
+				};
+				return;
+			}
 			Response = new GetRoomPopulationResponse
 			{
 				roomPopulations = new List<RoomPopulation>()

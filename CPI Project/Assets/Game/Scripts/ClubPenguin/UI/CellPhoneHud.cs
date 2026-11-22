@@ -42,6 +42,8 @@ namespace ClubPenguin.UI
 
 		private bool isShowing = true;
 
+		private bool isHiddenForScene = false;
+
 		private bool autoOpened = false;
 
 		private EventDispatcher eventDispatcher;
@@ -74,6 +76,8 @@ namespace ClubPenguin.UI
 			eventChannel.AddListener<HudEvents.HideCellPhoneHud>(onHideCellPhoneHud);
 			eventChannel.AddListener<HudEvents.ShowCellPhoneHud>(onShowCellPhoneHud);
 			eventChannel.AddListener<CellPhoneEvents.CellPhoneClosed>(onCellPhoneClosed);
+			SceneManager.activeSceneChanged += onActiveSceneChanged;
+			updateSceneVisibility(SceneManager.GetActiveScene());
 			notificationHandler = GetComponent<CellPhoneNotificationHandler>();
 			if (Service.Get<SceneTransitionService>().HasSceneArg(SceneTransitionService.SceneArgs.ShowCellPhoneOnEnterScene.ToString()))
 			{
@@ -123,6 +127,7 @@ namespace ClubPenguin.UI
 
 		private void OnDestroy()
 		{
+			SceneManager.activeSceneChanged -= onActiveSceneChanged;
 			eventChannel.RemoveAllListeners();
 			if (cellPhoneAnim != null)
 			{
@@ -154,8 +159,8 @@ namespace ClubPenguin.UI
 		{
 			if (!isShowing)
 			{
-				base.gameObject.SetActive(true);
 				isShowing = true;
+				applyVisibility();
 			}
 		}
 
@@ -163,9 +168,25 @@ namespace ClubPenguin.UI
 		{
 			if (isShowing)
 			{
-				base.gameObject.SetActive(false);
 				isShowing = false;
+				applyVisibility();
 			}
+		}
+
+		private void onActiveSceneChanged(Scene previousScene, Scene newScene)
+		{
+			updateSceneVisibility(newScene);
+		}
+
+		private void updateSceneVisibility(Scene scene)
+		{
+			isHiddenForScene = scene.name == "ClothingDesigner";
+			applyVisibility();
+		}
+
+		private void applyVisibility()
+		{
+			base.gameObject.SetActive(isShowing && !isHiddenForScene);
 		}
 
 		private IEnumerator playRingAnimationAndShowPhone()

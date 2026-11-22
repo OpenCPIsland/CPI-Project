@@ -44,6 +44,9 @@ namespace ClubPenguin.Net.Client
             }
 
             long[] scheduleIds = AssignScheduleIdsForWeek(dayStamps);
+            bool lan = LanCatalog.Active;
+            if (lan)
+                scheduleIds = LanCatalog.Schedule(dayStamps, scheduleIds);
 
             List<CurrentThemeData> themes = new List<CurrentThemeData>(7);
 
@@ -57,6 +60,11 @@ namespace ClubPenguin.Net.Client
                     userSubmissionId = subId;
 
                 CatalogItemData? mostPopular = FindMostPopularForChallenge(data, scheduleId);
+                if (lan)
+                {
+                    userSubmissionId = LanCatalog.UserSubmission(scheduleId, offlineDatabase.AccessToken);
+                    mostPopular = LanCatalog.MostPopular(scheduleId);
+                }
 
                 CurrentThemeData theme = default(CurrentThemeData);
                 theme.scheduledThemeChallengeId = scheduleId;

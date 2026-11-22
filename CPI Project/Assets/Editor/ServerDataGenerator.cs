@@ -1,6 +1,8 @@
 using ClubPenguin;
 using ClubPenguin.Core.StaticGameData;
 using ClubPenguin.Collectibles;
+using ClubPenguin.IslandTargets;
+using ClubPenguin.ScheduledWorldObjects;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using System;
@@ -16,6 +18,8 @@ using UnityEngine.SceneManagement;
 public static class ServerDataGenerator
 {
     private const string OutputDirectory = "Assets/Generated/Export/ServerData/";
+    private const string LanWorldObjectsPath = "Assets/Game/Resources/Lan/world-objects.json";
+    private const string GhostBattleScenePath = "Assets/Game/World/Scenes/Town.unity";
     private static readonly string[] ReserializeAssetPaths =
     {
         "Assets/Game/Resources/Definitions/ScheduledEventDates",
@@ -77,6 +81,13 @@ public static class ServerDataGenerator
             WriteJsonFile(absoluteOutputDirectory, "pickupablegroups", collectibleExport.PickupableGroups);
             results.Add("pickupables.json (" + collectibleExport.PickupableCount + ")");
             results.Add("pickupablegroups.json (" + collectibleExport.GroupCount + ")");
+
+            EditorUtility.DisplayProgressBar("Generating Server Data JSON", "world objects", 1f);
+            JObject worldObjects = GetWorldObjectsExport();
+            File.WriteAllText(GetAbsolutePath(LanWorldObjectsPath), worldObjects.ToString(Formatting.Indented));
+            WriteJsonFile(absoluteOutputDirectory, "world-objects", worldObjects);
+            results.Add("Lan/world-objects.json");
+            results.Add("world-objects.json");
         }
         catch (Exception exception)
         {
@@ -161,7 +172,7 @@ public static class ServerDataGenerator
                             Debug.LogWarning("Skipped collectible " + collectible.gameObject.GetPath() + " in " + scenePath + ": " + exception.Message);
                             continue;
                         }
-                        string path = collectible.gameObject.GetPath();
+                        string path = (string)record["path"];
                         scenePickupables[path] = record;
                         pickupableCount++;
 
@@ -213,6 +224,202 @@ public static class ServerDataGenerator
         return new SceneCollectibleExport(pickupables, pickupableGroups, pickupableCount, groupCount);
     }
 
+    private static JObject GetWorldObjectsExport()
+    {
+        string sourcePath = GetAbsolutePath(LanWorldObjectsPath);
+        JObject worldObjects = JObject.Parse(File.ReadAllText(sourcePath));
+        JObject islandTargets = worldObjects["islandTargets"] as JObject;
+        if (islandTargets == null)
+        {
+            throw new InvalidDataException("The LAN world-objects file does not contain islandTargets.");
+        }
+
+        Scene scene = SceneManager.GetSceneByPath(GhostBattleScenePath);
+        bool closeScene = false;
+        if (!scene.IsValid() || !scene.isLoaded)
+        {
+            scene = EditorSceneManager.OpenScene(GhostBattleScenePath, OpenSceneMode.Additive);
+            closeScene = true;
+        }
+
+        try
+        {
+            IslandTargetsPlayground[] playgrounds = scene.GetRootGameObjects()
+                .SelectMany(root => root.GetComponentsInChildren<IslandTargetsPlayground>(true))
+                .Where(playground => playground.gameObject.name == "TargetsPlayground")
+                .ToArray();
+            if (playgrounds.Length > 1)
+            {
+                throw new InvalidDataException("Expected at most one Halloween Ghost Battle TargetsPlayground in " + GhostBattleScenePath + ", found " + playgrounds.Length + ".");
+            }
+
+            if (playgrounds.Length == 1)
+            {
+                islandTargets["Town"] = new JArray(SerializeIslandTargetsPlayground(playgrounds[0]));
+            }
+        }
+        finally
+        {
+            if (closeScene)
+            {
+                EditorSceneManager.CloseScene(scene, true);
+            }
+        }
+
+        return worldObjects;
+    }
+
+    private static JObject SerializeIslandTargetsPlayground(IslandTargetsPlayground playground)
+    {
+        IslandTargetPlaygroundController controller = playground.GetComponent<IslandTargetPlaygroundController>();
+        IslandTargetRewardZone rewardZone = playground.GetComponentInChildren<IslandTargetRewardZone>(true);
+        if (controller == null)
+        {
+            throw new InvalidDataException("Missing IslandTargetPlaygroundController on " + playground.gameObject.GetPath() + ".");
+        }
+        if (rewardZone == null)
+        {
+            throw new InvalidDataException("Missing IslandTargetRewardZone under " + playground.gameObject.GetPath() + ".");
+        }
+
+        SphereCollider rewardsCollider = GetSphereCollider(rewardZone.gameObject);
+        if (rewardsCollider == null)
+        {
+            throw new InvalidDataException("Missing SphereCollider on the reward zone at " + rewardZone.gameObject.GetPath() + ".");
+        }
+
+        JArray supersets = new JArray();
+        foreach (IslandTargetsSuperset superset in playground.GetComponentsInChildren<IslandTargetsSuperset>(true)
+            .Where(superset => superset.transform.parent == playground.transform))
+        {
+            supersets.Add(SerializeIslandTargetsSuperset(superset));
+        }
+
+        if (supersets.Count == 0)
+        {
+            throw new InvalidDataException("No target supersets found under " + playground.gameObject.GetPath() + ".");
+        }
+
+        string behaviour;
+        switch (playground.Behaviour)
+        {
+            case SelectionBehaviour.Random:
+                behaviour = "random";
+                break;
+            case SelectionBehaviour.Ordered:
+                behaviour = "ordered";
+                break;
+            case SelectionBehaviour.NonRepeatingRandom:
+                behaviour = "nonRepeatingRandom";
+                break;
+            default:
+                throw new InvalidDataException("Unsupported island target selection behaviour: " + playground.Behaviour + ".");
+        }
+
+        Vector3 rewardsCenter = rewardsCollider.transform.TransformPoint(rewardsCollider.center);
+        return new JObject
+        {
+            ["path"] = playground.transform.GetPath(),
+            ["position"] = SerializeVector3(playground.transform.position),
+            ["everyXMinutes"] = playground.EveryXMinutesAfterTheHour,
+            ["behaviour"] = behaviour,
+            ["rewardsVolume"] = new JObject
+            {
+                ["center"] = SerializeVector3(rewardsCenter),
+                ["radius"] = GetWorldSphereRadius(rewardsCollider)
+            },
+            ["roundDelaySeconds"] = controller.delayBetweenRounds,
+            ["supersets"] = supersets
+        };
+    }
+
+    private static JObject SerializeIslandTargetsSuperset(IslandTargetsSuperset superset)
+    {
+        JArray phases = new JArray();
+        foreach (IslandTargetGroup phase in superset.GetComponentsInChildren<IslandTargetGroup>(true)
+            .Where(phase => phase.transform.parent == superset.transform))
+        {
+            phases.Add(SerializeIslandTargetPhase(phase));
+        }
+
+        JObject serializedSuperset = new JObject
+        {
+            ["path"] = superset.transform.GetPath(),
+            ["position"] = SerializeVector3(superset.transform.position),
+            ["totalReward"] = superset.TotalRewards == null ? JValue.CreateNull() : JToken.FromObject(superset.TotalRewards.ToReward()),
+            ["minPerPlayerReward"] = superset.MinPerPlayerRewards == null ? JValue.CreateNull() : JToken.FromObject(superset.MinPerPlayerRewards.ToReward()),
+            ["phases"] = phases
+        };
+        if (phases.Count == 0)
+        {
+            throw new InvalidDataException("No target phases found under " + superset.gameObject.GetPath() + ".");
+        }
+        return serializedSuperset;
+    }
+
+    private static JObject SerializeIslandTargetPhase(IslandTargetGroup phase)
+    {
+        JArray targets = new JArray();
+        foreach (IslandTargetConfiguration target in phase.GetComponentsInChildren<IslandTargetConfiguration>(true))
+        {
+            targets.Add(SerializeIslandTarget(target));
+        }
+        if (targets.Count == 0)
+        {
+            throw new InvalidDataException("No configured targets found under " + phase.gameObject.GetPath() + ".");
+        }
+
+        return new JObject
+        {
+            ["path"] = phase.transform.GetPath(),
+            ["position"] = SerializeVector3(phase.transform.position),
+            ["sessionSeconds"] = phase.SessionTimeInSeconds,
+            ["targets"] = targets
+        };
+    }
+
+    private static JObject SerializeIslandTarget(IslandTargetConfiguration target)
+    {
+        IslandTarget islandTarget = target.GetComponent<IslandTarget>();
+        if (islandTarget == null || islandTarget.HitBoxObject == null)
+        {
+            throw new InvalidDataException("Missing IslandTarget hit box on " + target.gameObject.GetPath() + ".");
+        }
+
+        SphereCollider hitCollider = GetSphereCollider(islandTarget.HitBoxObject);
+        if (hitCollider == null)
+        {
+            throw new InvalidDataException("Missing SphereCollider on hit box for " + target.gameObject.GetPath() + ".");
+        }
+
+        Vector3 hitCenter = hitCollider.transform.TransformPoint(hitCollider.center);
+        return new JObject
+        {
+            ["path"] = target.transform.GetPath(),
+            ["position"] = SerializeVector3(target.transform.position),
+            ["minHits"] = target.MinHitCount,
+            ["populationMultiplier"] = target.PopulationHitCountMultiplier,
+            ["hitSphere"] = new JObject
+            {
+                ["center"] = SerializeVector3(hitCenter),
+                ["radius"] = GetWorldSphereRadius(hitCollider),
+                ["rawRadius"] = hitCollider.radius
+            }
+        };
+    }
+
+    private static SphereCollider GetSphereCollider(GameObject gameObject)
+    {
+        SphereCollider collider = gameObject.GetComponent<SphereCollider>();
+        return collider != null ? collider : gameObject.GetComponentInChildren<SphereCollider>(true);
+    }
+
+    private static float GetWorldSphereRadius(SphereCollider collider)
+    {
+        Vector3 scale = collider.transform.lossyScale;
+        return collider.radius * Mathf.Max(Mathf.Abs(scale.x), Mathf.Abs(scale.y), Mathf.Abs(scale.z));
+    }
+
     private static bool IsEditableProjectScene(string scenePath)
     {
         if (!scenePath.StartsWith("Assets/", StringComparison.OrdinalIgnoreCase) || !AssetDatabase.IsOpenForEdit(scenePath))
@@ -229,11 +436,27 @@ public static class ServerDataGenerator
         {
             ["maxBounds"] = SerializeVector3(bounds.max),
             ["minBounds"] = SerializeVector3(bounds.min),
-            ["path"] = collectible.gameObject.GetPath(),
+            ["path"] = GetCollectiblePath(collectible),
             ["reward"] = collectible.RewardDef == null ? JValue.CreateNull() : JToken.FromObject(collectible.RewardDef.ToReward(), serializer),
             ["tag"] = collectible.gameObject.tag,
             ["type"] = 0
         };
+    }
+
+    private static string GetCollectiblePath(Collectible collectible)
+    {
+        GameObject interactionObj = null;
+        SceneryCollectible scenery = collectible as SceneryCollectible;
+        if (scenery != null)
+        {
+            interactionObj = scenery.InteractionObj;
+        }
+        RewardCollectible reward = collectible as RewardCollectible;
+        if (reward != null)
+        {
+            interactionObj = reward.InteractionObj;
+        }
+        return interactionObj != null ? interactionObj.GetPath() : collectible.gameObject.GetPath();
     }
 
     private static JObject SerializeVector3(Vector3 value)

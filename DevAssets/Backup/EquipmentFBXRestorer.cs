@@ -14,6 +14,7 @@ public class EquipmentFBXRestorer : EditorWindow
 {
     private const string EQUIPMENT_ASSET_PATH = "Assets/Game/ItemCustomizer/Resources/Definitions/Equipment";
     private const string TEMPLATE_DEFINITIONS_PATH = "Assets/Game/ItemCustomizer/Resources/Definitions/Equipment/TemplateDefinitions";
+    private const string REFERENCE_SKELETON_PATH = "Assets/Game/ArtAssets/Avatar/Penguin/Penguin.fbx";
 
     private string costumeName = "mikecostume";
 
@@ -141,6 +142,8 @@ public class EquipmentFBXRestorer : EditorWindow
         {
             int meshCount = 0;
             HashSet<Mesh> exportedMeshes = new HashSet<Mesh>();
+            HashSet<string> exportedPieces = new HashSet<string>(System.StringComparer.OrdinalIgnoreCase);
+            Dictionary<string, Transform> skeleton = BuildSkeleton(tempRoot.transform);
 
             for (int i = 0; i < assets.Count; i++)
             {
@@ -153,13 +156,14 @@ public class EquipmentFBXRestorer : EditorWindow
                     continue;
                 }
 
-                if (exportedMeshes.Contains(asset.SkinnedMesh.Mesh))
+                if (exportedMeshes.Contains(asset.SkinnedMesh.Mesh) || exportedPieces.Contains(asset.SkinnedMesh.Name))
                 {
-                    Debug.Log($"Skipping duplicate mesh '{asset.SkinnedMesh.Name}' in {asset.name} - already added to FBX.");
+                    Debug.Log($"Skipping duplicate piece '{asset.SkinnedMesh.Name}' in {asset.name} - already added to FBX.");
                     continue;
                 }
 
                 exportedMeshes.Add(asset.SkinnedMesh.Mesh);
+                exportedPieces.Add(asset.SkinnedMesh.Name);
 
                 GameObject meshObj = new GameObject(asset.SkinnedMesh.Name);
                 meshObj.transform.SetParent(tempRoot.transform);
@@ -168,7 +172,7 @@ public class EquipmentFBXRestorer : EditorWindow
                 renderer.sharedMesh = asset.SkinnedMesh.Mesh;
 
                 if (asset.SkinnedMesh.BoneNames != null && asset.SkinnedMesh.BoneNames.Length > 0)
-                    SetupBones(meshObj, asset);
+                    SetupBones(meshObj, asset, tempRoot.transform, skeleton);
 
                 meshCount++;
                 Debug.Log($"Added mesh: {asset.SkinnedMesh.Name}");
@@ -730,7 +734,79 @@ public class EquipmentFBXRestorer : EditorWindow
         return name;
     }
 
-    private static void SetupBones(GameObject meshObj, EquipmentViewDefinition asset)
+    private static Dictionary<string, Transform> BuildSkeleton(Transform root)
+    {
+        Dictionary<string, Transform> map = new Dictionary<string, Transform>();
+        GameObject reference = AssetDatabase.LoadAssetAtPath<GameObject>(REFERENCE_SKELETON_PATH);
+        if (reference == null)
+        {
+            Debug.LogWarning($"Reference skeleton not found at {REFERENCE_SKELETON_PATH}; bones will be exported without a hierarchy.");
+            return map;
+        }
+
+        Transform hips = FindDeep(reference.transform, "hips_jnt");
+        Transform top = hips;
+        if (top != null)
+        {
+            while (top.parent != null && top.parent != reference.transform)
+                top = top.parent;
+        }
+
+        if (top == null)
+        {
+            Debug.LogWarning($"No hips_jnt in {REFERENCE_SKELETON_PATH}; bones will be exported without a hierarchy.");
+            return map;
+        }
+
+        CopyBranch(top, root, map);
+        return map;
+    }
+
+    private static void CopyBranch(Transform source, Transform parent, Dictionary<string, Transform> map)
+    {
+        if (source.GetComponent<Renderer>() != null)
+            return;
+
+        GameObject copy = new GameObject(source.name);
+        copy.transform.SetParent(parent, false);
+        copy.transform.localPosition = source.localPosition;
+        copy.transform.localRotation = source.localRotation;
+        copy.transform.localScale = source.localScale;
+
+        if (!map.ContainsKey(source.name))
+            map[source.name] = copy.transform;
+
+        for (int i = 0; i < source.childCount; i++)
+            CopyBranch(source.GetChild(i), copy.transform, map);
+    }
+
+    private static Transform FindDeep(Transform parent, string name)
+    {
+        if (parent.name == name)
+            return parent;
+
+        for (int i = 0; i < parent.childCount; i++)
+        {
+            Transform found = FindDeep(parent.GetChild(i), name);
+            if (found != null)
+                return found;
+        }
+
+        return null;
+    }
+
+    private static int Depth(Transform t)
+    {
+        int depth = 0;
+        while (t.parent != null)
+        {
+            depth++;
+            t = t.parent;
+        }
+        return depth;
+    }
+
+    private static void SetupBones(GameObject meshObj, EquipmentViewDefinition asset, Transform root, Dictionary<string, Transform> skeleton)
     {
         SkinnedMeshRenderer renderer = meshObj.GetComponent<SkinnedMeshRenderer>();
         if (renderer == null)
@@ -739,43 +815,148 @@ public class EquipmentFBXRestorer : EditorWindow
         string[] boneNames = asset.SkinnedMesh.BoneNames;
         string rootBoneName = asset.SkinnedMesh.RootBoneName;
         Mesh mesh = asset.SkinnedMesh.Mesh;
-        Matrix4x4[] bindPoses = mesh.bindposes;
+        Matrix4x4[] bindPoses = mesh.bindposes ?? new Matrix4x4[0];
 
-        Transform[] bones = new Transform[boneNames.Length];
-        Dictionary<string, Transform> boneMap = new Dictionary<string, Transform>();
+        Transform[] bones;
+        bool useBindPoses;
 
-        for (int i = 0; i < boneNames.Length; i++)
+        if (bindPoses.Length == boneNames.Length)
         {
-            GameObject boneObj = new GameObject(boneNames[i]);
-            boneObj.transform.SetParent(meshObj.transform, false);
-            bones[i] = boneObj.transform;
-            boneMap[boneNames[i]] = boneObj.transform;
+            bones = new Transform[boneNames.Length];
+            for (int i = 0; i < boneNames.Length; i++)
+                bones[i] = GetOrCreateBone(boneNames[i], asset, root, skeleton);
+            useBindPoses = true;
+        }
+        else if (bindPoses.Length > 0 && skeleton.Count > 0)
+        {
+            bones = MatchBonesByBindPose(meshObj.transform, bindPoses, boneNames, skeleton, asset);
+            useBindPoses = true;
+        }
+        else
+        {
+            Debug.LogWarning($"{asset.name}: mesh has no bind poses; using the reference skeleton pose for {boneNames.Length} bones.");
+            bones = new Transform[boneNames.Length];
+            for (int i = 0; i < boneNames.Length; i++)
+                bones[i] = GetOrCreateBone(boneNames[i], asset, root, skeleton);
+            useBindPoses = false;
         }
 
-        for (int i = 0; i < bones.Length && i < bindPoses.Length; i++)
+        if (useBindPoses)
         {
-            Matrix4x4 worldMatrix = bindPoses[i].inverse;
+            int[] order = new int[bones.Length];
+            for (int i = 0; i < order.Length; i++)
+                order[i] = i;
+            System.Array.Sort(order, (a, b) => Depth(bones[a]).CompareTo(Depth(bones[b])));
 
-            bones[i].localPosition = new Vector3(
-                worldMatrix.m03,
-                worldMatrix.m13,
-                worldMatrix.m23
-            );
-
-            bones[i].localRotation = worldMatrix.rotation;
-
-            bones[i].localScale = new Vector3(
-                new Vector3(worldMatrix.m00, worldMatrix.m10, worldMatrix.m20).magnitude,
-                new Vector3(worldMatrix.m01, worldMatrix.m11, worldMatrix.m21).magnitude,
-                new Vector3(worldMatrix.m02, worldMatrix.m12, worldMatrix.m22).magnitude
-            );
+            Matrix4x4 meshToWorld = meshObj.transform.localToWorldMatrix;
+            foreach (int i in order)
+            {
+                Matrix4x4 world = meshToWorld * bindPoses[i].inverse;
+                Vector3 scale = new Vector3(
+                    new Vector3(world.m00, world.m10, world.m20).magnitude,
+                    new Vector3(world.m01, world.m11, world.m21).magnitude,
+                    new Vector3(world.m02, world.m12, world.m22).magnitude);
+                bones[i].position = new Vector3(world.m03, world.m13, world.m23);
+                bones[i].rotation = world.rotation;
+                Vector3 parentScale = bones[i].parent != null ? bones[i].parent.lossyScale : Vector3.one;
+                bones[i].localScale = new Vector3(
+                    parentScale.x != 0f ? scale.x / parentScale.x : scale.x,
+                    parentScale.y != 0f ? scale.y / parentScale.y : scale.y,
+                    parentScale.z != 0f ? scale.z / parentScale.z : scale.z);
+            }
+        }
+        else
+        {
+            Matrix4x4[] poses = new Matrix4x4[bones.Length];
+            for (int i = 0; i < bones.Length; i++)
+                poses[i] = bones[i].worldToLocalMatrix * meshObj.transform.localToWorldMatrix;
+            Mesh copy = Object.Instantiate(mesh);
+            copy.name = mesh.name;
+            copy.bindposes = poses;
+            renderer.sharedMesh = copy;
         }
 
         renderer.bones = bones;
 
-        if (!string.IsNullOrEmpty(rootBoneName) && boneMap.TryGetValue(rootBoneName, out Transform rootBone))
-            renderer.rootBone = rootBone;
-        else if (bones.Length > 0)
-            renderer.rootBone = bones[0];
+        Transform rootBone = null;
+        if (!string.IsNullOrEmpty(rootBoneName))
+        {
+            for (int i = 0; i < bones.Length && rootBone == null; i++)
+            {
+                if (bones[i].name == rootBoneName)
+                    rootBone = bones[i];
+            }
+            if (rootBone == null)
+                skeleton.TryGetValue(rootBoneName, out rootBone);
+        }
+        if (rootBone == null && bones.Length > 0)
+            rootBone = bones[0];
+        renderer.rootBone = rootBone;
     }
-}
+
+    private static Transform GetOrCreateBone(string boneName, EquipmentViewDefinition asset, Transform root, Dictionary<string, Transform> skeleton)
+    {
+        if (skeleton.TryGetValue(boneName, out Transform bone))
+            return bone;
+
+        GameObject boneObj = new GameObject(boneName);
+        boneObj.transform.SetParent(root, false);
+        skeleton[boneName] = boneObj.transform;
+        Debug.LogWarning($"{asset.name}: bone '{boneName}' is not in the reference skeleton; added it under the root.");
+        return boneObj.transform;
+    }
+
+    private static Transform[] MatchBonesByBindPose(Transform meshTransform, Matrix4x4[] bindPoses, string[] boneNames, Dictionary<string, Transform> skeleton, EquipmentViewDefinition asset)
+    {
+        List<Transform> candidates = new List<Transform>();
+        HashSet<string> wanted = new HashSet<string>(boneNames);
+        foreach (var kvp in skeleton)
+        {
+            if (wanted.Contains(kvp.Key))
+                candidates.Add(kvp.Value);
+        }
+        if (candidates.Count < bindPoses.Length)
+        {
+            candidates.Clear();
+            candidates.AddRange(skeleton.Values);
+        }
+
+        Vector3[] bindPositions = new Vector3[bindPoses.Length];
+        for (int i = 0; i < bindPoses.Length; i++)
+            bindPositions[i] = meshTransform.TransformPoint(bindPoses[i].inverse.MultiplyPoint3x4(Vector3.zero));
+
+        List<KeyValuePair<float, int>> pairs = new List<KeyValuePair<float, int>>();
+        for (int i = 0; i < bindPositions.Length; i++)
+        {
+            for (int c = 0; c < candidates.Count; c++)
+                pairs.Add(new KeyValuePair<float, int>((bindPositions[i] - candidates[c].position).sqrMagnitude, i * candidates.Count + c));
+        }
+        pairs.Sort((a, b) => a.Key.CompareTo(b.Key));
+
+        Transform[] bones = new Transform[bindPoses.Length];
+        HashSet<int> usedCandidates = new HashSet<int>();
+        float worst = 0f;
+        int assigned = 0;
+        foreach (var pair in pairs)
+        {
+            int i = pair.Value / candidates.Count;
+            int c = pair.Value % candidates.Count;
+            if (bones[i] != null || usedCandidates.Contains(c))
+                continue;
+            bones[i] = candidates[c];
+            usedCandidates.Add(c);
+            worst = Mathf.Max(worst, Mathf.Sqrt(pair.Key));
+            if (++assigned == bones.Length)
+                break;
+        }
+
+        string[] matched = new string[bones.Length];
+        for (int i = 0; i < bones.Length; i++)
+            matched[i] = bones[i] != null ? bones[i].name : "<none>";
+        Debug.Log($"{asset.name}: mesh is skinned to {bindPoses.Length} bones but the definition lists {boneNames.Length}; matched by bind pose position (worst offset {worst:F4}): {string.Join(", ", matched)}");
+        if (worst > 0.05f)
+            Debug.LogWarning($"{asset.name}: some bind poses are {worst:F4} units from the nearest reference bone; check the bone match above.");
+
+        return bones;
+    }
+}

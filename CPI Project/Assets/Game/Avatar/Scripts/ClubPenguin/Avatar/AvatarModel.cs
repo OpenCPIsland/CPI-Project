@@ -226,7 +226,7 @@ namespace ClubPenguin.Avatar
 		public IEnumerable<ApplyResult> ApplyOutfit(DCustomOutfit outfit)
 		{
 			List<ApplyResult> list = new List<ApplyResult>();
-			DCustomEquipment[] equipment = outfit.Equipment;
+			DCustomEquipment[] equipment = outfit.Equipment ?? new DCustomEquipment[0];
 			foreach (DCustomEquipment customEqToApply in equipment)
 			{
 				list.Add(ApplyEquipment(customEqToApply));

@@ -89,6 +89,8 @@ namespace ClubPenguin.Net.Locomotion
 		private bool onUserJoined(WorldServiceEvents.SelfRoomJoinedEvent evt)
 		{
 			broadcastingDisabledEvents = 0;
+			lastSteerDirection = newSteerDirection + Vector3.one;
+			nextUpdateSendTime = Time.time - 1f;
 			return false;
 		}
 

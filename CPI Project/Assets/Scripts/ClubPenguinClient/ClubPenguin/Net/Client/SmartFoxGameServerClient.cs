@@ -41,6 +41,10 @@ namespace ClubPenguin.Net.Client
 
 		private long lastServerTime = 0L;
 
+		private LocomotionActionEvent? pendingLocomotion;
+
+		private string pendingPlayerLocation;
+
 		private readonly SmartFoxGameServerClientShared mt;
 
 		public long ServerTime
@@ -170,6 +174,10 @@ namespace ClubPenguin.Net.Client
 		private void processEvent(GameServerEvent gameServerEvent, object data)
 		{
 			GameServerEventListener value;
+			if (gameServerEvent == GameServerEvent.ROOM_JOIN && !waitForRoomJoinEvent)
+			{
+				sendPendingRequests();
+			}
 			if (waitForRoomJoinEvent)
 			{
 				if (gameServerEvent == GameServerEvent.ROOM_JOIN || gameServerEvent == GameServerEvent.ROOM_FULL || gameServerEvent == GameServerEvent.ROOM_JOIN_ERROR || gameServerEvent == GameServerEvent.CONNECTION_LOST)
@@ -261,8 +269,34 @@ namespace ClubPenguin.Net.Client
 			}
 		}
 
+		private void sendPendingRequests()
+		{
+			if (pendingLocomotion.HasValue)
+			{
+				LocomotionActionEvent action = pendingLocomotion.Value;
+				pendingLocomotion = null;
+				if (mt.ClientRoomName != null)
+				{
+					TriggerLocomotionAction(action, false);
+				}
+			}
+			if (pendingPlayerLocation != null)
+			{
+				string swid = pendingPlayerLocation;
+				pendingPlayerLocation = null;
+				if (mt.ClientRoomName != null)
+				{
+					GetPlayerLocation(swid);
+				}
+			}
+		}
+
 		public void TriggerLocomotionAction(LocomotionActionEvent action, bool droppable)
 		{
+			if (mt.ClientRoomName == null)
+			{
+				pendingLocomotion = action;
+			}
 			Dictionary<string, SFSDataWrapper> dictionary = new Dictionary<string, SFSDataWrapper>();
 			dictionary.Add("a", SmartFoxGameServerClientShared.serialize((byte)action.Type));
 			dictionary.Add("p", SmartFoxGameServerClientShared.serialize(action.Position));
@@ -558,6 +592,17 @@ namespace ClubPenguin.Net.Client
 			mt.send(SmartfoxCommand.GET_SIGNED_STATE);
 		}
 
+		public void SendLevelUp(int level)
+		{
+			mt.send(SmartfoxCommand.PROGRESSION_LEVELUP, new Dictionary<string, SFSDataWrapper>
+			{
+				{
+					"level",
+					new SFSDataWrapper(SFSDataType.INT, level)
+				}
+			});
+		}
+
 		public void SendRewardNotification(SignedResponse<RewardedUserCollectionJsonHelper> rewardCollection)
 		{
 			mt.send(SmartfoxCommand.SEND_EARNED_REWARDS, new Dictionary<string, SFSDataWrapper>
@@ -585,6 +630,11 @@ namespace ClubPenguin.Net.Client
 
 		public void GetPlayerLocation(string swid)
 		{
+			if (mt.ClientRoomName == null)
+			{
+				pendingPlayerLocation = swid;
+				return;
+			}
 			mt.send(SmartfoxCommand.GET_PLAYER_LOCATION, new Dictionary<string, SFSDataWrapper>
 			{
 				{

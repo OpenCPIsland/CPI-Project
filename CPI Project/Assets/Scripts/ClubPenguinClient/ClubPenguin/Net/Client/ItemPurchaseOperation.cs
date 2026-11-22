@@ -45,6 +45,37 @@ namespace ClubPenguin.Net.Client
 
             ClubPenguin.Net.Offline.PlayerAssets pa = offlineDatabase.Read<ClubPenguin.Net.Offline.PlayerAssets>();
 
+            if (LanCatalog.Active)
+            {
+                CatalogItemData? found = LanCatalog.Find(PurchaseRequest.clothingCatalogItemId);
+                long lanCost = found.HasValue ? Math.Max(0L, found.Value.cost) : 0L;
+                if (!found.HasValue || pa.Assets.coins < (int)lanCost)
+                {
+                    Response = default(ItemPurchaseResponse);
+                    Response.equipmentId = 0L;
+                    Response.newCoinTotal = pa.Assets.coins;
+                    return;
+                }
+                pa.Assets.coins -= (int)lanCost;
+                data.TotalItemsPurchased += 1L;
+                LanCatalog.Purchase(PurchaseRequest.clothingCatalogItemId);
+                long lanEquipmentId = LanCatalog.NewItemId();
+                CustomEquipment lanPurchased = found.Value.equipment;
+                lanPurchased.equipmentId = lanEquipmentId;
+                lanPurchased.dateTimeCreated = DateTimeOffset.UtcNow.ToUnixTimeMilliseconds();
+                CustomEquipmentCollection lanCollection = offlineDatabase.Read<CustomEquipmentCollection>();
+                if (lanCollection.Equipment == null)
+                    lanCollection.Equipment = new System.Collections.Generic.List<CustomEquipment>();
+                lanCollection.Equipment.Add(lanPurchased);
+                offlineDatabase.Write(lanCollection);
+                offlineDatabase.Write(pa);
+                OfflineDatabase.Write(data, "clothing_catalog_offline");
+                Response = default(ItemPurchaseResponse);
+                Response.equipmentId = lanEquipmentId;
+                Response.newCoinTotal = pa.Assets.coins;
+                return;
+            }
+
             if (idx < 0)
             {
                 Response = default(ItemPurchaseResponse);

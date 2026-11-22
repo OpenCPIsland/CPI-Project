@@ -60,9 +60,9 @@ namespace ClubPenguin
         private bool onSendChatMessage(ChatMessageSender.SendChatMessage evt)
         {
             string message = evt.Message != null ? evt.Message.Trim() : "";
-            if (message.StartsWith("!"))
+            if (message.StartsWith("!") && handleCommand(message))
             {
-                return handleCommand(message);
+                return true;
             }
 
             if (chatActivityData.IsChatActive)
@@ -90,6 +90,10 @@ namespace ClubPenguin
                     handleAddTube(parts);
                     break;
                 default:
+                    if (global::ClubPenguin.Net.Client.LanGameServerHost.Address != null)
+                    {
+                        return false;
+                    }
                     postSystemChatError();
                     break;
             }
