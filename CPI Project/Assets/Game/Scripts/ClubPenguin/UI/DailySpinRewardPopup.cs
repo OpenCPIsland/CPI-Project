@@ -69,32 +69,7 @@ namespace ClubPenguin.UI
 			base.gameObject.SetActive(true);
 			CoinReward rewardable;
 			MascotXPReward rewardable2;
-			if (spinReward.TryGetValue(out rewardable))
-			{
-				CoinsText.gameObject.SetActive(true);
-				if (rewardable.Coins > 0)
-				{
-					if (isRespin)
-					{
-						OKButton.SetActive(false);
-						RespinButton.SetActive(true);
-						CoinsText.text = string.Format(localizer.GetTokenTranslation("Cellphone.DailySpin.Rewards.Respin"), rewardable.Coins);
-						RewardIconImage.SelectSprite(3);
-					}
-					else
-					{
-						CoinsText.text = string.Format(localizer.GetTokenTranslation("GlobalUI.Notification.Coins"), rewardable.Coins);
-						RewardIconImage.SelectSprite(1);
-					}
-				}
-                else
-                {
-                    RewardIconImage.SelectSprite(2);
-                    CoinsText.text = localizer.GetTokenTranslation("Prop_Mega_Party_Blaster");
-                    CoinsText.gameObject.SetActive(true);
-                }
-            }
-			else if (spinReward.TryGetValue(out rewardable2))
+			if (spinReward.TryGetValue(out rewardable2) && rewardable2.XP.Count > 0)
 			{
 				using (Dictionary<string, int>.Enumerator enumerator = rewardable2.XP.GetEnumerator())
 				{
@@ -126,6 +101,31 @@ namespace ClubPenguin.UI
 					}
 				}
 			}
+			else if (spinReward.TryGetValue(out rewardable))
+			{
+				CoinsText.gameObject.SetActive(true);
+				if (rewardable.Coins > 0)
+				{
+					if (isRespin)
+					{
+						OKButton.SetActive(false);
+						RespinButton.SetActive(true);
+						CoinsText.text = string.Format(localizer.GetTokenTranslation("Cellphone.DailySpin.Rewards.Respin"), rewardable.Coins);
+						RewardIconImage.SelectSprite(3);
+					}
+					else
+					{
+						CoinsText.text = string.Format(localizer.GetTokenTranslation("GlobalUI.Notification.Coins"), rewardable.Coins);
+						RewardIconImage.SelectSprite(1);
+					}
+				}
+                else
+                {
+                    RewardIconImage.SelectSprite(2);
+                    CoinsText.text = localizer.GetTokenTranslation("Prop_Mega_Party_Blaster");
+                    CoinsText.gameObject.SetActive(true);
+                }
+            }
 		}
 
 		private void Reset()
