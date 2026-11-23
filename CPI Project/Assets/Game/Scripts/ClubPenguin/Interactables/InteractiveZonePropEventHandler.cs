@@ -20,6 +20,10 @@ namespace ClubPenguin.Interactables
 
 		private PropCancel propCancel;
 
+		private PropUser user;
+
+		private bool equipped;
+
 		private EventDispatcher getDispatcher()
 		{
 			if (Dispatcher == null && prop != null && prop.PropUserRef != null)
@@ -42,10 +46,11 @@ namespace ClubPenguin.Interactables
 		public void Start()
 		{
 			getDispatcher();
-			if (prop.PropUserRef != null)
+			user = prop.PropUserRef;
+			if (user != null)
 			{
-				prop.PropUserRef.EPropRetrieved += OnPropRetrieved;
-				prop.PropUserRef.EPropStored += OnPropStored;
+				user.EPropRetrieved += OnPropRetrieved;
+				user.EPropStored += OnPropStored;
 			}
 		}
 
@@ -59,22 +64,39 @@ namespace ClubPenguin.Interactables
 
 		private void OnPropRetrieved(Prop obj)
 		{
+			if (obj != prop || equipped || !base.isActiveAndEnabled)
+			{
+				return;
+			}
 			if (getDispatcher() != null)
 			{
+				equipped = true;
 				Dispatcher.DispatchEvent(new InteractionZoneEvents.InteractivePropEquipEvent(ItemType, InteractiveItemAction.Equip));
 			}
 		}
 
+		private void ReleaseEquip()
+		{
+			if (equipped && Dispatcher != null)
+			{
+				Dispatcher.DispatchEvent(new InteractionZoneEvents.InteractivePropEquipEvent(ItemType, InteractiveItemAction.UnEquip));
+			}
+			equipped = false;
+		}
+
+		public void OnDisable()
+		{
+			ReleaseEquip();
+		}
+
 		public void OnDestroy()
 		{
-			if (prop.PropUserRef != null)
+			ReleaseEquip();
+			if (user != null)
 			{
-				if (getDispatcher() != null)
-				{
-					Dispatcher.DispatchEvent(new InteractionZoneEvents.InteractivePropEquipEvent(ItemType, InteractiveItemAction.UnEquip));
-				}
-				prop.PropUserRef.EPropRetrieved -= OnPropRetrieved;
-				prop.PropUserRef.EPropStored -= OnPropStored;
+				user.EPropRetrieved -= OnPropRetrieved;
+				user.EPropStored -= OnPropStored;
+				user = null;
 			}
 		}
 

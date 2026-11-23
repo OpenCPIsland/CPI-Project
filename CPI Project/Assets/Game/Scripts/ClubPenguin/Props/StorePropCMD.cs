@@ -27,9 +27,13 @@ namespace ClubPenguin.Props
 
 		public void Execute()
 		{
-			if (propUser.Prop == null && onCompleteHandler != null)
+			if (propUser.Prop == null)
 			{
-				onCompleteHandler(false);
+				if (onCompleteHandler != null)
+				{
+					onCompleteHandler(false);
+				}
+				return;
 			}
 			isPropLocalOwners = propUser.Prop.IsOwnerLocalPlayer;
 			isResettingControls = (propUser.Prop.IsOwnerLocalPlayer && propUser.Prop.PropDef.IsControlsResetOnStore);

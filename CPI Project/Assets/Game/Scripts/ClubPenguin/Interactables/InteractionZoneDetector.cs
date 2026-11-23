@@ -1,5 +1,6 @@
 using ClubPenguin.Props;
 using Disney.LaunchPadFramework;
+using System.Collections.Generic;
 using UnityEngine;
 
 namespace ClubPenguin.Interactables
@@ -13,15 +14,24 @@ namespace ClubPenguin.Interactables
 
 		private Prop prop;
 
+		private PropUser user;
+
+		private bool counted;
+
+		private bool stored;
+
+		private readonly HashSet<Collider> inside = new HashSet<Collider>();
+
 		public void Start()
 		{
 			prop = GetComponent<Prop>();
 			if (prop != null)
 			{
-				if (prop.PropUserRef != null)
+				user = prop.PropUserRef;
+				if (user != null)
 				{
-					prop.PropUserRef.EPropRetrieved += onPropRetrieved;
-					prop.PropUserRef.EPropStored += onPropStored;
+					user.EPropRetrieved += onPropRetrieved;
+					user.EPropStored += onPropStored;
 				}
 			}
 			else
@@ -32,43 +42,74 @@ namespace ClubPenguin.Interactables
 
 		public void onPropStored(Prop obj)
 		{
-			if (dispatcher != null)
+			if (obj != prop)
 			{
-				dispatcher.DispatchEvent(new InteractionZoneEvents.InteractivePropEquipEvent(ItemType, InteractiveItemAction.UnEquip));
+				return;
 			}
+			stored = true;
+			Release();
 		}
 
 		public void onPropRetrieved(Prop obj)
 		{
 		}
 
+		private void Release()
+		{
+			if (counted && dispatcher != null)
+			{
+				dispatcher.DispatchEvent(new InteractionZoneEvents.InteractivePropEquipEvent(ItemType, InteractiveItemAction.UnEquip));
+			}
+			counted = false;
+			dispatcher = null;
+		}
+
+		public void OnDisable()
+		{
+			inside.Clear();
+			Release();
+		}
+
 		public void OnDestroy()
 		{
+			inside.Clear();
+			Release();
+			if (user != null)
+			{
+				user.EPropRetrieved -= onPropRetrieved;
+				user.EPropStored -= onPropStored;
+				user = null;
+			}
 		}
 
 		public void OnTriggerEnter(Collider other)
 		{
 			InteractiveZoneController componentInParent = other.GetComponentInParent<InteractiveZoneController>();
-			if (componentInParent != null)
+			if (componentInParent == null)
 			{
-				dispatcher = componentInParent.Dispatcher;
-				if (dispatcher != null)
-				{
-					dispatcher.DispatchEvent(new InteractionZoneEvents.InteractivePropEquipEvent(ItemType, InteractiveItemAction.Equip));
-				}
+				return;
 			}
+			inside.Add(other);
+			if (counted || stored || componentInParent.Dispatcher == null)
+			{
+				return;
+			}
+			dispatcher = componentInParent.Dispatcher;
+			counted = true;
+			dispatcher.DispatchEvent(new InteractionZoneEvents.InteractivePropEquipEvent(ItemType, InteractiveItemAction.Equip));
 		}
 
 		public void OnTriggerExit(Collider other)
 		{
-			InteractiveZoneController componentInParent = other.GetComponentInParent<InteractiveZoneController>();
-			if (componentInParent != null)
+			if (other.GetComponentInParent<InteractiveZoneController>() == null)
 			{
-				if (dispatcher != null)
-				{
-					dispatcher.DispatchEvent(new InteractionZoneEvents.InteractivePropEquipEvent(ItemType, InteractiveItemAction.UnEquip));
-				}
-				dispatcher = null;
+				return;
+			}
+			inside.Remove(other);
+			inside.RemoveWhere((Collider c) => c == null);
+			if (inside.Count == 0)
+			{
+				Release();
 			}
 		}
 	}

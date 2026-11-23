@@ -1564,11 +1564,78 @@ namespace ClubPenguin.Net.Lan
 			return d;
 		}
 
-		private static readonly float[] FishingArea = new float[5] { 10.447f, 12.559f, 2.994f, 1.237f, -25.294f };
-
-		public static float[] AreaFor(string zone, string name)
+		private sealed class PropArea
 		{
-			return (zone == "Boardwalk" && name == "FishingRod") ? FishingArea : null;
+			public string Zone;
+
+			public string Name;
+
+			public float[] Box;
+		}
+
+		private static readonly PropArea[] PropAreas = new PropArea[]
+		{
+			ZoneArea("Beach", "Keytar", 15.500f, 2.922f, 2.699f, 2.952f, -40.337f),
+			ZoneArea("Beach", "Guitar", 15.500f, 2.922f, 2.699f, 2.952f, -40.337f),
+			ZoneArea("Beach", "Drums", 15.500f, 2.922f, 2.699f, 2.952f, -40.337f),
+			ZoneArea("Beach", "FirstAidKit", 15.784f, 15.840f, 2.986f, 1.882f, -27.269f),
+			ZoneArea("Boardwalk", "FishingRod", 10.447f, 12.560f, 2.994f, 1.237f, -25.331f),
+			ZoneArea("Boardwalk", "FishDogMultiTool", 13.506f, 0.862f, 2.645f, 1.411f, -16.619f),
+			ZoneArea("Boardwalk", "Sword", 26.659f, 14.803f, 5.312f, 14.376f, 0.679f),
+			ZoneArea("Boardwalk", "PirateKit", 27.568f, 14.030f, 12.504f, 5.155f, -90.606f),
+			ZoneArea("MtBlizzard", "PomPomsBlue", 1.637f, 6.354f, 4.074f, 1.351f, 0.282f),
+			ZoneArea("MtBlizzard", "PomPomsBlue", -16.123f, -13.970f, 7.111f, 7.499f, -5.839f),
+			ZoneArea("MtBlizzard", "PomPomsRed", -15.808f, -13.758f, 6.825f, 6.723f, 86.005f),
+			ZoneArea("MtBlizzard", "PomPomsRed", -30.094f, 7.405f, 3.749f, 1.894f, 9.870f),
+			ZoneArea("MtBlizzard", "CPSNCamera", -40.965f, -7.863f, 16.247f, 7.870f, 31.923f),
+			ZoneArea("MtBlizzard", "GaryGear", 5.148f, -5.106f, 5.178f, 2.383f, -51.801f),
+			ZoneArea("EventMedievalDungeon1", "Sword", -201.170f, -8.132f, 17.417f, 17.072f, 0.000f),
+			ZoneArea("EventMedievalDungeon1", "FishDogMultiTool", -50.219f, 7.334f, 7.519f, 5.703f, -24.070f),
+			ZoneArea("EventPirateParty", "Drums", 71.278f, 2.552f, 4.033f, 3.052f, 0.000f),
+			ZoneArea("EventPirateParty", "Keytar", 71.278f, 2.552f, 4.033f, 3.052f, 0.000f),
+			ZoneArea("EventPirateParty", "Microphone", 71.278f, 2.552f, 4.033f, 3.052f, 0.000f),
+			ZoneArea("EventPirateParty", "Guitar", 71.278f, 2.552f, 4.033f, 3.052f, 0.000f),
+			ZoneArea("Town", "AcousticGuitar", -3.458f, -12.618f, 3.969f, 4.479f, -70.024f),
+			ZoneArea("Town", "BongoDrums", -3.458f, -12.618f, 3.969f, 4.479f, -70.024f),
+			ZoneArea("Town", "Microphone", -3.458f, -12.618f, 3.969f, 4.479f, -70.024f),
+			ZoneArea("Town", "FishDogMultiTool", -16.643f, -13.066f, 3.979f, 3.507f, 49.285f),
+			ZoneArea("Town", "PomPomsBlue", 16.485f, -10.162f, 4.759f, 4.729f, -5.839f),
+			ZoneArea("Town", "PomPomsRed", 16.520f, -9.840f, 4.638f, 4.326f, -4.571f)
+		};
+
+		private static PropArea ZoneArea(string zone, string name, float x, float z, float hx, float hz, float yaw)
+		{
+			PropArea a = new PropArea();
+			a.Zone = zone;
+			a.Name = name;
+			a.Box = new float[5] { x, z, hx, hz, yaw };
+			return a;
+		}
+
+		public static float[] AreaFor(string zone, string name, float[] p)
+		{
+			float[] best = null;
+			double bestDist = 8.0;
+			foreach (PropArea a in PropAreas)
+			{
+				if (a.Zone != zone || a.Name != name)
+				{
+					continue;
+				}
+				if (p == null || InArea(a.Box, p))
+				{
+					return a.Box;
+				}
+				double dx = p[0] - a.Box[0];
+				double dz = p[2] - a.Box[1];
+				double d = Math.Sqrt(dx * dx + dz * dz) - Math.Max(a.Box[2], a.Box[3]);
+				if (d < bestDist)
+				{
+					bestDist = d;
+					best = a.Box;
+				}
+			}
+			return best;
 		}
 
 		public static bool InArea(float[] area, float[] p)
@@ -2243,6 +2310,10 @@ namespace ClubPenguin.Net.Lan
 
 		private float[] gearArea;
 
+		private bool gearInside;
+
+		private long heldFreeAt;
+
 		private string snack;
 
 		private long snackAt;
@@ -2662,7 +2733,7 @@ namespace ClubPenguin.Net.Lan
 
 		private bool TryProp(long now)
 		{
-			if (tubing || gear != null || Player.HeldObject != null || Player.EquippedConsumable != null || R.NextDouble() > 0.3)
+			if (tubing || gear != null || snack != null || now < heldFreeAt || Player.HeldObject != null || Player.EquippedConsumable != null || R.NextDouble() > 0.3)
 			{
 				return false;
 			}
@@ -2673,7 +2744,8 @@ namespace ClubPenguin.Net.Lan
 				return false;
 			}
 			gear = pick;
-			gearArea = LanBots.AreaFor(pick.Zone, pick.Name);
+			gearArea = LanBots.AreaFor(pick.Zone, pick.Name, pick.P);
+			gearInside = false;
 			gearUntil = 0;
 			gearRetried = false;
 			SetMode("prop", now);
@@ -2708,7 +2780,7 @@ namespace ClubPenguin.Net.Lan
 				{
 				}
 			}
-			if (gear == null || !Player.Registered || HDist(pos, gear.P) > 2.5 || Player.HeldObject != null || Player.EquippedConsumable != null || (gearArea != null && !LanBots.InArea(gearArea, pos)))
+			if (gear == null || !Player.Registered || HDist(pos, gear.P) > 2.5 || Player.HeldObject != null || Player.EquippedConsumable != null || snack != null || bots.Now < heldFreeAt)
 			{
 				gear = null;
 				gearUntil = 0;
@@ -2728,7 +2800,7 @@ namespace ClubPenguin.Net.Lan
 
 		private bool TrySnack(long now)
 		{
-			if (tubing || gear != null || snack != null || Player.HeldObject != null || Player.EquippedConsumable != null || R.NextDouble() > 0.08)
+			if (tubing || gear != null || snack != null || now < heldFreeAt || Player.HeldObject != null || Player.EquippedConsumable != null || R.NextDouble() > 0.08)
 			{
 				return false;
 			}
@@ -2760,6 +2832,7 @@ namespace ClubPenguin.Net.Lan
 			{
 				snackUsed = true;
 				Server.Consumables.UseAsBot(Player, snack);
+				heldFreeAt = now + 7000;
 				snackAt = now + 4000 + R.Next(2000);
 				return;
 			}
@@ -2780,6 +2853,7 @@ namespace ClubPenguin.Net.Lan
 					Player.EquippedConsumable = null;
 					Player.HeldObject = null;
 					Server.BroadcastUserVars(Player, LanServer.NullVar("con"));
+					heldFreeAt = bots.Now + 3000;
 				}
 			}
 			gear = null;
@@ -2792,6 +2866,7 @@ namespace ClubPenguin.Net.Lan
 			Player.EquippedItemName = null;
 			Player.HeldObject = null;
 			Server.BroadcastUserVars(Player, LanServer.NullVar("con"));
+			heldFreeAt = bots.Now + 3000;
 		}
 
 		private void PropTick(long now)
@@ -2812,12 +2887,27 @@ namespace ClubPenguin.Net.Lan
 				}
 				return;
 			}
-			if (Player.HeldObject != gear.Name || (gearArea != null && !LanBots.InArea(gearArea, pos)))
+			if (Player.HeldObject != gear.Name || (gearArea != null && gearInside && !LanBots.InArea(gearArea, pos)))
 			{
 				PutAway();
 				SetMode("idle", now);
 				busyUntil = now + 1500;
 				return;
+			}
+			if (gearArea != null && !gearInside)
+			{
+				if (LanBots.InArea(gearArea, pos))
+				{
+					gearInside = true;
+				}
+				else
+				{
+					if (!moving)
+					{
+						GoTo(LanBots.RandomInArea(gearArea, pos[1], R), WalkSpeed, null, true);
+					}
+					return;
+				}
 			}
 			if (now >= gearUntil)
 			{
