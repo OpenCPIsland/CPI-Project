@@ -449,6 +449,10 @@ namespace ClubPenguin.Props
 					}
 				}
 			}
+			if (anim == null || base.gameObject.IsDestroyed() || Prop == null || Prop != propToRetrieve)
+			{
+				yield break;
+			}
 			if (Prop.AnimReplacementController != null)
 			{
 				anim.runtimeAnimatorController = Prop.AnimReplacementController;

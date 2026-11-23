@@ -33,9 +33,17 @@ namespace ClubPenguin.Net.Client
 			
 			PlayerAssets playerAssets = offlineDatabase.Read<PlayerAssets>();
 			
-			long globalCfcTotal = GetDeviceWideCFCTotal();
-			globalCfcTotal += Coins;
-			SetDeviceWideCFCTotal(globalCfcTotal);
+			long globalCfcTotal;
+			if (LanCfc.Active)
+			{
+				globalCfcTotal = LanCfc.Donate(Coins);
+			}
+			else
+			{
+				globalCfcTotal = GetDeviceWideCFCTotal();
+				globalCfcTotal += Coins;
+				SetDeviceWideCFCTotal(globalCfcTotal);
+			}
 			
 			cfcData.personalContribution += Coins;
 			cfcData.donationCount++;

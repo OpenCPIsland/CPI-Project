@@ -20,7 +20,7 @@ namespace ClubPenguin.Net.Client
 
 		protected override void PerformOfflineAction(OfflineDatabase offlineDatabase, IOfflineDefinitionLoader offlineDefinitions)
 		{
-			long globalCfcTotal = GetDeviceWideCFCTotal();
+			long globalCfcTotal = LanCfc.Active ? LanCfc.Total : GetDeviceWideCFCTotal();
 			
 			CFCDonationData cfcData = offlineDatabase.Read<CFCDonationData>();
 			

@@ -36,6 +36,10 @@ namespace ClubPenguin.Net.Lan
 
 		private const string BotTubesPref = "LAN.BotTubes";
 
+		private const string BotFollowPref = "LAN.BotFollow";
+
+		private const double HostClothesChance = 0.35;
+
 		private const int MaxBots = 30;
 
 		private static readonly object owner = new object();
@@ -190,6 +194,22 @@ namespace ClubPenguin.Net.Lan
 			}
 		}
 
+		[Tweakable("LAN.Experimental.BotFollow", Description = "Makes LAN bots follow your penguin around the room and into other rooms.")]
+		[PublicTweak]
+		public static bool BotFollow
+		{
+			get
+			{
+				return PlayerPrefs.GetInt(BotFollowPref, 0) != 0;
+			}
+			set
+			{
+				PlayerPrefs.SetInt(BotFollowPref, value ? 1 : 0);
+				PlayerPrefs.Save();
+				ApplyBotTalk();
+			}
+		}
+
 		[Tweakable("LAN.Status", Description = "Current LAN state.")]
 		[PublicTweak]
 		public static string Status
@@ -299,6 +319,11 @@ namespace ClubPenguin.Net.Lan
 			}
 			ApplyBotTalk();
 			server.Bots.SetTarget(Mathf.Clamp(PlayerPrefs.GetInt(BotsPref, 0), 0, MaxBots), BotColours(), BotTubes(), BotOutfits(), BotEmoteCodes(), BotSizzleClips());
+			if (!watchingHostClothes)
+			{
+				watchingHostClothes = true;
+				CoroutineRunner.StartPersistent(watchHostClothes(), owner, "LanBotHostClothes");
+			}
 			if (!server.Bots.HasTubes && !waitingForTubes)
 			{
 				waitingForTubes = true;
@@ -307,6 +332,59 @@ namespace ClubPenguin.Net.Lan
 		}
 
 		private static bool waitingForTubes;
+
+		private static bool watchingHostClothes;
+
+		private static string hostClothesKey;
+
+		private static IEnumerator watchHostClothes()
+		{
+			while (true)
+			{
+				if (server != null)
+				{
+					string key = HostClothesKey();
+					if (key != hostClothesKey)
+					{
+						hostClothesKey = key;
+						server.Bots.Redress(BotOutfits());
+					}
+				}
+				else
+				{
+					hostClothesKey = null;
+				}
+				yield return new WaitForSeconds(5f);
+			}
+		}
+
+		private static string HostClothesKey()
+		{
+			if (!Service.IsSet<global::ClubPenguin.Net.Client.OfflineDatabase>())
+			{
+				return "off";
+			}
+			try
+			{
+				global::ClubPenguin.Net.Client.OfflineDatabase database = Service.Get<global::ClubPenguin.Net.Client.OfflineDatabase>();
+				global::ClubPenguin.Net.Offline.CustomEquipmentCollection collection = database.Read<global::ClubPenguin.Net.Offline.CustomEquipmentCollection>();
+				long sum = 0L;
+				int count = 0;
+				if (collection.Equipment != null)
+				{
+					foreach (global::ClubPenguin.Net.Domain.CustomEquipment item in collection.Equipment)
+					{
+						sum += item.equipmentId;
+						count++;
+					}
+				}
+				return database.AccessToken + ":" + count + ":" + sum;
+			}
+			catch (System.Exception)
+			{
+				return "error";
+			}
+		}
 
 		private static IEnumerator waitForTubes()
 		{
@@ -327,6 +405,7 @@ namespace ClubPenguin.Net.Lan
 			server.Bots.ChatEnabled = PlayerPrefs.GetInt(BotChatPref, 1) != 0;
 			server.Bots.EmotesEnabled = PlayerPrefs.GetInt(BotEmotesPref, 1) != 0;
 			server.Bots.TubesEnabled = PlayerPrefs.GetInt(BotTubesPref, 1) != 0;
+			server.Bots.FollowEnabled = PlayerPrefs.GetInt(BotFollowPref, 0) != 0;
 		}
 
 		private static int[] BotColours()
@@ -356,10 +435,32 @@ namespace ClubPenguin.Net.Lan
 				Dictionary<string, List<TemplateDefinition>> byCategory = pool.GroupBy(CategoryOf).ToDictionary((IGrouping<string, TemplateDefinition> g) => g.Key, (IGrouping<string, TemplateDefinition> g) => g.ToList());
 				List<string> categories = byCategory.Keys.ToList();
 				System.Random random = new System.Random();
+				Dictionary<int, TemplateDefinition> templates = Service.Get<GameData>().Get<Dictionary<int, TemplateDefinition>>();
+				List<KeyValuePair<string, global::ClubPenguin.Net.Domain.CustomEquipment>> hostPieces = HostClothes(templates);
+				Debug.Log("[LAN Bots] Building bot outfits with " + hostPieces.Count + " designed pieces from the host");
 				List<string> outfits = new List<string>();
 				for (int i = 0; i < 80 && categories.Count > 0; i++)
 				{
 					List<string> picked = categories.OrderBy((string c) => random.Next()).Take(random.Next(2, 5)).ToList();
+					string hostCategory = null;
+					string hostPart = null;
+					if (hostPieces.Count > 0 && random.NextDouble() < HostClothesChance)
+					{
+						KeyValuePair<string, global::ClubPenguin.Net.Domain.CustomEquipment> piece = hostPieces[random.Next(hostPieces.Count)];
+						global::ClubPenguin.Net.Domain.CustomEquipment copy = piece.Value;
+						copy.equipmentId = random.Next(1, int.MaxValue);
+						hostPart = Service.Get<JsonService>().Serialize(copy);
+						hostCategory = piece.Key;
+						picked.Remove(hostCategory);
+						if (hostCategory.EndsWith("fulllength"))
+						{
+							picked.RemoveAll((string c) => c.EndsWith("/tops") || c.EndsWith("/bottoms"));
+						}
+						else if (hostCategory.EndsWith("/tops") || hostCategory.EndsWith("/bottoms"))
+						{
+							picked.RemoveAll((string c) => c.EndsWith("fulllength"));
+						}
+					}
 					if (picked.Any((string c) => c.EndsWith("fulllength")))
 					{
 						picked.RemoveAll((string c) => c.EndsWith("/tops") || c.EndsWith("/bottoms"));
@@ -375,15 +476,55 @@ namespace ClubPenguin.Net.Lan
 						}
 						sb.Append("{\"equipmentId\":").Append(random.Next(1, int.MaxValue)).Append(",\"dateTimeCreated\":0,\"definitionId\":").Append(template.Id).Append(",\"parts\":[]}");
 					}
+					if (hostPart != null)
+					{
+						if (picked.Count > 0)
+						{
+							sb.Append(',');
+						}
+						sb.Append(hostPart);
+					}
 					sb.Append("]}");
 					outfits.Add(sb.ToString());
 				}
 				return outfits.ToArray();
 			}
-			catch (System.Exception)
+			catch (System.Exception ex)
 			{
+				Debug.LogWarning("[LAN Bots] Building bot outfits failed: " + ex);
 				return new string[0];
 			}
+		}
+
+		private static List<KeyValuePair<string, global::ClubPenguin.Net.Domain.CustomEquipment>> HostClothes(Dictionary<int, TemplateDefinition> templates)
+		{
+			List<KeyValuePair<string, global::ClubPenguin.Net.Domain.CustomEquipment>> result = new List<KeyValuePair<string, global::ClubPenguin.Net.Domain.CustomEquipment>>();
+			if (!Service.IsSet<global::ClubPenguin.Net.Client.OfflineDatabase>())
+			{
+				return result;
+			}
+			try
+			{
+				global::ClubPenguin.Net.Offline.CustomEquipmentCollection collection = Service.Get<global::ClubPenguin.Net.Client.OfflineDatabase>().Read<global::ClubPenguin.Net.Offline.CustomEquipmentCollection>();
+				if (collection.Equipment == null)
+				{
+					return result;
+				}
+				Debug.Log("[LAN Bots] Host has " + collection.Equipment.Count + " designed clothing items");
+				foreach (global::ClubPenguin.Net.Domain.CustomEquipment item in collection.Equipment)
+				{
+					TemplateDefinition template;
+					if (templates.TryGetValue(item.definitionId, out template) && template != null && CategoryOf(template).Length > 0)
+					{
+						result.Add(new KeyValuePair<string, global::ClubPenguin.Net.Domain.CustomEquipment>(CategoryOf(template), item));
+					}
+				}
+			}
+			catch (System.Exception ex)
+			{
+				Debug.LogWarning("[LAN Bots] Reading designed clothing failed: " + ex);
+			}
+			return result;
 		}
 
 		private static int[] BotEmoteCodes()

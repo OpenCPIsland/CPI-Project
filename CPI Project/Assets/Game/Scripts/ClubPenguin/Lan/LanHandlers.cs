@@ -335,6 +335,7 @@ namespace ClubPenguin.Net.Lan
 			if (p.TryGetInteger("type", out propId) && propId >= int.MinValue && propId <= int.MaxValue && PropCatalog.TryGetValue((int)propId, out prop))
 			{
 				SendEquippedObject(player, prop.Value, prop.Key);
+				Bots.ObserveDispenser(player, prop.Value, prop.Key);
 			}
 		}
 

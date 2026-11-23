@@ -258,7 +258,14 @@ namespace ClubPenguin.Net.Lan
 				link.Synced = true;
 				LanFriends.Transport = transport;
 				LanCatalog.Send = SendCatalog;
+				LanCfc.Send = SendCatalog;
 				Write(SyncMessage(LanFriends.Load(link.Swid)));
+				if (LanServer.IsLoopback(link.Address))
+				{
+					Dictionary<string, object> seed = new Dictionary<string, object>();
+					seed["total"] = LanCfc.DeviceTotal();
+					SendCatalog("cfc_seed", seed);
+				}
 			}
 			if (heldNotes.Count > 0)
 			{
@@ -390,6 +397,7 @@ namespace ClubPenguin.Net.Lan
 			heldNotes.Clear();
 			LanFriends.Transport = null;
 			LanCatalog.Reset();
+			LanCfc.Reset();
 			LanDirectory.SetConnected(false, null);
 			List<Pending> failed = new List<Pending>(pending.Values);
 			pending.Clear();
@@ -457,7 +465,30 @@ namespace ClubPenguin.Net.Lan
 			case "cat_ready":
 				LanCatalog.SetReady();
 				break;
+			case "cfc_total":
+			{
+				long total;
+				if (LanJson.TryLong(LanJson.Get(msg, "total"), out total))
+				{
+					LanCfc.SetTotal(total, LanServer.IsLoopback(link.Address));
+					PushCfcTotal();
+				}
+				break;
 			}
+			}
+		}
+
+		private static void PushCfcTotal()
+		{
+			if (!Service.IsSet<EventDispatcher>())
+			{
+				return;
+			}
+			OfflineDatabase database = Service.IsSet<OfflineDatabase>() ? Service.Get<OfflineDatabase>() : null;
+			global::ClubPenguin.Net.Domain.ScheduledEvent.CFCDonations donations = new global::ClubPenguin.Net.Domain.ScheduledEvent.CFCDonations();
+			donations.cfcTotal = LanCfc.Total;
+			donations.contribution = (database != null) ? database.Read<CFCDonationData>().personalContribution : 0L;
+			Service.Get<EventDispatcher>().DispatchEvent(new ScheduledEventServiceEvents.CFCDonationsLoaded(donations));
 		}
 
 		private static void SendCatalog(string command, Dictionary<string, object> args)

@@ -131,6 +131,10 @@ namespace ClubPenguin.Net.Lan
 
 		private readonly LanCatalogStore catalog;
 
+		private const long MaxCfcTotal = 999999999L;
+
+		private long cfcTotal = -1L;
+
 		public LanServices(LanServer server, string catalogPath)
 		{
 			this.server = server;
@@ -365,6 +369,12 @@ namespace ClubPenguin.Net.Lan
 					Broadcast(line, null);
 				});
 				break;
+			case "cfc_seed":
+				HandleCfcSeed(conn, msg);
+				break;
+			case "cfc_donate":
+				HandleCfcDonate(msg);
+				break;
 			}
 		}
 
@@ -407,6 +417,45 @@ namespace ClubPenguin.Net.Lan
 				}
 			}
 			catalog.SendState(conn);
+			if (cfcTotal >= 0)
+			{
+				conn.Send(Message("cfc_total", "total", cfcTotal));
+			}
+		}
+
+		private void HandleCfcSeed(LanServiceConnection conn, object msg)
+		{
+			long total;
+			if (cfcTotal >= 0 || !IsLocal(conn) || !LanJson.TryLong(LanJson.Get(msg, "total"), out total))
+			{
+				return;
+			}
+			cfcTotal = Math.Max(0L, Math.Min(total, MaxCfcTotal));
+			Broadcast(Message("cfc_total", "total", cfcTotal), null);
+		}
+
+		private void HandleCfcDonate(object msg)
+		{
+			long coins;
+			if (cfcTotal < 0 || !LanJson.TryLong(LanJson.Get(msg, "coins"), out coins) || coins <= 0)
+			{
+				return;
+			}
+			cfcTotal = Math.Min(cfcTotal + Math.Min(coins, MaxCfcTotal), MaxCfcTotal);
+			Broadcast(Message("cfc_total", "total", cfcTotal), null);
+		}
+
+		private static bool IsLocal(LanServiceConnection conn)
+		{
+			try
+			{
+				IPEndPoint ep = conn.Socket.RemoteEndPoint as IPEndPoint;
+				return ep != null && IPAddress.IsLoopback(ep.Address);
+			}
+			catch (Exception)
+			{
+				return false;
+			}
 		}
 
 		private void HandleLayout(LanServiceConnection conn, object msg)
