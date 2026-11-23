@@ -30,7 +30,10 @@ namespace ClubPenguin.MiniGames.BlockAndLock
 
 		private void OnDestroy()
 		{
-			button.onClick.RemoveListener(onButton);
+			if (button != null)
+			{
+				button.onClick.RemoveListener(onButton);
+			}
 		}
 	}
 }

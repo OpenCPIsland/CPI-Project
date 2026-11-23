@@ -11,6 +11,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Text.RegularExpressions;
+using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -140,7 +141,7 @@ namespace ClubPenguin.MiniGames.BlockAndLock
 
 		private bool hasMadeMove = false;
 
-		private Text fieldRestart;
+		private TMP_Text fieldRestart;
 
 		private EventChannel eventChannel;
 
@@ -251,7 +252,7 @@ namespace ClubPenguin.MiniGames.BlockAndLock
 			{
 				restartButton.layer = LayerMask.NameToLayer("UI");
 				restartButton.SetActive(false);
-				fieldRestart = restartButton.GetComponentInChildren<Text>();
+				fieldRestart = restartButton.GetComponentInChildren<TMP_Text>(true);
 				if (checkWasFound(fieldRestart, "text field on the restart button"))
 				{
 					if (string.IsNullOrEmpty(settings.RestartToken))
@@ -1167,6 +1168,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Text.RegularExpressions;
+using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -1296,7 +1298,7 @@ namespace ClubPenguin.MiniGames.BlockAndLock
 
 		private bool hasMadeMove = false;
 
-		private Text fieldRestart;
+		private TMP_Text fieldRestart;
 
 		private EventChannel eventChannel;
 
@@ -1407,7 +1409,7 @@ namespace ClubPenguin.MiniGames.BlockAndLock
 			{
 				restartButton.layer = LayerMask.NameToLayer("UI");
 				restartButton.SetActive(false);
-				fieldRestart = restartButton.GetComponentInChildren<Text>();
+				fieldRestart = restartButton.GetComponentInChildren<TMP_Text>(true);
 				if (checkWasFound(fieldRestart, "text field on the restart button"))
 				{
 					if (string.IsNullOrEmpty(settings.RestartToken))
