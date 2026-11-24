@@ -2776,9 +2776,22 @@ namespace ClubPenguin.Net.Lan
 				{
 					return false;
 				}
-				LanPlayer host = bots.LocalHuman() ?? Leader;
-				return host == null || (!Server.Lobbies.IsMember(host) && Server.PartyGames.SessionOf(host) == null);
+				return !HostBusy;
 			}
+		}
+
+		private bool HostBusy
+		{
+			get
+			{
+				LanPlayer host = bots.LocalHuman() ?? Leader;
+				return host != null && (Server.Lobbies.IsMember(host) || Server.PartyGames.SessionOf(host) != null);
+			}
+		}
+
+		private static bool IsCannon(LanBots.Ride ride)
+		{
+			return ride != null && (!ride.Zipline || (ride.Obj ?? "").IndexOf("cannon", StringComparison.OrdinalIgnoreCase) >= 0);
 		}
 
 		private bool LeaderHere()
@@ -3240,7 +3253,7 @@ namespace ClubPenguin.Net.Lan
 				return false;
 			}
 			LanBots.Ride pick = bots.PickRide(LanServer.ZoneOfRoom(Player.RoomKey), pos, R);
-			if (pick == null)
+			if (pick == null || (IsCannon(pick) && HostBusy))
 			{
 				return false;
 			}
@@ -3254,6 +3267,12 @@ namespace ClubPenguin.Net.Lan
 
 		private void StartRide(LanBots.Ride pick, long now)
 		{
+			if (IsCannon(pick) && HostBusy)
+			{
+				SetMode("idle", now);
+				busyUntil = now + 1500;
+				return;
+			}
 			if (!Player.Registered || HDist(pos, pick.Start) > 2.5)
 			{
 				SetMode("idle", now);
