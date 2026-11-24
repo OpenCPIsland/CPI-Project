@@ -947,7 +947,7 @@ namespace ClubPenguin.Net.Lan
 			server.Loop.After(StartDelaySeconds * 1000.0, delegate
 			{
 				HashSet<LanPlayer> stillHere = new HashSet<LanPlayer>(server.InRoom(lobby.RoomKey));
-				List<Member> ready = members.Where((Member m) => stillHere.Contains(m.Player)).ToList();
+				List<Member> ready = members.Where((Member m) => stillHere.Contains(m.Player)).OrderBy((Member m) => m.Player.IsBot ? 1 : 0).ToList();
 				server.PartyGames.Start(lobby.Def.Id, ready.Select((Member m) => m.Player).ToList(), ready.Select((Member m) => new LanSlot(m.TeamId, m.RoleId)).ToList());
 			});
 		}

@@ -579,7 +579,7 @@ namespace ClubPenguin.Net.Lan
 
 		private const double TickMs = 200.0;
 
-		private const int MaxBots = 30;
+		private const int MaxBots = 99;
 
 		private const double SaveEveryMs = 30000.0;
 
@@ -636,6 +636,8 @@ namespace ClubPenguin.Net.Lan
 		public volatile bool EmotesEnabled = true;
 
 		public volatile bool TubesEnabled = true;
+
+		public volatile bool PropsEnabled = true;
 
 		public volatile bool FollowEnabled;
 
@@ -2290,6 +2292,8 @@ namespace ClubPenguin.Net.Lan
 
 		private long fishAt;
 
+		private bool fishPlaced;
+
 		private List<float[]> huntDrops;
 
 		private int huntIndex;
@@ -2733,7 +2737,7 @@ namespace ClubPenguin.Net.Lan
 
 		private bool TryProp(long now)
 		{
-			if (tubing || gear != null || snack != null || now < heldFreeAt || Player.HeldObject != null || Player.EquippedConsumable != null || R.NextDouble() > 0.3)
+			if (!bots.PropsEnabled || tubing || gear != null || snack != null || now < heldFreeAt || Player.HeldObject != null || Player.EquippedConsumable != null || R.NextDouble() > 0.3)
 			{
 				return false;
 			}
@@ -2800,7 +2804,7 @@ namespace ClubPenguin.Net.Lan
 
 		private bool TrySnack(long now)
 		{
-			if (tubing || gear != null || snack != null || now < heldFreeAt || Player.HeldObject != null || Player.EquippedConsumable != null || R.NextDouble() > 0.08)
+			if (!bots.PropsEnabled || tubing || gear != null || snack != null || now < heldFreeAt || Player.HeldObject != null || Player.EquippedConsumable != null || R.NextDouble() > 0.08)
 			{
 				return false;
 			}
@@ -2871,6 +2875,19 @@ namespace ClubPenguin.Net.Lan
 
 		private void PropTick(long now)
 		{
+			if (gear != null && !bots.PropsEnabled)
+			{
+				if (gearUntil != 0)
+				{
+					PutAway();
+				}
+				gear = null;
+				gearUntil = 0;
+				Stop();
+				SetMode("idle", now);
+				busyUntil = now + 1000;
+				return;
+			}
 			if (gear == null)
 			{
 				SetMode("idle", now);
@@ -4509,6 +4526,7 @@ namespace ClubPenguin.Net.Lan
 			fourAt = 0;
 			fishStep = -1;
 			fishAt = 0;
+			fishPlaced = false;
 			huntDrops = null;
 			huntIndex = 0;
 			huntNext = 0;
@@ -4744,6 +4762,31 @@ namespace ClubPenguin.Net.Lan
 			if (me < 0)
 			{
 				return;
+			}
+			float[][] starts = game.StartPositions;
+			if (!fishPlaced && starts != null && me < starts.Length && starts[me] != null)
+			{
+				fishPlaced = true;
+				float[] slot = LanMotion.Copy(starts[me]);
+				float[] bucket = game.BucketPosition;
+				float[] toBucket = (bucket != null) ? Flat(Sub(bucket, slot)) : null;
+				if (toBucket != null && (toBucket[0] != 0f || toBucket[2] != 0f))
+				{
+					float[] prep = new float[3]
+					{
+						slot[0] - toBucket[0] * 0.6f,
+						slot[1],
+						slot[2] - toBucket[2] * 0.6f
+					};
+					GoTo(prep, WalkSpeed, delegate
+					{
+						GoTo(slot, 1.0, null, false);
+					}, false);
+				}
+				else
+				{
+					GoTo(slot, WalkSpeed, null, false);
+				}
 			}
 			if (game.Phase == "turn" && game.Current == me && game.Step != fishStep)
 			{

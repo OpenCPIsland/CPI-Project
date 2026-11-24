@@ -62,6 +62,14 @@ namespace ClubPenguin.Net.Lan
 
 		private const double SynthRadius = 3;
 
+		private static readonly double[][] SpawnSlots = new double[4][]
+		{
+			new double[2] { 0.4, -0.79 },
+			new double[2] { -0.4, -0.79 },
+			new double[2] { 1.0, -0.297 },
+			new double[2] { -1.0, -0.269 }
+		};
+
 		private const double MaxPositionDistance = 30;
 
 		private List<int> deck = new List<int>();
@@ -83,6 +91,10 @@ namespace ClubPenguin.Net.Lan
 		private List<KeyValuePair<LanPlayer, int>> decided;
 
 		private HashSet<LanPlayer> decidedUnpaid = new HashSet<LanPlayer>();
+
+		public float[][] StartPositions;
+
+		public float[] BucketPosition;
 
 		public LanFishBucket(LanPartyGames host, int id, LanPartyGameDef def, List<LanPlayer> players)
 			: base(host, id, def, players, null)
@@ -175,6 +187,16 @@ namespace ClubPenguin.Net.Lan
 		public override void OnStart()
 		{
 			deck = BuildDeck(Players.Count);
+			if (Players.Count > 0 && Players[0].Player.IsBot)
+			{
+				Timer(1.0, delegate
+				{
+					if (phase == "positions")
+					{
+						SynthesizePositions();
+					}
+				});
+			}
 			Timer(PositionsBackstopSeconds, delegate
 			{
 				if (phase == "positions")
@@ -195,10 +217,32 @@ namespace ClubPenguin.Net.Lan
 			double x = anchor[0];
 			double y = anchor[1];
 			double z = anchor[2];
+			double fx = 0.0;
+			double fz = 0.0;
+			foreach (LanPartyGamePlayer p in Players)
+			{
+				float[] at = p.Player.LastPosition;
+				if (!p.Player.IsBot && !p.Left && at != null && at.Length == 3)
+				{
+					fx += at[0] - x;
+					fz += at[2] - z;
+				}
+			}
+			double len = Math.Sqrt(fx * fx + fz * fz);
+			if (len < 0.01)
+			{
+				fx = 0.0;
+				fz = -1.0;
+				len = 1.0;
+			}
+			fx /= len;
+			fz /= len;
+			double rx = fz;
+			double rz = -fx;
 			Func<int, Vec> ring = delegate(int i)
 			{
-				double a = (double)i * 2.0 * Math.PI / (double)Players.Count;
-				return new Vec(x + SynthRadius * Math.Cos(a), y, z + SynthRadius * Math.Sin(a));
+				double[] slot = SpawnSlots[Math.Min(i, SpawnSlots.Length - 1)];
+				return new Vec(x + rx * slot[0] + fx * slot[1], y, z + rz * slot[0] + fz * slot[1]);
 			};
 			List<Vec> others = new List<Vec>();
 			for (int k = 1; k < Players.Count; k++)
@@ -283,6 +327,14 @@ namespace ClubPenguin.Net.Lan
 
 		private void BeginIntro(Vec owner, List<Vec> others, List<Vec> game)
 		{
+			float[][] starts = new float[1 + others.Count][];
+			starts[0] = new float[3] { (float)owner.X, (float)owner.Y, (float)owner.Z };
+			for (int k = 0; k < others.Count; k++)
+			{
+				starts[k + 1] = new float[3] { (float)others[k].X, (float)others[k].Y, (float)others[k].Z };
+			}
+			BucketPosition = new float[3] { (float)game[0].X, (float)game[0].Y, (float)game[0].Z };
+			StartPositions = starts;
 			phase = "intro";
 			SendMessage(SetGameStartPositions, "{\"OwnerPosition\":" + owner.Json() + ",\"PlayerPositions\":" + VecList(others) + ",\"GamePositions\":" + VecList(game) + ",\"IntData\":[" + deck.Count + "]}");
 			SendMessage(SetGameState, "{\"GameStateId\":" + StateIntro + "}");

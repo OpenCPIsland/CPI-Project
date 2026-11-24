@@ -36,11 +36,13 @@ namespace ClubPenguin.Net.Lan
 
 		private const string BotTubesPref = "LAN.BotTubes";
 
+		private const string BotPropsPref = "LAN.BotProps";
+
 		private const string BotFollowPref = "LAN.BotFollow";
 
 		private const double HostClothesChance = 0.35;
 
-		private const int MaxBots = 30;
+		private const int MaxBots = 99;
 
 		private static readonly object owner = new object();
 
@@ -130,7 +132,7 @@ namespace ClubPenguin.Net.Lan
 			}
 		}
 
-		[Tweakable("LAN.Experimental.Bots", Description = "EXPERIMENTAL (more bots there are, the buggier they are): Number of bot penguins the LAN host adds (0-30). Bots play Crate Co, dance battles and party games. Only the device with LAN.Host on runs them. It's not recommended to use this experimental feature.")]
+		[Tweakable("LAN.Experimental.Bots", Description = "EXPERIMENTAL (more bots there are, the buggier they are): Number of bot penguins the LAN host adds (0-99). Bots play Crate Co, dance battles and party games. Only the device with LAN.Host on runs them. It's not recommended to use this experimental feature.")]
 		[PublicTweak]
 		public static int Bots
 		{
@@ -189,6 +191,22 @@ namespace ClubPenguin.Net.Lan
 			set
 			{
 				PlayerPrefs.SetInt(BotTubesPref, value ? 1 : 0);
+				PlayerPrefs.Save();
+				ApplyBotTalk();
+			}
+		}
+
+		[Tweakable("LAN.Experimental.BotProps", Description = "Lets LAN bots pick up props and gear and eat food.")]
+		[PublicTweak]
+		public static bool BotPropsEnabled
+		{
+			get
+			{
+				return PlayerPrefs.GetInt(BotPropsPref, 1) != 0;
+			}
+			set
+			{
+				PlayerPrefs.SetInt(BotPropsPref, value ? 1 : 0);
 				PlayerPrefs.Save();
 				ApplyBotTalk();
 			}
@@ -405,6 +423,7 @@ namespace ClubPenguin.Net.Lan
 			server.Bots.ChatEnabled = PlayerPrefs.GetInt(BotChatPref, 1) != 0;
 			server.Bots.EmotesEnabled = PlayerPrefs.GetInt(BotEmotesPref, 1) != 0;
 			server.Bots.TubesEnabled = PlayerPrefs.GetInt(BotTubesPref, 1) != 0;
+			server.Bots.PropsEnabled = PlayerPrefs.GetInt(BotPropsPref, 1) != 0;
 			server.Bots.FollowEnabled = PlayerPrefs.GetInt(BotFollowPref, 0) != 0;
 		}
 
