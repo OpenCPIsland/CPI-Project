@@ -386,6 +386,16 @@ namespace ClubPenguin.Net.Lan
 			l.Close();
 		}
 
+		public static void Shutdown()
+		{
+			Link closing = link;
+			link = null;
+			if (closing != null)
+			{
+				closing.Close();
+			}
+		}
+
 		private static void Teardown()
 		{
 			Link closing = link;

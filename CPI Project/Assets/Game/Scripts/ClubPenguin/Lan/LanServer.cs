@@ -202,6 +202,43 @@ namespace ClubPenguin.Net.Lan
 			});
 		}
 
+		public void Shutdown()
+		{
+			running = false;
+			foreach (TcpListener l in listeners)
+			{
+				try
+				{
+					l.Stop();
+				}
+				catch (Exception)
+				{
+				}
+			}
+			listeners.Clear();
+			try
+			{
+				Services.Stop();
+			}
+			catch (Exception)
+			{
+			}
+			LanConnection[] open;
+			try
+			{
+				open = connections.ToArray();
+			}
+			catch (Exception)
+			{
+				open = new LanConnection[0];
+			}
+			foreach (LanConnection c in open)
+			{
+				c.Kill();
+			}
+			Loop.Stop();
+		}
+
 		private volatile bool remoteClosed;
 
 		internal static bool IsLoopback(string address)

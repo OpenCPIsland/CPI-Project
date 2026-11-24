@@ -750,8 +750,9 @@ namespace ClubPenguin.Net.Lan
 				}
 				if (server != null)
 				{
-					server.Stop();
+					server.Shutdown();
 				}
+				LanServicesClient.Shutdown();
 			};
 		}
 

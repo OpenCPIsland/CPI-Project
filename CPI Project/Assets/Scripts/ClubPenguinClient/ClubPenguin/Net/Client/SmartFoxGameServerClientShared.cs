@@ -1039,10 +1039,55 @@ namespace ClubPenguin.Net.Client
                     smartFox = new SmartFox();
                     UnityEngine.Debug.Log("After creating SmartFox: Created SFS instance: " + smartFox.GetHashCode());
 					SmartFoxFramePump.Register(() => smartFox?.ProcessEvents());
+					trackSmartFox(smartFox);
                     sfsThread.AddListeners(smartFox);
                 }
             }
         }
+
+        private static readonly List<SmartFox> liveSmartFoxes = new List<SmartFox>();
+
+		private static bool quitHooked;
+
+		private static void trackSmartFox(SmartFox sfs)
+		{
+			lock (liveSmartFoxes)
+			{
+				liveSmartFoxes.Add(sfs);
+				if (!quitHooked)
+				{
+					quitHooked = true;
+					UnityEngine.Application.quitting += killAllSmartFoxes;
+				}
+			}
+		}
+
+		private static void killAllSmartFoxes()
+		{
+			SmartFox[] all;
+			lock (liveSmartFoxes)
+			{
+				all = liveSmartFoxes.ToArray();
+				liveSmartFoxes.Clear();
+			}
+			foreach (SmartFox sfs in all)
+			{
+				try
+				{
+					sfs.RemoveAllEventListeners();
+				}
+				catch (Exception)
+				{
+				}
+				try
+				{
+					sfs.KillConnection();
+				}
+				catch (Exception)
+				{
+				}
+			}
+		}
 
         internal void teardown()
 		{

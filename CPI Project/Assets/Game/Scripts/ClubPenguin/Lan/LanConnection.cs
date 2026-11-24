@@ -270,6 +270,19 @@ namespace ClubPenguin.Net.Lan
 			}
 		}
 
+		public void Kill()
+		{
+			Interlocked.Exchange(ref closed, 1);
+			try
+			{
+				sendQueue.CompleteAdding();
+			}
+			catch (Exception)
+			{
+			}
+			ForceClose();
+		}
+
 		public void CloseAfter(double ms)
 		{
 			server.Loop.After(ms, Close);
