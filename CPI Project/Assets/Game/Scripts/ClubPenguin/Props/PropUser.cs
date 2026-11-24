@@ -362,7 +362,7 @@ namespace ClubPenguin.Props
 		private void stopInteractingWithProp()
 		{
 			GameObjectReferenceData component;
-			if (!PlayerHandle.IsNull && dataEntityCollection.TryGetComponent(PlayerHandle, out component))
+			if (!PlayerHandle.IsNull && Prop != null && dataEntityCollection.TryGetComponent(PlayerHandle, out component) && component != null && component.GameObject != null)
 			{
 				ParticipationController component2 = component.GameObject.GetComponent<ParticipationController>();
 				if (component2 != null)
@@ -644,7 +644,7 @@ namespace ClubPenguin.Props
 		private void startPropInteraction()
 		{
 			GameObjectReferenceData component;
-			if (PlayerHandle.IsNull || !dataEntityCollection.TryGetComponent(PlayerHandle, out component))
+			if (PlayerHandle.IsNull || !dataEntityCollection.TryGetComponent(PlayerHandle, out component) || component == null || component.GameObject == null)
 			{
 				return;
 			}
