@@ -2328,6 +2328,8 @@ namespace ClubPenguin.Net.Lan
 
 		private long gearActionAt;
 
+		private long gearActedAt;
+
 		private float[] followGoal;
 
 		private bool gearRetried;
@@ -2799,7 +2801,8 @@ namespace ClubPenguin.Net.Lan
 			Player.EquippedItemName = gear.Name;
 			Server.Consumables.EquipObject(Player, new LanEquippedObject(gear.Kind, gear.Name));
 			gearUntil = now + 30000 + R.Next(60000);
-			gearActionAt = now + 1500 + R.Next(2500);
+			gearActionAt = now + 3000 + R.Next(2500);
+			gearActedAt = 0;
 		}
 
 		private bool TrySnack(long now)
@@ -2906,6 +2909,10 @@ namespace ClubPenguin.Net.Lan
 			}
 			if (Player.HeldObject != gear.Name || (gearArea != null && gearInside && !LanBots.InArea(gearArea, pos)))
 			{
+				if (Player.HeldObject == gear.Name && now - gearActedAt < 3000)
+				{
+					return;
+				}
 				PutAway();
 				SetMode("idle", now);
 				busyUntil = now + 1500;
@@ -2928,6 +2935,11 @@ namespace ClubPenguin.Net.Lan
 			}
 			if (now >= gearUntil)
 			{
+				if (now - gearActedAt < 3000)
+				{
+					return;
+				}
+				Stop();
 				PutAway();
 				SetMode("idle", now);
 				busyUntil = now + 2000 + R.Next(3000);
@@ -2937,8 +2949,9 @@ namespace ClubPenguin.Net.Lan
 			{
 				return;
 			}
-			if (now >= gearActionAt)
+			if (now >= gearActionAt && gearUntil - now > 4000)
 			{
+				gearActedAt = now;
 				double roll = R.NextDouble();
 				Send((roll < 0.7) ? ActAction1 : ((roll < 0.9) ? ActAction2 : ActAction3), null, null, null);
 				gearActionAt = now + 2500 + R.Next(5500);
