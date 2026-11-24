@@ -1548,6 +1548,7 @@ namespace ClubPenguin.Net.Lan
 			BuiltIn("EventPirateParty", 71.190f, 6.655f, 5.136f, "Microphone"),
 			BuiltIn("EventPirateParty", 72.720f, 6.463f, 0.941f, "Guitar"),
 			BuiltIn("Town", -19.561f, 0.627f, -15.585f, "FishDogMultiTool"),
+			BuiltIn("Town", 61.506f, -14.614f, 0.492f, "FishDogMultiTool"),
 			BuiltIn("Town", 16.912f, 1.126f, -13.125f, "PomPomsBlue"),
 			BuiltIn("Town", 19.174f, 0.805f, -10.666f, "PomPomsRed"),
 			BuiltIn("Town", -2.280f, 0.642f, -13.256f, "AcousticGuitar"),
@@ -1601,6 +1602,7 @@ namespace ClubPenguin.Net.Lan
 			ZoneArea("Town", "BongoDrums", -3.458f, -12.618f, 3.969f, 4.479f, -70.024f),
 			ZoneArea("Town", "Microphone", -3.458f, -12.618f, 3.969f, 4.479f, -70.024f),
 			ZoneArea("Town", "FishDogMultiTool", -16.643f, -13.066f, 3.979f, 3.507f, 49.285f),
+			ZoneArea("Town", "FishDogMultiTool", 59.872f, 0.600f, 2.123f, 1.155f, 0.000f),
 			ZoneArea("Town", "PomPomsBlue", 16.485f, -10.162f, 4.759f, 4.729f, -5.839f),
 			ZoneArea("Town", "PomPomsRed", 16.520f, -9.840f, 4.638f, 4.326f, -4.571f)
 		};
