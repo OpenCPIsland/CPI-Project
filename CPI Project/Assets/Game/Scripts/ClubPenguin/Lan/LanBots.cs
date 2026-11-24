@@ -979,9 +979,31 @@ namespace ClubPenguin.Net.Lan
 			return xp;
 		}
 
+		private static readonly string[] BlockedZones = new string[5] { "Diving", "ClothingDesigner", "ClassicMiniGames", "EndCredits", "MtBlizzardSummit" };
+
 		public static bool IsBotBlocked(string roomName)
 		{
-			return roomName != null && string.Equals(LanServer.ZoneOfRoom(LanServer.RoomKeyOf(roomName)), "Diving", StringComparison.OrdinalIgnoreCase);
+			if (roomName == null)
+			{
+				return false;
+			}
+			string zone = LanServer.ZoneOfRoom(LanServer.RoomKeyOf(roomName));
+			if (string.IsNullOrEmpty(zone))
+			{
+				return false;
+			}
+			if (zone.StartsWith("mg_", StringComparison.OrdinalIgnoreCase))
+			{
+				return true;
+			}
+			foreach (string blocked in BlockedZones)
+			{
+				if (string.Equals(zone, blocked, StringComparison.OrdinalIgnoreCase))
+				{
+					return true;
+				}
+			}
+			return false;
 		}
 
 		private void Tick()
@@ -1378,7 +1400,7 @@ namespace ClubPenguin.Net.Lan
 			{
 				return;
 			}
-			if (pending.RoomKey != player.RoomKey || now - pending.Ms > 40000)
+			if (pending.RoomKey != player.RoomKey || (!pending.Sat && now - pending.Ms > 40000))
 			{
 				pendingInteract.Remove(player.UserId);
 				return;
@@ -2324,9 +2346,15 @@ namespace ClubPenguin.Net.Lan
 
 		private long snackAt;
 
+		private long snackRollAt;
+
 		private bool snackUsed;
 
-		private static readonly string[] Snacks = new string[13] { "PizzaSingle", "HotChocolateSingle", "SquidStickSingle", "SeaweedSmoothieSingle", "FishdogSingle", "SpicyPizzaSingle", "CandyCaneSingle", "FluffyCakeSingle", "RainbowSmoothieSingle", "IceCreamSingle", "Popscorn", "BirthdayCakeSingle", "ZootopiaPawpsicle" };
+		private static readonly string[] Snacks = new string[32] { "PizzaSingle", "SpicyPizzaSingle", "PizzaPlanetSingle", "HotChocolateSingle", "SquidStickSingle", "SeaweedSmoothieSingle", "RainbowSmoothieSingle", "FishdogSingle", "StinkyCheeseSingle", "CandyCaneSingle", "FluffyCakeSingle", "IceCreamSingle", "Popscorn", "BirthdayCakeSingle", "20thBirthdayCakeSingle", "ZootopiaPawpsicle", "FindingDoryBubbleWand", "MonstersScareCanister", "FrozenSnowflake", "FireHydrant", "Firework", "SuperFirework", "HolidayFirework", "GlowStickYellow", "GlowStickPink", "GlowStickRainbow", "GlowStickMint", "HalloweenBasketOrange", "HalloweenBasketPurple", "HalloweenBasketGreen", "Science_BeakerSingle", "Science_BeakerGreenSingle" };
+
+		private static readonly HashSet<string> HeldSnacks = new HashSet<string> { "PizzaPlanetSingle" };
+
+		private bool snackHeld;
 
 		private long gearActionAt;
 
@@ -2619,7 +2647,7 @@ namespace ClubPenguin.Net.Lan
 				Leader = bots.PickLeader();
 				followAt = 0;
 			}
-			if (bots.FollowEnabled)
+			if (FollowOn)
 			{
 				LanPlayer local = bots.LocalHuman();
 				if (local != null && Leader != local)
@@ -2655,7 +2683,7 @@ namespace ClubPenguin.Net.Lan
 			}
 			if (followAt == 0)
 			{
-				if (bots.FollowEnabled)
+				if (FollowOn)
 				{
 					followAt = now + ((exit != null) ? (200 + R.Next(600)) : (500 + R.Next(1500)));
 				}
@@ -2695,6 +2723,19 @@ namespace ClubPenguin.Net.Lan
 			return HopTo(Leader, now);
 		}
 
+		private bool FollowOn
+		{
+			get
+			{
+				if (!bots.FollowEnabled)
+				{
+					return false;
+				}
+				LanPlayer host = bots.LocalHuman() ?? Leader;
+				return host == null || (!Server.Lobbies.IsMember(host) && Server.PartyGames.SessionOf(host) == null);
+			}
+		}
+
 		private bool LeaderHere()
 		{
 			LanPlayer l = Leader;
@@ -2703,7 +2744,7 @@ namespace ClubPenguin.Net.Lan
 
 		private bool FollowHere(long now)
 		{
-			if (!bots.FollowEnabled || tubing || !LeaderHere())
+			if (!FollowOn || tubing || !LeaderHere())
 			{
 				followGoal = null;
 				return false;
@@ -2745,7 +2786,7 @@ namespace ClubPenguin.Net.Lan
 			{
 				return false;
 			}
-			bool stayClose = bots.FollowEnabled && LeaderHere();
+			bool stayClose = FollowOn && LeaderHere();
 			LanBots.Dispenser pick = bots.PickDispenser(LanServer.ZoneOfRoom(Player.RoomKey), stayClose ? Leader.LastPosition : pos, stayClose ? 25.0 : 1000.0, R);
 			if (pick == null)
 			{
@@ -2809,32 +2850,61 @@ namespace ClubPenguin.Net.Lan
 
 		private bool TrySnack(long now)
 		{
-			if (!bots.PropsEnabled || tubing || gear != null || snack != null || now < heldFreeAt || Player.HeldObject != null || Player.EquippedConsumable != null || R.NextDouble() > 0.08)
+			return TrySnack(now, 0.08);
+		}
+
+		private bool TrySnack(long now, double chance)
+		{
+			if (!bots.PropsEnabled || gear != null || snack != null || now < heldFreeAt || Player.HeldObject != null || Player.EquippedConsumable != null || Server.Lobbies.IsMember(Player) || Server.PartyGames.SessionOf(Player) != null || R.NextDouble() > chance)
 			{
 				return false;
 			}
-			EndSprint();
 			snack = Snacks[R.Next(Snacks.Length)];
+			snackHeld = HeldSnacks.Contains(snack);
 			snackUsed = false;
 			snackAt = now + 2500 + R.Next(2500);
+			if (snackHeld)
+			{
+				Server.Consumables.UseAsBot(Player, snack);
+				snackUsed = true;
+				snackAt = now + 6000 + R.Next(6000);
+				return false;
+			}
 			Player.EquippedConsumable = snack;
 			Player.HeldObject = snack;
 			Server.BroadcastUserVars(Player, LanServer.ConVar("consum", snack));
-			SetMode("snack", now);
-			return true;
+			return false;
 		}
 
 		private void SnackTick(long now)
 		{
-			if (snack == null || (!snackUsed && Player.EquippedConsumable != snack))
+			if (snack == null)
+			{
+				if (now < snackRollAt)
+				{
+					return;
+				}
+				snackRollAt = now + 15000 + R.Next(30000);
+				if (mode == "idle" || mode == "wander" || mode == "follow" || mode == "seated")
+				{
+					TrySnack(now, 0.3);
+				}
+				return;
+			}
+			if ((!snackUsed || snackHeld) && Player.EquippedConsumable != snack)
 			{
 				snack = null;
-				SetMode("idle", now);
-				busyUntil = now + 1500;
+				snackHeld = false;
 				return;
 			}
 			if (now < snackAt)
 			{
+				return;
+			}
+			if (snackHeld)
+			{
+				PutAway();
+				heldFreeAt = now + 5000;
 				return;
 			}
 			if (!snackUsed)
@@ -2846,8 +2916,6 @@ namespace ClubPenguin.Net.Lan
 				return;
 			}
 			snack = null;
-			SetMode("idle", now);
-			busyUntil = now + 1500 + R.Next(2500);
 		}
 
 		private void PutAway()
@@ -2855,13 +2923,23 @@ namespace ClubPenguin.Net.Lan
 			if (snack != null)
 			{
 				string s = snack;
+				bool held = snackHeld;
 				snack = null;
+				snackHeld = false;
 				if (Player.Registered && Player.EquippedConsumable == s)
 				{
 					Player.EquippedItemName = null;
 					Player.EquippedConsumable = null;
 					Player.HeldObject = null;
-					Server.BroadcastUserVars(Player, LanServer.NullVar("con"));
+					if (held)
+					{
+						Player.HeldActionCount = null;
+						Server.BroadcastUserVars(Player, LanServer.NullVar("con"), LanServer.NullVar("con_prop"));
+					}
+					else
+					{
+						Server.BroadcastUserVars(Player, LanServer.NullVar("con"));
+					}
 					heldFreeAt = bots.Now + 3000;
 				}
 			}
@@ -2959,7 +3037,7 @@ namespace ClubPenguin.Net.Lan
 				gearActionAt = now + 2500 + R.Next(5500);
 				return;
 			}
-			if (!bots.FollowEnabled && R.NextDouble() < 0.03)
+			if (!FollowOn && R.NextDouble() < 0.03)
 			{
 				float[] step = (gearArea != null) ? LanBots.RandomInArea(gearArea, pos[1], R) : (Map.RandomNear(pos, 4.0, R) ?? Near(pos, 3.0));
 				GoTo(step, WalkSpeed, null, true);
@@ -3188,7 +3266,7 @@ namespace ClubPenguin.Net.Lan
 
 		private void SitDown(long now)
 		{
-			if (seat == null || !Player.Registered || HDist(pos, seat.P) > 2.0)
+			if (seat == null || !Player.Registered || HDist(pos, seat.P) > 6.0)
 			{
 				StandUp(now);
 				SetMode("idle", now);
@@ -3235,7 +3313,7 @@ namespace ClubPenguin.Net.Lan
 
 		private void Tidy(long now)
 		{
-			if (now - modeSince < 4000 || Server.Lobbies.IsMember(Player))
+			if (now - modeSince < 4000 || snack != null || Server.Lobbies.IsMember(Player))
 			{
 				return;
 			}
@@ -3678,6 +3756,7 @@ namespace ClubPenguin.Net.Lan
 				return;
 			}
 			ChatTick(now);
+			SnackTick(now);
 			if (tubing && (now > tubeUntil || !bots.TubesEnabled))
 			{
 				Stop();
@@ -3720,7 +3799,7 @@ namespace ClubPenguin.Net.Lan
 				{
 					standAt = 0;
 				}
-				if (bots.FollowEnabled && LeaderHere() && HDist(pos, Leader.LastPosition) > 6.0)
+				if (FollowOn && LeaderHere() && HDist(pos, Leader.LastPosition) > 6.0)
 				{
 					standAt = 0;
 				}
@@ -3767,9 +3846,6 @@ namespace ClubPenguin.Net.Lan
 				break;
 			case "prop":
 				PropTick(now);
-				break;
-			case "snack":
-				SnackTick(now);
 				break;
 			case "follow":
 				if (!FollowHere(now) && !moving)
@@ -3856,7 +3932,7 @@ namespace ClubPenguin.Net.Lan
 			{
 				noHumansSince = -1;
 			}
-			if (bots.FollowEnabled && LeaderHere())
+			if (FollowOn && LeaderHere())
 			{
 				if (FollowHere(now) || TryLobby(now) || TryInvitation(now) || TryTargets(now) || TryTray(now, here) || TryTube(now) || TryRide(now) || TrySeat(now) || TryProp(now) || TrySnack(now))
 				{

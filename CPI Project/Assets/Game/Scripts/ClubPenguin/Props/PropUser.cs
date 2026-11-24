@@ -503,7 +503,10 @@ namespace ClubPenguin.Props
 			}
 			if (component.GameObject == null)
 			{
-				Log.LogError(this, "THIS WOULD HAVE CRASHED! setInteractionButtonActive(): gameObjectRef.GameObject in NULL!");
+				if (Prop.IsOwnerLocalPlayer)
+				{
+					Log.LogError(this, "THIS WOULD HAVE CRASHED! setInteractionButtonActive(): gameObjectRef.GameObject in NULL!");
+				}
 				return;
 			}
 			ParticipationController component2 = component.GameObject.GetComponent<ParticipationController>();
