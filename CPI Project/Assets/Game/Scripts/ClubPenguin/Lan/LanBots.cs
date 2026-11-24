@@ -1400,7 +1400,7 @@ namespace ClubPenguin.Net.Lan
 			{
 				return;
 			}
-			if (pending.RoomKey != player.RoomKey || (!pending.Sat && now - pending.Ms > 40000))
+			if (pending.RoomKey != player.RoomKey || (!pending.Sat && now - pending.Ms > 180000))
 			{
 				pendingInteract.Remove(player.UserId);
 				return;
@@ -1430,7 +1430,7 @@ namespace ClubPenguin.Net.Lan
 				return;
 			}
 			pendingInteract.Remove(player.UserId);
-			if (moved >= 6.0 && gap <= 30000)
+			if (moved >= 6.0 && gap <= 180000)
 			{
 				AddRide(zone, pending.Obj, pending.P, position, gap, pending.Zipline);
 			}
@@ -3273,7 +3273,7 @@ namespace ClubPenguin.Net.Lan
 				busyUntil = now + 1500;
 				return;
 			}
-			if (!Player.Registered || HDist(pos, pick.Start) > 2.5)
+			if (!Player.Registered || HDist(pos, pick.Start) > 6.0)
 			{
 				SetMode("idle", now);
 				return;
