@@ -310,6 +310,7 @@ namespace ClubPenguin.Net.Lan
 			HookQuit();
 			LanServicesClient.Ensure();
 			StopJoining();
+			RequestLocalNetwork();
 			LanServerData data = new LanServerData();
 			data.PartyGames = LoadText("Lan/party-games");
 			data.TubeRaces = LoadText("Lan/tube-races");
@@ -647,8 +648,7 @@ namespace ClubPenguin.Net.Lan
 			LanServicesClient.Ensure();
 			joinEnabled = true;
 			AcquireMulticast();
-			finder = new LanFinder();
-			finder.Start();
+			CoroutineRunner.StartPersistent(startFinder(), owner, "LanFinderStart");
 			if (!watching)
 			{
 				watching = true;
@@ -753,6 +753,62 @@ namespace ClubPenguin.Net.Lan
 					server.Stop();
 				}
 			};
+		}
+
+		private const string LocalNetworkPermission = "android.permission.ACCESS_LOCAL_NETWORK";
+
+		private static IEnumerator startFinder()
+		{
+			RequestLocalNetwork();
+			float waited = 0f;
+			while (joinEnabled && !HasLocalNetwork() && waited < 30f)
+			{
+				waited += Time.unscaledDeltaTime;
+				yield return null;
+			}
+			if (joinEnabled && finder == null)
+			{
+				finder = new LanFinder();
+				finder.Start();
+			}
+		}
+
+		private static bool NeedsLocalNetworkPermission()
+		{
+#if UNITY_ANDROID && !UNITY_EDITOR
+			try
+			{
+				using (AndroidJavaClass version = new AndroidJavaClass("android.os.Build$VERSION"))
+				{
+					return version.GetStatic<int>("SDK_INT") >= 37;
+				}
+			}
+			catch (System.Exception)
+			{
+				return false;
+			}
+#else
+			return false;
+#endif
+		}
+
+		private static bool HasLocalNetwork()
+		{
+#if UNITY_ANDROID && !UNITY_EDITOR
+			return !NeedsLocalNetworkPermission() || UnityEngine.Android.Permission.HasUserAuthorizedPermission(LocalNetworkPermission);
+#else
+			return true;
+#endif
+		}
+
+		private static void RequestLocalNetwork()
+		{
+#if UNITY_ANDROID && !UNITY_EDITOR
+			if (!HasLocalNetwork())
+			{
+				UnityEngine.Android.Permission.RequestUserPermission(LocalNetworkPermission);
+			}
+#endif
 		}
 
 		private static void AcquireMulticast()
