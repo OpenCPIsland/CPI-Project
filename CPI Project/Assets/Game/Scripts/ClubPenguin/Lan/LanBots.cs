@@ -1685,6 +1685,51 @@ namespace ClubPenguin.Net.Lan
 			};
 		}
 
+		public static double SwimSpeed = 1.5;
+
+		private sealed class SwimVolume
+		{
+			public string Zone;
+
+			public float[] Box;
+
+			public float Surface;
+		}
+
+		private static readonly SwimVolume[] SwimVolumes = new SwimVolume[5]
+		{
+			Water("Beach", 2.97f, 16.00f, 13.76f, 30.82f, 61.18f, -0.06f),
+			Water("Beach", 28.34f, 14.01f, 1.87f, 0.74f, -33.65f, 2.75f),
+			Water("Beach", 28.96f, 12.63f, 1.68f, 0.88f, -33.65f, 2.75f),
+			Water("Beach", 30.12f, 10.93f, 2.17f, 2.72f, -33.65f, 2.75f),
+			Water("Boardwalk", 5.79f, 25.89f, 16.08f, 25.19f, 61.18f, -1.66f)
+		};
+
+		private static SwimVolume Water(string zone, float x, float z, float hx, float hz, float yaw, float surface)
+		{
+			SwimVolume v = new SwimVolume();
+			v.Zone = zone;
+			v.Box = new float[5] { x, z, hx, hz, yaw };
+			v.Surface = surface;
+			return v;
+		}
+
+		public static bool InWater(string zone, float[] p)
+		{
+			if (zone == null || p == null)
+			{
+				return false;
+			}
+			foreach (SwimVolume v in SwimVolumes)
+			{
+				if (v.Zone == zone && p[1] <= v.Surface + 0.5f && InArea(v.Box, p))
+				{
+					return true;
+				}
+			}
+			return false;
+		}
+
 		public Dispenser PickDispenser(string zone, float[] from, double maxDist, Random r)
 		{
 			List<Dispenser> near = dispensers.Concat(BuiltInDispensers).Where((Dispenser x) => x.Zone == zone && (from == null || LanMotion.Dist(x.P, from) <= maxDist)).ToList();
@@ -3607,6 +3652,14 @@ namespace ClubPenguin.Net.Lan
 			}
 			float[] facingBefore = LanMotion.Copy(facing);
 			double left = RunSpeed(dt) * dt;
+			if (LanBots.InWater(LanServer.ZoneOfRoom(Player.RoomKey), pos))
+			{
+				if (sprinting)
+				{
+					EndSprint();
+				}
+				left = Math.Min(left, LanBots.SwimSpeed * dt);
+			}
 			LanBotGrid grid = Grid();
 			if (grid != null && !grid.Walkable(pos))
 			{
