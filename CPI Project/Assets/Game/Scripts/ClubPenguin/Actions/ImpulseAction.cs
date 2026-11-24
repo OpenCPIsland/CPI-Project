@@ -91,8 +91,14 @@ namespace ClubPenguin.Actions
 					}
 					if (!flag && StartTransform != null)
 					{
+						Vector3 offset = target.transform.position - StartTransform.position;
+						offset.y = 0f;
 						target.transform.position = StartTransform.position;
 						target.transform.rotation = StartTransform.rotation;
+						if (offset.sqrMagnitude <= 6.25f)
+						{
+							Physics.SyncTransforms();
+						}
 					}
 					LocomotionController currentController = LocomotionHelper.GetCurrentController(target);
 					if (currentController != null)
