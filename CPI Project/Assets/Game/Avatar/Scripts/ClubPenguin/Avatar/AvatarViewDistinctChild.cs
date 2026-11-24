@@ -80,8 +80,24 @@ namespace ClubPenguin.Avatar
 			Model.ColorChanged -= ApplyColor;
 		}
 
+		private static bool quitting;
+
+		[RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.BeforeSceneLoad)]
+		private static void HookQuitting()
+		{
+			quitting = false;
+			Application.quitting += delegate
+			{
+				quitting = true;
+			};
+		}
+
 		public void OnDestroy()
 		{
+			if (quitting)
+			{
+				return;
+			}
 			cleanupLoading();
 			cleanupCurrent();
 		}
