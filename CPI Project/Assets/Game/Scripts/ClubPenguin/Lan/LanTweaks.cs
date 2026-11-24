@@ -40,7 +40,7 @@ namespace ClubPenguin.Net.Lan
 
 		private const string BotFollowPref = "LAN.BotFollow";
 
-		private const double HostClothesChance = 0.35;
+		private const double HostClothesChance = 0.5;
 
 		private const int MaxBots = 99;
 
