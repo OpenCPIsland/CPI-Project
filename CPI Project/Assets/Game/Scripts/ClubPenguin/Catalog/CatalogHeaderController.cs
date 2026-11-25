@@ -126,6 +126,7 @@ namespace ClubPenguin.Catalog
 
 		public void OnStatsButton()
 		{
+			SoundUtils.PlayAudioEvent("SFX/UI/MainTray/ButtonApply");
 			Model.State = CatalogState.StatsView;
 			CatalogContext.EventBus.DispatchEvent(default(CatalogUIEvents.ShowStatsPage));
 			HeaderText.text = Service.Get<Localizer>().GetTokenTranslation(MyStatsToken);
