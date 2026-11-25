@@ -239,6 +239,7 @@ namespace ClubPenguin.Catalog
 
 		private bool onShowItemsForThemeEvent(CatalogUIEvents.ShowItemsForThemeEvent evt)
 		{
+			Model.State = CatalogState.ItemsView;
 			CreateScroller();
 			shopScroller.Scroller.Initilize();
 			base.gameObject.SetActive(true);
@@ -260,7 +261,6 @@ namespace ClubPenguin.Catalog
 			}
 			shopScroller.ClearData();
 			isSubNavSetForCurrentList = false;
-			Model.State = CatalogState.ItemsView;
 			subNavCategory = "All";
 			currentTheme = evt.Theme;
 			if (!isNavInited)
