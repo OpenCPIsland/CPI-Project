@@ -141,6 +141,7 @@ namespace ClubPenguin.Catalog
 
 		public void onMemberLockClicked()
 		{
+			SoundUtils.PlayAudioEvent("SFX/UI/MainTray/ButtonSmall");
 			Service.Get<GameStateController>().ShowAccountSystemMembership("Catalog");
 		}
 
@@ -264,6 +265,7 @@ namespace ClubPenguin.Catalog
 
 		public void OnAcceptChallengeClicked()
 		{
+			SoundUtils.PlayAudioEvent("SFX/UI/MainTray/ButtonApply");
 			Service.Get<ICPSwrveService>().Action("clothing_catalog_challenge", "enter");
 			Color[] colorsByIndex = Service.Get<CatalogServiceProxy>().themeColors.GetColorsByIndex(0);
 			Model.State = CatalogState.Homepage;

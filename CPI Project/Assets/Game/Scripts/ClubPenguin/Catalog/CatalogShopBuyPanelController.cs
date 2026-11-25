@@ -133,11 +133,13 @@ namespace ClubPenguin.Catalog
 
 		public void OnCloseClicked()
 		{
+			SoundUtils.PlayAudioEvent("SFX/UI/MainTray/ButtonClose");
 			CatalogContext.EventBus.DispatchEvent(default(CatalogUIEvents.BuyPanelCloseButtonClickedEvent));
 		}
 
 		public void OnPurchaseClicked()
 		{
+			SoundUtils.PlayAudioEvent("SFX/UI/Store/ButtonBuy");
 			AllowPurchase(false);
 			CatalogContext.EventBus.DispatchEvent(new CatalogUIEvents.BuyPanelPurchaseButtonClickedEvent(ItemData));
 		}
@@ -150,6 +152,7 @@ namespace ClubPenguin.Catalog
 
 		public void OnKeepShoppingClicked()
 		{
+			SoundUtils.PlayAudioEvent("SFX/UI/MainTray/ButtonClose");
 			CatalogContext.EventBus.DispatchEvent(default(CatalogUIEvents.BuyPanelCloseButtonClickedEvent));
 		}
 

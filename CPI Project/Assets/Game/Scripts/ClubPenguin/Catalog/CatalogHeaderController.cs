@@ -109,6 +109,7 @@ namespace ClubPenguin.Catalog
 
 		public void OnBackButton()
 		{
+			SoundUtils.PlayAudioEvent("SFX/UI/MainTray/ButtonClose");
 			HeaderText.text = defaultHeaderText;
 			CatalogContext.EventBus.DispatchEvent(default(CatalogUIEvents.BackButtonClicked));
 			Model.State = CatalogState.Homepage;
@@ -116,6 +117,7 @@ namespace ClubPenguin.Catalog
 
 		public void OnCloseButton()
 		{
+			SoundUtils.PlayAudioEvent("SFX/UI/MainTray/ButtonClose");
 			HeaderText.text = defaultHeaderText;
 			Model.State = CatalogState.Homepage;
 			ClothingDesignerContext.EventBus.DispatchEvent(default(ClothingDesignerUIEvents.HideCatalog));

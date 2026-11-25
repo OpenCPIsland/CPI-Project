@@ -21,6 +21,8 @@ namespace ClubPenguin.Catalog
 
 		private DCustomEquipment submittedItem;
 
+		private bool isViewInCatalogClicked;
+
 		public void EquipSubmittedItem()
 		{
 			AvatarDetailsData avatarDetailsData = new AvatarDetailsData();
@@ -47,8 +49,23 @@ namespace ClubPenguin.Catalog
 			}
 		}
 
+		private void OnEnable()
+		{
+			isViewInCatalogClicked = false;
+		}
+
+		private void OnDisable()
+		{
+			if (!isViewInCatalogClicked)
+			{
+				SoundUtils.PlayAudioEvent("SFX/UI/MainTray/ButtonClose");
+			}
+		}
+
 		public void onViewInCatalogButon()
 		{
+			SoundUtils.PlayAudioEvent("SFX/UI/MainTray/ButtonApply");
+			isViewInCatalogClicked = true;
 			Service.Get<ICPSwrveService>().Action("clothing_catalog_challenge", "view_submission");
 			CatalogContext.EventBus.DispatchEvent(default(CatalogUIEvents.ViewInCatalog));
 		}
