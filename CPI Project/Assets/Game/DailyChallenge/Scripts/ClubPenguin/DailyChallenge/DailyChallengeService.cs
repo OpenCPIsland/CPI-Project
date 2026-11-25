@@ -52,6 +52,19 @@ namespace ClubPenguin.DailyChallenge
             }
         }
 
+        private bool isOffline
+        {
+            get
+            {
+                if (!Service.IsSet<ICommonGameSettings>())
+                {
+                    return offlineMode;
+                }
+                ICommonGameSettings settings = Service.Get<ICommonGameSettings>();
+                return settings.OfflineMode && string.IsNullOrEmpty(settings.CPAPIServicehost.Value);
+            }
+        }
+
         public DailyChallengeService(DatedManifestMap datedManifestMap, bool offlineMode)
         {
             dispatcher = Service.Get<EventDispatcher>();
@@ -78,6 +91,7 @@ namespace ClubPenguin.DailyChallenge
 
         public void ReloadChallenges(DateTime day)
         {
+            CoroutineRunner.StopAllForOwner(this);
             CoroutineRunner.Start(reloadChallenges(day), this, "DailyChallengesService");
         }
 
@@ -85,33 +99,39 @@ namespace ClubPenguin.DailyChallenge
         {
             loadedDailies.Clear();
             savedTaskCounters.Clear();
-            UnityEngine.Object manifest;
-            DailyChallengeScheduleDefinition dailies = null;
-            if (day != default(DateTime) && datedManifestMap.Map.TryGetValue(day.Date, out manifest))
+            bool offline = isOffline;
+            tmpLogMode(day, offline);
             {
-                dailies = manifest as DailyChallengeScheduleDefinition;
+                UnityEngine.Object manifest;
+                DailyChallengeScheduleDefinition dailies = null;
+                if (day != default(DateTime) && datedManifestMap.Map.TryGetValue(day.Date, out manifest))
+                {
+                    dailies = manifest as DailyChallengeScheduleDefinition;
+                }
+                if (dailies != null)
+                {
+                    List<ScriptableObject> scheduled = new List<ScriptableObject>();
+                    yield return loadSchedule(dailies, scheduled);
+                    loadedDailies = scheduled;
+                }
+                else
+                {
+                    Log.LogErrorFormatted(this, "No Daily Tasks scheduled for {0:yyyy-MM-dd}", day);
+                }
             }
-            if (dailies != null)
-            {
-                yield return loadSchedule(dailies);
-            }
-            else
-            {
-                Log.LogError(this, "No Daily Tasks scheduled for today");
-            }
-            setupTasks();
+            setupTasks(offline);
         }
 
-        private IEnumerator loadSchedule(DailyChallengeScheduleDefinition schedule)
+        private IEnumerator loadSchedule(DailyChallengeScheduleDefinition schedule, List<ScriptableObject> into)
         {
             for (int i = 0; i < schedule.Assets.Length; i++)
             {
                 DailyChallengeDefinitionContentKey daily = schedule.Assets[i];
-                yield return loadScheduleDaily(daily.Key);
+                yield return loadScheduleDaily(daily.Key, into);
             }
         }
 
-        private IEnumerator loadScheduleDaily(string path)
+        private IEnumerator loadScheduleDaily(string path, List<ScriptableObject> into)
         {
             AssetRequest<ScriptableObject> assetRequest = null;
             try
@@ -121,8 +141,16 @@ namespace ClubPenguin.DailyChallenge
             catch (ContentManifestException)
             {
             }
+            if (assetRequest == null)
+            {
+                Log.LogErrorFormatted(this, "Daily challenge {0} is not in the content manifest", path);
+                yield break;
+            }
             yield return assetRequest;
-            loadedDailies.Add(assetRequest.Asset);
+            if (assetRequest.Asset != null)
+            {
+                into.Add(assetRequest.Asset);
+            }
         }
 
         private const string CLOTHING_CATALOG_TASK_NAME = "ClothingCatalogSubmission";
@@ -179,10 +207,27 @@ namespace ClubPenguin.DailyChallenge
             return true;
         }
 
-        private void setupTasks()
+        private void setupTasks(bool offline)
+        {
+            if (offline)
+            {
+                generateOfflineTasks();
+                return;
+            }
+            if (loadedDailies.Count > 0)
+            {
+                setupScheduledTasks();
+            }
+            else
+            {
+                Log.LogError(this, "No daily schedule loaded; keeping the current daily challenges");
+            }
+        }
+
+        private void generateOfflineTasks()
         {
             int targetCount = DAILY_CHALLENGE_TOTAL;
-            bool enforceMascotLimit = offlineMode;
+            bool enforceMascotLimit = true;
             string currentDateString = DateTime.UtcNow.ToString("yyyy-MM-dd");
             string storedDateString = PlayerPrefs.GetString(PREFS_LAST_ASSIGNED_DATE_KEY, string.Empty);
             string storedActiveTasks = PlayerPrefs.GetString(PREFS_ACTIVE_TASKS_KEY, string.Empty);
@@ -190,7 +235,7 @@ namespace ClubPenguin.DailyChallenge
             if (storedDateString == currentDateString && !string.IsNullOrEmpty(storedActiveTasks))
             {
                 string[] activeTaskArray = storedActiveTasks.Split(new char[] { ',' }, StringSplitOptions.RemoveEmptyEntries);
-                if (activeTaskArray.Length == targetCount && (!enforceMascotLimit || !exceedsMascotTaskLimit(activeTaskArray)))
+                if (activeTaskArray.Length == targetCount && isValidOfflineDay(activeTaskArray) && (!enforceMascotLimit || !exceedsMascotTaskLimit(activeTaskArray)))
                 {
                     NumberOfUpdates = activeTaskArray.Length;
                     taskService.LoadTasks(activeTaskArray);
@@ -205,6 +250,12 @@ namespace ClubPenguin.DailyChallenge
             HashSet<string> usedTaskNames = new HashSet<string>();
             Dictionary<string, int> mascotTaskCounts = new Dictionary<string, int>();
 
+            finalTaskNames.Add(CLOTHING_CATALOG_TASK_NAME);
+            usedTaskNames.Add(CLOTHING_CATALOG_TASK_NAME);
+            string completionTask = scheduledCompletionTask() ?? DEFAULT_COMPLETION_TASK_NAME;
+            finalTaskNames.Add(completionTask);
+            usedTaskNames.Add(completionTask);
+
             for (int i = 0; i < loadedDailies.Count; i++)
             {
                 if (finalTaskNames.Count >= targetCount)
@@ -212,7 +263,11 @@ namespace ClubPenguin.DailyChallenge
                     break;
                 }
 
-                DailyChallengeDefinition dailyChallengeDefinition = (DailyChallengeDefinition)loadedDailies[i];
+                DailyChallengeDefinition dailyChallengeDefinition = loadedDailies[i] as DailyChallengeDefinition;
+                if (dailyChallengeDefinition == null)
+                {
+                    continue;
+                }
                 string taskName = dailyChallengeDefinition.TaskName();
 
                 if (usedTaskNames.Contains(taskName))
@@ -227,7 +282,7 @@ namespace ClubPenguin.DailyChallenge
                 }
 
                 TaskDefinition definition;
-                if (!taskService.TryGetDefinition(taskName, out definition) || isExcludedGroup(definition.Group))
+                if (!taskService.TryGetDefinition(taskName, out definition) || isExcludedGroup(definition.Group) || definition.Category == TaskDefinition.TaskCategory.TaskCompletion)
                 {
                     continue;
                 }
@@ -245,11 +300,11 @@ namespace ClubPenguin.DailyChallenge
                     exclusionSet.Add(recentTask);
                 }
 
-                List<string> candidates = taskService.GetTaskNamesByGroup(TaskDefinition.TaskGroup.Individual, exclusionSet, int.MaxValue);
+                List<string> candidates = cardCandidates(taskService.GetTaskNamesByGroup(TaskDefinition.TaskGroup.Individual, exclusionSet, int.MaxValue));
 
                 if (candidates.Count < shortfall || enforceMascotLimit)
                 {
-                    List<string> fallbackCandidates = taskService.GetTaskNamesByGroup(TaskDefinition.TaskGroup.Individual, usedTaskNames, int.MaxValue);
+                    List<string> fallbackCandidates = cardCandidates(taskService.GetTaskNamesByGroup(TaskDefinition.TaskGroup.Individual, usedTaskNames, int.MaxValue));
                     List<string> additionalCandidates = new List<string>();
                     for (int i = 0; i < fallbackCandidates.Count; i++)
                     {
@@ -291,6 +346,91 @@ namespace ClubPenguin.DailyChallenge
             string[] array = finalTaskNames.ToArray();
             NumberOfUpdates = array.Length;
             taskService.LoadTasks(array);
+        }
+
+
+        private const int DAILY_CHALLENGE_CARDS = 5;
+
+        private void setupScheduledTasks()
+        {
+            List<string> taskNames = new List<string>();
+            int cards = 0;
+            for (int i = 0; i < loadedDailies.Count; i++)
+            {
+                DailyChallengeDefinition dailyChallengeDefinition = loadedDailies[i] as DailyChallengeDefinition;
+                if (dailyChallengeDefinition == null)
+                {
+                    continue;
+                }
+                string taskName = dailyChallengeDefinition.TaskName();
+                TaskDefinition definition;
+                if (taskNames.Contains(taskName) || !taskService.TryGetDefinition(taskName, out definition)
+                    || (definition.Category != TaskDefinition.TaskCategory.TaskCompletion && cards >= DAILY_CHALLENGE_CARDS))
+                {
+                    continue;
+                }
+                taskNames.Add(taskName);
+                if (definition.Category != TaskDefinition.TaskCategory.TaskCompletion)
+                {
+                    cards++;
+                }
+            }
+            string[] array = taskNames.ToArray();
+            NumberOfUpdates = array.Length;
+            taskService.LoadTasks(array);
+        }
+
+        private const string DEFAULT_COMPLETION_TASK_NAME = "TaskCompletion_5";
+
+        private string scheduledCompletionTask()
+        {
+            for (int i = 0; i < loadedDailies.Count; i++)
+            {
+                DailyChallengeDefinition daily = loadedDailies[i] as DailyChallengeDefinition;
+                TaskDefinition definition;
+                if (daily != null && taskService.TryGetDefinition(daily.TaskName(), out definition) && definition.Category == TaskDefinition.TaskCategory.TaskCompletion)
+                {
+                    return daily.TaskName();
+                }
+            }
+            return null;
+        }
+
+        private List<string> cardCandidates(List<string> taskNames)
+        {
+            List<string> result = new List<string>();
+            for (int i = 0; i < taskNames.Count; i++)
+            {
+                TaskDefinition definition;
+                if (taskNames[i] != CLOTHING_CATALOG_TASK_NAME && taskService.TryGetDefinition(taskNames[i], out definition) && definition.Category != TaskDefinition.TaskCategory.TaskCompletion)
+                {
+                    result.Add(taskNames[i]);
+                }
+            }
+            return result;
+        }
+
+        private bool isValidOfflineDay(string[] taskNames)
+        {
+            int completions = 0;
+            bool catalog = false;
+            for (int i = 0; i < taskNames.Length; i++)
+            {
+                TaskDefinition definition;
+                if (!taskService.TryGetDefinition(taskNames[i], out definition))
+                {
+                    return false;
+                }
+                if (taskNames[i] == CLOTHING_CATALOG_TASK_NAME)
+                {
+                    catalog = true;
+                }
+                if (definition.Category == TaskDefinition.TaskCategory.TaskCompletion)
+                {
+                    completions++;
+                }
+            }
+            return catalog && completions == 1;
         }
 
         private Queue<string> loadRecentTasksHistory()
@@ -366,6 +506,7 @@ namespace ClubPenguin.DailyChallenge
         private bool onTaskProgressRecieved(TaskNetworkServiceEvents.DailyTaskProgressRecieved evt)
         {
             serverTaskProgress = evt.DailyTaskProgress;
+            tmpLogProgress(evt.DailyTaskProgress);
             for (int i = 0; i < evt.DailyTaskProgress.Count; i++)
             {
                 TaskProgress taskProgress = evt.DailyTaskProgress[i];
@@ -391,6 +532,30 @@ namespace ClubPenguin.DailyChallenge
             savedTaskCounters[task.Id] = task.Counter;
             Service.Get<INetworkServicesManager>().TaskService.SetProgress(task.Id, task.Counter);
             return false;
+        }
+
+        private void tmpLogMode(DateTime day, bool offline)
+        {
+            string offlineSetting = "?";
+            string apiHost = "?";
+            if (Service.IsSet<ICommonGameSettings>())
+            {
+                ICommonGameSettings settings = Service.Get<ICommonGameSettings>();
+                offlineSetting = settings.OfflineMode.ToString();
+                apiHost = string.IsNullOrEmpty(settings.CPAPIServicehost.Value) ? "(none)" : settings.CPAPIServicehost.Value;
+            }
+        }
+
+        private void tmpLogProgress(TaskProgressList progress)
+        {
+            List<string> parts = new List<string>();
+            if (progress != null)
+            {
+                for (int i = 0; i < progress.Count; i++)
+                {
+                    parts.Add(progress[i].taskId + "=" + progress[i].counter + (progress[i].claimed ? " claimed" : ""));
+                }
+            }
         }
     }
 }
