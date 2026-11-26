@@ -134,6 +134,7 @@ namespace ClubPenguin.Net.Lan
 
 		[Tweakable("LAN.Experimental.Bots", Description = "EXPERIMENTAL (more bots there are, the buggier they are): Number of bot penguins the LAN host adds. Bots play Crate Co, dance battles and party games. Only the device with LAN.Host on runs them. It's not recommended to use this experimental feature.")]
 		[TweakerRange(0, MaxBots)]
+		[StepSize(1)]
 		[PublicTweak]
 		public static int Bots
 		{
