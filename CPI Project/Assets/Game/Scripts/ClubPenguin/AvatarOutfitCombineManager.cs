@@ -101,6 +101,7 @@ namespace ClubPenguin
 		[Tweakable("Avatar.JumpHeight", Description = "How high your penguin jumps. Only works in Offline Mode and LAN. It does nothing while Network.GameServer or a Network.WebServices address is filled in.")]
 		[TweakerRange(1f, 23f)]
 		[StepSize(1f)]
+		[Tweaker.UI.TweakableUIFlags(Tweaker.UI.TweakableUIFlags.HideStepper)]
 		[PublicTweak]
 		public static float JumpHeight
 		{
