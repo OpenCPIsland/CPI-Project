@@ -37,18 +37,50 @@ namespace ClubPenguin.ObjectManipulation.Input
 		{
 		}
 
+        // The finger of a touch that began on the UI (a button, slider or scrolling list), or
+        // NoUiFinger. Shared by every state, since the state can change mid-touch.
+        private const int NoUiFinger = int.MinValue;
+
+        private static int uiFingerId = NoUiFinger;
+
+        // Whether a touch that began on the UI is kept away from this state. Only dragging
+        // wants it: an item dragged out of the inventory panel starts on the UI.
+        protected virtual bool IgnoresTouchesBeganOverUI
+        {
+            get
+            {
+                return true;
+            }
+        }
+
+        // True when this touch belongs to the UI, so it must not pan the camera, select the
+        // item behind a button, or anything else in the scene.
+        private bool isUiTouch(TouchEquivalent touch)
+        {
+            if (touch.Phase == UnityEngine.TouchPhase.Began)
+            {
+                uiFingerId = (EventSystem.current != null && IsScreenPointOverUI(touch.Position)) ? touch.FingerId : NoUiFinger;
+            }
+            bool ui = uiFingerId != NoUiFinger && touch.FingerId == uiFingerId;
+            if (touch.Phase == UnityEngine.TouchPhase.Ended || touch.Phase == UnityEngine.TouchPhase.Canceled)
+            {
+                uiFingerId = NoUiFinger;
+            }
+            return ui && IgnoresTouchesBeganOverUI;
+        }
+
         public virtual int Update()
         {
-            int num = InputWrapper.touchCount; 
+            int num = InputWrapper.touchCount;
 
             if (num == 1)
             {
                 TouchEquivalent touchEq = InputWrapper.GetTouch(0);
-                if (touchEq.Phase != UnityEngine.TouchPhase.Canceled) 
+                if (touchEq.Phase != UnityEngine.TouchPhase.Canceled && !isUiTouch(touchEq))
                 {
                     processOneTouch(touchEq);
                 }
-                return num; 
+                return num;
             }
             else if (num == 2) 
             {
@@ -82,13 +114,24 @@ namespace ClubPenguin.ObjectManipulation.Input
 
 
 
+        private static PointerEventData uiPointerEventData;
+
+        private static EventSystem uiPointerEventSystem;
+
+        private static readonly List<RaycastResult> uiRaycastResults = new List<RaycastResult>();
+
+        // Reuses its event data and result list: this runs every frame the pointer is held.
         private static bool IsScreenPointOverUI(Vector2 position)
 		{
-			PointerEventData pointerEventData = new PointerEventData(EventSystem.current);
-			pointerEventData.position = position;
-			List<RaycastResult> list = new List<RaycastResult>();
-			EventSystem.current.RaycastAll(pointerEventData, list);
-			return list.Count > 0;
+			if (uiPointerEventData == null || uiPointerEventSystem != EventSystem.current)
+			{
+				uiPointerEventSystem = EventSystem.current;
+				uiPointerEventData = new PointerEventData(uiPointerEventSystem);
+			}
+			uiPointerEventData.position = position;
+			uiRaycastResults.Clear();
+			EventSystem.current.RaycastAll(uiPointerEventData, uiRaycastResults);
+			return uiRaycastResults.Count > 0;
 		}
 
 		protected abstract void processOneTouch(TouchEquivalent touch);
