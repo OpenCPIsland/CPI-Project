@@ -40,6 +40,8 @@ namespace ClubPenguin.Net.Lan
 
 		private const string BotFollowPref = "LAN.BotFollow";
 
+		private const string BotActivitiesPref = "LAN.BotActivities";
+
 		private const double HostClothesChance = 0.5;
 
 		private const int MaxBots = 99;
@@ -224,6 +226,22 @@ namespace ClubPenguin.Net.Lan
 			set
 			{
 				PlayerPrefs.SetInt(BotFollowPref, value ? 1 : 0);
+				PlayerPrefs.Save();
+				ApplyBotTalk();
+			}
+		}
+
+		[Tweakable("LAN.Experimental.BotActivities", Description = "Lets LAN bots play Crate Co and join dance battles.")]
+		[PublicTweak]
+		public static bool BotActivitiesEnabled
+		{
+			get
+			{
+				return PlayerPrefs.GetInt(BotActivitiesPref, 1) != 0;
+			}
+			set
+			{
+				PlayerPrefs.SetInt(BotActivitiesPref, value ? 1 : 0);
 				PlayerPrefs.Save();
 				ApplyBotTalk();
 			}
@@ -427,6 +445,7 @@ namespace ClubPenguin.Net.Lan
 			server.Bots.TubesEnabled = PlayerPrefs.GetInt(BotTubesPref, 1) != 0;
 			server.Bots.PropsEnabled = PlayerPrefs.GetInt(BotPropsPref, 1) != 0;
 			server.Bots.FollowEnabled = PlayerPrefs.GetInt(BotFollowPref, 0) != 0;
+			server.Bots.ActivitiesEnabled = PlayerPrefs.GetInt(BotActivitiesPref, 1) != 0;
 		}
 
 		private static int[] BotColours()

@@ -641,6 +641,8 @@ namespace ClubPenguin.Net.Lan
 
 		public volatile bool FollowEnabled;
 
+		public volatile bool ActivitiesEnabled = true;
+
 		private readonly List<Dispenser> dispensers = new List<Dispenser>();
 
 		private readonly Dictionary<int, long> airborneUntil = new Dictionary<int, long>();
@@ -1052,6 +1054,10 @@ namespace ClubPenguin.Net.Lan
 				return;
 			}
 			danceCheckAt = now + 5000;
+			if (!ActivitiesEnabled)
+			{
+				return;
+			}
 			LanPartyGameDef def = Server.PartyGames.Definitions.Get(LanBot.DanceTemplate);
 			if (def == null || def.EveryXMinutes <= 0.0)
 			{
@@ -1714,6 +1720,17 @@ namespace ClubPenguin.Net.Lan
 			return v;
 		}
 
+		public static float[] RandomWater(string zone, Random r)
+		{
+			List<SwimVolume> pool = SwimVolumes.Where((SwimVolume v) => v.Zone == zone && v.Box[2] >= 4f && v.Box[3] >= 4f).ToList();
+			if (pool.Count == 0)
+			{
+				return null;
+			}
+			SwimVolume pick = pool[r.Next(pool.Count)];
+			return RandomInArea(pick.Box, pick.Surface, r);
+		}
+
 		public static bool InWater(string zone, float[] p)
 		{
 			if (zone == null || p == null)
@@ -2103,6 +2120,8 @@ namespace ClubPenguin.Net.Lan
 
 		private const byte ActLaunch = 4;
 
+		private const byte ActTorpedo = 5;
+
 		private const byte ActAction1 = 7;
 
 		private const byte ActAction2 = 8;
@@ -2325,6 +2344,10 @@ namespace ClubPenguin.Net.Lan
 
 		private long trayAt;
 
+		private long nextTorpedoAt;
+
+		private long torpedoUntil;
+
 		private string chatText;
 
 		private int chatSizzle;
@@ -2398,6 +2421,10 @@ namespace ClubPenguin.Net.Lan
 		private static readonly string[] Snacks = new string[32] { "PizzaSingle", "SpicyPizzaSingle", "PizzaPlanetSingle", "HotChocolateSingle", "SquidStickSingle", "SeaweedSmoothieSingle", "RainbowSmoothieSingle", "FishdogSingle", "StinkyCheeseSingle", "CandyCaneSingle", "FluffyCakeSingle", "IceCreamSingle", "Popscorn", "BirthdayCakeSingle", "20thBirthdayCakeSingle", "ZootopiaPawpsicle", "FindingDoryBubbleWand", "MonstersScareCanister", "FrozenSnowflake", "FireHydrant", "Firework", "SuperFirework", "HolidayFirework", "GlowStickYellow", "GlowStickPink", "GlowStickRainbow", "GlowStickMint", "HalloweenBasketOrange", "HalloweenBasketPurple", "HalloweenBasketGreen", "Science_BeakerSingle", "Science_BeakerGreenSingle" };
 
 		private static readonly HashSet<string> HeldSnacks = new HashSet<string> { "PizzaPlanetSingle" };
+
+		private static readonly string[] Trays = new string[23] { "BirthdayCakeGroup", "HotChocolateGroup", "PizzaGroup", "SquidStickGroup", "StinkyCheeseTray", "FishdogGroup", "GlowstickPack", "PizzaPlanetGroup", "SeaweedSmoothieTray", "SpicyPizzaGroup", "HalloweenBasketTray", "HotChocolateGroupNonMember", "PizzaGroupNonMember", "SquidStickGroupNonMember", "CandyCane", "FluffyCakeTray", "RainbowSmoothieTray", "BirthdayCakeGroupNonMember", "IceCreamTray", "PopscornTray", "20thBirthdayCakeGroup", "Science_BeakerGroup", "Science_BeakerGreenGroup" };
+
+		private static readonly HashSet<string> TraySet = new HashSet<string>(Trays);
 
 		private bool snackHeld;
 
@@ -2917,8 +2944,8 @@ namespace ClubPenguin.Net.Lan
 			{
 				return false;
 			}
-			snack = Snacks[R.Next(Snacks.Length)];
-			snackHeld = HeldSnacks.Contains(snack);
+			snack = (R.NextDouble() < 0.25) ? Trays[R.Next(Trays.Length)] : Snacks[R.Next(Snacks.Length)];
+			snackHeld = HeldSnacks.Contains(snack) || TraySet.Contains(snack);
 			snackUsed = false;
 			snackAt = now + 2500 + R.Next(2500);
 			if (snackHeld)
@@ -2961,6 +2988,10 @@ namespace ClubPenguin.Net.Lan
 			}
 			if (snackHeld)
 			{
+				if (HoldingTray())
+				{
+					return;
+				}
 				PutAway();
 				heldFreeAt = now + 5000;
 				return;
@@ -2976,8 +3007,17 @@ namespace ClubPenguin.Net.Lan
 			snack = null;
 		}
 
+		private bool HoldingTray()
+		{
+			return snack != null && TraySet.Contains(snack) && Player.Registered && Player.EquippedConsumable == snack && Player.HeldActionCount.GetValueOrDefault() > 0;
+		}
+
 		private void PutAway()
 		{
+			if (HoldingTray())
+			{
+				return;
+			}
 			if (snack != null)
 			{
 				string s = snack;
@@ -3677,10 +3717,26 @@ namespace ClubPenguin.Net.Lan
 				{
 					EndSprint();
 				}
-				left = Math.Min(left, LanBots.SwimSpeed * dt);
+				double swim = LanBots.SwimSpeed;
+				long clock = bots.Now;
+				if (clock >= nextTorpedoAt && route.Count > 0 && HDist(pos, route[route.Count - 1]) > 4.0)
+				{
+					nextTorpedoAt = clock + 4000 + R.Next(6000);
+					torpedoUntil = clock + 1200;
+					Send(ActTorpedo, Flat(facing), null, null);
+				}
+				if (clock < torpedoUntil)
+				{
+					swim *= 2.0;
+				}
+				left = Math.Min(left, swim * dt);
 			}
 			LanBotGrid grid = Grid();
 			if (grid != null && !grid.Walkable(pos))
+			{
+				grid = null;
+			}
+			if (grid != null && route.Count > 0 && LanBots.InWater(LanServer.ZoneOfRoom(Player.RoomKey), route[route.Count - 1]))
 			{
 				grid = null;
 			}
@@ -4132,6 +4188,12 @@ namespace ClubPenguin.Net.Lan
 		{
 			float[] target = Map.RandomReachable(pos, 6.0, 1000.0, R);
 			bool usePath = true;
+			float[] water = (R.NextDouble() < 0.25) ? LanBots.RandomWater(LanServer.ZoneOfRoom(Player.RoomKey), R) : null;
+			if (water != null)
+			{
+				target = water;
+				usePath = false;
+			}
 			if (target == null)
 			{
 				int home = Map.Nearest(pos, 1000.0);
@@ -4181,6 +4243,10 @@ namespace ClubPenguin.Net.Lan
 			foreach (LanLobbyView l in Server.Lobbies.Open(Player.RoomKey))
 			{
 				if (LanBots.IsTubeRace(Server.PartyGames.Definitions.Get(l.TemplateId)))
+				{
+					continue;
+				}
+				if (!bots.ActivitiesEnabled && l.TemplateId == DanceTemplate)
 				{
 					continue;
 				}
@@ -4523,7 +4589,7 @@ namespace ClubPenguin.Net.Lan
 
 		private bool TryTargets(long now)
 		{
-			LanTargetsView view = Server.Targets.View(Player.RoomKey, false);
+			LanTargetsView view = bots.ActivitiesEnabled ? Server.Targets.View(Player.RoomKey, false) : null;
 			if (view == null || view.Center == null || !TargetsShown(view) || Decide("T" + view.Key, now, 3600000) || R.NextDouble() > 0.85)
 			{
 				return false;
