@@ -132,7 +132,8 @@ namespace ClubPenguin.Net.Lan
 			}
 		}
 
-		[Tweakable("LAN.Experimental.Bots", Description = "EXPERIMENTAL (more bots there are, the buggier they are): Number of bot penguins the LAN host adds (0-99). Bots play Crate Co, dance battles and party games. Only the device with LAN.Host on runs them. It's not recommended to use this experimental feature.")]
+		[Tweakable("LAN.Experimental.Bots", Description = "EXPERIMENTAL (more bots there are, the buggier they are): Number of bot penguins the LAN host adds. Bots play Crate Co, dance battles and party games. Only the device with LAN.Host on runs them. It's not recommended to use this experimental feature.")]
+		[TweakerRange(0, MaxBots)]
 		[PublicTweak]
 		public static int Bots
 		{
@@ -876,7 +877,7 @@ namespace ClubPenguin.Net.Lan
 				return;
 			}
 			ZoneTransitionService zones = Service.Get<ZoneTransitionService>();
-			if (zones.IsTransitioning || zones.CurrentZone == null || string.IsNullOrEmpty(zones.CurrentZone.SceneName))
+			if (zones.IsTransitioning || zones.CurrentZone == null || string.IsNullOrEmpty(zones.CurrentZone.SceneName) || UnityEngine.SceneManagement.SceneManager.GetActiveScene().name != zones.CurrentZone.SceneName)
 			{
 				return;
 			}

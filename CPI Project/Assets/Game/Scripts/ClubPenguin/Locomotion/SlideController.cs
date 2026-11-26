@@ -390,7 +390,7 @@ namespace ClubPenguin.Locomotion
 			{
 				accumulatedVarTime = 0f;
 				Vector3 velocity = pilotBody.linearVelocity;
-				velocity.y += mutableData.JumpSpeed;
+				velocity.y += mutableData.JumpSpeed * GameSettings.JumpSpeedScale(base.gameObject);
 				pilotBody.linearVelocity = velocity;
 				isSupportedByWater = false;
 				jumpRequest.Reset();

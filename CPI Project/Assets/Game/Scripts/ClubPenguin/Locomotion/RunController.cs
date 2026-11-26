@@ -780,7 +780,7 @@ case LocomotionAction.Sprint:
 
 		public void AnimEvent_JumpStarted()
 		{
-			Vector3 wsForce = new Vector3(0f, mutableData.JumpSpeed, 0f);
+			Vector3 wsForce = new Vector3(0f, mutableData.JumpSpeed * GameSettings.JumpSpeedScale(base.gameObject), 0f);
 			SetForce(wsForce);
 			inAirVel = prevVel;
 			inAirVel.y = 0f;

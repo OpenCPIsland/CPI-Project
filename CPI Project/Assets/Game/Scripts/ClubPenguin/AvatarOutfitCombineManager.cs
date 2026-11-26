@@ -98,6 +98,21 @@ namespace ClubPenguin
 		[Tweakable("Avatar.CombineRemote")]
 		public static bool CombineRemote;
 
+		[Tweakable("Avatar.JumpHeight", Description = "How high your penguin jumps. Only works in Offline Mode and LAN. It does nothing while Network.GameServer or a Network.WebServices address is filled in.")]
+		[TweakerRange(1f, 23f)]
+		[PublicTweak]
+		public static float JumpHeight
+		{
+			get
+			{
+				return ClubPenguin.GameSettings.JumpHeight;
+			}
+			set
+			{
+				ClubPenguin.GameSettings.JumpHeight = value;
+			}
+		}
+
 		private bool isLocal;
 
 		private CPDataEntityCollection dataEntityCollection;

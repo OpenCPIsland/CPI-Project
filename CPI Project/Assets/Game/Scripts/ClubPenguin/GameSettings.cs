@@ -56,6 +56,35 @@ namespace ClubPenguin
             }
         }
 
+        private const string JUMP_HEIGHT_KEY = "cp.JumpHeight";
+
+        public const float MaxJumpHeight = 23f;
+
+        public static float JumpHeight
+        {
+            get => Mathf.Clamp(PlayerPrefs.GetFloat(GetPlatformKey(JUMP_HEIGHT_KEY), 1f), 1f, MaxJumpHeight);
+            set
+            {
+                PlayerPrefs.SetFloat(GetPlatformKey(JUMP_HEIGHT_KEY), Mathf.Clamp(value, 1f, MaxJumpHeight));
+                PlayerPrefs.Save();
+            }
+        }
+
+        public static float JumpSpeedScale(GameObject avatar)
+        {
+            if (avatar == null || !avatar.CompareTag("Player") || !Service.IsSet<GameSettings>() || Service.Get<GameSettings>().UsesOnlineServers())
+            {
+                return 1f;
+            }
+            float height = JumpHeight;
+            return (height > 1f) ? Mathf.Sqrt(height) : 1f;
+        }
+
+        public bool UsesOnlineServers()
+        {
+            return !string.IsNullOrEmpty(GameServerHost.Value) || !string.IsNullOrEmpty(CPAPIServicehost.Value) || !string.IsNullOrEmpty(GuestControllerHostUrl.Value) || !string.IsNullOrEmpty(GuestControllerCDNUrl.Value) || !string.IsNullOrEmpty(MixAPIHostUrl.Value);
+        }
+
         public const string CLEAR_PREFS_ARG = "-clear-prefs";
 
         private readonly HashSet<ICachableType> resetableGenericSettings;
