@@ -226,7 +226,7 @@ namespace ClubPenguin
 			result.ClientVersion = null;
 
 #if UNITY_ANDROID
-    result.ClientApiVersion = "1.18.1";
+    result.ClientApiVersion = "1.19.0";
 #else
 			result.ClientApiVersion = EnvironmentManager.ClientVersion.ToString();
 #endif
@@ -1077,9 +1077,9 @@ namespace ClubPenguin
 			result.ClientVersion = null;
 
 #if UNITY_ANDROID
-    result.ClientApiVersion = "1.18.1";
+    result.ClientApiVersion = "1.19.0";
 #else
-            result.ClientApiVersion = "1.18.1";
+            result.ClientApiVersion = "1.19.0";
 #endif
 
             if (environmentConfig.ContainsKey("ClientApiVersion"))
