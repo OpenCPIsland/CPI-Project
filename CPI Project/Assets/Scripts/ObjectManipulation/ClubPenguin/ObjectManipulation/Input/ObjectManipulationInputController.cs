@@ -401,7 +401,10 @@ namespace ClubPenguin.ObjectManipulation.Input
 
         private void OnDragItemInputInteractionStateTouchPhaseMoved(RaycastHit topHit, TouchEquivalent touch)
         {
-            PositionDragItem(topHit, touch);
+            if (!dragItemInputInteractionState.HitUnchanged)
+            {
+                PositionDragItem(topHit, touch);
+            }
             if (this.DragStateMoved != null)
             {
                 ObjectManipulator componentInParent = CurrentlySelectedObject.GetComponentInParent<ObjectManipulator>();
@@ -411,7 +414,13 @@ namespace ClubPenguin.ObjectManipulation.Input
 
         private void OnDragItemInputInteractionStateTouchPhaseStationary(RaycastHit topHit, TouchEquivalent touch)
         {
-            PositionDragItem(topHit, touch);
+            // A still finger under a still camera: the item is already in place. The
+            // stationary event still goes out so the camera keeps edge-scrolling, which moves
+            // the ray and repositions the item next frame.
+            if (!dragItemInputInteractionState.HitUnchanged)
+            {
+                PositionDragItem(topHit, touch);
+            }
             if (this.DragStateStationary != null)
             {
                 ObjectManipulator componentInParent = CurrentlySelectedObject.GetComponentInParent<ObjectManipulator>();
@@ -496,7 +505,8 @@ namespace ClubPenguin.ObjectManipulation.Input
 
         private void PositionDragItemForStacking(RaycastHit topHit, ObjectManipulator selectedManipulator, CollidableObject selectedCollidableObject, CollidableObject hitCollidableObject, Vector3 localAlignment)
         {
-            List<CollidableObject> list = new List<CollidableObject>();
+            List<CollidableObject> list = stackingCandidates;
+            list.Clear();
             CollidableObject[] componentsInChildren = hitCollidableObject.gameObject.GetComponentsInChildren<CollidableObject>();
             foreach (CollidableObject collidableObject in componentsInChildren)
             {
@@ -561,11 +571,20 @@ namespace ClubPenguin.ObjectManipulation.Input
             }
         }
 
+        // Reused by PositionDragItemForStacking, which runs every frame of a drag.
+        private readonly List<CollidableObject> stackingCandidates = new List<CollidableObject>();
+
+        private int terrainBarrierLayer = -2;
+
         private void setPositionAtPointOnTopHit(RaycastHit topHit, ObjectManipulator selectedManipulator)
         {
             selectedManipulator.SetParent(Container);
             selectedManipulator.SetPosition(topHit.point);
-            if (topHit.transform.gameObject.layer == LayerMask.NameToLayer("TerrainBarrier"))
+            if (terrainBarrierLayer == -2)
+            {
+                terrainBarrierLayer = LayerMask.NameToLayer("TerrainBarrier");
+            }
+            if (topHit.transform.gameObject.layer == terrainBarrierLayer)
             {
                 selectedManipulator.AlignWith(topHit.normal, topHit.transform);
             }
