@@ -71,7 +71,7 @@ namespace ClubPenguin
                             float magnitude2 = (position - deltaPosition - (position2 - deltaPosition2)).magnitude;
                             float num2 = magnitude - magnitude2;
 
-                            num -= num2 * TouchSensitivity / (float)Screen.width;
+                            num += num2 * TouchSensitivity / (float)Screen.width;
                         }
                     }
                 }
