@@ -3,6 +3,7 @@
 #include <string.h>
 #include <stdint.h>
 #include <unistd.h>
+#include <fcntl.h>
 #include <sys/stat.h>
 #include <errno.h>
 #include <openssl/evp.h>
@@ -13,6 +14,8 @@ extern "C" {
 #endif
 
 #define KEY_FILE "/.local/share/KeyChainLinux/keychain.key"
+#define KEY_FILE_XDG "/KeyChainLinux/keychain.key"
+#define KEY_SIZE 32
 
 // Recursively create a directory path (mkdir -p behavior).
 static void ensure_directory_exists_recursive(const char* dir_path) {
@@ -40,16 +43,60 @@ static void ensure_directory_exists_recursive(const char* dir_path) {
 }
 
 // Helper to get user key path
-static void get_key_path(char* buf, size_t buf_size) {
+static int get_key_path(char* buf, size_t buf_size) {
     const char* home = getenv("HOME");
-    if (!home) home = ".";
-    snprintf(buf, buf_size, "%s%s", home, KEY_FILE);
+    if (!home || home[0] == '\0') home = ".";
+    int n = snprintf(buf, buf_size, "%s%s", home, KEY_FILE);
+    if (n < 0 || (size_t)n >= buf_size) return 0;
+    if (access(buf, F_OK) == 0) return 1;
+
+    const char* xdg = getenv("XDG_DATA_HOME");
+    if (xdg && xdg[0] == '/') {
+        n = snprintf(buf, buf_size, "%s%s", xdg, KEY_FILE_XDG);
+        if (n < 0 || (size_t)n >= buf_size) return 0;
+    }
+    return 1;
+}
+
+static int read_key_file(const char* path, unsigned char* key) {
+    int fd = open(path, O_RDONLY | O_CLOEXEC);
+    if (fd < 0) return errno == ENOENT ? 0 : -1;
+
+    size_t total = 0;
+    while (total < KEY_SIZE) {
+        ssize_t r = read(fd, key + total, KEY_SIZE - total);
+        if (r < 0) {
+            if (errno == EINTR) continue;
+            close(fd);
+            return -1;
+        }
+        if (r == 0) break;
+        total += (size_t)r;
+    }
+
+    unsigned char extra;
+    ssize_t more = read(fd, &extra, 1);
+    close(fd);
+    return (total == KEY_SIZE && more == 0) ? 1 : -1;
+}
+
+static int write_all(int fd, const unsigned char* data, size_t len) {
+    size_t total = 0;
+    while (total < len) {
+        ssize_t w = write(fd, data + total, len - total);
+        if (w < 0) {
+            if (errno == EINTR) continue;
+            return 0;
+        }
+        total += (size_t)w;
+    }
+    return 1;
 }
 
 // Load or generate per-user AES-256 key
 static int load_or_generate_key(unsigned char* key) {
     char path[512];
-    get_key_path(path, sizeof(path));
+    if (!get_key_path(path, sizeof(path))) return 0;
 
     // Ensure directory exists
     char dir[512];
@@ -60,22 +107,36 @@ static int load_or_generate_key(unsigned char* key) {
         ensure_directory_exists_recursive(dir);
     }
 
-    FILE* f = fopen(path, "rb");
-    if (f) {
-        size_t read = fread(key, 1, 32, f);
-        fclose(f);
-        if (read == 32) return 1;
-    }
+    int status = read_key_file(path, key);
+    if (status == 1) return 1;
+    if (status < 0) return 0;
 
     // Generate new key
-    if (RAND_bytes(key, 32) != 1) return 0;
+    if (RAND_bytes(key, KEY_SIZE) != 1) return 0;
 
-    f = fopen(path, "wb");
-    if (!f) return 0;
-    fwrite(key, 1, 32, f);
-    fclose(f);
-    chmod(path, 0600);
-    return 1;
+    char tmp[600];
+    int n = snprintf(tmp, sizeof(tmp), "%s.XXXXXX", path);
+    if (n < 0 || (size_t)n >= sizeof(tmp)) return 0;
+
+    int fd = mkstemp(tmp);
+    if (fd < 0) return 0;
+    fchmod(fd, 0600);
+
+    int ok = write_all(fd, key, KEY_SIZE) && fsync(fd) == 0;
+    if (close(fd) != 0) ok = 0;
+    if (!ok) {
+        unlink(tmp);
+        return 0;
+    }
+
+    int linked = link(tmp, path);
+    int link_errno = errno;
+    unlink(tmp);
+
+    if (linked == 0) return 1;
+
+    if (link_errno == EEXIST) return read_key_file(path, key) == 1;
+    return 0;
 }
 
 // Encrypt input string (includes terminating null)
@@ -138,6 +199,7 @@ int _cryptProtectData(const char* dataIn, int* sizeOut, char** dataOut) {
     *dataOut = (char*)outBuf;
 
     EVP_CIPHER_CTX_free(ctx);
+    OPENSSL_cleanse(key, sizeof(key));
     return 1;
 }
 
@@ -196,6 +258,7 @@ int _cryptUnprotectData(const unsigned char* dataIn, int dataInLength, char** da
     *dataOut = outBuf;
 
     EVP_CIPHER_CTX_free(ctx);
+    OPENSSL_cleanse(key, sizeof(key));
     return 1;
 }
 

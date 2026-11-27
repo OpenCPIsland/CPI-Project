@@ -12,49 +12,9 @@
 extern "C" {
 #endif
 
-// Mirrors Windows ReadProcessMemory API
-ssize_t ReadProcessMemory(void *hProcess, void *lpBaseAddress, void *lpBuffer, size_t nSize, size_t *lpNumberOfBytesRead) {
-    if (!hProcess || !lpBaseAddress || !lpBuffer) {
-        if (lpNumberOfBytesRead) *lpNumberOfBytesRead = 0;
-        return 0;
-    }
-
-    pid_t pid = (pid_t)(uintptr_t)hProcess; // Use process ID as "handle"
-    char mem_path[64];
-    int ret = snprintf(mem_path, sizeof(mem_path), "/proc/%d/mem", pid);
-    if (ret < 0 || ret >= (int)sizeof(mem_path)) {
-        if (lpNumberOfBytesRead) *lpNumberOfBytesRead = 0;
-        return 0;
-    }
-
-    int fd = open(mem_path, O_RDONLY);
-    if (fd == -1) {
-        perror("open");
-        if (lpNumberOfBytesRead) *lpNumberOfBytesRead = 0;
-        return 0;
-    }
-
-    ssize_t nread = pread(fd, lpBuffer, nSize, (uintptr_t)lpBaseAddress);
-    if (nread == -1) {
-        perror("pread");
-        nread = 0;
-    }
-
-    if (lpNumberOfBytesRead) *lpNumberOfBytesRead = (size_t)nread;
-    close(fd);
-
-    return nread > 0;
-}
-
-// Exported function for Unity DllImport
-__attribute__((visibility("default")))
-ssize_t read_process_memory(void *hProcess, void *lpBaseAddress, void *lpBuffer, size_t nSize, size_t *lpNumberOfBytesRead) {
-    return ReadProcessMemory(hProcess, lpBaseAddress, lpBuffer, nSize, lpNumberOfBytesRead);
-}
-
 // Returns approximate memory usage (RSS) in bytes of the current process
 __attribute__((visibility("default")))
-uint64_t get_process_used_bytes() {
+uint64_t get_process_used_bytes(void) {
     FILE* f = fopen("/proc/self/statm", "r");
     if (!f) return 0;
 
