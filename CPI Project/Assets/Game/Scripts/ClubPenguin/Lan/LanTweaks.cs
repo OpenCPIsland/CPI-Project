@@ -794,20 +794,30 @@ namespace ClubPenguin.Net.Lan
 			}
 		}
 
+		private static int needsLocalNetworkPermission = -1;
+
 		private static bool NeedsLocalNetworkPermission()
 		{
 #if UNITY_ANDROID && !UNITY_EDITOR
+			if (needsLocalNetworkPermission >= 0)
+			{
+				return needsLocalNetworkPermission == 1;
+			}
 			try
 			{
 				using (AndroidJavaClass version = new AndroidJavaClass("android.os.Build$VERSION"))
+				using (AndroidJavaClass player = new AndroidJavaClass("com.unity3d.player.UnityPlayer"))
+				using (AndroidJavaObject activity = player.GetStatic<AndroidJavaObject>("currentActivity"))
+				using (AndroidJavaObject info = activity.Call<AndroidJavaObject>("getApplicationInfo"))
 				{
-					return version.GetStatic<int>("SDK_INT") >= 37;
+					needsLocalNetworkPermission = (version.GetStatic<int>("SDK_INT") >= 37 && info.Get<int>("targetSdkVersion") >= 37) ? 1 : 0;
 				}
 			}
 			catch (System.Exception)
 			{
-				return false;
+				needsLocalNetworkPermission = 0;
 			}
+			return needsLocalNetworkPermission == 1;
 #else
 			return false;
 #endif

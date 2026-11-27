@@ -1,8 +1,6 @@
 package com.disney.mobilenetwork.plugins;
 
-import android.app.Application;
-import android.content.Context;
-import com.disney.mobilenetwork.utils.BuildSettings;
+import android.app.Activity;
 import com.disney.mobilenetwork.utils.Plugin;
 
 public class KeyChainPlugin extends Plugin {
@@ -10,12 +8,16 @@ public class KeyChainPlugin extends Plugin {
   
   private ObscuredSharedPreferences prefs;
   
-  public static KeyChainPlugin getInstance() {
+  public static synchronized KeyChainPlugin getInstance() {
+    if (mInstance == null) {
+      mInstance = new KeyChainPlugin();
+    }
     return mInstance;
   }
   
   public void GenerateAndStoreKey() {
-    this.prefs = new ObscuredSharedPreferences((Context)this.mActivity, this.mActivity.getSharedPreferences("Store", 0));
+    Activity activity = getActivity();
+    this.prefs = new ObscuredSharedPreferences(activity, activity.getSharedPreferences("Store", 0));
     this.prefs.GenerateAndStoreKey();
   }
   
@@ -28,11 +30,6 @@ public class KeyChainPlugin extends Plugin {
   }
   
   public void RemoveString(String paramString) {
-    this.prefs.edit().remove(paramString);
-  }
-  
-  public void init(Application paramApplication, BuildSettings paramBuildSettings) {
-    mInstance = this;
-    super.init(paramApplication, paramBuildSettings);
+    this.prefs.edit().remove(paramString).commit();
   }
 }
