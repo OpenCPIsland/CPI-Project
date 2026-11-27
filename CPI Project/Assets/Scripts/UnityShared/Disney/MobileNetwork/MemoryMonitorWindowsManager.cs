@@ -86,6 +86,9 @@ namespace Disney.MobileNetwork
         private static extern double MemoryMonitorWebGL_GetWasmHeapSize();
 
         [DllImport("__Internal")]
+        private static extern double MemoryMonitorWebGL_GetWasmHeapMax();
+
+        [DllImport("__Internal")]
         private static extern double MemoryMonitorWebGL_GetJsHeapUsed();
 
         [DllImport("__Internal")]
@@ -160,7 +163,12 @@ namespace Disney.MobileNetwork
 
             try
             {
-                double limit = MemoryMonitorWebGL_GetJsHeapLimit();
+                double limit = MemoryMonitorWebGL_GetWasmHeapMax();
+
+                if (limit <= 0)
+                {
+                    limit = MemoryMonitorWebGL_GetJsHeapLimit();
+                }
 
                 if (limit <= 0)
                 {
@@ -194,7 +202,17 @@ namespace Disney.MobileNetwork
                 return 0uL;
             }
 
-            ulong used = GetProcessUsedBytes();
+            ulong used;
+
+            try
+            {
+                double wasmBytes = Enabled ? MemoryMonitorWebGL_GetWasmHeapSize() : 0;
+                used = (wasmBytes > 0) ? (ulong)wasmBytes : GetProcessUsedBytes();
+            }
+            catch
+            {
+                used = GetProcessUsedBytes();
+            }
 
             if (used >= total)
             {

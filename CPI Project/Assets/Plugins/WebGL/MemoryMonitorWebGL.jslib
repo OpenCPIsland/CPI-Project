@@ -24,6 +24,19 @@ mergeInto(LibraryManager.library, {
     return 0;
   },
 
+  MemoryMonitorWebGL_GetWasmHeapMax__deps: ['emscripten_get_heap_max'],
+  MemoryMonitorWebGL_GetWasmHeapMax: function () {
+    try {
+      var max = _emscripten_get_heap_max();
+      if (typeof max === 'number' && max > 0) {
+        return max;
+      }
+    } catch (e) {
+    }
+
+    return -1;
+  },
+
   MemoryMonitorWebGL_GetJsHeapUsed: function () {
     try {
       if (typeof performance !== 'undefined' && performance && performance.memory && typeof performance.memory.usedJSHeapSize === 'number') {

@@ -135,6 +135,8 @@ namespace Disney.MobileNetwork
 
         private static bool WebGLKeyChainEnabled = true;
 
+        private static Dictionary<string, string> webGLAppDataCache;
+
         private static string WebGL_GetString(string key)
         {
             if (!WebGLKeyChainEnabled)
@@ -475,6 +477,11 @@ namespace Disney.MobileNetwork
 
 #elif UNITY_WEBGL
 
+            if (webGLAppDataCache != null)
+            {
+                return new Dictionary<string, string>(webGLAppDataCache);
+            }
+
             string str = null;
 
             if (WebGLKeyChainEnabled)
@@ -538,6 +545,8 @@ namespace Disney.MobileNetwork
 
                 strs = parsed ?? new Dictionary<string, string>();
             }
+
+            webGLAppDataCache = new Dictionary<string, string>(strs);
 
 #else
 
@@ -711,10 +720,14 @@ namespace Disney.MobileNetwork
 
                 PlayerPrefs.DeleteKey(APP_DATA_KEY);
 
+                webGLAppDataCache = new Dictionary<string, string>();
+
                 return;
             }
 
             string json = JsonMapper.ToJson(data);
+
+            webGLAppDataCache = new Dictionary<string, string>(data);
 
             string stored;
 
