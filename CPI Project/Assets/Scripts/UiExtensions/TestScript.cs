@@ -46,7 +46,7 @@ public class TestScript : MonoBehaviour
 
 	public void OnDeserialize()
 	{
-		ObjectIdentifier[] array = Object.FindObjectsByType<ObjectIdentifier>(FindObjectsSortMode.None);
+		ObjectIdentifier[] array = Object.FindObjectsByType<ObjectIdentifier>();
 		if (!string.IsNullOrEmpty(someGameObject_id))
 		{
 			ObjectIdentifier[] array2 = array;

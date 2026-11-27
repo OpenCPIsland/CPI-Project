@@ -24,9 +24,9 @@ namespace DisneyMobile.CoreUnitySystems.Utility.DesignPatterns
                 {
                     if ((Object)m_instance == (Object)null)
                     {
-                        m_instance = (T)Object.FindFirstObjectByType(typeof(T));
+                        m_instance = (T)Object.FindAnyObjectByType(typeof(T));
 
-                        if (Object.FindObjectsByType(typeof(T), FindObjectsSortMode.None).Length > 1)
+                        if (Object.FindObjectsByType(typeof(T)).Length > 1)
                         {
                             Logger.LogFatal(m_instance, "[Singleton] Something went really wrong - there should never be more than 1 singleton! Reopenning the scene might fix it.");
                             return m_instance;

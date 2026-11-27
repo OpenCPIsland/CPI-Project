@@ -38,7 +38,7 @@ namespace HutongGames.PlayMaker.Actions
 		void DoWakeAll()
 		{
 #if UNITY_2022_3_OR_NEWER
-			bodies = Object.FindObjectsByType<Rigidbody>(FindObjectsSortMode.None);
+			bodies = Object.FindObjectsByType<Rigidbody>();
 #else
             bodies = Object.FindObjectsOfType(typeof(Rigidbody)) as Rigidbody[];
 #endif

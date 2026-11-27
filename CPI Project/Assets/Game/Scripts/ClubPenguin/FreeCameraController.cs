@@ -152,7 +152,7 @@ namespace ClubPenguin
             {
                 blobShadowCaster = component.GameObject.GetComponent<BlobShadowCaster>();
             }
-            groupCulling = UnityEngine.Object.FindFirstObjectByType<GroupCulling>();
+            groupCulling = UnityEngine.Object.FindAnyObjectByType<GroupCulling>();
             if (groupCulling != null)
                 groupCulling.enabled = false;
 

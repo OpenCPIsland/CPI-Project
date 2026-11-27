@@ -7,7 +7,7 @@ namespace ClubPenguin.Adventure
 	{
 		public override void OnEnter()
 		{
-			   DanceBattleQuestGameController danceBattleQuestGameController = Object.FindFirstObjectByType<DanceBattleQuestGameController>();
+			   DanceBattleQuestGameController danceBattleQuestGameController = Object.FindAnyObjectByType<DanceBattleQuestGameController>();
 			if (danceBattleQuestGameController != null)
 			{
 				danceBattleQuestGameController.StartGame();

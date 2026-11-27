@@ -55,7 +55,7 @@ namespace UnityEngine.UI.Extensions
 		{
 			base.CalculateLayoutInputHorizontal();
 			float totalMin = GetGreatestMinimumChildWidth() + (float)base.padding.left + (float)base.padding.right;
-			SetLayoutInputForAxis(totalMin, -1f, -1f, 0);
+			SetLayoutInputForAxis(totalMin, -1f, -1f, float.PositiveInfinity, 0);
 		}
 
 		public override void SetLayoutHorizontal()
@@ -123,7 +123,7 @@ namespace UnityEngine.UI.Extensions
 			num2 += (float)((!IsLowerAlign) ? base.padding.bottom : base.padding.top);
 			if (layoutInput && axis == 1)
 			{
-				SetLayoutInputForAxis(num2, num2, -1f, axis);
+				SetLayoutInputForAxis(num2, num2, -1f, float.PositiveInfinity, axis);
 			}
 			return num2;
 		}

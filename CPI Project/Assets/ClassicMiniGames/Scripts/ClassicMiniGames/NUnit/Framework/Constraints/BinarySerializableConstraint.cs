@@ -1,14 +1,11 @@
 using System;
 using System.IO;
 using System.Runtime.Serialization;
-using System.Runtime.Serialization.Formatters.Binary;
 
 namespace NUnit.Framework.Constraints
 {
 	public class BinarySerializableConstraint : Constraint
 	{
-		private readonly BinaryFormatter serializer = new BinaryFormatter();
-
 		public override bool Matches(object actual)
 		{
 			base.actual = actual;
@@ -16,15 +13,20 @@ namespace NUnit.Framework.Constraints
 			{
 				throw new ArgumentException();
 			}
+			DataContractSerializer serializer = new DataContractSerializer(actual.GetType());
 			MemoryStream memoryStream = new MemoryStream();
 			try
 			{
-				serializer.Serialize(memoryStream, actual);
+				serializer.WriteObject(memoryStream, actual);
 				memoryStream.Seek(0L, SeekOrigin.Begin);
-				object obj = serializer.Deserialize(memoryStream);
+				object obj = serializer.ReadObject(memoryStream);
 				return obj != null;
 			}
 			catch (SerializationException)
+			{
+				return false;
+			}
+			catch (InvalidDataContractException)
 			{
 				return false;
 			}

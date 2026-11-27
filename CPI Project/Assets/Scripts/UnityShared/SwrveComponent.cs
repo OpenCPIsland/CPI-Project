@@ -18,7 +18,7 @@ public class SwrveComponent : MonoBehaviour
 		{
 			if (!instance)
 			{
-				SwrveComponent[] array = UnityEngine.Object.FindObjectsByType<SwrveComponent>(FindObjectsSortMode.None);
+				SwrveComponent[] array = UnityEngine.Object.FindObjectsByType<SwrveComponent>();
 				if (array != null && array.Length > 0)
 				{
 					instance = array[0];

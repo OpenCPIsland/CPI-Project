@@ -48,7 +48,7 @@ namespace ClubPenguin.Core
 			trilight.equator = lightingDefinition.AmbientEquatorColor;
 			trilight.ground = lightingDefinition.AmbientGroundColor;
 			Trilight trilight2 = trilight;
-			LightingDefinitionOverride lightingDefinitionOverride = UnityEngine.Object.FindFirstObjectByType<LightingDefinitionOverride>();
+			LightingDefinitionOverride lightingDefinitionOverride = UnityEngine.Object.FindAnyObjectByType<LightingDefinitionOverride>();
 			if (lightingDefinitionOverride != null && lightingDefinitionOverride.TrilightOverrides != null)
 			{
 				for (int i = 0; i < lightingDefinitionOverride.TrilightOverrides.Length; i++)

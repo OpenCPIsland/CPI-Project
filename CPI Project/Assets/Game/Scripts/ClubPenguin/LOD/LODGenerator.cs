@@ -38,7 +38,7 @@ namespace ClubPenguin.LOD
 		{
 			get
 			{
-				   return UnityEngine.Object.FindFirstObjectByType<LODGenerator>().SpawnCount;
+				   return UnityEngine.Object.FindAnyObjectByType<LODGenerator>().SpawnCount;
 			}
 			set
 			{

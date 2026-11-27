@@ -646,7 +646,7 @@ namespace ClubPenguin.Igloo
 		{
 			get
 			{
-				IglooEditCameraTargetController iglooEditCameraTargetController = Object.FindFirstObjectByType<IglooEditCameraTargetController>();
+				IglooEditCameraTargetController iglooEditCameraTargetController = Object.FindAnyObjectByType<IglooEditCameraTargetController>();
 				if (iglooEditCameraTargetController != null)
 				{
 					return iglooEditCameraTargetController.EditCameraTarget.activeInHierarchy;
@@ -655,7 +655,7 @@ namespace ClubPenguin.Igloo
 			}
 			set
 			{
-				IglooEditCameraTargetController iglooEditCameraTargetController = Object.FindFirstObjectByType<IglooEditCameraTargetController>();
+				IglooEditCameraTargetController iglooEditCameraTargetController = Object.FindAnyObjectByType<IglooEditCameraTargetController>();
 				if (iglooEditCameraTargetController != null)
 				{
 					iglooEditCameraTargetController.EditCameraTarget.SetActive(value);
@@ -668,7 +668,7 @@ namespace ClubPenguin.Igloo
 		{
 			get
 			{
-				IglooEditCameraTargetController iglooEditCameraTargetController = Object.FindFirstObjectByType<IglooEditCameraTargetController>();
+				IglooEditCameraTargetController iglooEditCameraTargetController = Object.FindAnyObjectByType<IglooEditCameraTargetController>();
 				if (iglooEditCameraTargetController != null)
 				{
 					return iglooEditCameraTargetController.CenterCameraOnSelect;
@@ -677,7 +677,7 @@ namespace ClubPenguin.Igloo
 			}
 			set
 			{
-				IglooEditCameraTargetController iglooEditCameraTargetController = Object.FindFirstObjectByType<IglooEditCameraTargetController>();
+				IglooEditCameraTargetController iglooEditCameraTargetController = Object.FindAnyObjectByType<IglooEditCameraTargetController>();
 				if (iglooEditCameraTargetController != null)
 				{
 					iglooEditCameraTargetController.CenterCameraOnSelect = value;
@@ -715,7 +715,7 @@ namespace ClubPenguin.Igloo
 			{
 				if (_screenEdgeBandCalculator == null)
 				{
-					_screenEdgeBandCalculator = Object.FindFirstObjectByType<ScreenEdgeBandCalculator>();
+					_screenEdgeBandCalculator = Object.FindAnyObjectByType<ScreenEdgeBandCalculator>();
 				}
 				return _screenEdgeBandCalculator;
 			}
@@ -1043,7 +1043,7 @@ namespace ClubPenguin.Igloo
 
 		private void centerCamera()
 		{
-			MultiPointLineAttractorLocator multiPointLineAttractorLocator = Object.FindFirstObjectByType<MultiPointLineAttractorLocator>();
+			MultiPointLineAttractorLocator multiPointLineAttractorLocator = Object.FindAnyObjectByType<MultiPointLineAttractorLocator>();
 			if (!(multiPointLineAttractorLocator != null))
 			{
 				return;

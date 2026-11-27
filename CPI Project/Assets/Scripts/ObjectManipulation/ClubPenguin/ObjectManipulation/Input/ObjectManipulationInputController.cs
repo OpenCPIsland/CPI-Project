@@ -977,7 +977,7 @@ namespace ClubPenguin.ObjectManipulation.Input
         {
             get
             {
-                ObjectManipulationInputController objectManipulationInputController = UnityEngine.Object.FindFirstObjectByType<ObjectManipulationInputController>();
+                ObjectManipulationInputController objectManipulationInputController = UnityEngine.Object.FindAnyObjectByType<ObjectManipulationInputController>();
                 if (objectManipulationInputController != null)
                 {
                     return objectManipulationInputController.NaturalDragFromTouchPosition;
@@ -986,7 +986,7 @@ namespace ClubPenguin.ObjectManipulation.Input
             }
             set
             {
-                ObjectManipulationInputController objectManipulationInputController = UnityEngine.Object.FindFirstObjectByType<ObjectManipulationInputController>();
+                ObjectManipulationInputController objectManipulationInputController = UnityEngine.Object.FindAnyObjectByType<ObjectManipulationInputController>();
                 if (objectManipulationInputController != null)
                 {
                     objectManipulationInputController.NaturalDragFromTouchPosition = value;
@@ -1077,7 +1077,7 @@ namespace ClubPenguin.ObjectManipulation.Input
         [Invokable("Igloo.SetMinTimeMoveTouch", Description = "Set the minimum time to register a move rather than a tap.")]
         public static void SetTouchMoveMinThreshold(float min)
         {
-            ObjectManipulationInputController objectManipulationInputController = UnityEngine.Object.FindFirstObjectByType<ObjectManipulationInputController>();
+            ObjectManipulationInputController objectManipulationInputController = UnityEngine.Object.FindAnyObjectByType<ObjectManipulationInputController>();
             if (objectManipulationInputController != null)
             {
                 objectManipulationInputController.MinTimeToMoveInput = min;

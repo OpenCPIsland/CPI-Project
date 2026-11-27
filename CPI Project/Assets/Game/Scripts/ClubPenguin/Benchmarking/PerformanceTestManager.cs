@@ -22,7 +22,7 @@ namespace ClubPenguin.Benchmarking
 		{
 			if (TestRunner == null)
 			{
-				   TestRunner = Object.FindFirstObjectByType<PerformanceTestRunner>();
+				   TestRunner = Object.FindAnyObjectByType<PerformanceTestRunner>();
 				if (TestRunner == null)
 				{
 					GameObject gameObject = new GameObject("__TestRunner");

@@ -23,7 +23,7 @@ namespace UnityEngine.UI.Extensions
 			{
 				if (instance == null)
 				{
-					instance = Object.FindFirstObjectByType<BoundTooltipItem>();
+					instance = Object.FindAnyObjectByType<BoundTooltipItem>();
 				}
 				return instance;
 			}

@@ -12,7 +12,7 @@ namespace Fabric
 			{
 				return dynamicMixer;
 			}
-			dynamicMixer = Object.FindFirstObjectByType<DynamicMixer>();
+			dynamicMixer = Object.FindAnyObjectByType<DynamicMixer>();
 			return dynamicMixer;
 		}
 	}

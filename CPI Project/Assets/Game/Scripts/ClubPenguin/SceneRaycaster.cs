@@ -44,7 +44,7 @@ namespace ClubPenguin
 
 		private void Start()
 		{
-			if (UnityEngine.Object.FindObjectsByType<SceneRaycaster>(FindObjectsSortMode.None).Length > 1)
+			if (UnityEngine.Object.FindObjectsByType<SceneRaycaster>().Length > 1)
 			{
 				throw new Exception("Scene should only contain 1 SceneRaycaster.");
 			}
@@ -55,7 +55,6 @@ namespace ClubPenguin
 		{
 			UnityEngine.TouchPhase result = UnityEngine.TouchPhase.Canceled;
 
-			// Use new Input System for touch
 			if (Touchscreen.current != null && Touchscreen.current.touches.Count > 0)
 			{
 				var touch = Touchscreen.current.touches[0];
@@ -67,7 +66,6 @@ namespace ClubPenguin
 				if (!touch.press.isPressed)
 					return UnityEngine.TouchPhase.Canceled;
 
-				// If moved, compare with previousMousePosition (approximation)
 				if (!touchPosition.Equals(previousMousePosition))
 					result = UnityEngine.TouchPhase.Moved;
 				else
@@ -77,7 +75,6 @@ namespace ClubPenguin
 				return result;
 			}
 
-			// Use new Input System for mouse
 			touchPosition = Mouse.current != null ? Mouse.current.position.ReadValue() : Vector2.zero;
 			if (Mouse.current != null && Mouse.current.leftButton.wasPressedThisFrame)
 			{

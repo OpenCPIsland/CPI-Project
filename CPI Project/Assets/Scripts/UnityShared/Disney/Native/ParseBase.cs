@@ -9,7 +9,7 @@ namespace Disney.Native
 	{
 		protected IAccessibilityLocalization localization;
 
-		protected Dictionary<int, T> items = new Dictionary<int, T>();
+		protected Dictionary<EntityId, T> items = new Dictionary<EntityId, T>();
 
 		public ParseBase(IAccessibilityLocalization aLocalization)
 		{
@@ -79,7 +79,7 @@ namespace Disney.Native
 
 		public void Parse(GameObject[] gameObjects)
 		{
-			List<int> list = new List<int>();
+			List<EntityId> list = new List<EntityId>();
 			foreach (GameObject gameObject in gameObjects)
 			{
 				if (!gameObject.activeSelf)
@@ -108,7 +108,7 @@ namespace Disney.Native
 					{
 						continue;
 					}
-					int instanceID = GetGameobject(val).GetInstanceID();
+						EntityId instanceID = GetGameobject(val).GetEntityId();
 					if (MonoSingleton<NativeAccessibilityManager>.Instance.HiddenScrollItemIds.IndexOf(component) <= -1)
 					{
 						list.Add(instanceID);
@@ -123,8 +123,8 @@ namespace Disney.Native
 					}
 				}
 			}
-			Dictionary<int, T> dictionary = new Dictionary<int, T>();
-			foreach (KeyValuePair<int, T> item in items)
+			Dictionary<EntityId, T> dictionary = new Dictionary<EntityId, T>();
+			foreach (KeyValuePair<EntityId, T> item in items)
 			{
 				if (item.Value != null && list.Contains(item.Key))
 				{
@@ -138,7 +138,7 @@ namespace Disney.Native
 			items = dictionary;
 		}
 
-		protected void CheckCustomOnClickHandler(int aId)
+		protected void CheckCustomOnClickHandler(EntityId aId)
 		{
 			if (items != null && items.ContainsKey(aId) && items[aId] != null)
 			{
@@ -155,7 +155,7 @@ namespace Disney.Native
 			return (aItem as Component).gameObject;
 		}
 
-		protected virtual bool Add(T aItem, int aId, bool isVoiceOnly)
+		protected virtual bool Add(T aItem, EntityId aId, bool isVoiceOnly)
 		{
 			AccessibilitySettings component = GetGameobject(aItem).GetComponent<AccessibilitySettings>();
 			Rect rectInPhysicalScreenSpace = Util.GetRectInPhysicalScreenSpace((component.ReferenceRect != null) ? component.ReferenceRect : GetGameobject(aItem).GetComponent<RectTransform>());
@@ -181,15 +181,15 @@ namespace Disney.Native
 			Rect rectInPhysicalScreenSpace = Util.GetRectInPhysicalScreenSpace((component.ReferenceRect != null) ? component.ReferenceRect : GetGameobject(aItem).GetComponent<RectTransform>());
 			if (rectInPhysicalScreenSpace.width <= 0f || rectInPhysicalScreenSpace.height <= 0f)
 			{
-				items.Remove(GetGameobject(aItem).GetInstanceID());
+				items.Remove(GetGameobject(aItem).GetEntityId());
 			}
 			else
 			{
-				MonoSingleton<NativeAccessibilityManager>.Instance.Native.UpdateView(GetGameobject(aItem).GetInstanceID(), rectInPhysicalScreenSpace, GetTokenText(component));
+				MonoSingleton<NativeAccessibilityManager>.Instance.Native.UpdateView(GetGameobject(aItem).GetEntityId(), rectInPhysicalScreenSpace, GetTokenText(component));
 			}
 		}
 
-		protected virtual void Remove(int aId)
+		protected virtual void Remove(EntityId aId)
 		{
 			MonoSingleton<NativeAccessibilityManager>.Instance.Native.RemoveView(aId);
 		}

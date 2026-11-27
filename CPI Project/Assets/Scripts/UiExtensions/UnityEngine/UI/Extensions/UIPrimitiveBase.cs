@@ -117,6 +117,14 @@ namespace UnityEngine.UI.Extensions
 			}
 		}
 
+		public virtual float maxWidth
+		{
+			get
+			{
+				return float.PositiveInfinity;
+			}
+		}
+
 		public virtual float minHeight
 		{
 			get
@@ -143,6 +151,14 @@ namespace UnityEngine.UI.Extensions
 			get
 			{
 				return -1f;
+			}
+		}
+
+		public virtual float maxHeight
+		{
+			get
+			{
+				return float.PositiveInfinity;
 			}
 		}
 

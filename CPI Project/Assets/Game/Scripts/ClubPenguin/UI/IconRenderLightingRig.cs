@@ -48,7 +48,7 @@ namespace ClubPenguin.UI
 		{
 			IsReady = false;
 			cancelLoading = false;
-            Light[] array = UnityEngine.Object.FindObjectsByType<Light>(FindObjectsSortMode.None);
+            Light[] array = UnityEngine.Object.FindObjectsByType<Light>();
 			for (int i = 0; i < array.Length; i++)
 			{
 				LightCullingMaskHelper.DisableLayer(array[i], "IconRender");

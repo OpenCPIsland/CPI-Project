@@ -747,7 +747,7 @@ namespace HutongGames.PlayMakerEditor
         {
             try
             {
-                AssetDatabase.ImportPackage(package, true);
+                UnityEditor.AssetPackage.Package.Import(package, true);
             }
             catch (Exception)
             {

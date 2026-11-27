@@ -16,7 +16,7 @@ namespace AssemblyCSharp
 
 		public void Start()
 		{
-			string indicatorId = GetInstanceID().ToString();
+			string indicatorId = GetEntityId().ToString();
 			indicatorData = new DActionIndicator();
 			indicatorData.IndicatorId = indicatorId;
 			indicatorData.TargetTransform = base.transform;

@@ -176,7 +176,7 @@ namespace ClubPenguin.Igloo.UI
 		public override void StopListeningToStateChange()
 		{
 			base.StopListeningToStateChange();
-			   SceneStateToggler[] array = Object.FindObjectsByType<SceneStateToggler>(FindObjectsSortMode.None);
+			   SceneStateToggler[] array = Object.FindObjectsByType<SceneStateToggler>();
 			SceneStateToggler[] array2 = array;
 			foreach (SceneStateToggler sceneStateToggler in array2)
 			{

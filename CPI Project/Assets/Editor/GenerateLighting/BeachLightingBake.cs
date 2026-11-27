@@ -72,9 +72,7 @@ public class BeachLightingBake : MonoBehaviour
         SetStaticRecursively(Gol.StaticObject2, false);
 
         temporarilyStaticObjects.Clear();
-
-        GameObject[] allGameObjects = Object.FindObjectsByType<GameObject>(FindObjectsSortMode.None);
-
+        GameObject[] allGameObjects = Object.FindObjectsByType<GameObject>();
         foreach (GameObject go in allGameObjects)
         {
             if (go.name.StartsWith("MARK4STATIC_") && !go.isStatic)

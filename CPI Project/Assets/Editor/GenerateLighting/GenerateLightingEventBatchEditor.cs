@@ -98,8 +98,6 @@ public static class GenerateLightingEventBatchRunner
 {
     const string WorldObjectShaderName = "CpRemix/World/WorldObject";
     const StaticEditorFlags AllStaticFlags = StaticEditorFlags.ContributeGI
-        | StaticEditorFlags.OccluderStatic
-        | StaticEditorFlags.OccludeeStatic
         | StaticEditorFlags.BatchingStatic
         | StaticEditorFlags.ReflectionProbeStatic;
 

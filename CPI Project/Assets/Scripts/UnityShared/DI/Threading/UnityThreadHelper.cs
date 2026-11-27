@@ -66,7 +66,7 @@ namespace DI.Threading
 			{
 				if ((object)null == instance)
 				{
-					instance = UnityEngine.Object.FindFirstObjectByType<UnityThreadHelper>();
+					instance = UnityEngine.Object.FindAnyObjectByType<UnityThreadHelper>();
 					if ((object)null == instance)
 					{
 						GameObject gameObject = new GameObject("[UnityThreadHelper]");

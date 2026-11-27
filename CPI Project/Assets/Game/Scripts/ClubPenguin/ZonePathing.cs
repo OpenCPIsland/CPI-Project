@@ -159,8 +159,8 @@ namespace ClubPenguin
 		{
 			currentWaypointData = waypointData;
 			GameObject gameObject = string.IsNullOrEmpty(waypointData.WaypointName) ? waypointData.WaypointObject : GameObject.Find(waypointData.WaypointName.Trim());
-			   CustomZonePathingTrigger[] array = Object.FindObjectsByType<CustomZonePathingTrigger>(FindObjectsSortMode.None);
-			for (int i = 0; i < array.Length; i++)
+            CustomZonePathingTrigger[] array = Object.FindObjectsByType<CustomZonePathingTrigger>();
+            for (int i = 0; i < array.Length; i++)
 			{
 				if (array[i].IsInTrigger && array[i].IsOverrideActive())
 				{

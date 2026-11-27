@@ -32,7 +32,7 @@ namespace ClubPenguin
 			base.Awake();
 			targetObject.transform.localScale = startScale;
 			childrenColliders = GetComponentsInChildren<Collider>();
-			childrenColliders = childrenColliders.Where((Collider x) => x.gameObject.GetInstanceID() != base.gameObject.GetInstanceID()).ToArray();
+			childrenColliders = childrenColliders.Where((Collider x) => x.gameObject.GetEntityId() != base.gameObject.GetEntityId()).ToArray();
 			updateColliders(false);
 		}
 

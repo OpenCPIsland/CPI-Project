@@ -13,7 +13,7 @@ namespace ClubPenguin
 
         private static ReplayIntroButtonAutoBinder instance;
 
-        private readonly HashSet<int> wiredButtons = new HashSet<int>();
+        private readonly HashSet<EntityId> wiredButtons = new HashSet<EntityId>();
 
         [RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.AfterSceneLoad)]
         private static void Initialize()
@@ -47,7 +47,7 @@ namespace ClubPenguin
         private IEnumerator WireButtonsNextFrame()
         {
             yield return null;
-            Button[] buttons = Object.FindObjectsByType<Button>(FindObjectsSortMode.None);
+            Button[] buttons = Object.FindObjectsByType<Button>();
             for (int i = 0; i < buttons.Length; i++)
             {
                 Button button = buttons[i];
@@ -61,7 +61,7 @@ namespace ClubPenguin
                     continue;
                 }
 
-                int id = button.GetInstanceID();
+                EntityId id = button.GetEntityId();
                 if (wiredButtons.Contains(id))
                 {
                     continue;

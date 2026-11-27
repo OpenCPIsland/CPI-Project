@@ -43,7 +43,6 @@ namespace ClubPenguin
 			Assert.IsTrue(worldBoundingBox.center == Vector3.zero, "BoxCollider with non-zero origin is not supported!");
 			depthCam = GetComponent<Camera>();
 			depthCam.enabled = false;
-			depthCam.SetReplacementShader(depthOnlyShader, "RenderType");
 			worldBoxVerts = getOriginalWorldBounds();
 		}
 

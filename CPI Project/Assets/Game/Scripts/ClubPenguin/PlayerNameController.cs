@@ -262,7 +262,7 @@ namespace ClubPenguin
 		[Invokable("Settings.SetPlayerNamesActive", Description = "Shows or hides names under the penguins.")]
 		public static void SetPlayerNamesActive(bool value)
 		{
-            UnityEngine.Object.FindFirstObjectByType<PlayerNameController>()?.setPlayerNamesActive(value);
+            UnityEngine.Object.FindAnyObjectByType<PlayerNameController>()?.setPlayerNamesActive(value);
         }
 
 		private void OnDisable()

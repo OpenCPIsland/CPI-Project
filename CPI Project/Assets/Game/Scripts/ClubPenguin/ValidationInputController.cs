@@ -94,7 +94,7 @@ namespace ClubPenguin
 			errorMessage = prepareSuggestionButtons(errorMessage);
 			errorText.text = errorMessage;
 			updateLinks = true;
-			MonoSingleton<NativeAccessibilityManager>.Instance.Native.HandleError(errorText.GetInstanceID());
+            MonoSingleton<NativeAccessibilityManager>.Instance.Native.HandleError(errorText.GetEntityId());
 		}
 
 		public void SetValid()

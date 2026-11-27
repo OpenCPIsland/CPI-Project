@@ -102,7 +102,7 @@ namespace UnityEngine.UI.Extensions
 			SaveGame saveGame = new SaveGame();
 			saveGame.savegameName = saveGameName;
 			List<GameObject> list = new List<GameObject>();
-			ObjectIdentifier[] array = Object.FindObjectsByType<ObjectIdentifier>(FindObjectsSortMode.None);
+			ObjectIdentifier[] array = Object.FindObjectsByType<ObjectIdentifier>();
 			ObjectIdentifier[] array2 = array;
 			foreach (ObjectIdentifier objectIdentifier in array2)
 			{
@@ -173,7 +173,7 @@ namespace UnityEngine.UI.Extensions
 
 		public void ClearScene()
 		{
-			GameObject[] array = Object.FindObjectsByType<GameObject>(FindObjectsSortMode.None);
+			GameObject[] array = Object.FindObjectsByType<GameObject>();
 			object[] array2 = array;
 			foreach (object obj in array2)
 			{

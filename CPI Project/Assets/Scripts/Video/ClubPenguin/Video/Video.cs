@@ -107,7 +107,7 @@ namespace ClubPenguin.Video
 
           root.AddComponent<GraphicRaycaster>();
 
-          if (Object.FindFirstObjectByType<EventSystem>() == null)
+          if (Object.FindAnyObjectByType<EventSystem>() == null)
           {
             GameObject esObject = new GameObject("VideoEventSystem");
             esObject.transform.SetParent(root.transform, false);

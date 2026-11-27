@@ -35,7 +35,7 @@ namespace ClubPenguin.UI
 
 		private void onButtonClick()
 		{
-			if (Object.FindFirstObjectByType<CellPhoneActivityScreenController>() != null)
+			if (Object.FindAnyObjectByType<CellPhoneActivityScreenController>() != null)
 			{
 				Service.Get<EventDispatcher>().DispatchEvent(default(CellPhoneEvents.CellPhoneClosed));
 			}

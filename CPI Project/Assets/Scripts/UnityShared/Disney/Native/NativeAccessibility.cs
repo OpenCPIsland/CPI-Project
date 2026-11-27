@@ -41,7 +41,7 @@ namespace Disney.Native
 			return false;
 		}
 
-		public virtual void RemoveView(int aId)
+		public virtual void RemoveView(EntityId aId)
 		{
 			if (!(Holder == null))
 			{
@@ -57,7 +57,7 @@ namespace Disney.Native
 			}
 		}
 
-		public virtual void RenderText(int aId, Rect aRect, string aLabel)
+		public virtual void RenderText(EntityId aId, Rect aRect, string aLabel)
 		{
 			SetupCanvas();
 			if (!(Holder.Find("item_" + aId + "_text") != null))
@@ -74,7 +74,7 @@ namespace Disney.Native
 			}
 		}
 
-		public virtual void RenderButton(int aId, Rect aRect, string aLabel)
+		public virtual void RenderButton(EntityId aId, Rect aRect, string aLabel)
 		{
 			SetupCanvas();
 			if (!(Holder.Find("item_" + aId + "_button") != null))
@@ -91,11 +91,11 @@ namespace Disney.Native
 			}
 		}
 
-		public virtual void SelectElement(int aId)
+		public virtual void SelectElement(EntityId aId)
 		{
 		}
 
-		public virtual void HandleError(int aId)
+		public virtual void HandleError(EntityId aId)
 		{
 		}
 
@@ -110,7 +110,7 @@ namespace Disney.Native
 			}
 		}
 
-		public virtual void UpdateView(int aId, Rect aRect, string aLabel)
+		public virtual void UpdateView(EntityId aId, Rect aRect, string aLabel)
 		{
 			Transform element = Holder.Find("item_" + aId + "_button");
 			bool isButton = true;
@@ -191,7 +191,7 @@ namespace Disney.Native
 
 		public virtual void ButtonClicked(string aId)
 		{
-			this.OnButtonClicked(this, new ButtonClickedEventArgs(int.Parse(aId)));
+			this.OnButtonClicked(this, new ButtonClickedEventArgs(EntityId.FromULong((ulong)(uint)int.Parse(aId))));
 		}
 	}
 }

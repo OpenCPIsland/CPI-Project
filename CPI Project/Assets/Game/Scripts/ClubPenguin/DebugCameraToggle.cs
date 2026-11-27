@@ -16,7 +16,7 @@ namespace ClubPenguin
 			bIsRail = !bIsRail;
 			RailCamGroup.SetActive(bIsRail);
 			ContextualCamGroup.SetActive(!bIsRail);
-			   Director director = Object.FindFirstObjectByType<Director>();
+			   Director director = Object.FindAnyObjectByType<Director>();
 			director.ResetCamera();
 		}
 	}

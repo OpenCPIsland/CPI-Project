@@ -13,7 +13,7 @@ namespace ClubPenguin
     {
         public class State
         {
-            public readonly int OwnerInstanceId;
+            public readonly EntityId OwnerInstanceId;
             public GameObject Owner;
             public GameObject Trigger;
             public List<ClubPenguin.Actions.Action> Actions;
@@ -23,7 +23,7 @@ namespace ClubPenguin
             public State(GameObject _owner, GameObject _trigger)
             {
                 Owner = _owner;
-                OwnerInstanceId = _owner.GetInstanceID();
+                OwnerInstanceId = _owner.GetEntityId();
                 Trigger = _trigger;
                 Actions = new List<ClubPenguin.Actions.Action>();
                 Targets = new HashSet<GameObject>();
@@ -36,18 +36,18 @@ namespace ClubPenguin
             }
         }
 
-        private Dictionary<int, State> sequencerDict;
+        private Dictionary<EntityId, State> sequencerDict;
         private List<State> sequencerList;
 
         public event Action<GameObject> SequenceCompleted;
 
         private void Awake()
         {
-            sequencerDict = new Dictionary<int, State>();
+            sequencerDict = new Dictionary<EntityId, State>();
             sequencerList = new List<State>();
             SceneRefs.SetActionSequencer(this);
 
-            ActionSequencer[] array = UnityEngine.Object.FindObjectsByType<ActionSequencer>(FindObjectsSortMode.None);
+            ActionSequencer[] array = UnityEngine.Object.FindObjectsByType<ActionSequencer>();
             if (array.Length > 1)
             {
                 Log.LogError(this, "There are " + array.Length + " instances of ActionSequencer. Only 1 instance should exist at any given time.");
@@ -79,7 +79,7 @@ namespace ClubPenguin
             if (owner == null)
                 return null;
 
-            int id = owner.GetInstanceID();
+            EntityId id = owner.GetEntityId();
 
             if (sequencerDict.ContainsKey(id))
                 return sequencerDict[id].Trigger;
@@ -103,7 +103,7 @@ namespace ClubPenguin
                 return false;
             }
 
-            int id = owner.GetInstanceID();
+            EntityId id = owner.GetEntityId();
 
             if (sequencerDict.ContainsKey(id))
                 return false;
@@ -162,7 +162,7 @@ namespace ClubPenguin
             if (owner == null)
                 return;
 
-            int id = owner.GetInstanceID();
+            EntityId id = owner.GetEntityId();
 
             if (!sequencerDict.ContainsKey(id))
                 return;
@@ -230,13 +230,12 @@ namespace ClubPenguin
                 return;
             }
 
-            int id = owner.GetInstanceID();
+            EntityId id = owner.GetEntityId();
 
             if (!sequencerDict.ContainsKey(id))
                 return;
 
             State state = sequencerDict[id];
-
             bool abort = false;
 
             if (action.EndAllOnExit)
@@ -278,10 +277,10 @@ namespace ClubPenguin
             if (abort)
                 abortSequence(state);
             else if (state.Actions.Count == 0)
-                CompleteAndRemoveSequence(state, true);
+                CompleteAndRemoveSequence(state);
         }
 
-        private void CompleteAndRemoveSequence(State state, bool wasSuccessful)
+        private void CompleteAndRemoveSequence(State state)
         {
             SafeRemoveInteractor(state);
             sequencerDict.Remove(state.OwnerInstanceId);
@@ -289,7 +288,7 @@ namespace ClubPenguin
 
             try
             {
-                sequenceCompleted(state, wasSuccessful);
+                sequenceCompleted(state);
             }
             catch (Exception ex)
             {
@@ -312,7 +311,7 @@ namespace ClubPenguin
 
             if (owner != null)
             {
-                int id = owner.GetInstanceID();
+                EntityId id = owner.GetEntityId();
 
                 if (sequencerDict.ContainsKey(id))
                     state = sequencerDict[id];
@@ -343,7 +342,7 @@ namespace ClubPenguin
 
             state.Actions.Clear();
 
-            CompleteAndRemoveSequence(state, false);
+            CompleteAndRemoveSequence(state);
         }
 
         private void destroyAllActions(State state)
@@ -356,7 +355,7 @@ namespace ClubPenguin
             state.Actions.Clear();
         }
 
-        private void sequenceCompleted(State state, bool wasSuccessful)
+        private void sequenceCompleted(State state)
         {
             if (state == null)
                 return;
@@ -378,7 +377,7 @@ namespace ClubPenguin
             if (state.Owner != null && state.Owner.CompareTag("Player"))
             {
                 Service.Get<EventDispatcher>().DispatchEvent(
-                    new ActionSequencerEvents.ActionSequenceCompleted(state.Trigger, wasSuccessful)
+                    default(ActionSequencerEvents.ActionSequenceCompleted)
                 );
             }
 
@@ -391,7 +390,7 @@ namespace ClubPenguin
             if (owner == null)
                 return;
 
-            int id = owner.GetInstanceID();
+            EntityId id = owner.GetEntityId();
 
             if (!sequencerDict.ContainsKey(id))
                 return;

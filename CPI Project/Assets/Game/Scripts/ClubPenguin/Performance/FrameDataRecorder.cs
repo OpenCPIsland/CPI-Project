@@ -25,7 +25,7 @@ namespace ClubPenguin.Performance
 		{
 			deltaTimes = new float[FrameSampleSize];
 			prevFrameSampleSize = FrameSampleSize;
-			   FrameDataRecorder[] array = UnityEngine.Object.FindObjectsByType<FrameDataRecorder>(FindObjectsSortMode.None);
+			   FrameDataRecorder[] array = UnityEngine.Object.FindObjectsByType<FrameDataRecorder>();
 			if (array.Length > 1)
 			{
 				throw new Exception("Scene should only contain 1 FrameDataRecorder");

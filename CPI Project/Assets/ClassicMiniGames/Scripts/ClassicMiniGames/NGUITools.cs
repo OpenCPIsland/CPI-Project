@@ -89,7 +89,7 @@ public static class NGUITools
         {
             if (mListener == null || !GetActive(mListener))
             {
-                AudioListener[] array = UnityEngine.Object.FindObjectsByType<AudioListener>(FindObjectsSortMode.None);
+                AudioListener[] array = UnityEngine.Object.FindObjectsByType<AudioListener>();
                 if (array != null)
                 {
                     for (int i = 0; i < array.Length; i++)
@@ -106,7 +106,7 @@ public static class NGUITools
                     Camera camera = Camera.main;
                     if (camera == null)
                     {
-                        camera = UnityEngine.Object.FindFirstObjectByType<Camera>();
+                        camera = UnityEngine.Object.FindAnyObjectByType<Camera>();
                     }
                     if (camera != null)
                     {
@@ -189,7 +189,7 @@ public static class NGUITools
 
     public static T[] FindActive<T>() where T : Component
     {
-        return UnityEngine.Object.FindObjectsByType<T>(FindObjectsSortMode.None);
+        return UnityEngine.Object.FindObjectsByType<T>();
     }
 
     public static Camera FindCameraForLayer(int layer)
@@ -735,6 +735,7 @@ public static class NGUITools
         Transform transform = go.transform;
         while (true)
         {
+            bool flag = true;
             Transform parent = transform.parent;
             if (parent == null)
             {
@@ -821,7 +822,7 @@ public static class NGUITools
 
     public static void Broadcast(string funcName)
     {
-        GameObject[] array = UnityEngine.Object.FindObjectsByType<GameObject>(FindObjectsSortMode.None);
+        GameObject[] array = UnityEngine.Object.FindObjectsByType<GameObject>();
         int i = 0;
         for (int num = array.Length; i < num; i++)
         {
@@ -831,7 +832,7 @@ public static class NGUITools
 
     public static void Broadcast(string funcName, object param)
     {
-        GameObject[] array = UnityEngine.Object.FindObjectsByType<GameObject>(FindObjectsSortMode.None);
+        GameObject[] array = UnityEngine.Object.FindObjectsByType<GameObject>();
         int i = 0;
         for (int num = array.Length; i < num; i++)
         {

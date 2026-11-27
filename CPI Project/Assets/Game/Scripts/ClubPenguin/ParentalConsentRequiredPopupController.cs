@@ -96,7 +96,7 @@ namespace ClubPenguin
 		private void onSendSuccess()
 		{
 			mixLoginCreateService.OnParentalApprovalEmailSendSuccess -= onSendSuccess;
-			MonoSingleton<NativeAccessibilityManager>.Instance.Native.HandleError(SentText.GetInstanceID());
+			MonoSingleton<NativeAccessibilityManager>.Instance.Native.HandleError(SentText.GetEntityId());
 			Service.Get<ICPSwrveService>().Action("parental_consent_required", "resent_email");
 			ResendContainer.gameObject.SetActive(false);
 			ResendButtonText.gameObject.SetActive(true);

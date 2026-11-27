@@ -194,7 +194,7 @@ namespace ClubPenguin
 
             private void collectScoreModifier(long userSessionId, PartyGameSessionMessages.CollectTubeRaceScoreModifier modifierId)
             {
-                TubeRaceScoreModifier[] array = UnityEngine.Object.FindObjectsByType<TubeRaceScoreModifier>(FindObjectsSortMode.None);
+                TubeRaceScoreModifier[] array = UnityEngine.Object.FindObjectsByType<TubeRaceScoreModifier>();
                 int num = 0;
                 TubeRaceScoreModifier tubeRaceScoreModifier;
                 while (true)
@@ -381,7 +381,8 @@ namespace ClubPenguin
 
         private void startScheduledWorldObjects()
         {
-            ScheduledWorldObjectConfiguration[] array = UnityEngine.Object.FindObjectsByType<ScheduledWorldObjectConfiguration>(FindObjectsSortMode.None);
+            ScheduledWorldObjectConfiguration[] array =
+            UnityEngine.Object.FindObjectsByType<ScheduledWorldObjectConfiguration>();
             foreach (ScheduledWorldObjectConfiguration scheduledWorldObjectConfiguration in array)
             {
                 List<StatefulWorldObject> list = new List<StatefulWorldObject>();
@@ -454,7 +455,7 @@ namespace ClubPenguin
         private void startTubeRacingSchedule()
         {
             Dictionary<int, PartyGameLauncherDefinition> dictionary = Service.Get<IGameData>().Get<Dictionary<int, PartyGameLauncherDefinition>>();
-            TubeRaceLobby[] array = UnityEngine.Object.FindObjectsByType<TubeRaceLobby>(FindObjectsSortMode.None);
+            TubeRaceLobby[] array = UnityEngine.Object.FindObjectsByType<TubeRaceLobby>();
             TubeRaceLobby[] array2 = array;
             foreach (TubeRaceLobby tubeRaceLobby in array2)
             {

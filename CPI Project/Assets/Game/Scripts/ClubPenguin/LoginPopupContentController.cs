@@ -118,13 +118,13 @@ namespace ClubPenguin
 			{
 				errorMessage = Service.Get<Localizer>().GetTokenTranslation("Oops! Something went wrong. Please try again.");
 				showGeneralError(errorMessage);
-				MonoSingleton<NativeAccessibilityManager>.Instance.Native.HandleError(GeneralErrorText.GetInstanceID());
+				MonoSingleton<NativeAccessibilityManager>.Instance.Native.HandleError(GeneralErrorText.GetEntityId());
 			}
 			else if (result is ILoginFailedAccountLockedOutResult)
 			{
 				errorMessage = Service.Get<Localizer>().GetTokenTranslation("Acount.Login.Errors.LockedOut");
 				showGeneralError(errorMessage);
-				MonoSingleton<NativeAccessibilityManager>.Instance.Native.HandleError(GeneralErrorText.GetInstanceID());
+				MonoSingleton<NativeAccessibilityManager>.Instance.Native.HandleError(GeneralErrorText.GetEntityId());
 			}
 			else if (result is ILoginFailedAuthenticationResult)
 			{
@@ -145,7 +145,7 @@ namespace ClubPenguin
 						{
 							errorMessage = Service.Get<Localizer>().GetTokenTranslation("Acount.Login.Errors.InvalidCredentials");
 							showGeneralError(errorMessage);
-							MonoSingleton<NativeAccessibilityManager>.Instance.Native.HandleError(GeneralErrorText.GetInstanceID());
+							MonoSingleton<NativeAccessibilityManager>.Instance.Native.HandleError(GeneralErrorText.GetEntityId());
 							onInvalidCredentialsError(errorMessage);
 						}
 					});
@@ -170,7 +170,7 @@ namespace ClubPenguin
 			{
 				errorMessage = Service.Get<Localizer>().GetTokenTranslation("Acount.Login.Errors.BanPermanent");
 				showGeneralError(errorMessage);
-				MonoSingleton<NativeAccessibilityManager>.Instance.Native.HandleError(GeneralErrorText.GetInstanceID());
+				MonoSingleton<NativeAccessibilityManager>.Instance.Native.HandleError(GeneralErrorText.GetEntityId());
 			}
 			else if (result is ILoginFailedTemporaryBanResult)
 			{
@@ -200,7 +200,7 @@ namespace ClubPenguin
 			{
 				errorMessage = Service.Get<Localizer>().GetTokenTranslation("Account.Create.Validation.UnknownError");
 				showGeneralError(errorMessage);
-				MonoSingleton<NativeAccessibilityManager>.Instance.Native.HandleError(GeneralErrorText.GetInstanceID());
+				MonoSingleton<NativeAccessibilityManager>.Instance.Native.HandleError(GeneralErrorText.GetEntityId());
 				if (Service.Get<MixLoginCreateService>().RegistrationConfig == null || Service.Get<MixLoginCreateService>().RegistrationAgeBand == null || Service.Get<MixLoginCreateService>().UpdateAgeBand == null)
 				{
 					string step = (Service.Get<MixLoginCreateService>().RegistrationConfig == null) ? "config" : "ageband";
@@ -254,7 +254,7 @@ namespace ClubPenguin
 			Service.Get<MixLoginCreateService>().OnParentalApprovalEmailSendSuccess -= onSendSuccess;
 			string tokenTranslation = Service.Get<Localizer>().GetTokenTranslation("Account.Login.Error.CheckEmail");
 			showGeneralError(tokenTranslation);
-			MonoSingleton<NativeAccessibilityManager>.Instance.Native.HandleError(GeneralErrorText.GetInstanceID());
+			MonoSingleton<NativeAccessibilityManager>.Instance.Native.HandleError(GeneralErrorText.GetEntityId());
 		}
 
 		private void resendActivationEmail(DPrompt.ButtonFlags button)

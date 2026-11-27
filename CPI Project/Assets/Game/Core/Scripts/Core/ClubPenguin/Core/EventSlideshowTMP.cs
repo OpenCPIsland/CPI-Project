@@ -129,7 +129,7 @@ namespace ClubPenguin.Core
 
             nextAnnualFindTime = Time.unscaledTime + 1f;
 
-            MonoBehaviour[] all = UnityEngine.Object.FindObjectsByType<MonoBehaviour>(FindObjectsSortMode.None);
+            MonoBehaviour[] all = UnityEngine.Object.FindObjectsByType<MonoBehaviour>();
             for (int i = 0; i < all.Length; i++)
             {
                 MonoBehaviour mb = all[i];

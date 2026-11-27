@@ -63,7 +63,7 @@ namespace hg.ApiWebKit.tinyfsm
 			if (!(_behaviorHost != null))
 			{
 				GameObject gameObject = new GameObject();
-				gameObject.name = Configuration.GetSetting<string>("persistent-game-object-name") + ":tiny-fsm:" + gameObject.GetInstanceID();
+				gameObject.name = Configuration.GetSetting<string>("persistent-game-object-name") + ":tiny-fsm:" + gameObject.GetEntityId();
 				gameObject.hideFlags = Configuration.GetSetting<HideFlags>("tiny-fsm-game-object-flags");
 				_behaviorHost = gameObject.AddComponent<MonoBehaviour>();
 			}

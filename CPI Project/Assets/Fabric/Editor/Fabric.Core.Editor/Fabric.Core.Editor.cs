@@ -5,7 +5,7 @@ using System.IO;
 using System.Reflection;
 using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
-using System.Runtime.Serialization.Formatters.Binary;
+using System.Runtime.Serialization;
 using System.Text;
 using System.Text.RegularExpressions;
 using System.Xml;
@@ -22,7 +22,7 @@ using UnityEngine.Networking;
 using UnityEngine.SceneManagement;
 
 [assembly: ComVisible(false)]
-[assembly: AssemblyFileVersion("4.0.1.0")]
+[assembly: AssemblyFileVersion("4.0.3.0")]
 [assembly: AssemblyTrademark("")]
 [assembly: Guid("9b155348-94cc-4296-ba3e-3e322dedfb15")]
 [assembly: CompilationRelaxations(8)]
@@ -33,7 +33,7 @@ using UnityEngine.SceneManagement;
 [assembly: AssemblyCompany("TazMan-Audio")]
 [assembly: AssemblyProduct("Fabric.Core.Editor")]
 [assembly: AssemblyCopyright("Copyright © TazMan-Audio 2026")]
-[assembly: AssemblyVersion("4.0.1.0")]
+[assembly: AssemblyVersion("4.0.3.0")]
 namespace Fabric
 {
 	public static class StringExtensions
@@ -57,7 +57,7 @@ namespace Fabric
 		{
 			string text = "2.4";
 			string text2 = "";
-			text2 = " (>Unity 6.0+)";
+			text2 = " (>Unity 6.7+)";
 			GUILayout.BeginHorizontal();
 			GUILayout.FlexibleSpace();
 			GUILayout.Label(" Fabric " + text + text2);
@@ -86,13 +86,13 @@ namespace Fabric
 		private static void ConvertSamplesToSecs()
 		{
 			float num = 44100f;
-			SequenceComponent[] array = UnityEngine.Object.FindObjectsByType(typeof(SequenceComponent), FindObjectsSortMode.None) as SequenceComponent[];
+			SequenceComponent[] array = UnityEngine.Object.FindObjectsByType(typeof(SequenceComponent)) as SequenceComponent[];
 			for (int i = 0; i < array.Length; i++)
 			{
 				array[i]._transitionOffset = array[i]._transitionOffset / num;
 				array[i]._transitionOffsetRandomization = array[i]._transitionOffsetRandomization / num;
 			}
-			AudioComponent[] array2 = UnityEngine.Object.FindObjectsByType(typeof(AudioComponent), FindObjectsSortMode.None) as AudioComponent[];
+			AudioComponent[] array2 = UnityEngine.Object.FindObjectsByType(typeof(AudioComponent)) as AudioComponent[];
 			for (int j = 0; j < array2.Length; j++)
 			{
 				double delay = array2[j].Delay / (double)num;
@@ -935,7 +935,7 @@ namespace Fabric
 	{
 		private class ComponentIconType
 		{
-			public Dictionary<int, Component> components = new Dictionary<int, Component>();
+			public Dictionary<EntityId, Component> components = new Dictionary<EntityId, Component>();
 
 			public Texture2D icon;
 
@@ -962,7 +962,7 @@ namespace Fabric
 			}
 			EditorApplication.hierarchyChanged -= Update;
 			EditorApplication.hierarchyChanged += Update;
-			EditorApplication.hierarchyWindowItemOnGUI = (EditorApplication.HierarchyWindowItemCallback)Delegate.Combine(EditorApplication.hierarchyWindowItemOnGUI, new EditorApplication.HierarchyWindowItemCallback(HierarchyItem));
+			EditorApplication.hierarchyWindowItemByEntityIdOnGUI = (EditorApplication.HierarchyWindowItemByEntityIdCallback)Delegate.Combine(EditorApplication.hierarchyWindowItemByEntityIdOnGUI, new EditorApplication.HierarchyWindowItemByEntityIdCallback(HierarchyItem));
 		}
 
 		private static void Update()
@@ -971,21 +971,21 @@ namespace Fabric
 			{
 				return;
 			}
-			Component[] array = UnityEngine.Object.FindObjectsByType(typeof(Component), FindObjectsSortMode.None) as Component[];
+			Component[] array = UnityEngine.Object.FindObjectsByType(typeof(Component)) as Component[];
 			Component[] array2 = array;
 			foreach (Component component in array2)
 			{
 				for (int j = 0; j < componentIconTypes.Count; j++)
 				{
-					if (componentIconTypes[j].type == component.GetType() && !componentIconTypes[j].components.ContainsKey(component.gameObject.GetInstanceID()))
+					if (componentIconTypes[j].type == component.GetType() && !componentIconTypes[j].components.ContainsKey(component.gameObject.GetEntityId()))
 					{
-						componentIconTypes[j].components.Add(component.gameObject.GetInstanceID(), component);
+						componentIconTypes[j].components.Add(component.gameObject.GetEntityId(), component);
 					}
 				}
 			}
 		}
 
-		private static void HierarchyItem(int instanceID, Rect selectionRect)
+		private static void HierarchyItem(EntityId instanceID, Rect selectionRect)
 		{
 			if (FabricManager.IsInitialised() && !FabricEditorData.GetData()._enableHiearchyIcons)
 			{
@@ -1663,7 +1663,7 @@ namespace Fabric
 				GUILayout.Label("Pitch: " + component.UpdateContext._pitch);
 				GUILayout.Label("Pitch offset: " + component.PitchOffset);
 				GUILayout.Label("Pan2D offset: " + component.Pan2dOffset);
-				GUILayout.Label("InstanceID: " + component.gameObject.GetInstanceID());
+				GUILayout.Label("InstanceID: " + component.gameObject.GetEntityId());
 				if (component.GetType() != typeof(AudioComponent))
 				{
 					GUILayout.Space(5f);
@@ -2858,7 +2858,7 @@ namespace Fabric
 				audioSourcePreviewer = audioClipPreviewer.AddComponent<AudioSource>();
 				audioClipPreviewer.hideFlags = HideFlags.HideAndDontSave;
 			}
-			AudioListener audioListener = UnityEngine.Object.FindFirstObjectByType<AudioListener>();
+			AudioListener audioListener = UnityEngine.Object.FindAnyObjectByType<AudioListener>();
 			if (audioListener != null)
 			{
 				audioClipPreviewer.transform.position = audioListener.transform.position;
@@ -3101,7 +3101,7 @@ namespace Fabric
 		public static GroupComponent[] GetExternalGroupComponents()
 		{
 			List<GroupComponent> list = new List<GroupComponent>();
-			GroupComponent[] array = UnityEngine.Object.FindObjectsByType(typeof(GroupComponent), FindObjectsSortMode.None) as GroupComponent[];
+			GroupComponent[] array = UnityEngine.Object.FindObjectsByType(typeof(GroupComponent)) as GroupComponent[];
 			GroupComponent[] array2 = array;
 			foreach (GroupComponent groupComponent in array2)
 			{
@@ -5434,7 +5434,7 @@ namespace Fabric
 			EditorApplication.projectChanged += HierarchyChanged;
 			EditorApplication.hierarchyChanged -= HierarchyChanged;
 			EditorApplication.hierarchyChanged += HierarchyChanged;
-			EditorApplication.hierarchyWindowItemOnGUI = (EditorApplication.HierarchyWindowItemCallback)Delegate.Combine(EditorApplication.hierarchyWindowItemOnGUI, new EditorApplication.HierarchyWindowItemCallback(HierarchyChanged));
+			EditorApplication.hierarchyWindowItemByEntityIdOnGUI = (EditorApplication.HierarchyWindowItemByEntityIdCallback)Delegate.Combine(EditorApplication.hierarchyWindowItemByEntityIdOnGUI, new EditorApplication.HierarchyWindowItemByEntityIdCallback(HierarchyChanged));
 			EditorApplication.update = (EditorApplication.CallbackFunction)Delegate.Combine(EditorApplication.update, new EditorApplication.CallbackFunction(Update));
 		}
 
@@ -5464,7 +5464,7 @@ namespace Fabric
 			}
 		}
 
-		private static void HierarchyChanged(int instanceID, Rect selectionRect)
+		private static void HierarchyChanged(EntityId instanceID, Rect selectionRect)
 		{
 			if (EditorApplication.isPlaying && FabricManager.IsInitialised() && FabricEditorData.GetData()._playmodePersistance)
 			{
@@ -5521,14 +5521,14 @@ namespace Fabric
 	{
 		private static GameObject _gameObject;
 
-		private static Dictionary<int, List<CachedComponent>> _cachedGameObjects = new Dictionary<int, List<CachedComponent>>();
+		private static Dictionary<EntityId, List<CachedComponent>> _cachedGameObjects = new Dictionary<EntityId, List<CachedComponent>>();
 
 		public static void ApplyChanges()
 		{
-			foreach (KeyValuePair<int, List<CachedComponent>> cachedGameObject in _cachedGameObjects)
+			foreach (KeyValuePair<EntityId, List<CachedComponent>> cachedGameObject in _cachedGameObjects)
 			{
 				#pragma warning disable CS0618
-				GameObject gameObject = EditorUtility.InstanceIDToObject(cachedGameObject.Key) as GameObject;
+				GameObject gameObject = EditorUtility.EntityIdToObject(cachedGameObject.Key) as GameObject;
 				#pragma warning restore CS0618
 				if (!(gameObject != null))
 				{
@@ -5584,20 +5584,20 @@ namespace Fabric
 			{
 				return;
 			}
-			int instanceID = gameObject.GetInstanceID();
+			EntityId entityId = gameObject.GetEntityId();
 			UnityEngine.Component[] components = gameObject.GetComponents(typeof(UnityEngine.Component));
-			if (_cachedGameObjects.ContainsKey(instanceID))
+			if (_cachedGameObjects.ContainsKey(entityId))
 			{
-				if (_cachedGameObjects[instanceID].Count != components.Length)
+				if (_cachedGameObjects[entityId].Count != components.Length)
 				{
-					CollectGameObjectComponents(components, _cachedGameObjects[instanceID]);
+					CollectGameObjectComponents(components, _cachedGameObjects[entityId]);
 				}
 			}
 			else
 			{
 				List<CachedComponent> list = new List<CachedComponent>();
 				CollectGameObjectComponents(components, list);
-				_cachedGameObjects.Add(instanceID, list);
+				_cachedGameObjects.Add(entityId, list);
 			}
 			_gameObject = gameObject;
 		}
@@ -5940,7 +5940,7 @@ namespace Fabric
 				_eventEditors.Add(eventManager._eventEditor);
 				list.Add("Global (EventManager)");
 			}
-			GroupComponent[] array = UnityEngine.Object.FindObjectsByType(typeof(GroupComponent), FindObjectsSortMode.None) as GroupComponent[];
+			GroupComponent[] array = UnityEngine.Object.FindObjectsByType(typeof(GroupComponent)) as GroupComponent[];
 			GroupComponent[] array2 = array;
 			foreach (GroupComponent groupComponent in array2)
 			{
@@ -6168,7 +6168,7 @@ namespace Fabric
 			{
 				_eventListeners.Clear();
 				selectedEventListener = null;
-				EventListener[] array = UnityEngine.Object.FindObjectsByType(typeof(EventListener), FindObjectsSortMode.None) as EventListener[];
+				EventListener[] array = UnityEngine.Object.FindObjectsByType(typeof(EventListener)) as EventListener[];
 				EventListener[] array2 = array;
 				foreach (EventListener eventListener in array2)
 				{
@@ -7061,12 +7061,12 @@ namespace Fabric
 		public void PlaymodeCallback()
 		{
 			groupComponents.Clear();
-			GroupComponent[] array = UnityEngine.Object.FindObjectsByType(typeof(GroupComponent), FindObjectsSortMode.None) as GroupComponent[];
+			GroupComponent[] array = UnityEngine.Object.FindObjectsByType(typeof(GroupComponent)) as GroupComponent[];
 			for (int i = 0; i < array.Length; i++)
 			{
 				groupComponents.Add(array[i]);
 			}
-			GroupComponentProxy[] array2 = UnityEngine.Object.FindObjectsByType(typeof(GroupComponentProxy), FindObjectsSortMode.None) as GroupComponentProxy[];
+			GroupComponentProxy[] array2 = UnityEngine.Object.FindObjectsByType(typeof(GroupComponentProxy)) as GroupComponentProxy[];
 			for (int j = 0; j < array2.Length; j++)
 			{
 				groupComponents.Add(array2[j]._groupComponent);
@@ -9286,7 +9286,7 @@ namespace Fabric
 					}
 					else
 					{
-						xml.Add($"{indent}<{name} type=\"object-id\">{obj.GetInstanceID()}</{name}>");
+						xml.Add($"{indent}<{name} type=\"object-id\">{obj.GetEntityId()}</{name}>");
 					}
 				}
 				else if (value is AnimationCurve)
@@ -9366,7 +9366,7 @@ namespace Fabric
 
 		private static void SerializeGameObjectToXml(List<string> xml, GameObject gameObject, bool recurse = true, string indent = "")
 		{
-			xml.Add($"{indent}<GameObject id=\"{gameObject.GetInstanceID()}\" name=\"{gameObject.name}\">");
+			xml.Add($"{indent}<GameObject id=\"{gameObject.GetEntityId()}\" name=\"{gameObject.name}\">");
 			UnityEngine.Component[] components = gameObject.GetComponents<UnityEngine.Component>();
 			foreach (UnityEngine.Component component in components)
 			{
@@ -9387,7 +9387,7 @@ namespace Fabric
 
 		private static void SerializeComponentToXml(List<string> xml, UnityEngine.Component component, string indent = "")
 		{
-			xml.Add($"{indent}<Component type=\"{component.GetType()}\" id=\"{component.GetInstanceID()}\">");
+			xml.Add($"{indent}<Component type=\"{component.GetType()}\" id=\"{component.GetEntityId()}\">");
 			FieldDictEntry fieldDictEntry = new FieldDictEntry();
 			foreach (Serialization.IField item in Serialization.EnumerateFields(component))
 			{
@@ -10706,7 +10706,7 @@ namespace Fabric
 
 		public void OnGUI()
 		{
-			FabricManager fabricManager = (FabricManager)UnityEngine.Object.FindFirstObjectByType(typeof(FabricManager));
+			FabricManager fabricManager = (FabricManager)UnityEngine.Object.FindAnyObjectByType(typeof(FabricManager));
 			if (fabricManager == null)
 			{
 				return;
@@ -15122,10 +15122,10 @@ namespace Fabric
 		public static T DeepCopy<T>(T other)
 		{
 			using MemoryStream memoryStream = new MemoryStream();
-			BinaryFormatter binaryFormatter = new BinaryFormatter();
-			binaryFormatter.Serialize(memoryStream, other);
+			DataContractSerializer serializer = new DataContractSerializer(other.GetType(), new DataContractSerializerSettings { PreserveObjectReferences = true });
+			serializer.WriteObject(memoryStream, other);
 			memoryStream.Position = 0L;
-			return (T)binaryFormatter.Deserialize(memoryStream);
+			return (T)serializer.ReadObject(memoryStream);
 		}
 
 		public static bool IsSerializable(object obj)

@@ -65,7 +65,6 @@ namespace ClubPenguin.UI
 				}
 				if (!PopupCamera.enabled)
 				{
-					PopupCamera.useOcclusionCulling = Camera.main.useOcclusionCulling;
 					PopupCamera.enabled = true;
 					CoroutineRunner.Start(waitForPopupToClose(), this, "");
 				}

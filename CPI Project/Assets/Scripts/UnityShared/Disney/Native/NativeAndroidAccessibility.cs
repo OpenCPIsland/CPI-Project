@@ -40,33 +40,33 @@ namespace Disney.Native
             return false;
         }
 
-        public override void RemoveView(int aId)
+        public override void RemoveView(EntityId aId)
         {
             JavaClass.CallStatic("RemoveView", aId);
         }
 
-        public override void RenderText(int aId, Rect aRect, string aLabel)
+        public override void RenderText(EntityId aId, Rect aRect, string aLabel)
         {
             JavaClass.CallStatic("RenderText", aId, (int)aRect.x, (int)aRect.y, (int)aRect.width, (int)aRect.height, aLabel);
         }
 
-        public override void RenderButton(int aId, Rect aRect, string aLabel)
+        public override void RenderButton(EntityId aId, Rect aRect, string aLabel)
         {
             JavaClass.CallStatic("RenderButton", aId, (int)aRect.x, (int)aRect.y, (int)aRect.width, (int)aRect.height, aLabel);
         }
 
-        public override void SelectElement(int aId)
+        public override void SelectElement(EntityId aId)
         {
             JavaClass.CallStatic("SelectElement", aId);
         }
 
-        public IEnumerator SelectElementDelay(int aId)
+        public IEnumerator SelectElementDelay(EntityId aId)
         {
             yield return new WaitForSeconds(1f);
             SelectElement(aId);
         }
 
-        public override void HandleError(int aId)
+        public override void HandleError(EntityId aId)
         {
             StartCoroutine(SelectElementDelay(aId));
         }
@@ -76,7 +76,7 @@ namespace Disney.Native
             JavaClass.CallStatic("ClearAllElements");
         }
 
-        public override void UpdateView(int aId, Rect aRect, string aLabel)
+        public override void UpdateView(EntityId aId, Rect aRect, string aLabel)
         {
             if (aLabel == null)
             {

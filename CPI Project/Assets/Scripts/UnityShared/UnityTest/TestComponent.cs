@@ -236,7 +236,7 @@ namespace UnityTest
 			int num = base.gameObject.name.CompareTo(obj.gameObject.name);
 			if (num == 0)
 			{
-				num = base.gameObject.GetInstanceID().CompareTo(obj.gameObject.GetInstanceID());
+				num = base.gameObject.GetEntityId().CompareTo(obj.gameObject.GetEntityId());
 			}
 			return num;
 		}

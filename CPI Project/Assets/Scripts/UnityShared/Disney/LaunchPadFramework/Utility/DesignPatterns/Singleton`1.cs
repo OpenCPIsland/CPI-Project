@@ -22,8 +22,8 @@ namespace Disney.LaunchPadFramework.Utility.DesignPatterns
 				{
 					if ((Object)m_instance == (Object)null)
 					{
-				m_instance = Object.FindFirstObjectByType<T>();
-				if (Object.FindObjectsByType<T>(FindObjectsSortMode.None).Length > 1)
+				m_instance = Object.FindAnyObjectByType<T>();
+				if (Object.FindObjectsByType<T>().Length > 1)
 						{
 							Log.LogFatal(m_instance, "[Singleton] Something went really wrong - there should never be more than 1 singleton! Reopenning the scene might fix it.");
 							return m_instance;

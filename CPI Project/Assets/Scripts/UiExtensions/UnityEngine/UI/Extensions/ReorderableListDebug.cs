@@ -6,7 +6,7 @@ namespace UnityEngine.UI.Extensions
 
 		private void Awake()
 		{
-			ReorderableList[] array = Object.FindObjectsByType<ReorderableList>(FindObjectsSortMode.None);
+			ReorderableList[] array = Object.FindObjectsByType<ReorderableList>();
 			foreach (ReorderableList reorderableList in array)
 			{
 				reorderableList.OnElementDropped.AddListener(ElementDropped);

@@ -26,7 +26,7 @@ namespace ClubPenguin
 
 		public override IEnumerator PerformFirstPass()
 		{
-			   ProximityService instance = Object.FindFirstObjectByType<ProximityService>();
+			   ProximityService instance = Object.FindAnyObjectByType<ProximityService>();
 			Service.Set(instance);
 			yield break;
 		}

@@ -30,7 +30,7 @@ namespace ClubPenguin
 
 		private void Awake()
 		{
-			sceneRaycaster = UnityEngine.Object.FindFirstObjectByType<SceneRaycaster>();
+			sceneRaycaster = UnityEngine.Object.FindAnyObjectByType<SceneRaycaster>();
 		}
 
 		private void OnStart()

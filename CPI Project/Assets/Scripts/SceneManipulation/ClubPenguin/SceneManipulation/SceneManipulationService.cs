@@ -96,8 +96,8 @@ namespace ClubPenguin.SceneManipulation
 			{
 				if (_objectManipulationManager == null)
 				{
-					_objectManipulationManager = UnityEngine.Object.FindFirstObjectByType<ObjectManipulationManager>();
-				}
+                    _objectManipulationManager = UnityEngine.Object.FindAnyObjectByType<ObjectManipulationManager>();
+                }
 				return _objectManipulationManager;
 			}
 		}

@@ -117,7 +117,7 @@ namespace UnityEngine.UI.Extensions
 				num += columnSpacing;
 			}
 			num -= columnSpacing;
-			SetLayoutInputForAxis(num, num, 0f, 0);
+			SetLayoutInputForAxis(num, num, 0f, float.PositiveInfinity, 0);
 		}
 
 		public override void CalculateLayoutInputVertical()
@@ -166,7 +166,7 @@ namespace UnityEngine.UI.Extensions
 				num4 = num3;
 			}
 			num4 = Mathf.Max(num3, num4);
-			SetLayoutInputForAxis(num3, num4, 1f, 1);
+			SetLayoutInputForAxis(num3, num4, 1f, float.PositiveInfinity, 1);
 		}
 
 		public override void SetLayoutHorizontal()

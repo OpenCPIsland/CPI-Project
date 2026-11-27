@@ -9,7 +9,7 @@ namespace Disney.Native
 		{
 		}
 
-		public void Click(int aId)
+		public void Click(EntityId aId)
 		{
 			if (items.ContainsKey(aId) && items[aId] != null)
 			{

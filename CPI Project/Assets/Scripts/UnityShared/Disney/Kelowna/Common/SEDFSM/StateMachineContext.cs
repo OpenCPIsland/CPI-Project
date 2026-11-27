@@ -168,7 +168,7 @@ namespace Disney.Kelowna.Common.SEDFSM
         private static void tweakerSendEvent([NamedToggleValue(typeof(StateMachineContextNameGenerator), 0u)] string contextName, [NamedToggleValue(typeof(StateMachineNameGenerator), 0u)] string targetString, string eventString)
         {
             StateMachineContext stateMachineContext = null;
-            StateMachineContext[] array = UnityEngine.Object.FindObjectsByType<StateMachineContext>(FindObjectsSortMode.None);
+            StateMachineContext[] array = UnityEngine.Object.FindObjectsByType<StateMachineContext>();
             for (int i = 0; i < array.Length; i++)
             {
                 if (array[i].name == contextName)
@@ -197,7 +197,7 @@ namespace Disney.Kelowna.Common.SEDFSM
         private static List<NamedToggleValueAttribute.NamedToggleValue> getNameToggleValues<T>() where T : Component
         {
             List<NamedToggleValueAttribute.NamedToggleValue> list = new List<NamedToggleValueAttribute.NamedToggleValue>();
-            T[] array = UnityEngine.Object.FindObjectsByType<T>(FindObjectsSortMode.None);
+            T[] array = UnityEngine.Object.FindObjectsByType<T>();
             for (int i = 0; i < array.Length; i++)
             {
                 list.Add(new NamedToggleValueAttribute.NamedToggleValue(array[i].name, array[i].name));

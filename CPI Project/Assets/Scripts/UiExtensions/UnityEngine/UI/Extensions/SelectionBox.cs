@@ -84,7 +84,6 @@ namespace UnityEngine.UI.Extensions
 
         private void BeginSelection()
         {
-            // Use new Input System
             if (Mouse.current == null || !Mouse.current.leftButton.wasPressedThisFrame)
             {
                 return;
@@ -100,7 +99,7 @@ namespace UnityEngine.UI.Extensions
                 return;
             }
             boxRect.anchoredPosition = origin;
-            MonoBehaviour[] array = (selectableGroup != null) ? selectableGroup : FindObjectsByType<MonoBehaviour>(FindObjectsSortMode.None);
+            MonoBehaviour[] array = (selectableGroup != null) ? selectableGroup : FindObjectsByType<MonoBehaviour>();
             List<IBoxSelectable> list = new List<IBoxSelectable>();
             foreach (MonoBehaviour monoBehaviour in array)
             {

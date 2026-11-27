@@ -27,7 +27,7 @@ namespace ClubPenguin.Igloo
 		[Invokable("Igloo.UnloadResourceCount", Description = "The count of references removed it takes to unload unused assets.")]
 		public static void SetUnloadResourcesCount(int newValue = 1)
 		{
-			IglooResourceTracker iglooResourceTracker = Object.FindFirstObjectByType<IglooResourceTracker>();
+			IglooResourceTracker iglooResourceTracker = Object.FindAnyObjectByType<IglooResourceTracker>();
 			if (iglooResourceTracker != null)
 			{
 				iglooResourceTracker.UnloadResourcesCount = newValue;

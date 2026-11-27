@@ -734,7 +734,7 @@ public class UIWidget : UIRect
 		{
 			return 1;
 		}
-		return (material.GetInstanceID() >= material2.GetInstanceID()) ? 1 : (-1);
+		return (material.GetEntityId() >= material2.GetEntityId()) ? 1 : (-1);
 	}
 
 	public Bounds CalculateBounds()

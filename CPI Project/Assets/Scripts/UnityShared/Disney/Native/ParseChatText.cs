@@ -9,7 +9,7 @@ namespace Disney.Native
 		{
 		}
 
-		public void Click(int aId)
+		public void Click(EntityId aId)
 		{
 			CheckCustomOnClickHandler(aId);
 		}

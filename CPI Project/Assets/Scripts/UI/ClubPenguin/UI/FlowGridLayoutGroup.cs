@@ -67,7 +67,7 @@ namespace ClubPenguin.UI
 		{
 			base.CalculateLayoutInputHorizontal();
 			float totalMin = GetMaximumChildWidth() + (float)base.padding.left + (float)base.padding.right;
-			SetLayoutInputForAxis(totalMin, -1f, -1f, 0);
+			SetLayoutInputForAxis(totalMin, -1f, -1f, float.PositiveInfinity, 0);
 		}
 
 		public override void SetLayoutHorizontal()
@@ -134,7 +134,7 @@ namespace ClubPenguin.UI
 			num2 += (float)(IsLowerAlign ? base.padding.top : base.padding.bottom);
 			if (layoutInput && axis == 1)
 			{
-				SetLayoutInputForAxis(num2, num2, -1f, axis);
+				SetLayoutInputForAxis(num2, num2, -1f, float.PositiveInfinity, axis);
 			}
 			return num2;
 		}

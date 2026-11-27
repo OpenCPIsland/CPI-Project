@@ -53,7 +53,7 @@ namespace HutongGames.PlayMaker.Actions
 			else
 			{
 #if UNITY_2022_3_OR_NEWER
-				gameObjects = Object.FindObjectsByType<GameObject>(FindObjectsSortMode.None);
+				gameObjects = Object.FindObjectsByType<GameObject>();
 #else
 				gameObjects = (GameObject[])Object.FindObjectsOfType(typeof(GameObject));
 #endif

@@ -214,7 +214,7 @@ namespace ClubPenguin.UI
 
 		private void disableAllAccessTicker()
 		{
-			AllAccessCountdownBarController allAccessCountdownBarController = Object.FindFirstObjectByType<AllAccessCountdownBarController>();
+			AllAccessCountdownBarController allAccessCountdownBarController = Object.FindAnyObjectByType<AllAccessCountdownBarController>();
 			if (allAccessCountdownBarController != null)
 			{
 				allAccessCountdownBarController.Hide();
@@ -223,7 +223,7 @@ namespace ClubPenguin.UI
 
 		private void enableAllAccessTicker()
 		{
-			AllAccessCountdownBarController allAccessCountdownBarController = Object.FindFirstObjectByType<AllAccessCountdownBarController>();
+			AllAccessCountdownBarController allAccessCountdownBarController = Object.FindAnyObjectByType<AllAccessCountdownBarController>();
 			if (allAccessCountdownBarController != null)
 			{
 				allAccessCountdownBarController.Show();
@@ -257,13 +257,9 @@ namespace ClubPenguin.UI
 
 		private void enableTray()
 		{
-			if (SceneRefs.UiTrayRoot != null)
+			if (SceneRefs.UiTrayRoot != null && SceneRefs.UiTrayRoot.GetComponent<StateMachineContext>() != null)
 			{
-				StateMachineContext stateMachineContext = SceneRefs.UiTrayRoot.GetComponent<StateMachineContext>();
-				if (stateMachineContext != null && stateMachineContext.ContainsStateMachine("Root"))
-				{
-					stateMachineContext.SendEvent(new ExternalEvent("Root", "restoreUI"));
-				}
+				SceneRefs.UiTrayRoot.GetComponent<StateMachineContext>().SendEvent(new ExternalEvent("Root", "restoreUI"));
 			}
 		}
 

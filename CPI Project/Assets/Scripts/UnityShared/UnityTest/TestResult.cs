@@ -180,7 +180,7 @@ namespace UnityTest
 		{
 			TestComponent = testComponent;
 			m_Go = testComponent.gameObject;
-			id = testComponent.gameObject.GetInstanceID().ToString();
+			id = testComponent.gameObject.GetEntityId().ToString();
 			dynamicTest = testComponent.dynamic;
 			if (m_Go != null)
 			{
@@ -218,7 +218,7 @@ namespace UnityTest
 			int num = Name.CompareTo(other.Name);
 			if (num == 0)
 			{
-				num = m_Go.GetInstanceID().CompareTo(other.m_Go.GetInstanceID());
+				num = m_Go.GetEntityId().CompareTo(other.m_Go.GetEntityId());
 			}
 			return num;
 		}

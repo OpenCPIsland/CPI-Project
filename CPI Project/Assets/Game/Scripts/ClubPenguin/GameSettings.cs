@@ -723,7 +723,7 @@ namespace ClubPenguin
         public void ResetCFCTotal()
         {
             ProgressOverTime.ResetDeviceDonationProgress();
-            CoinsForChangeTracker cfc = UnityEngine.Object.FindFirstObjectByType<CoinsForChangeTracker>();
+            CoinsForChangeTracker cfc = UnityEngine.Object.FindAnyObjectByType<CoinsForChangeTracker>();
             if (cfc != null)
             {
                 cfc.ResetCoinCount();
@@ -739,7 +739,7 @@ namespace ClubPenguin
         {
             PlayerPrefs.SetString(GetPlatformKey("ol.CFCDonationTotal.device"), "999999999");
             PlayerPrefs.Save();
-            CoinsForChangeTracker cfc = UnityEngine.Object.FindFirstObjectByType<CoinsForChangeTracker>();
+            CoinsForChangeTracker cfc = UnityEngine.Object.FindAnyObjectByType<CoinsForChangeTracker>();
             if (cfc != null)
             {
                 cfc.SetCoinCount(999999999);

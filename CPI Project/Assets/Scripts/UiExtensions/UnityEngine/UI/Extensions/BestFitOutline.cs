@@ -9,15 +9,12 @@ namespace UnityEngine.UI.Extensions
 		{
 		}
 
-		public override void ModifyMesh(Mesh mesh)
+		public override void ModifyMesh(VertexHelper vertexHelper)
 		{
 			if (IsActive())
 			{
 				List<UIVertex> list = new List<UIVertex>();
-				using (VertexHelper vertexHelper = new VertexHelper(mesh))
-				{
-					vertexHelper.GetUIVertexStream(list);
-				}
+				vertexHelper.GetUIVertexStream(list);
 				Text component = GetComponent<Text>();
 				float num = 1f;
 				if ((bool)component && component.resizeTextForBestFit)
@@ -60,11 +57,8 @@ namespace UnityEngine.UI.Extensions
 				float x4 = (0f - effectDistance7.x) * num;
 				Vector2 effectDistance8 = base.effectDistance;
 				ApplyShadowZeroAlloc(list, color4, start4, count5, x4, (0f - effectDistance8.y) * num);
-				using (VertexHelper vertexHelper2 = new VertexHelper())
-				{
-					vertexHelper2.AddUIVertexTriangleStream(list);
-					vertexHelper2.FillMesh(mesh);
-				}
+				vertexHelper.Clear();
+				vertexHelper.AddUIVertexTriangleStream(list);
 			}
 		}
 	}

@@ -12,7 +12,7 @@ namespace EasyTouchPlugin
             {
                 if ((Object)m_Instance == (Object)null)
                 {
-                    m_Instance = (Object.FindFirstObjectByType(typeof(T)) as T);
+                    m_Instance = (Object.FindAnyObjectByType(typeof(T)) as T);
 
                     if ((Object)m_Instance == (Object)null)
                     {

@@ -19,7 +19,7 @@ namespace ClubPenguin.ClothingDesigner.ItemCustomizer
 		{
 			sceneCamera = GetComponent<Camera>();
 			Camera uiCamera = GameObject.FindGameObjectWithTag("UICamera").GetComponent<Camera>();
-			Canvas[] canvases = FindObjectsByType<Canvas>(FindObjectsSortMode.None);
+			Canvas[] canvases = FindObjectsByType<Canvas>();
 			for (int i = 0; i < canvases.Length; i++)
 			{
 				if (canvases[i].renderMode == RenderMode.ScreenSpaceCamera && canvases[i].worldCamera == uiCamera)

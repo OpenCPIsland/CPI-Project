@@ -24,7 +24,7 @@ namespace ClubPenguin.Adventure
 		public object GetVerifiableParameters()
 		{
 			List<ActionedObjectWithPosition> list = new List<ActionedObjectWithPosition>();
-			   SendQuestEvent[] array = Object.FindObjectsByType<SendQuestEvent>(FindObjectsSortMode.None);
+			   SendQuestEvent[] array = Object.FindObjectsByType<SendQuestEvent>();
 			foreach (SendQuestEvent sendQuestEvent in array)
 			{
 				if (sendQuestEvent.QuestEvent == QuestEvent)

@@ -137,11 +137,11 @@ internal static class PlayMakerMainMenu
 	public static bool ValidateAddPlayMakerGUI()
 	{
 #if UNITY_2022_3_OR_NEWER
-        return Object.FindFirstObjectByType<PlayMakerGUI>() == null;
+        return Object.FindAnyObjectByType<PlayMakerGUI>() == null;
 #else
         return Object.FindObjectOfType(typeof(PlayMakerGUI)) as PlayMakerGUI == null;
 #endif
-	}
+    }
 
     [MenuItem(MenuRoot + "Components/Add PlayMakerGUI to Scene", false, iComponents + 1)]
 	public static void AddPlayMakerGUI()

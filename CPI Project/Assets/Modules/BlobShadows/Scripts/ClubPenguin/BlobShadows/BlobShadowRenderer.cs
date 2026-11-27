@@ -81,7 +81,7 @@ namespace ClubPenguin.BlobShadows
 
 		private void Awake()
 		{
-			if (UnityEngine.Object.FindObjectsByType<BlobShadowRenderer>(FindObjectsSortMode.None).Length > 1)
+			if (UnityEngine.Object.FindObjectsByType<BlobShadowRenderer>().Length > 1)
 			{
 				throw new Exception("A scene should only contain 1 BlobShadowRenderer.");
 			}
@@ -173,7 +173,7 @@ namespace ClubPenguin.BlobShadows
 
 		private void setupExistingShadowCasters()
 		{
-			BlobShadowCaster[] array = UnityEngine.Object.FindObjectsByType<BlobShadowCaster>(FindObjectsSortMode.None);
+            BlobShadowCaster[] array = UnityEngine.Object.FindObjectsByType<BlobShadowCaster>();
             for (int i = 0; i < array.Length; i++)
 			{
 				array[i].SetBlobShadowCam(this);
@@ -334,7 +334,7 @@ namespace ClubPenguin.BlobShadows
 			{
 				replacementMats = new Dictionary<Material, Material>();
 			}
-			Renderer[] array = UnityEngine.Object.FindObjectsByType<Renderer>(FindObjectsSortMode.None);
+			Renderer[] array = UnityEngine.Object.FindObjectsByType<Renderer>();
 			foreach (Renderer renderer in array)
 			{
 				if (renderer == null)

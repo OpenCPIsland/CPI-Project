@@ -164,7 +164,6 @@ namespace ClubPenguin
 			camera.backgroundColor = new Color(1f, 1f, 1f, 0f);
 			camera.orthographic = config.IsOrthographic;
 			camera.fieldOfView = config.FieldOfView;
-			camera.useOcclusionCulling = config.UseOcclusionCulling;
 			CameraCullingMaskHelper.SetSingleLayer(camera, "IconRender");
 			if (config.UseSolidBackground)
 			{

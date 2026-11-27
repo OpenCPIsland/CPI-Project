@@ -96,7 +96,7 @@ namespace ClubPenguin.UI
 
 		private void showKeyboard()
 		{
-			InputBarField inputBarField = Object.FindFirstObjectByType<InputBarField>();
+			InputBarField inputBarField = Object.FindAnyObjectByType<InputBarField>();
 			inputBarField.ShowKeyboard();
 		}
 

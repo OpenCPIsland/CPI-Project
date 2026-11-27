@@ -205,7 +205,7 @@ namespace Fabric
 			{
 				if (_instance == null)
 				{
-                    GameObject[] array = UnityEngine.Object.FindObjectsByType<GameObject>(FindObjectsSortMode.None);
+                    GameObject[] array = UnityEngine.Object.FindObjectsByType<GameObject>();
                     for (int i = 0; i < array.Length; i++)
 					{
 						_instance = array[i].GetComponent<FabricManager>();
@@ -306,7 +306,7 @@ namespace Fabric
 			_instance = this;
 			if (_VRAudioManager.HasVRSolutions())
 			{
-				FabricAudioListener fabricAudioListener = UnityEngine.Object.FindFirstObjectByType<FabricAudioListener>();
+				FabricAudioListener fabricAudioListener = UnityEngine.Object.FindAnyObjectByType<FabricAudioListener>();
 				if (fabricAudioListener != null)
 				{
 					GameObject audioListener = _VRAudioManager.GetAudioListener();
@@ -353,7 +353,7 @@ namespace Fabric
 			if (Application.isEditor)
 			{
 				CodeProfiler.enabled = true;
-				FabricManager[] array = UnityEngine.Object.FindObjectsByType<FabricManager>(FindObjectsSortMode.None);
+				FabricManager[] array = UnityEngine.Object.FindObjectsByType<FabricManager>();
 				if (array.Length > 1)
 				{
 					DebugLog.Print("More than two FabricManager instances available!!!", DebugLevel.Error);
@@ -368,7 +368,7 @@ namespace Fabric
 
 		private void Start()
 		{
-			_audioListener = UnityEngine.Object.FindFirstObjectByType<AudioListener>();
+			_audioListener = UnityEngine.Object.FindAnyObjectByType<AudioListener>();
 			VolumeMeter component = base.gameObject.GetComponent<VolumeMeter>();
 			if (component != null)
 			{

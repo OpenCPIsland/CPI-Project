@@ -33,7 +33,7 @@ namespace ClubPenguin.LOD
 		{
 			get
 			{
-				   LODSystem lODSystem = Object.FindFirstObjectByType<LODSystem>();
+				   LODSystem lODSystem = Object.FindAnyObjectByType<LODSystem>();
 				if (lODSystem == null)
 				{
 					return 0;
@@ -50,7 +50,7 @@ namespace ClubPenguin.LOD
 		{
 			get
 			{
-				LODSystem lODSystem = Object.FindFirstObjectByType<LODSystem>();
+				LODSystem lODSystem = Object.FindAnyObjectByType<LODSystem>();
 				if (lODSystem == null)
 				{
 					return 0;
@@ -76,7 +76,7 @@ namespace ClubPenguin.LOD
 		{
 			get
 			{
-				LODSystem lODSystem = Object.FindFirstObjectByType<LODSystem>();
+				LODSystem lODSystem = Object.FindAnyObjectByType<LODSystem>();
 				if (lODSystem == null)
 				{
 					return 0;
@@ -102,7 +102,7 @@ namespace ClubPenguin.LOD
 		{
 			get
 			{
-				LODSystem lODSystem = Object.FindFirstObjectByType<LODSystem>();
+				LODSystem lODSystem = Object.FindAnyObjectByType<LODSystem>();
 				if (lODSystem == null)
 				{
 					return 0;
@@ -128,7 +128,7 @@ namespace ClubPenguin.LOD
 		{
 			get
 			{
-				LODSystem lODSystem = Object.FindFirstObjectByType<LODSystem>();
+				LODSystem lODSystem = Object.FindAnyObjectByType<LODSystem>();
 				if (lODSystem == null)
 				{
 					return 0;

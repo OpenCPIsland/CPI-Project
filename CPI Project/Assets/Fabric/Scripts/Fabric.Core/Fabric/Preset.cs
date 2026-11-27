@@ -35,7 +35,7 @@ namespace Fabric
 		private GroupPreset[] _groupPreset;
 
 		[NonSerialized]
-		private Dictionary<int, GroupPreset> _groupPresetTable = new Dictionary<int, GroupPreset>();
+		private Dictionary<EntityId, GroupPreset> _groupPresetTable = new Dictionary<EntityId, GroupPreset>();
 
 		private string _name = "";
 
@@ -65,7 +65,7 @@ namespace Fabric
 			}
 			for (int i = 0; i < _groupPreset.Length; i++)
 			{
-				int instanceID = _groupPreset[i].GroupComponent.GetInstanceID();
+				EntityId instanceID = _groupPreset[i].GroupComponent.GetEntityId();
 				if (!_groupPresetTable.ContainsKey(instanceID))
 				{
 					_groupPresetTable.Add(instanceID, _groupPreset[i]);
@@ -116,7 +116,7 @@ namespace Fabric
 			}
 			for (int i = 0; i < sourcePreset._groupPreset.Length; i++)
 			{
-				GroupPreset groupComponentByID = GetGroupComponentByID(sourcePreset._groupPreset[i].GroupComponent.GetInstanceID());
+				GroupPreset groupComponentByID = GetGroupComponentByID(sourcePreset._groupPreset[i].GroupComponent.GetEntityId());
 				if (groupComponentByID != null)
 				{
 					groupComponentByID.SwitchFromPreset(sourcePreset._groupPreset[i]);
@@ -200,7 +200,7 @@ namespace Fabric
 			UnityEngine.Object.DestroyImmediate(_groupPreset[num]);
 		}
 
-		public GroupPreset GetGroupComponentByID(int id)
+		public GroupPreset GetGroupComponentByID(EntityId id)
 		{
 			if (_groupPresetTable.ContainsKey(id))
 			{

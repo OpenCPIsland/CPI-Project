@@ -513,7 +513,7 @@ namespace ClubPenguin
                         {
                             continue;
                         }
-                        SceneryCollectible[] array2 = UnityEngine.Object.FindObjectsByType<SceneryCollectible>(FindObjectsSortMode.None);
+                        SceneryCollectible[] array2 = UnityEngine.Object.FindObjectsByType<SceneryCollectible>();
                         List<Collectible> list = new List<Collectible>();
                         SceneryCollectible[] array3 = array2;
                         foreach (SceneryCollectible sceneryCollectible in array3)
@@ -983,7 +983,7 @@ namespace ClubPenguin
 
         public Reward GetQuickNotificationReward()
         {
-            ActivityNotificationManager activityNotificationManager = UnityEngine.Object.FindFirstObjectByType<ActivityNotificationManager>();
+            ActivityNotificationManager activityNotificationManager = UnityEngine.Object.FindAnyObjectByType<ActivityNotificationManager>();
             if (activityNotificationManager != null)
             {
                 return activityNotificationManager.Schedule.NotificationReward.ToReward();

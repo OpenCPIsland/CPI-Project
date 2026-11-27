@@ -36,8 +36,8 @@ namespace ClubPenguin
 			}
 			else if (Limits.extents == Vector3.zero)
 			{
-				   Renderer[] array = Object.FindObjectsByType<Renderer>(FindObjectsSortMode.None);
-				foreach (Renderer renderer in array)
+                Renderer[] array = Object.FindObjectsByType<Renderer>();
+                foreach (Renderer renderer in array)
 				{
 					Limits.Encapsulate(renderer.bounds);
 				}

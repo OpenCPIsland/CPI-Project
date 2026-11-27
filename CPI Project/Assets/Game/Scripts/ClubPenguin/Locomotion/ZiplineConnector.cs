@@ -99,7 +99,7 @@ namespace ClubPenguin.Locomotion
 		{
 			if (ziplineEndpoints == null)
 			{
-				   SetZiplineLocomotionAction[] array = Object.FindObjectsByType<SetZiplineLocomotionAction>(FindObjectsSortMode.None);
+				   SetZiplineLocomotionAction[] array = Object.FindObjectsByType<SetZiplineLocomotionAction>();
 				ziplineEndpoints = new Dictionary<GameObject, Transform>(array.Length);
 				for (int i = 0; i < array.Length; i++)
 				{

@@ -44,7 +44,7 @@ namespace ClubPenguin.UI
 
 		public void Start()
 		{
-			MainNavButtonSelector mainNavButtonSelector = UnityEngine.Object.FindFirstObjectByType<MainNavButtonSelector>();
+			MainNavButtonSelector mainNavButtonSelector = UnityEngine.Object.FindAnyObjectByType<MainNavButtonSelector>();
 			if (mainNavButtonSelector != null)
 			{
 				mainNavButtonSelector.SelectNavButton();

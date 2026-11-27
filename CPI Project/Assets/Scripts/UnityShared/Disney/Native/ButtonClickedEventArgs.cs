@@ -1,12 +1,13 @@
 using System;
+using UnityEngine;
 
 namespace Disney.Native
 {
 	public class ButtonClickedEventArgs : EventArgs
 	{
-		public int Id;
+		public EntityId Id;
 
-		public ButtonClickedEventArgs(int aId)
+		public ButtonClickedEventArgs(EntityId aId)
 		{
 			Id = aId;
 		}

@@ -42,8 +42,8 @@ namespace ClubPenguin.Adventure
 
 		private void Find()
 		{
-			   Collectible[] array = Object.FindObjectsByType(typeof(Collectible), FindObjectsSortMode.None) as Collectible[];
-			Collectible[] array2 = array;
+            Collectible[] array = Object.FindObjectsByType<Collectible>();
+            Collectible[] array2 = array;
 			foreach (Collectible collectible in array2)
 			{
 				if ((HowToMatch == MatchType.StartsWith && collectible.name.StartsWith(TextToMatch.Value)) || (HowToMatch == MatchType.Contains && collectible.name.Contains(TextToMatch.Value)) || (HowToMatch == MatchType.EndsWith && collectible.name.EndsWith(TextToMatch.Value)))

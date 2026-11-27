@@ -327,7 +327,7 @@ namespace Fabric
 					}
 					if (preset2.IsActive())
 					{
-						GroupPreset groupComponentByID = preset2.GetGroupComponentByID(groupComponent.GetInstanceID());
+						GroupPreset groupComponentByID = preset2.GetGroupComponentByID(groupComponent.GetEntityId());
 						if (groupComponentByID != null)
 						{
 							num += groupComponentByID.CalculateVolume();

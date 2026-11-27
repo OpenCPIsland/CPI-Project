@@ -2050,13 +2050,13 @@ public class GUIDReplacer : EditorWindow
         }
 
         string[] materialGuids = AssetDatabase.FindAssets("t:Material", new[] { "Assets" });
-        HashSet<int> processedMaterials = new HashSet<int>();
+        HashSet<EntityId> processedMaterials = new HashSet<EntityId>();
         foreach (string materialGuid in materialGuids)
         {
             string assetPath = AssetDatabase.GUIDToAssetPath(materialGuid);
             foreach (Material material in AssetDatabase.LoadAllAssetsAtPath(assetPath).OfType<Material>())
             {
-                if (!processedMaterials.Add(material.GetInstanceID()))
+                if (!processedMaterials.Add(material.GetEntityId()))
                     continue;
 
                 bool materialModified = false;

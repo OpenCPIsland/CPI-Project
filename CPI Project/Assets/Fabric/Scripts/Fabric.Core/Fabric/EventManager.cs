@@ -114,7 +114,7 @@ namespace Fabric
 					}
 					if (_instance == null)
 					{
-						_instance = UnityEngine.Object.FindFirstObjectByType<EventManager>();
+						_instance = UnityEngine.Object.FindAnyObjectByType<EventManager>();
 					}
 				}
 				return _instance;
@@ -500,10 +500,6 @@ namespace Fabric
 			}
 			if (!_listeners.ContainsKey(eventName))
 			{
-				if (eventName.StartsWith("MUS/") || eventName.StartsWith("MUS_"))
-				{
-					Debug.LogWarning("[MUSICDIAG] event '" + eventName + "' (" + postedEvent.EventAction + ") has NO listeners and was dropped");
-				}
 				DebugLog.Print(DebugLevel.Warning, "Event \"", eventName, "\" triggered has no listeners!");
 				postedEvent.eventStatus = EventStatus.Failed_No_Listeners;
 			}

@@ -9,7 +9,7 @@ namespace ClubPenguin
 		public IList<ExportedSittingLocation> ExportCurrentScene()
 		{
 			List<ExportedSittingLocation> list = new List<ExportedSittingLocation>();
-			   SetSitLocomotionAction[] array = Object.FindObjectsByType<SetSitLocomotionAction>(FindObjectsSortMode.None);
+			   SetSitLocomotionAction[] array = Object.FindObjectsByType<SetSitLocomotionAction>();
 			foreach (SetSitLocomotionAction setSitLocomotionAction in array)
 			{
 				ExportedSittingLocation item = default(ExportedSittingLocation);

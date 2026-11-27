@@ -202,7 +202,7 @@ namespace ClubPenguin.Adventure
 
 		private bool tryMapLaunchSequences(List<Switch> watchedParts)
 		{
-			WaitForPenguinOutOfAirAction[] launchActions = UnityEngine.Object.FindObjectsByType<WaitForPenguinOutOfAirAction>(FindObjectsSortMode.InstanceID);
+			WaitForPenguinOutOfAirAction[] launchActions = UnityEngine.Object.FindObjectsByType<WaitForPenguinOutOfAirAction>();
 			Dictionary<GameObject, Switch> mappings = new Dictionary<GameObject, Switch>();
 			HashSet<Switch> mappedParts = new HashSet<Switch>();
 			for (int i = 0; i < launchActions.Length; i++)

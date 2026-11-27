@@ -15,7 +15,7 @@ namespace ClubPenguin.UI
 
 		public void ActivateExchangeScreen(GameObject sender)
 		{
-			if (sender.CompareTag("Player") && !isLoadingPrefab && Object.FindFirstObjectByType<ExchangeScreenControllerV2>() == null)
+			if (sender.CompareTag("Player") && !isLoadingPrefab && Object.FindAnyObjectByType<ExchangeScreenControllerV2>() == null)
 			{
 				Content.LoadAsync(onPrefabLoaded, PREFAB_KEY);
 				isLoadingPrefab = true;

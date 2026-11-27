@@ -118,7 +118,7 @@ namespace ClubPenguin.Interactables
 
         private static SuperTrampoline FindMtBlizzardTrampoline3000()
         {
-            SuperTrampoline[] array = UnityEngine.Object.FindObjectsByType<SuperTrampoline>(FindObjectsSortMode.None);
+            SuperTrampoline[] array = UnityEngine.Object.FindObjectsByType<SuperTrampoline>();
             if (array == null || array.Length == 0)
             {
                 return null;

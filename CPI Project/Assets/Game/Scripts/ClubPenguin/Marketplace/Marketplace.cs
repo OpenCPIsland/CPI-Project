@@ -16,8 +16,8 @@ namespace ClubPenguin.Marketplace
 
 		public void ActivateMarketplace(GameObject sender)
 		{
-			   if (sender.CompareTag("Player") && !isLoadingPrefab && Object.FindFirstObjectByType<MarketplaceScreenController>() == null)
-			{
+            if (sender.CompareTag("Player") && !isLoadingPrefab && Object.FindAnyObjectByType<MarketplaceScreenController>() == null)
+            {
 				isLoadingPrefab = true;
 				SceneRefs.FullScreenPopupManager.CreatePopup(prefabContentKey, "Accessibility.Popup.Title.Marketplace", false, onPrefabCreated);
 			}

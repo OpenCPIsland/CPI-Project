@@ -6,7 +6,7 @@ namespace Foundation.Unity
 	{
 		public static void DestroyIfInstance(Object obj)
 		{
-			if (obj != null && obj.GetInstanceID() < 0)
+			if (obj != null && IsInstance(obj))
 			{
 				Object.Destroy(obj);
 			}
@@ -14,7 +14,7 @@ namespace Foundation.Unity
 
 		public static void DestroyIfAsset(Object obj)
 		{
-			if (obj != null && obj.GetInstanceID() >= 0 && obj.GetType() != typeof(GameObject))
+			if (obj != null && !IsInstance(obj) && obj.GetType() != typeof(GameObject))
 			{
 				Resources.UnloadAsset(obj);
 			}
@@ -24,7 +24,7 @@ namespace Foundation.Unity
 		{
 			if (obj != null)
 			{
-				if (obj.GetInstanceID() < 0)
+				if (IsInstance(obj))
 				{
 					Object.Destroy(obj);
 				}
@@ -33,6 +33,11 @@ namespace Foundation.Unity
 					Resources.UnloadAsset(obj);
 				}
 			}
+		}
+
+		private static bool IsInstance(Object obj)
+		{
+			return EntityId.ToULong(obj.GetEntityId()) > long.MaxValue;
 		}
 
 		public static void UnloadAssets(this GameObject go)
@@ -49,8 +54,18 @@ namespace Foundation.Unity
 			Renderer[] componentsInChildren = component.GetComponentsInChildren<Renderer>(true);
 			for (int i = 0; i < componentsInChildren.Length; i++)
 			{
-				cleanupMaterials(componentsInChildren[i].sharedMaterials);
-				cleanupMaterials(componentsInChildren[i].materials);
+				destroyMaterialInstances(componentsInChildren[i].materials);
+			}
+		}
+
+		private static void destroyMaterialInstances(Material[] materials)
+		{
+			for (int i = 0; i < materials.Length; i++)
+			{
+				if (materials[i] != null)
+				{
+					Object.Destroy(materials[i]);
+				}
 			}
 		}
 

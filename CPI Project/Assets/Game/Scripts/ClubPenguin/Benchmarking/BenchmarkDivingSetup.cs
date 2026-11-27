@@ -12,8 +12,8 @@ namespace ClubPenguin.Benchmarking
 			GameObject localPlayerGameObject = SceneRefs.ZoneLocalPlayerManager.LocalPlayerGameObject;
 			localPlayerGameObject.AddComponent(typeof(InvincibleDiver));
 			localPlayerGameObject.GetComponent<PenguinInteraction>().enabled = false;
-			   Chomper[] array = Object.FindObjectsByType<Chomper>(FindObjectsSortMode.None);
-			int num = array.Length;
+            Chomper[] array = Object.FindObjectsByType<Chomper>(FindObjectsInactive.Include);
+            int num = array.Length;
 			for (int i = 0; i < num; i++)
 			{
 				CollectibleOptimizer component = array[i].GetComponent<CollectibleOptimizer>();

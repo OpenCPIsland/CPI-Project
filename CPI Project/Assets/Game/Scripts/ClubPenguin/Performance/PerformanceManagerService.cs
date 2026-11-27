@@ -19,7 +19,7 @@ namespace ClubPenguin.Performance
 		{
 			performanceResponderTypeToResponders = new Dictionary<PerformanceResponderType, List<PerformanceResponder>>();
 			stopWatch = new Stopwatch();
-			   frameDataRecorder = Object.FindFirstObjectByType<FrameDataRecorder>();
+			   frameDataRecorder = Object.FindAnyObjectByType<FrameDataRecorder>();
 			if (frameDataRecorder == null)
 			{
 				GameObject gameObject = new GameObject();

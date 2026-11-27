@@ -494,7 +494,7 @@ public class UIPanel : UIRect
 			{
 				return 1;
 			}
-			return (a.GetInstanceID() >= b.GetInstanceID()) ? 1 : (-1);
+			return (a.GetEntityId() >= b.GetEntityId()) ? 1 : (-1);
 		}
 		return 0;
 	}

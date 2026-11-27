@@ -8,7 +8,7 @@ namespace ClubPenguin.Gui
 
 		public virtual void Awake()
 		{
-			   controller = Object.FindFirstObjectByType<TrayController>();
+			   controller = Object.FindAnyObjectByType<TrayController>();
 			if (controller == null)
 			{
 				throw new UnityException("Could not find parent tray controller!");

@@ -36,7 +36,7 @@ namespace ClubPenguin.Player
 		[Invokable("Igloo.Debug.SetRoomPopulation")]
 		public static void SetRoomPopulation(int count)
 		{
-			   PlayerTallyController playerTallyController = Object.FindFirstObjectByType<PlayerTallyController>();
+			   PlayerTallyController playerTallyController = Object.FindAnyObjectByType<PlayerTallyController>();
 			if (playerTallyController != null)
 			{
 				playerTallyController.PlayerRoomCount = count;

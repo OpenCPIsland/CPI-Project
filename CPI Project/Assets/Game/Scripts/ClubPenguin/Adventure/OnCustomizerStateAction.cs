@@ -14,7 +14,7 @@ namespace ClubPenguin.Adventure
 
 		public override void OnEnter()
 		{
-			   CustomizationContext customizationContext = Object.FindFirstObjectByType<CustomizationContext>();
+			   CustomizationContext customizationContext = Object.FindAnyObjectByType<CustomizationContext>();
 			if (customizationContext == null)
 			{
 				Disney.LaunchPadFramework.Log.LogErrorFormatted(this, "Unable to find CustomizationContext, assuming we already in state {0}", CustomizerState);

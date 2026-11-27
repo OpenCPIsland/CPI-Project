@@ -82,7 +82,7 @@ namespace ClubPenguin.UI
 		public static void SetInteractInWorldIconType(InteractInWorldIconType type)
 		{
 			tweakableType = type;
-			InteractInWorldIconController interactInWorldIconController = Object.FindFirstObjectByType<InteractInWorldIconController>();
+			InteractInWorldIconController interactInWorldIconController = Object.FindAnyObjectByType<InteractInWorldIconController>();
 			if (interactInWorldIconController != null)
 			{
 				interactInWorldIconController.setState(type);
