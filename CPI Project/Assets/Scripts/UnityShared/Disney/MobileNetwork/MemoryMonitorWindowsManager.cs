@@ -13,6 +13,15 @@ namespace Disney.MobileNetwork
         [DllImport("MemoryMonitorWindows")]
         private static extern ulong _getProcessUsedBytes();
 
+        [DllImport("MemoryMonitorWindows")]
+        private static extern ulong _getTotalBytes();
+
+        [DllImport("MemoryMonitorWindows")]
+        private static extern ulong _getFreeBytes();
+
+        [DllImport("MemoryMonitorWindows")]
+        private static extern float _getBatteryPercent();
+
         protected override void Init()
         {
             try
@@ -29,6 +38,21 @@ namespace Disney.MobileNetwork
         public override ulong GetProcessUsedBytes()
         {
             return Enabled ? _getProcessUsedBytes() : base.GetProcessUsedBytes();
+        }
+
+        public override ulong GetTotalBytes()
+        {
+            return _getTotalBytes();
+        }
+
+        public override ulong GetFreeBytes()
+        {
+            return _getFreeBytes();
+        }
+
+        public override float GetBatteryPercent()
+        {
+            return _getBatteryPercent();
         }
 
 #elif UNITY_STANDALONE_LINUX || UNITY_EDITOR_LINUX
@@ -37,6 +61,15 @@ namespace Disney.MobileNetwork
         [DllImport("libMemoryMonitorLinux", EntryPoint = "get_process_used_bytes")]
         private static extern ulong _getProcessUsedBytes();
 
+        [DllImport("libMemoryMonitorLinux", EntryPoint = "get_total_bytes")]
+        private static extern ulong _getTotalBytes();
+
+        [DllImport("libMemoryMonitorLinux", EntryPoint = "get_free_bytes")]
+        private static extern ulong _getFreeBytes();
+
+        [DllImport("libMemoryMonitorLinux", EntryPoint = "get_battery_percent")]
+        private static extern float _getBatteryPercent();
+
         protected override void Init()
         {
             try
@@ -53,6 +86,21 @@ namespace Disney.MobileNetwork
         public override ulong GetProcessUsedBytes()
         {
             return Enabled ? _getProcessUsedBytes() : base.GetProcessUsedBytes();
+        }
+
+        public override ulong GetTotalBytes()
+        {
+            return _getTotalBytes();
+        }
+
+        public override ulong GetFreeBytes()
+        {
+            return _getFreeBytes();
+        }
+
+        public override float GetBatteryPercent()
+        {
+            return _getBatteryPercent();
         }
 
 #elif UNITY_STANDALONE_OSX || UNITY_EDITOR_OSX || UNITY_STANDALONE_OSX_ARM || UNITY_EDITOR_OSX_ARM
@@ -61,6 +109,15 @@ namespace Disney.MobileNetwork
         [DllImport("libMemoryMonitorOSX", EntryPoint = "get_process_used_bytes")]
         private static extern ulong _getProcessUsedBytes();
 
+        [DllImport("libMemoryMonitorOSX", EntryPoint = "_GetTotalBytes")]
+        private static extern ulong _getTotalBytes();
+
+        [DllImport("libMemoryMonitorOSX", EntryPoint = "_GetFreeBytes")]
+        private static extern ulong _getFreeBytes();
+
+        [DllImport("libMemoryMonitorOSX", EntryPoint = "_GetBatteryPercent")]
+        private static extern float _getBatteryPercent();
+
         protected override void Init()
         {
             try
@@ -77,6 +134,21 @@ namespace Disney.MobileNetwork
         public override ulong GetProcessUsedBytes()
         {
             return Enabled ? _getProcessUsedBytes() : base.GetProcessUsedBytes();
+        }
+
+        public override ulong GetTotalBytes()
+        {
+            return _getTotalBytes();
+        }
+
+        public override ulong GetFreeBytes()
+        {
+            return _getFreeBytes();
+        }
+
+        public override float GetBatteryPercent()
+        {
+            return _getBatteryPercent();
         }
 
 #elif UNITY_WEBGL

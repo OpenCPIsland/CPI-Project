@@ -38,7 +38,7 @@ static uint64_t get_free_bytes(void)
         return 0;
     }
 
-    return (uint64_t)vm_stat.free_count * (uint64_t)page_size;
+    return ((uint64_t)vm_stat.free_count + (uint64_t)vm_stat.inactive_count) * (uint64_t)page_size;
 }
 
 static uint64_t mm_process_used_bytes(void)

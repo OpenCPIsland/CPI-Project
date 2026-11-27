@@ -17,14 +17,40 @@
 
 extern "C" {
 
-// Returns approximate memory usage (Working Set) of the current process
+// Returns approximate memory usage (Private Bytes) of the current process
 MEMORYMONITORWINDOWS_API SIZE_T _getProcessUsedBytes() {
     HANDLE hProcess = GetCurrentProcess();
-    PROCESS_MEMORY_COUNTERS pmc;
-    if (K32GetProcessMemoryInfo(hProcess, &pmc, sizeof(pmc))) {
-        return pmc.WorkingSetSize;
+    PROCESS_MEMORY_COUNTERS_EX pmc;
+    if (K32GetProcessMemoryInfo(hProcess, (PROCESS_MEMORY_COUNTERS*)&pmc, sizeof(pmc))) {
+        return pmc.PrivateUsage;
     }
     return 0;
+}
+
+MEMORYMONITORWINDOWS_API unsigned long long _getTotalBytes() {
+    MEMORYSTATUSEX status;
+    status.dwLength = sizeof(status);
+    if (GlobalMemoryStatusEx(&status)) {
+        return status.ullTotalPhys;
+    }
+    return 0;
+}
+
+MEMORYMONITORWINDOWS_API unsigned long long _getFreeBytes() {
+    MEMORYSTATUSEX status;
+    status.dwLength = sizeof(status);
+    if (GlobalMemoryStatusEx(&status)) {
+        return status.ullAvailPhys;
+    }
+    return 0;
+}
+
+MEMORYMONITORWINDOWS_API float _getBatteryPercent() {
+    SYSTEM_POWER_STATUS power;
+    if (!GetSystemPowerStatus(&power) || power.BatteryLifePercent > 100 || (power.BatteryFlag & 128) != 0) {
+        return 1.0f;
+    }
+    return (float)power.BatteryLifePercent / 100.0f;
 }
 
 } // extern "C"
