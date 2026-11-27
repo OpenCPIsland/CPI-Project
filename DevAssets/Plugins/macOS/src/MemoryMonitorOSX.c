@@ -41,7 +41,7 @@ static uint64_t get_free_bytes(void)
     return (uint64_t)vm_stat.free_count * (uint64_t)page_size;
 }
 
-static uint64_t get_process_used_bytes(void)
+static uint64_t mm_process_used_bytes(void)
 {
     task_vm_info_data_t info;
     mach_msg_type_number_t count = TASK_VM_INFO_COUNT;
@@ -126,7 +126,7 @@ static float get_battery_percent(void)
 __attribute__((visibility("default")))
 uint64_t _GetHeapSize(void)
 {
-    return get_process_used_bytes();
+    return mm_process_used_bytes();
 }
 
 __attribute__((visibility("default")))
@@ -150,19 +150,19 @@ float _GetBatteryPercent(void)
 __attribute__((visibility("default")))
 uint64_t _GetProcessUsedBytes(void)
 {
-    return get_process_used_bytes();
+    return mm_process_used_bytes();
 }
 
 __attribute__((visibility("default")))
 uint64_t _getProcessUsedBytes(void)
 {
-    return get_process_used_bytes();
+    return mm_process_used_bytes();
 }
 
 __attribute__((visibility("default")))
 uint64_t get_process_used_bytes(void)
 {
-    return get_process_used_bytes();
+    return mm_process_used_bytes();
 }
 
 #ifdef __cplusplus

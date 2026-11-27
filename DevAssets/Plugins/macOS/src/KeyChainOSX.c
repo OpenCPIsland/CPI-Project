@@ -42,8 +42,9 @@ static CFMutableDictionaryRef kc_make_query(CFStringRef account)
     return query;
 }
 
-static int kc_get_item_data(CFStringRef account, uint8_t** outData, size_t* outLen)
+static int kc_get_item_data(CFStringRef account, uint8_t** outData, size_t* outLen, OSStatus* outStatus)
 {
+    if (outStatus) *outStatus = errSecParam;
     if (!outData || !outLen) return 0;
 
     *outData = NULL;
@@ -57,6 +58,7 @@ static int kc_get_item_data(CFStringRef account, uint8_t** outData, size_t* outL
 
     CFTypeRef result = NULL;
     OSStatus status = SecItemCopyMatching(query, &result);
+    if (outStatus) *outStatus = status;
 
     CFRelease(query);
 
@@ -151,8 +153,9 @@ static int kc_load_or_create_master_key(uint8_t keyOut[32])
 
     uint8_t* data = NULL;
     size_t len = 0;
+    OSStatus status = errSecSuccess;
 
-    if (kc_get_item_data(kKCMasterKeyAccount, &data, &len))
+    if (kc_get_item_data(kKCMasterKeyAccount, &data, &len, &status))
     {
         if (len == 32)
         {
@@ -162,6 +165,12 @@ static int kc_load_or_create_master_key(uint8_t keyOut[32])
         }
 
         free(data);
+        return 0;
+    }
+
+    if (status != errSecItemNotFound)
+    {
+        return 0;
     }
 
     if (SecRandomCopyBytes(kSecRandomDefault, 32, keyOut) != errSecSuccess)
@@ -388,7 +397,7 @@ const char* _getAppData(void)
     uint8_t* data = NULL;
     size_t len = 0;
 
-    if (!kc_get_item_data(kKCAppDataAccount, &data, &len) || !data || len == 0)
+    if (!kc_get_item_data(kKCAppDataAccount, &data, &len, NULL) || !data || len == 0)
     {
         kc_free_cache();
         g_appDataCache = (char*)malloc(3);
