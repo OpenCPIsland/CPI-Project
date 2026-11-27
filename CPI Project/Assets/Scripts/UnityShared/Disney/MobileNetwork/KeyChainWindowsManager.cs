@@ -27,8 +27,6 @@ namespace Disney.MobileNetwork
 
         private readonly AesManaged symmetricAlgorithm;
 
-        private KeyChainManager keyChainManager;
-
         public static byte[] getChainKey;
 
         private static byte[] localStorageKey = new byte[32];
@@ -51,7 +49,7 @@ namespace Disney.MobileNetwork
 #if UNITY_STANDALONE_WIN || UNITY_EDITOR_WIN || UNITY_STANDALONE_LINUX || UNITY_EDITOR_LINUX || UNITY_STANDALONE_OSX || UNITY_EDITOR_OSX || UNITY_STANDALONE_OSX_ARM || UNITY_EDITOR_OSX_ARM
 
         [DllImport(DLL_NAME, CharSet = CharSet.Ansi, CallingConvention = CallingConvention.Cdecl)]
-        private static extern int _cryptProtectData(string dataIn, ref int dataOutSize, out IntPtr dataOut);
+        private static extern int _cryptProtectData(byte[] dataIn, ref int dataOutSize, out IntPtr dataOut);
 
         [DllImport(DLL_NAME, CharSet = CharSet.Ansi, CallingConvention = CallingConvention.Cdecl)]
         private static extern int _cryptUnprotectData(byte[] dataIn, int dataInLength, out IntPtr dataOut);
@@ -60,6 +58,26 @@ namespace Disney.MobileNetwork
         [DllImport(DLL_NAME, CallingConvention = CallingConvention.Cdecl)]
         private static extern void _keyChainFree(IntPtr ptr);
 #endif
+
+        private static byte[] Utf8Z(string text)
+        {
+            byte[] encoded = Encoding.UTF8.GetBytes(text ?? "");
+            byte[] result = new byte[encoded.Length + 1];
+            Buffer.BlockCopy(encoded, 0, result, 0, encoded.Length);
+            return result;
+        }
+
+        private static string PtrToUtf8(IntPtr ptr)
+        {
+            int length = 0;
+            while (Marshal.ReadByte(ptr, length) != 0)
+            {
+                length++;
+            }
+            byte[] buffer = new byte[length];
+            Marshal.Copy(ptr, buffer, 0, length);
+            return Encoding.UTF8.GetString(buffer);
+        }
 
         private static void FreeNativePtr(IntPtr ptr)
         {
@@ -90,7 +108,7 @@ namespace Disney.MobileNetwork
                 return null;
             }
 
-            string s = Marshal.PtrToStringAnsi(ptr);
+            string s = PtrToUtf8(ptr);
             FreeNativePtr(ptr);
 
             return s;
@@ -215,9 +233,10 @@ namespace Disney.MobileNetwork
 
 #endif
 
-        public byte[] Decrypt2(byte[] bytes)
+        private byte[] SessionKey()
         {
-            string text = keyChainManager.GetString("SessionUnlockKey");
+            string text;
+            getAppData().TryGetValue("SessionUnlockKey", out text);
 
             byte[] key;
 
@@ -225,24 +244,28 @@ namespace Disney.MobileNetwork
             {
                 key = new byte[32];
                 getChainKey = key;
-                key = getChainKey;
             }
             else
             {
                 key = Convert.FromBase64String(text);
             }
 
-            if (bytes.Length <= 16)
-            {
-                throw new ArgumentException("Invalid byte array: " + BitConverter.ToString(bytes) + ". Must be over 16 bytes long.");
-            }
-
             if (key.Length != 32)
             {
-                throw new ArgumentException("Invalid key: " + BitConverter.ToString(key) + ". Must be 32 bytes long.");
+                throw new ArgumentException("Invalid key length: " + key.Length + ". Must be 32 bytes long.");
             }
 
-            symmetricAlgorithm.Key = key;
+            return key;
+        }
+
+        public byte[] Decrypt2(byte[] bytes)
+        {
+            if (bytes == null || bytes.Length <= 16)
+            {
+                throw new ArgumentException("Invalid byte array. Must be over 16 bytes long.");
+            }
+
+            symmetricAlgorithm.Key = SessionKey();
 
             Array.Copy(bytes, 0, tempInitializationVector, 0, 16);
 
@@ -300,33 +323,7 @@ namespace Disney.MobileNetwork
 
         public byte[] Encrypt2(byte[] bytes)
         {
-            string text = null;
-
-            byte[] key = null;
-
-            text = getAppData()["SessionUnlockKey"];
-
-            Debug.Log("Keys3: " + text);
-
-            byte[] unused = Convert.FromBase64String(text);
-
-            if (string.IsNullOrEmpty(text))
-            {
-                key = new byte[32];
-                getChainKey = key;
-                key = getChainKey;
-            }
-            else
-            {
-                key = Convert.FromBase64String(text);
-            }
-
-            if (unused.Length != 32)
-            {
-                throw new ArgumentException("Invalid key: " + BitConverter.ToString(unused) + ". Must be 32 bytes long.");
-            }
-
-            symmetricAlgorithm.Key = Convert.FromBase64String(getAppData()["SessionUnlockKey"]);
+            symmetricAlgorithm.Key = SessionKey();
 
             rng.GetBytes(tempInitializationVector);
 
@@ -644,7 +641,7 @@ namespace Disney.MobileNetwork
             IntPtr ptr = IntPtr.Zero;
             int size = 0;
 
-            int res = _cryptProtectData(json, ref size, out ptr);
+            int res = _cryptProtectData(Utf8Z(json), ref size, out ptr);
 
             if (res == 0 || ptr == IntPtr.Zero || size <= 0)
             {
