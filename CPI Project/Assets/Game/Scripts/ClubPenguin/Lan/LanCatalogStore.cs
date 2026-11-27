@@ -193,13 +193,7 @@ namespace ClubPenguin.Net.Lan
 				Dictionary<string, object> root = new Dictionary<string, object>();
 				root["schedule"] = days;
 				root["items"] = list;
-				string temp = path + ".tmp";
-				File.WriteAllText(temp, LanJson.Serialize(root), Encoding.UTF8);
-				if (File.Exists(path))
-				{
-					File.Delete(path);
-				}
-				File.Move(temp, path);
+				LanStore.Write(path, LanJson.Serialize(root));
 			}
 			catch (Exception)
 			{
@@ -214,12 +208,13 @@ namespace ClubPenguin.Net.Lan
 			}
 			try
 			{
-				if (!File.Exists(path))
+				string text = LanStore.Read(path);
+				if (text == null)
 				{
 					return;
 				}
 				object root;
-				if (!LanJson.TryParse(File.ReadAllText(path, Encoding.UTF8), out root))
+				if (!LanJson.TryParse(text, out root))
 				{
 					return;
 				}

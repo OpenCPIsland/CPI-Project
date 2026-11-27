@@ -1933,14 +1933,15 @@ namespace ClubPenguin.Net.Lan
 
 		private void Load()
 		{
-			if (string.IsNullOrEmpty(path) || !File.Exists(path))
+			string text = string.IsNullOrEmpty(path) ? null : LanStore.Read(path);
+			if (text == null)
 			{
 				return;
 			}
 			try
 			{
 				object root;
-				if (!LanJson.TryParse(File.ReadAllText(path, Encoding.UTF8), out root))
+				if (!LanJson.TryParse(text, out root))
 				{
 					return;
 				}
@@ -2094,13 +2095,7 @@ namespace ClubPenguin.Net.Lan
 						zones
 					}
 				});
-				string tmp = path + ".tmp";
-				File.WriteAllText(tmp, json, Encoding.UTF8);
-				if (File.Exists(path))
-				{
-					File.Delete(path);
-				}
-				File.Move(tmp, path);
+				LanStore.Write(path, json);
 			}
 			catch (Exception)
 			{

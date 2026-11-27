@@ -334,14 +334,21 @@ namespace ClubPenguin.Net.Lan
 			data.PartyGames = LoadText("Lan/party-games");
 			data.TubeRaces = LoadText("Lan/tube-races");
 			data.WorldObjects = LoadText("Lan/world-objects");
-			data.CatalogPath = System.IO.Path.Combine(Application.persistentDataPath, "LanCatalog.json");
-			data.BotsPath = System.IO.Path.Combine(Application.persistentDataPath, "LanBots.json");
+			LanStore.Prime(LanStore.CatalogKey, "LanCatalog.json");
+			LanStore.Prime(LanStore.BotsKey, "LanBots.json");
+			data.CatalogPath = LanStore.CatalogKey;
+			data.BotsPath = LanStore.BotsKey;
 			LanServer created = new LanServer(data);
 			if (!created.Start())
 			{
 				return;
 			}
 			server = created;
+			if (!storeFlushing)
+			{
+				storeFlushing = true;
+				CoroutineRunner.StartPersistent(flushStore(), owner, "LanStoreFlush");
+			}
 			beacon = new LanBeacon(SystemInfo.deviceName);
 			beacon.Start();
 			client.SetHost(IPAddress.Loopback.ToString());
@@ -742,6 +749,47 @@ namespace ClubPenguin.Net.Lan
 		{
 			yield return new WaitForSeconds(ServerStopDelaySeconds);
 			stopping.Stop();
+			yield return new WaitForSeconds(1f);
+			LanStore.Flush();
+		}
+
+		private static bool storeFlushing;
+
+		private static IEnumerator flushStore()
+		{
+			WaitForSecondsRealtime wait = new WaitForSecondsRealtime(5f);
+			while (server != null)
+			{
+				yield return wait;
+				LanStore.Flush();
+			}
+			storeFlushing = false;
+		}
+
+		[PublicTweak]
+		[Invokable("LAN.Experimental.ResetSavedData", Description = "Deletes what LAN bots have learned (zones, chair points, rides and props) and the LAN clothing catalog. Hosting restarts by itself if it was on.")]
+		public static void ResetSavedData()
+		{
+			bool wasHosting = server != null;
+			if (wasHosting)
+			{
+				StopHosting();
+			}
+			LanStore.Clear(LanStore.CatalogKey);
+			LanStore.Clear(LanStore.BotsKey);
+			if (wasHosting)
+			{
+				CoroutineRunner.StartPersistent(restartHostingLater(), owner, "LanRestartHosting");
+			}
+		}
+
+		private static IEnumerator restartHostingLater()
+		{
+			yield return new WaitForSeconds(ServerStopDelaySeconds + 2f);
+			if (server == null)
+			{
+				StartHosting();
+			}
 		}
 
 		private static string LoadText(string path)
@@ -773,6 +821,7 @@ namespace ClubPenguin.Net.Lan
 					server.Shutdown();
 				}
 				LanServicesClient.Shutdown();
+				LanStore.Flush();
 			};
 		}
 
