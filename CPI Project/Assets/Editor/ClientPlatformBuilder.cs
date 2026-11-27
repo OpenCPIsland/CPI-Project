@@ -326,7 +326,6 @@ public static class ClientPlatformBuilder
         SessionState.SetInt(RunProgressKey, Progress.Start("Client Build", "Starting..."));
         SessionState.SetBool(RunActiveKey, true);
 
-        Debug.Log("[ClientBuild] Starting: " + string.Join(", ", platforms.Select(p => p.ToString()).ToArray()));
         Resume();
     }
 
@@ -363,10 +362,8 @@ public static class ClientPlatformBuilder
     {
         if (ticking || reloading)
         {
-            Debug.Log("[ClientBuild] Ignored a cancel request during " + (reloading ? "a script reload" : "a build step") + ".");
             return false;
         }
-        Debug.Log("[ClientBuild] Cancel requested from the progress bar.");
         SessionState.SetBool(RunCancelKey, true);
         return true;
     }
@@ -602,7 +599,6 @@ public static class ClientPlatformBuilder
         }
         else
         {
-            Debug.Log("[ClientBuild] " + message);
         }
         EditorUtility.DisplayDialog("Client Build", message, "OK");
     }
@@ -640,7 +636,6 @@ public static class ClientPlatformBuilder
         {
             throw new InvalidOperationException(platform + " build " + report.summary.result + " with " + report.summary.totalErrors + " error(s).");
         }
-        Debug.Log("[ClientBuild] " + platform + " built to " + outputPath + " (" + EditorUtility.FormatBytes((long)report.summary.totalSize) + ")");
     }
 
     private static void GenerateClientBundles()
