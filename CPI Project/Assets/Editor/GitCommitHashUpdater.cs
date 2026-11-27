@@ -9,7 +9,7 @@ using UnityEditor.Build;
 using UnityEditor.Build.Reporting;
 using UnityEngine;
 
-public class GitCommitHashUpdater : IPreprocessBuildWithReport
+public class GitCommitHashUpdater
 {
 	private const string Url = "https://api.github.com/repos/OpenCPIsland/CPI-Project/commits/develop";
 
@@ -21,14 +21,6 @@ public class GitCommitHashUpdater : IPreprocessBuildWithReport
 
 	private const float TimeoutSeconds = 15f;
 
-	public int callbackOrder
-	{
-		get
-		{
-			return 0;
-		}
-	}
-
 	[MenuItem("Project/Update Git Commit Hash")]
 	public static void UpdateFromMenu()
 	{
@@ -36,11 +28,6 @@ public class GitCommitHashUpdater : IPreprocessBuildWithReport
 		if (hash != null)
 		{
 		}
-	}
-
-	public void OnPreprocessBuild(BuildReport report)
-	{
-		Refresh();
 	}
 
 	public static string Refresh()
