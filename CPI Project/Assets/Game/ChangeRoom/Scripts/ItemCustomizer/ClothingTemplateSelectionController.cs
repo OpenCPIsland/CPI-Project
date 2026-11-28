@@ -44,6 +44,10 @@ namespace ClubPenguin.ClothingDesigner.ItemCustomizer
 		private ProgressionService progressionService;
 		private HashSet<TemplateDefinition> progressionUnlockedRewards;
 		private int lastUnlockedIndex = -1;
+		[SerializeField]
+		private ClothingDesignerFilterBar filterBar;
+		private bool filterBarHooked;
+		private List<DisplayedTemplate> lastFilterSource;
 
 		private void Awake()
 		{
@@ -69,6 +73,7 @@ namespace ClubPenguin.ClothingDesigner.ItemCustomizer
 					{
 						parseItemGroups();
 						setCategories(inventoryData.CategoryKeys, categoryToSelect);
+						setupFilterBar();
 						setupListeners();
 						setupPooledScrollRect();
 					}
@@ -81,9 +86,39 @@ namespace ClubPenguin.ClothingDesigner.ItemCustomizer
 			else
 			{
 				parseItemGroups();
+				setupFilterBar();
 				setupListeners();
 				setupPooledScrollRect();
 			}
+		}
+
+		private void setupFilterBar()
+		{
+			if (filterBar == null)
+			{
+				return;
+			}
+			if (!filterBarHooked)
+			{
+				filterBar.FilterChanged += onFilterChanged;
+				filterBarHooked = true;
+			}
+			List<TemplateDefinition> definitions = new List<TemplateDefinition>(rewardTemplates.Count);
+			for (int i = 0; i < rewardTemplates.Count; i++)
+			{
+				definitions.Add(rewardTemplates[i].Definition);
+			}
+			filterBar.SetAvailableTags(ClothingDesignerFilterBar.CollectTags(definitions));
+		}
+
+		private void onFilterChanged()
+		{
+			if (displayedTemplates == null)
+			{
+				return;
+			}
+			filterDisplayedTemplatesByTags(lastFilterSource ?? rewardTemplates);
+			refreshList();
 		}
 
 		private void OnEnable()
@@ -291,6 +326,7 @@ namespace ClubPenguin.ClothingDesigner.ItemCustomizer
 
 		private void filterDisplayedTemplatesByTags(List<DisplayedTemplate> filterTemplates)
 		{
+			lastFilterSource = filterTemplates;
 			displayedTemplates.Clear();
 			List<TagDefinition> filterTags = null;
 
@@ -321,6 +357,10 @@ namespace ClubPenguin.ClothingDesigner.ItemCustomizer
 			else
 			{
 				displayedTemplates.AddRange(filterTemplates);
+			}
+			if (filterBar != null && filterBar.IsActive)
+			{
+				displayedTemplates.RemoveAll((DisplayedTemplate x) => !filterBar.Matches(x.Definition));
 			}
 		}
 
@@ -418,6 +458,10 @@ namespace ClubPenguin.ClothingDesigner.ItemCustomizer
 				eventChannel.RemoveAllListeners();
 			}
 			pooledScrollRect.ObjectAdded -= onObjectAdded;
+			if (filterBar != null)
+			{
+				filterBar.FilterChanged -= onFilterChanged;
+			}
 		}
 	}
 }

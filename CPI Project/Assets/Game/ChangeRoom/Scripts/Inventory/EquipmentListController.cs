@@ -7,6 +7,7 @@ using Disney.Kelowna.Common;
 using Disney.LaunchPadFramework;
 using Disney.MobileNetwork;
 using Disney.Native;
+using System;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
@@ -46,6 +47,9 @@ namespace ClubPenguin.ClothingDesigner.Inventory
 
 		private Dictionary<int, TemplateDefinition> templateDefinitions;
 
+		[SerializeField]
+		private ClothingDesignerFilterBar filterBar;
+
 		public bool IsInitialized
 		{
 			get;
@@ -66,12 +70,49 @@ namespace ClubPenguin.ClothingDesigner.Inventory
 			itemImageBuilder = ItemImageBuilder.acquire();
 			categoryController = new InventoryCategoryController();
 			categoryController.Init(model, categoryManager);
+			setupFilterBar();
 			InventoryContext.EventBus.DispatchEvent(default(ClothingDesignerUIEvents.ShowAllTemplates));
 			setupListeners();
 			editableItemController.gameObject.SetActive(true);
 			int size = model.DisplayedInventory.Count + 2;
 			editableItemController.CreateEditableItemList(inventoryPrefabContentKey, size);
 			IsInitialized = true;
+		}
+
+		private void setupFilterBar()
+		{
+			if (filterBar == null)
+			{
+				return;
+			}
+			List<TemplateDefinition> definitions = new List<TemplateDefinition>();
+			foreach (KeyValuePair<long, InventoryIconModel<DCustomEquipment>> item in model.InventoryData.Inventory)
+			{
+				TemplateDefinition definition;
+				if (templateDefinitions.TryGetValue(item.Value.Data.DefinitionId, out definition))
+				{
+					definitions.Add(definition);
+				}
+			}
+			filterBar.SetAvailableTags(ClothingDesignerFilterBar.CollectTags(definitions));
+			filterBar.FilterChanged += onFilterChanged;
+		}
+
+		private void onFilterChanged()
+		{
+			model.DisplayFilter = (filterBar != null && filterBar.IsActive) ? new Func<long, bool>(matchesFilter) : null;
+			categoryController.Refresh();
+		}
+
+		private bool matchesFilter(long equipmentId)
+		{
+			InventoryIconModel<DCustomEquipment> iconModel;
+			TemplateDefinition definition;
+			if (!model.InventoryData.Inventory.TryGetValue(equipmentId, out iconModel) || !templateDefinitions.TryGetValue(iconModel.Data.DefinitionId, out definition))
+			{
+				return false;
+			}
+			return filterBar.Matches(definition);
 		}
 
 		private void OnDisable()
@@ -288,6 +329,10 @@ namespace ClubPenguin.ClothingDesigner.Inventory
 			if (categoryController != null)
 			{
 				categoryController.Destroy();
+			}
+			if (filterBar != null)
+			{
+				filterBar.FilterChanged -= onFilterChanged;
 			}
 		}
 	}

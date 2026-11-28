@@ -67,6 +67,12 @@ namespace ClubPenguin.ClothingDesigner.Inventory
 			private set;
 		}
 
+		public Func<long, bool> DisplayFilter
+		{
+			get;
+			set;
+		}
+
 		public InventoryEquipmentModel()
 		{
 			DisplayedInventory = new List<long>();
@@ -119,6 +125,7 @@ namespace ClubPenguin.ClothingDesigner.Inventory
 				}
 				DisplayedInventory.Sort(compareInventoryIdByCreationDate);
 			}
+			applyDisplayFilter();
 			InventoryContext.EventBus.DispatchEvent(new InventoryModelEvents.DisplayedInventoryUpdated(DisplayedInventory.Count));
 		}
 
@@ -129,6 +136,7 @@ namespace ClubPenguin.ClothingDesigner.Inventory
 				DisplayedInventory = InventoryData.CurrentAvatarEquipment;
 				DisplayedInventory.Sort(compareInventoryIdByCreationDate);
 			}
+			applyDisplayFilter();
 			InventoryContext.EventBus.DispatchEvent(new InventoryModelEvents.DisplayedInventoryUpdated(DisplayedInventory.Count));
 		}
 
@@ -139,6 +147,7 @@ namespace ClubPenguin.ClothingDesigner.Inventory
 			{
 				DisplayedInventory.Sort(compareInventoryIdByCreationDate);
 			}
+			applyDisplayFilter();
 			InventoryContext.EventBus.DispatchEvent(new InventoryModelEvents.DisplayedInventoryUpdated(DisplayedInventory.Count));
 		}
 
@@ -151,7 +160,26 @@ namespace ClubPenguin.ClothingDesigner.Inventory
 				removeAllHiddenItemsFromDisplayedInventory();
 			}
 			DisplayedInventory.Sort(compareInventoryIdByCreationDate);
+			applyDisplayFilter();
 			InventoryContext.EventBus.DispatchEvent(new InventoryModelEvents.DisplayedInventoryUpdated(DisplayedInventory.Count));
+		}
+
+		private void applyDisplayFilter()
+		{
+			if (DisplayFilter == null || DisplayedInventory == null)
+			{
+				return;
+			}
+			List<long> filtered = new List<long>(DisplayedInventory.Count);
+			for (int i = 0; i < DisplayedInventory.Count; i++)
+			{
+				long id = DisplayedInventory[i];
+				if (InventoryData.Inventory.ContainsKey(id) && DisplayFilter(id))
+				{
+					filtered.Add(id);
+				}
+			}
+			DisplayedInventory = filtered;
 		}
 
 		private int compareInventoryIdByCreationDate(long equipment1, long equipment2)

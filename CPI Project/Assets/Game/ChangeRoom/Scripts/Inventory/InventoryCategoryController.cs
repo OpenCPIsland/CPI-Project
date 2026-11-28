@@ -136,6 +136,25 @@ namespace ClubPenguin.ClothingDesigner.Inventory
 			return false;
 		}
 
+		public void Refresh()
+		{
+			switch (currentCategory)
+			{
+			case CategoryType.All:
+				model.SetDisplayedInventoryToAll(!isInEditMode);
+				break;
+			case CategoryType.Equipped:
+				model.SetDisplayedInventoryToEquipped();
+				break;
+			case CategoryType.Hidden:
+				model.SetDisplayedInventoryToHidden();
+				break;
+			case CategoryType.Other:
+				model.SetDisplayedInventoryToCategory(otherCategory, !isInEditMode);
+				break;
+			}
+		}
+
 		public void Destroy()
 		{
 			externalEventChannel.RemoveAllListeners();
