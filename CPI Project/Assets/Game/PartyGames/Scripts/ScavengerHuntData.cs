@@ -133,8 +133,7 @@ namespace ClubPenguin.Game.PartyGames
 			PresenceData component3;
 			if (cPDataEntityCollection.TryGetComponent(handle2, out component3))
 			{
-				string zoneToken = Service.Get<ZoneTransitionService>().GetZone(component3.Room).ZoneToken;
-				RoomName = Service.Get<Localizer>().GetTokenTranslation(zoneToken);
+				RoomName = getRoomName(cPDataEntityCollection, component3);
 			}
 			GameObject localPlayerGameObject = SceneRefs.ZoneLocalPlayerManager.LocalPlayerGameObject;
 			localPlayerAnimator = localPlayerGameObject.GetComponent<Animator>();
@@ -148,6 +147,29 @@ namespace ClubPenguin.Game.PartyGames
 		public override string ToString()
 		{
 			return string.Format("[ScavengerHuntData: GameSessionId={0}, LocalPlayerSessionId={1}, OtherPlayerSessionId={2}, LocalPlayerName={3}, OtherPlayerName={4}, RoomName={5}, LocalPlayerRole={6}, WinRewardDefinition={7}, LoseRewardDefinition={8}, LocalPlayerAnimator={9}, OtherPlayerAnimator={10}]", GameSessionId, LocalPlayerSessionId, OtherPlayerSessionId, LocalPlayerName, OtherPlayerName, RoomName, LocalPlayerRole, WinRewardDefinition, LoseRewardDefinition, LocalPlayerAnimator, OtherPlayerAnimator);
+		}
+
+		// Where the game is played, for the "hide/find the marbles here" text. In an
+		// igloo, PresenceData.Room still holds the last public room (NetworkController
+		// only sets InstanceRoom), so the text named e.g. Beacon Boardwalk there.
+		private static string getRoomName(CPDataEntityCollection dataEntityCollection, PresenceData presence)
+		{
+			Localizer localizer = Service.Get<Localizer>();
+			if (presence.IsInInstancedRoom)
+			{
+				if (Service.IsSet<SceneLayoutDataManager>())
+				{
+					SceneLayoutDataManager layoutManager = Service.Get<SceneLayoutDataManager>();
+					SceneOwnerData owner;
+					if (!layoutManager.IsInOwnIgloo() && dataEntityCollection.TryGetComponent(layoutManager.GetActiveHandle(), out owner) && !string.IsNullOrEmpty(owner.Name))
+					{
+						return owner.Name + "'s igloo";
+					}
+				}
+				return localizer.GetTokenTranslation("GlobalUI.Zone.Title.Igloo.Default");
+			}
+			ZoneDefinition zone = Service.Get<ZoneTransitionService>().GetZone(presence.Room);
+			return (zone != null) ? localizer.GetTokenTranslation(zone.ZoneToken) : presence.Room;
 		}
 	}
 }
