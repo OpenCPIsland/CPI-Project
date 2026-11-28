@@ -1,3 +1,4 @@
+using ClubPenguin.Core;
 using DevonLocalization.Core;
 using Disney.MobileNetwork;
 using System;
@@ -69,7 +70,42 @@ namespace ClubPenguin.ClothingDesigner
 		[SerializeField]
 		private int characterLimit = 40;
 
+		[Header("Mobile")]
+		[SerializeField]
+		[Tooltip("On mobile the bar collapses into a single search button that expands it on tap.")]
+		private bool collapseOnMobile = true;
+
+		[SerializeField]
+		[Tooltip("Button shown instead of the bar on mobile. Kept inactive in the prefab; only turned on for mobile.")]
+		private Button searchToggle;
+
+		[SerializeField]
+		[Tooltip("Objects hidden while the bar is expanded on mobile (e.g. the tray title).")]
+		private GameObject[] hideWhileExpanded;
+
+		[SerializeField]
+		[Tooltip("Space kept free on the right of the expanded bar on mobile (for the edit button).")]
+		private float expandedRightInset = 100f;
+
 		public event System.Action FilterChanged;
+
+		private bool compactMode;
+
+		private bool compactExpanded;
+
+		private bool collapsePending;
+
+		private Vector2 collapsedAnchorMin;
+
+		private Vector2 collapsedAnchorMax;
+
+		private Vector2 collapsedAnchoredPosition;
+
+		private Vector2 collapsedSizeDelta;
+
+		private float collapsedToggleWidth;
+
+		private readonly List<GameObject> hiddenWhileExpanded = new List<GameObject>();
 
 		private readonly List<string> tagOptions = new List<string>();
 
@@ -157,7 +193,24 @@ namespace ClubPenguin.ClothingDesigner
 				tagListScrollRect = tagList.GetComponentInChildren<ScrollRect>(true);
 			}
 			hideTagListImmediate();
-			if (searchButton != null && searchBox != null)
+			bool mobile = collapseOnMobile && PlatformUtils.GetPlatformType() == PlatformType.Mobile;
+			if (searchToggle == null)
+			{
+				Transform toggleTransform = transform.Find("SearchToggle");
+				if (toggleTransform != null)
+				{
+					searchToggle = toggleTransform.GetComponent<Button>();
+				}
+			}
+			if (searchToggle != null)
+			{
+				searchToggle.gameObject.SetActive(mobile);
+			}
+			if (mobile && searchToggle != null)
+			{
+				setupCompactMode();
+			}
+			else if (searchButton != null && searchBox != null)
 			{
 				searchBox.SetActive(false);
 				searchButton.onClick.AddListener(toggleSearch);
@@ -169,8 +222,142 @@ namespace ClubPenguin.ClothingDesigner
 			updateTagButtonLabel();
 		}
 
+		private void setupCompactMode()
+		{
+			RectTransform rect = transform as RectTransform;
+			if (rect == null || searchInput == null || searchToggle == null)
+			{
+				return;
+			}
+			compactMode = true;
+			if (searchButton != null)
+			{
+				searchButton.gameObject.SetActive(false);
+			}
+			collapsedAnchorMin = rect.anchorMin;
+			collapsedAnchorMax = rect.anchorMax;
+			collapsedAnchoredPosition = rect.anchoredPosition;
+			collapsedSizeDelta = rect.sizeDelta;
+			float toggleWidth = LayoutUtility.GetPreferredWidth((RectTransform)searchToggle.transform);
+			collapsedToggleWidth = (toggleWidth > 0f) ? toggleWidth : collapsedSizeDelta.y;
+			searchToggle.onClick.AddListener(toggleCompactExpanded);
+			setCompactExpanded(false);
+		}
+
+		private void toggleCompactExpanded()
+		{
+			bool expand = !compactExpanded;
+			setCompactExpanded(expand);
+			if (expand && searchInput != null)
+			{
+				suppressSearchFocusSound = true;
+				searchInput.Select();
+				searchInput.ActivateInputField();
+			}
+		}
+
+		private void setCompactExpanded(bool expanded)
+		{
+			if (!compactMode)
+			{
+				return;
+			}
+			compactExpanded = expanded;
+			if (!expanded)
+			{
+				hideTagListImmediate();
+				if (searchInput != null)
+				{
+					searchInput.DeactivateInputField();
+				}
+			}
+			GameObject box = searchBox;
+			if (box == null && searchInput != null)
+			{
+				box = (searchInput.transform.parent != transform) ? searchInput.transform.parent.gameObject : searchInput.gameObject;
+			}
+			if (box != null)
+			{
+				box.SetActive(expanded);
+			}
+			if (tagButton != null)
+			{
+				tagButton.gameObject.SetActive(expanded);
+			}
+			RectTransform rect = (RectTransform)transform;
+			if (expanded)
+			{
+				rect.anchorMin = new Vector2(0f, collapsedAnchorMin.y);
+				rect.anchorMax = new Vector2(1f, collapsedAnchorMax.y);
+				rect.offsetMin = new Vector2(collapsedAnchoredPosition.x, rect.offsetMin.y);
+				rect.offsetMax = new Vector2(0f - expandedRightInset, rect.offsetMax.y);
+			}
+			else
+			{
+				rect.anchorMin = collapsedAnchorMin;
+				rect.anchorMax = collapsedAnchorMax;
+				rect.anchoredPosition = collapsedAnchoredPosition;
+				rect.sizeDelta = new Vector2(collapsedToggleWidth, collapsedSizeDelta.y);
+			}
+			setHiddenObjects(expanded);
+			LayoutRebuilder.MarkLayoutForRebuild(rect);
+		}
+
+		private void setHiddenObjects(bool hide)
+		{
+			if (hide)
+			{
+				if (hideWhileExpanded == null)
+				{
+					return;
+				}
+				for (int i = 0; i < hideWhileExpanded.Length; i++)
+				{
+					GameObject target = hideWhileExpanded[i];
+					if (target != null && target.activeSelf)
+					{
+						target.SetActive(false);
+						hiddenWhileExpanded.Add(target);
+					}
+				}
+				return;
+			}
+			for (int i = 0; i < hiddenWhileExpanded.Count; i++)
+			{
+				if (hiddenWhileExpanded[i] != null)
+				{
+					hiddenWhileExpanded[i].SetActive(true);
+				}
+			}
+			hiddenWhileExpanded.Clear();
+		}
+
+		private void collapseOnOutsidePress()
+		{
+			if (!compactExpanded || IsActive || tagListOpen)
+			{
+				return;
+			}
+			Vector2 position;
+			if (!tryGetPressPosition(out position))
+			{
+				return;
+			}
+			if (isPointerOver(transform as RectTransform, position))
+			{
+				return;
+			}
+			setCompactExpanded(false);
+		}
+
 		private void Update()
 		{
+			if (collapsePending)
+			{
+				collapsePending = false;
+				setCompactExpanded(false);
+			}
+			collapseOnOutsidePress();
 			closeTagListOnOutsidePress();
 			deactivateClosedTagList();
 			settleTagListScroll();
@@ -401,6 +588,10 @@ namespace ClubPenguin.ClothingDesigner
 		{
 			searchWasFocused = false;
 			hideTagListImmediate();
+			if (compactExpanded)
+			{
+				collapsePending = true;
+			}
 		}
 
 		private void toggleTagList()
@@ -676,6 +867,10 @@ namespace ClubPenguin.ClothingDesigner
 			if (searchButton != null)
 			{
 				searchButton.onClick.RemoveListener(toggleSearch);
+			}
+			if (searchToggle != null)
+			{
+				searchToggle.onClick.RemoveListener(toggleCompactExpanded);
 			}
 			FilterChanged = null;
 		}
