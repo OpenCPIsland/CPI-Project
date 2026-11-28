@@ -13,6 +13,20 @@ using Disney.Kelowna.Common;
 
 public static class GenerateAddressables
 {
+    private static void SuppressBuildReportPrompt()
+    {
+        Type configType = typeof(AddressableAssetSettings).Assembly.GetType("UnityEditor.AddressableAssets.Settings.ProjectConfigData");
+        if (configType == null)
+        {
+            return;
+        }
+        System.Reflection.PropertyInfo informed = configType.GetProperty("UserHasBeenInformedAboutBuildReportSettingPreBuild", System.Reflection.BindingFlags.Static | System.Reflection.BindingFlags.Public | System.Reflection.BindingFlags.NonPublic);
+        if (informed != null && informed.CanWrite && informed.PropertyType == typeof(bool))
+        {
+            informed.SetValue(null, true);
+        }
+    }
+
     [MenuItem("Project/AssetBundles/Generated/Generate client side AssetBundles")]
     private static void BuildAllAddressables()
     {
@@ -29,6 +43,7 @@ public static class GenerateAddressables
         AssetDatabase.SaveAssets();
 
         AddressablesPlayerBuildResult result;
+        SuppressBuildReportPrompt();
         AddressableAssetSettings.BuildPlayerContent(out result);
         if (!string.IsNullOrEmpty(result.Error))
         {

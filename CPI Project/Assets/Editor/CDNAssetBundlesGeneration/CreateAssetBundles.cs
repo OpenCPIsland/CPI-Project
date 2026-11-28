@@ -136,6 +136,20 @@ public class CreateAssetBundles : MonoBehaviour
         return newBuilder;
     }
 
+    private static void SuppressBuildReportPrompt()
+    {
+        Type configType = typeof(AddressableAssetSettings).Assembly.GetType("UnityEditor.AddressableAssets.Settings.ProjectConfigData");
+        if (configType == null)
+        {
+            return;
+        }
+        System.Reflection.PropertyInfo informed = configType.GetProperty("UserHasBeenInformedAboutBuildReportSettingPreBuild", System.Reflection.BindingFlags.Static | System.Reflection.BindingFlags.Public | System.Reflection.BindingFlags.NonPublic);
+        if (informed != null && informed.CanWrite && informed.PropertyType == typeof(bool))
+        {
+            informed.SetValue(null, true);
+        }
+    }
+
     private static void BuildAddressables(BuildTarget target, List<AddressableAssetGroup> includedGroups, string outputDirectory)
     {
         AddressableAssetSettings settings = AddressableAssetSettingsDefaultObject.GetSettings(true);
@@ -170,6 +184,7 @@ public class CreateAssetBundles : MonoBehaviour
 
             settings.profileSettings.SetValue(settings.activeProfileId, AddressableAssetSettings.kLocalBuildPath, buildPath);
             Directory.CreateDirectory(outputDirectory);
+            SuppressBuildReportPrompt();
             AddressablesDataBuilderInput input = new AddressablesDataBuilderInput(settings, new BuildPlayerOptions { target = target });
             AddressablesPlayerBuildResult result = builder.BuildData<AddressablesPlayerBuildResult>(input);
             if (result == null || !string.IsNullOrEmpty(result.Error))
