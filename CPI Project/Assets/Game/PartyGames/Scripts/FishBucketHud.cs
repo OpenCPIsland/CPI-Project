@@ -126,13 +126,21 @@ namespace ClubPenguin.Game.PartyGames
 		private void OnDestroy()
 		{
 			CoroutineRunner.StopAllForOwner(this);
-			iTween.StopByName("ProgressBarAnim");
+			iTween.StopByName(base.gameObject, "ProgressBarAnim");
 			Service.Get<EventDispatcher>().DispatchEvent(new PlayerIndicatorEvents.RemovePlayerIndicator(currentPlayerId, false));
+			// The turn countdown isn't a child of this HUD: it hangs off the player
+			// indicator canvas, found only by player id. When that removal misses (the
+			// id doesn't match, or the indicator was already taken off the list), the
+			// countdown stayed on screen after the game; it goes with the HUD now.
+			if (turnIndicator != null)
+			{
+				Object.Destroy(turnIndicator.gameObject);
+			}
 		}
 
 		private void OnDisable()
 		{
-			iTween.StopByName("ProgressBarAnim");
+			iTween.StopByName(base.gameObject, "ProgressBarAnim");
 		}
 
 		private void onInkedOverlayLoaded(string path, GameObject prefab)
@@ -257,7 +265,7 @@ namespace ClubPenguin.Game.PartyGames
 		private IEnumerator showProgressBarAnim()
 		{
 			float newFillAmount = (float)cardsLeft / (float)totalCards;
-			iTween.StopByName("ProgressBarAnim");
+			iTween.StopByName(base.gameObject, "ProgressBarAnim");
 			yield return new WaitForFrame(1);
 			iTween.ValueTo(args: iTween.Hash("name", "ProgressBarAnim", "from", FishProgressBar.fillAmount, "to", newFillAmount, "time", ProgressBarAnimTime, "easetype", iTween.EaseType.easeOutCubic, "onupdate", "ProgressBarAnimUpdate", "onupdatetarget", base.gameObject), target: base.gameObject);
 		}
