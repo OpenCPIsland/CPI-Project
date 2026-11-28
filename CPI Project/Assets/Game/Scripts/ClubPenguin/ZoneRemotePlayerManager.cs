@@ -140,6 +140,7 @@ namespace ClubPenguin
 		private void placeRemotePlayer(GameObject remotePlayer, DataEntityHandle remotePlayerHandle, Vector3 newPosition)
 		{
 			remotePlayer.transform.position = newPosition;
+			Physics.SyncTransforms();
 			if (avatarViewReady.Contains(remotePlayerHandle))
 			{
 				fadeInRemotePlayer(remotePlayer);
