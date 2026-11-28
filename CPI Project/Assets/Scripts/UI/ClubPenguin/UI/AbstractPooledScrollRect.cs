@@ -338,10 +338,16 @@ namespace ClubPenguin.UI
 		private IEnumerator checkContentPosition()
 		{
 			yield return new WaitForEndOfFrame();
-			if (position < 0f - sizeDelta)
+			if (sizeDelta > 0f && position < 0f - sizeDelta)
 			{
-				scrollRect.horizontalNormalizedPosition = 1f;
-				scrollRect.verticalNormalizedPosition = 0f;
+				if (scrollRect.horizontal)
+				{
+					scrollRect.horizontalNormalizedPosition = 1f;
+				}
+				if (scrollRect.vertical)
+				{
+					scrollRect.verticalNormalizedPosition = 0f;
+				}
 			}
 		}
 

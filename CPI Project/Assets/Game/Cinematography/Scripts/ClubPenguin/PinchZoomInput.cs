@@ -8,8 +8,10 @@ using UnityEngine.InputSystem.Controls;
 namespace ClubPenguin
 {
     [DisallowMultipleComponent]
-    internal class PinchZoomInput : MonoBehaviour
+    public class PinchZoomInput : MonoBehaviour
     {
+        public static int MouseScrollBlockers;
+
         public float MouseSensitivity = 1f;
 
         public float TouchSensitivity = 2f;
@@ -84,7 +86,7 @@ namespace ClubPenguin
                 {
                     float scroll = mouse.scroll.ReadValue().y;
 
-                    if (scroll != 0f)
+                    if (scroll != 0f && MouseScrollBlockers <= 0)
                     {
                         num += Mathf.Sign(scroll) * 0.1f * MouseSensitivity;
                     }

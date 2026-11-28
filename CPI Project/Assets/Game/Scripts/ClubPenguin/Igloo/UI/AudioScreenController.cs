@@ -1,3 +1,4 @@
+using ClubPenguin.ClothingDesigner;
 using ClubPenguin.Core;
 using ClubPenguin.Progression;
 using ClubPenguin.Rewards;
@@ -11,13 +12,77 @@ namespace ClubPenguin.Igloo.UI
 {
 	public class AudioScreenController : AbstractIglooScreenController<MusicTrackDefinition, int>
 	{
+		[SerializeField]
+		private ClothingDesignerFilterBar genreFilterBar;
+
 		private int currentlyPreviewedTrack;
+
+		private bool isReloadingForGenre;
 
 		protected override void Awake()
 		{
 			base.Awake();
 			currentlyPreviewedTrack = 0;
 			eventDispatcher = Service.Get<EventDispatcher>();
+			if (genreFilterBar != null)
+			{
+				genreFilterBar.FilterChanged += onGenreFilterChanged;
+			}
+		}
+
+		protected override void OnDestroy()
+		{
+			if (genreFilterBar != null)
+			{
+				genreFilterBar.FilterChanged -= onGenreFilterChanged;
+			}
+			base.OnDestroy();
+		}
+
+		private void onGenreFilterChanged()
+		{
+			if (!displayListRetrieved || isReloadingForGenre || isDestroyed)
+			{
+				return;
+			}
+			isReloadingForGenre = true;
+			Reload();
+			isReloadingForGenre = false;
+		}
+
+		private void applyGenreFilter(List<KeyValuePair<MusicTrackDefinition, int>> list)
+		{
+			if (genreFilterBar == null)
+			{
+				return;
+			}
+			Dictionary<int, MusicGenreDefinition> genres = Service.Get<IGameData>().Get<Dictionary<int, MusicGenreDefinition>>();
+			Dictionary<string, Color> genreColors = new Dictionary<string, Color>();
+			for (int i = 0; i < list.Count; i++)
+			{
+				string name = getGenreName(genres, list[i].Key);
+				if (!string.IsNullOrEmpty(name) && !genreColors.ContainsKey(name))
+				{
+					genreColors.Add(name, genres[list[i].Key.MusicGenre.Id].GenreColor);
+				}
+			}
+			genreFilterBar.SetTagColors(genreColors);
+			genreFilterBar.SetAvailableTags(genreColors.Keys);
+			string selected = genreFilterBar.SelectedTag;
+			if (!string.IsNullOrEmpty(selected))
+			{
+				list.RemoveAll((KeyValuePair<MusicTrackDefinition, int> pair) => getGenreName(genres, pair.Key) != selected);
+			}
+		}
+
+		private static string getGenreName(Dictionary<int, MusicGenreDefinition> genres, MusicTrackDefinition track)
+		{
+			MusicGenreDefinition genre;
+			if (genres == null || track == null || !genres.TryGetValue(track.MusicGenre.Id, out genre) || genre == null)
+			{
+				return null;
+			}
+			return genre.DisplayName;
 		}
 
 		protected override List<ProgressionUtils.ParsedProgression<MusicTrackDefinition>> GetProgressionList()
@@ -34,6 +99,7 @@ namespace ClubPenguin.Igloo.UI
 				list.Add(new KeyValuePair<MusicTrackDefinition, int>(progressionList[i].Definition, 1));
 			}
 			list.Sort((a, b) => a.Key.MusicGenre.Id.CompareTo(b.Key.MusicGenre.Id));
+			applyGenreFilter(list);
 			return list;
 		}
 

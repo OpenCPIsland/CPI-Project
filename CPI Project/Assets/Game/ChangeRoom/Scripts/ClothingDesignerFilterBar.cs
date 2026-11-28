@@ -37,6 +37,12 @@ namespace ClubPenguin.ClothingDesigner
 		private string tagListClosedState = "ToolTipOff";
 
 		[SerializeField]
+		private string tagListOpenState = "ToolTipOn";
+
+		[SerializeField]
+		private int tagListSortingOffset = 100;
+
+		[SerializeField]
 		private RectTransform tagListContent;
 
 		[SerializeField]
@@ -66,6 +72,20 @@ namespace ClubPenguin.ClothingDesigner
 		private bool searchWasFocused;
 
 		private bool tagListOpen;
+
+		private Canvas tagListCanvas;
+
+		private ScrollRect tagListScrollRect;
+
+		private bool tagListSettling;
+
+		private bool mouseScrollBlocked;
+
+		private readonly Dictionary<string, Color> tagColors = new Dictionary<string, Color>(StringComparer.OrdinalIgnoreCase);
+
+		private Color tagItemDefaultColor = Color.white;
+
+		private bool tagItemDefaultColorRead;
 
 		private readonly Dictionary<TemplateDefinition, string> nameCache = new Dictionary<TemplateDefinition, string>();
 
@@ -111,6 +131,11 @@ namespace ClubPenguin.ClothingDesigner
 			{
 				tagListAnimator.fireEvents = false;
 			}
+			if (tagList != null)
+			{
+				tagListCanvas = tagList.GetComponent<Canvas>();
+				tagListScrollRect = tagList.GetComponentInChildren<ScrollRect>(true);
+			}
 			hideTagListImmediate();
 			if (tagButton != null)
 			{
@@ -123,6 +148,7 @@ namespace ClubPenguin.ClothingDesigner
 		{
 			closeTagListOnOutsidePress();
 			deactivateClosedTagList();
+			settleTagListScroll();
 			if (searchInput == null)
 			{
 				return;
@@ -160,15 +186,23 @@ namespace ClubPenguin.ClothingDesigner
 				return;
 			}
 			tagListOpen = open;
+			setMouseScrollBlocked(open);
+			if (!open && tagListScrollRect != null && tagListAnimator != null)
+			{
+				tagListScrollRect.StopMovement();
+				tagListScrollRect.enabled = false;
+			}
 			if (tagListAnimator == null)
 			{
 				tagList.SetActive(open);
+				applyTagListSorting();
 				return;
 			}
 			if (open && !tagList.activeSelf)
 			{
 				tagList.SetActive(true);
 			}
+			applyTagListSorting();
 			if (tagList.activeInHierarchy)
 			{
 				tagListAnimator.SetBool(tagListOpenParameter, open);
@@ -179,9 +213,77 @@ namespace ClubPenguin.ClothingDesigner
 			}
 		}
 
+		private void scrollTagListToTop(bool updateScrollRect)
+		{
+			if (tagListContent != null)
+			{
+				tagListContent.anchoredPosition = Vector2.zero;
+			}
+			if (updateScrollRect && tagListScrollRect != null)
+			{
+				tagListScrollRect.StopMovement();
+				tagListScrollRect.verticalNormalizedPosition = 1f;
+			}
+		}
+
+		private void settleTagListScroll()
+		{
+			if (!tagListSettling)
+			{
+				return;
+			}
+			if (!tagListOpen)
+			{
+				tagListSettling = false;
+				if (tagListScrollRect != null)
+				{
+					tagListScrollRect.enabled = true;
+				}
+				return;
+			}
+			bool settled = tagListAnimator == null || (!tagListAnimator.IsInTransition(0) && tagListAnimator.GetCurrentAnimatorStateInfo(0).IsName(tagListOpenState));
+			if (tagListScrollRect != null)
+			{
+				tagListScrollRect.enabled = settled;
+			}
+			scrollTagListToTop(settled);
+			if (settled)
+			{
+				tagListSettling = false;
+			}
+		}
+
+		private void applyTagListSorting()
+		{
+			if (tagListCanvas == null || !tagList.activeInHierarchy || tagList.transform.parent == null)
+			{
+				return;
+			}
+			Canvas parentCanvas = tagList.transform.parent.GetComponentInParent<Canvas>();
+			if (parentCanvas == null)
+			{
+				return;
+			}
+			Canvas rootCanvas = parentCanvas.rootCanvas;
+			tagListCanvas.overrideSorting = true;
+			tagListCanvas.sortingLayerID = rootCanvas.sortingLayerID;
+			tagListCanvas.sortingOrder = rootCanvas.sortingOrder + tagListSortingOffset;
+		}
+
+		private void setMouseScrollBlocked(bool blocked)
+		{
+			if (blocked == mouseScrollBlocked)
+			{
+				return;
+			}
+			mouseScrollBlocked = blocked;
+			PinchZoomInput.MouseScrollBlockers = Mathf.Max(0, PinchZoomInput.MouseScrollBlockers + (blocked ? 1 : -1));
+		}
+
 		private void hideTagListImmediate()
 		{
 			tagListOpen = false;
+			setMouseScrollBlocked(false);
 			if (tagList != null)
 			{
 				tagList.SetActive(false);
@@ -249,6 +351,11 @@ namespace ClubPenguin.ClothingDesigner
 				rebuildTagItems();
 			}
 			setTagListOpen(open);
+			if (open)
+			{
+				tagListSettling = true;
+				settleTagListScroll();
+			}
 		}
 
 		private void rebuildTagItems()
@@ -256,6 +363,11 @@ namespace ClubPenguin.ClothingDesigner
 			if (tagItemTemplate == null || tagListContent == null)
 			{
 				return;
+			}
+			if (!tagItemDefaultColorRead && tagItemTemplate.targetGraphic != null)
+			{
+				tagItemDefaultColor = tagItemTemplate.targetGraphic.color;
+				tagItemDefaultColorRead = true;
 			}
 			int count = tagOptions.Count + 1;
 			while (tagItems.Count < count)
@@ -283,6 +395,11 @@ namespace ClubPenguin.ClothingDesigner
 				{
 					label.text = (i == 0) ? allTagsLabel : tagOptions[i - 1];
 				}
+				if (item.targetGraphic != null)
+				{
+					Color color;
+					item.targetGraphic.color = (i > 0 && tagColors.TryGetValue(tagOptions[i - 1], out color)) ? color : tagItemDefaultColor;
+				}
 			}
 			tagListContent.sizeDelta = new Vector2(tagListContent.sizeDelta.x, count * tagItemHeight + Mathf.Max(0, count - 1) * tagItemSpacing);
 			tagListContent.anchoredPosition = Vector2.zero;
@@ -304,6 +421,25 @@ namespace ClubPenguin.ClothingDesigner
 			if (tagButtonLabel != null)
 			{
 				tagButtonLabel.text = string.IsNullOrEmpty(SelectedTag) ? allTagsLabel : SelectedTag;
+			}
+		}
+
+		public void SetTagColors(IDictionary<string, Color> colors)
+		{
+			tagColors.Clear();
+			if (colors != null)
+			{
+				foreach (KeyValuePair<string, Color> pair in colors)
+				{
+					if (!string.IsNullOrEmpty(pair.Key))
+					{
+						tagColors[pair.Key] = pair.Value;
+					}
+				}
+			}
+			if (tagListOpen)
+			{
+				rebuildTagItems();
 			}
 		}
 
@@ -464,6 +600,7 @@ namespace ClubPenguin.ClothingDesigner
 
 		private void OnDestroy()
 		{
+			setMouseScrollBlocked(false);
 			if (searchInput != null)
 			{
 				searchInput.onValueChanged.RemoveListener(onSearchTextChanged);
