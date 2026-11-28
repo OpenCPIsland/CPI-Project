@@ -204,6 +204,19 @@ namespace ClubPenguin.Participation
 			return StopCurrentParticipation(request);
 		}
 
+		public void RemoveCompetitorFromZoneExit(GameObject go)
+		{
+			if (PriorityCompetition == null || go == null)
+			{
+				return;
+			}
+			Competitor<GameObject> competitor = PriorityCompetition.GetCompetitor(go);
+			if (competitor != null)
+			{
+				OnObserverExit(competitor, base.gameObject, null);
+			}
+		}
+
 		public CompetitionResults<GameObject> GetLatestResults()
 		{
 			return PriorityCompetition.LatestResults;

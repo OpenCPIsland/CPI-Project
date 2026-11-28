@@ -6,6 +6,7 @@ using Disney.Kelowna.Common;
 using Disney.Kelowna.Common.DataModel;
 using Disney.MobileNetwork;
 using System;
+using System.Collections.Generic;
 using System.Runtime.InteropServices;
 using UnityEngine;
 
@@ -49,6 +50,16 @@ namespace ClubPenguin.Locomotion
 		private bool isReadyForParticipation;
 
 		private ParticipationRequest pendingParticipationRequest;
+
+		private const float TRIGGER_EXIT_GRACE_SEC = 0.2f;
+
+		private readonly Dictionary<GameObject, float> outsideTriggerSince = new Dictionary<GameObject, float>();
+
+		private readonly List<GameObject> competitorsOutsideTrigger = new List<GameObject>();
+
+		private readonly List<Collider> triggerColliderBuffer = new List<Collider>();
+
+		private Collider playerCollider;
 
 		public bool InteractButtonState
 		{
@@ -169,8 +180,95 @@ namespace ClubPenguin.Locomotion
 			}
 		}
 
+		private void validatePendingTriggers()
+		{
+			ParticipationData data = participationData;
+			if (data == null || data.CurrentParticipationState != ParticipationState.Pending || participationController.PriorityCompetition == null || participationController.PriorityCompetition.Competitors.Count == 0)
+			{
+				if (outsideTriggerSince.Count > 0)
+				{
+					outsideTriggerSince.Clear();
+				}
+				return;
+			}
+			if (playerCollider == null)
+			{
+				playerCollider = GetComponent<Collider>();
+			}
+			if (playerCollider == null || !playerCollider.enabled)
+			{
+				return;
+			}
+			Bounds playerBounds = playerCollider.bounds;
+			Vector3 playerCenter = playerBounds.center;
+			float reach = playerBounds.extents.magnitude;
+			competitorsOutsideTrigger.Clear();
+			List<Competitor<GameObject>> competitors = participationController.PriorityCompetition.Competitors;
+			for (int i = 0; i < competitors.Count; i++)
+			{
+				GameObject competitorObject = competitors[i].Value;
+				if (competitorObject.IsDestroyed())
+				{
+					continue;
+				}
+				bool hasTrigger;
+				if (isInsideTriggers(competitorObject, playerCenter, reach, out hasTrigger) || !hasTrigger)
+				{
+					outsideTriggerSince.Remove(competitorObject);
+					continue;
+				}
+				float since;
+				if (!outsideTriggerSince.TryGetValue(competitorObject, out since))
+				{
+					outsideTriggerSince[competitorObject] = Time.time;
+				}
+				else if (Time.time - since >= TRIGGER_EXIT_GRACE_SEC)
+				{
+					competitorsOutsideTrigger.Add(competitorObject);
+				}
+			}
+			for (int i = 0; i < competitorsOutsideTrigger.Count; i++)
+			{
+				outsideTriggerSince.Remove(competitorsOutsideTrigger[i]);
+				participationController.RemoveCompetitorFromZoneExit(competitorsOutsideTrigger[i]);
+			}
+		}
+
+		private bool isInsideTriggers(GameObject actionGraphObject, Vector3 point, float reach, out bool hasTrigger)
+		{
+			hasTrigger = false;
+			if (actionGraphObject.transform.IsChildOf(base.transform))
+			{
+				return true;
+			}
+			actionGraphObject.GetComponentsInChildren(false, triggerColliderBuffer);
+			bool inside = false;
+			for (int i = 0; i < triggerColliderBuffer.Count; i++)
+			{
+				Collider triggerCollider = triggerColliderBuffer[i];
+				if (!triggerCollider.enabled || !triggerCollider.isTrigger)
+				{
+					continue;
+				}
+				MeshCollider meshCollider = triggerCollider as MeshCollider;
+				if ((meshCollider != null && !meshCollider.convex) || ActionSequencer.FindActionGraphObject(triggerCollider.gameObject) != actionGraphObject)
+				{
+					continue;
+				}
+				hasTrigger = true;
+				if ((triggerCollider.ClosestPoint(point) - point).sqrMagnitude <= reach * reach)
+				{
+					inside = true;
+					break;
+				}
+			}
+			triggerColliderBuffer.Clear();
+			return inside;
+		}
+
 		private void Update()
 		{
+			validatePendingTriggers();
 			if (participationData == null || participationData.ParticipatingGO == null)
 			{
 				return;
