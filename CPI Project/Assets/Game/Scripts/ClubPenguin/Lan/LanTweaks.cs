@@ -843,7 +843,9 @@ namespace ClubPenguin.Net.Lan
 			}
 		}
 
+#if UNITY_ANDROID && !UNITY_EDITOR
 		private static int needsLocalNetworkPermission = -1;
+#endif
 
 		private static bool NeedsLocalNetworkPermission()
 		{
