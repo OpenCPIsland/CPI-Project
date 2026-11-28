@@ -6075,6 +6075,9 @@ public class iTween : MonoBehaviour
 		}
 		
 		for (int i = 0; i < stopArray.Count; i++) {
+			// A tween whose object was destroyed can still be listed; skip it
+			// instead of throwing MissingReferenceException.
+			if ((GameObject)stopArray[i] == null) continue;
 			Stop((GameObject)stopArray[i],type);
 		}
 	}		
@@ -6096,6 +6099,10 @@ public class iTween : MonoBehaviour
 		}
 		
 		for (int i = 0; i < stopArray.Count; i++) {
+			// A tween whose object was destroyed can still be listed; skip it
+			// instead of throwing MissingReferenceException (it broke Fish
+			// Bucket's progress bar and the clean-up of its turn countdown).
+			if ((GameObject)stopArray[i] == null) continue;
 			StopByName((GameObject)stopArray[i],name);
 		}
 	}
