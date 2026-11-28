@@ -307,9 +307,21 @@ namespace ClubPenguin.Game.PartyGames
 			PartyGameUtils.EnableLocomotionControls();
 			animationController.Destroy();
 			removeListeners();
-			ResetCamera();
-			UnityEngine.Object.Destroy(hudUI.gameObject);
-			UnityEngine.Object.Destroy(cannonGameObject);
+			// Each of these can be missing when the game ends early (the HUD or the
+			// cannon still loading); a throw here skipped the rest of the clean-up,
+			// leaving the HUD and its countdown on screen.
+			if (cannonGameObject != null)
+			{
+				ResetCamera();
+			}
+			if (hudUI != null)
+			{
+				UnityEngine.Object.Destroy(hudUI.gameObject);
+			}
+			if (cannonGameObject != null)
+			{
+				UnityEngine.Object.Destroy(cannonGameObject);
+			}
 			if (animationController != null)
 			{
 				FishBucketAnimationController fishBucketAnimationController = animationController;
