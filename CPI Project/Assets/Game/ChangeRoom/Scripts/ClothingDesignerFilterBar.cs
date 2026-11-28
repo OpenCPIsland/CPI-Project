@@ -19,6 +19,12 @@ namespace ClubPenguin.ClothingDesigner
 		private Button searchClickSound;
 
 		[SerializeField]
+		private Button searchButton;
+
+		[SerializeField]
+		private GameObject searchBox;
+
+		[SerializeField]
 		private Button tagButton;
 
 		[SerializeField]
@@ -71,6 +77,12 @@ namespace ClubPenguin.ClothingDesigner
 
 		private bool searchWasFocused;
 
+		private bool suppressSearchFocusSound;
+
+		private static int openTagListCount;
+
+		private static int lastTagListCloseFrame = -10;
+
 		private bool tagListOpen;
 
 		private Canvas tagListCanvas;
@@ -99,6 +111,14 @@ namespace ClubPenguin.ClothingDesigner
 		{
 			get;
 			private set;
+		}
+
+		public static bool IsAnyTagListOpenOrJustClosed
+		{
+			get
+			{
+				return openTagListCount > 0 || Time.frameCount - lastTagListCloseFrame <= 1;
+			}
 		}
 
 		public bool IsActive
@@ -137,6 +157,11 @@ namespace ClubPenguin.ClothingDesigner
 				tagListScrollRect = tagList.GetComponentInChildren<ScrollRect>(true);
 			}
 			hideTagListImmediate();
+			if (searchButton != null && searchBox != null)
+			{
+				searchBox.SetActive(false);
+				searchButton.onClick.AddListener(toggleSearch);
+			}
 			if (tagButton != null)
 			{
 				tagButton.onClick.AddListener(toggleTagList);
@@ -154,9 +179,13 @@ namespace ClubPenguin.ClothingDesigner
 				return;
 			}
 			bool focused = searchInput.isFocused;
-			if (focused && !searchWasFocused && searchClickSound != null)
+			if (focused && !searchWasFocused)
 			{
-				searchClickSound.onClick.Invoke();
+				if (!suppressSearchFocusSound && searchClickSound != null)
+				{
+					searchClickSound.onClick.Invoke();
+				}
+				suppressSearchFocusSound = false;
 			}
 			searchWasFocused = focused;
 		}
@@ -187,6 +216,11 @@ namespace ClubPenguin.ClothingDesigner
 			}
 			tagListOpen = open;
 			setMouseScrollBlocked(open);
+			if (!open && tagListCanvas != null)
+			{
+				tagListCanvas.overrideSorting = false;
+				tagListCanvas.enabled = false;
+			}
 			if (!open && tagListScrollRect != null && tagListAnimator != null)
 			{
 				tagListScrollRect.StopMovement();
@@ -255,7 +289,7 @@ namespace ClubPenguin.ClothingDesigner
 
 		private void applyTagListSorting()
 		{
-			if (tagListCanvas == null || !tagList.activeInHierarchy || tagList.transform.parent == null)
+			if (!tagListOpen || tagListCanvas == null || !tagList.activeInHierarchy || tagList.transform.parent == null)
 			{
 				return;
 			}
@@ -265,6 +299,7 @@ namespace ClubPenguin.ClothingDesigner
 				return;
 			}
 			Canvas rootCanvas = parentCanvas.rootCanvas;
+			tagListCanvas.enabled = true;
 			tagListCanvas.overrideSorting = true;
 			tagListCanvas.sortingLayerID = rootCanvas.sortingLayerID;
 			tagListCanvas.sortingOrder = rootCanvas.sortingOrder + tagListSortingOffset;
@@ -278,6 +313,35 @@ namespace ClubPenguin.ClothingDesigner
 			}
 			mouseScrollBlocked = blocked;
 			PinchZoomInput.MouseScrollBlockers = Mathf.Max(0, PinchZoomInput.MouseScrollBlockers + (blocked ? 1 : -1));
+			openTagListCount = Mathf.Max(0, openTagListCount + (blocked ? 1 : -1));
+			if (!blocked)
+			{
+				lastTagListCloseFrame = Time.frameCount;
+			}
+		}
+
+		private void toggleSearch()
+		{
+			if (searchBox == null)
+			{
+				return;
+			}
+			bool open = !searchBox.activeSelf;
+			searchBox.SetActive(open);
+			if (searchInput == null)
+			{
+				return;
+			}
+			if (open)
+			{
+				suppressSearchFocusSound = true;
+				searchInput.Select();
+				searchInput.ActivateInputField();
+			}
+			else
+			{
+				searchInput.text = string.Empty;
+			}
 		}
 
 		private void hideTagListImmediate()
@@ -608,6 +672,10 @@ namespace ClubPenguin.ClothingDesigner
 			if (tagButton != null)
 			{
 				tagButton.onClick.RemoveListener(toggleTagList);
+			}
+			if (searchButton != null)
+			{
+				searchButton.onClick.RemoveListener(toggleSearch);
 			}
 			FilterChanged = null;
 		}
